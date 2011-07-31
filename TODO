@@ -1,0 +1,25 @@
+﻿TODO (new)
+==========
+
+- Bump mapping (table.c) for all graphic cards
+- Work on menues
+  - better keyboard selection
+  - some pop-up functionality
+- network totally new with ipv4 and ipv6 (Beta in IPv4)
+- Bluetooth integration
+- remove all nvidia specific stuff
+
+TODO (old - the rest)
+====
+ - better replace-balls-valid-func
+ - implement international rules (maybe http://www.bca-pool.com/play/tournaments/rules/rls_gen.shtml)
+ - save/load game.
+ - correct initial spin (roll when hit 1/3 from top)
+ - adjustable direct mouse hit - ratio
+ - correct normals for 3D-font
+ - replace cubereflection textures of chrome edges
+ - performance improvements by triangle strips
+ - cutoff for ang. mom. transfer also for bande?
+ - AI-player not recognize: 8ball 1st played foul
+ - better lens flare (angle dependent)
+ - better ai-player
