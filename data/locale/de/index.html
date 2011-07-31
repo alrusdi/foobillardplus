@@ -1,0 +1,688 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="../css/help.css" />
+	<title>Foobillard ++ WeTab Edition Anleitung</title>
+<style type="text/css">
+<!--
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+a:active {
+	text-decoration: none;
+}
+-->
+</style></head>
+<body>
+<div id="all">
+  <div id="content">
+<h1><strong><a name="top" id="top"></a><img src="../img/logo.png" alt="Logo" width="128" height="128" align="middle" />&nbsp;&nbsp;&nbsp;Foobillard ++ WeTab Edition</strong></h1>
+		  <p>&nbsp;</p>
+		  <hr align='left'width="600"/>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#Einleitung">1. Einleitung</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#Programmstart">2. Programmstart</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><a href="#Steuerung"><strong>3. Steuerung</strong></a></p>
+		  <p>&nbsp;</p>
+		  <p><a href="#linkedaumenleiste"><strong>&nbsp;&nbsp;3.1 Linke Daumenleiste</strong></a></p>
+		  <p><a href="#spielfeld"><strong>&nbsp;&nbsp;3.2 Mittleres Spielfeld</strong></a></p>
+		  <p><a href="#rechtedaumenleiste"><strong>&nbsp;&nbsp;3.3 Rechte Daumenleiste</strong></a></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#menue">4. Menü</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#spielmodi">5. Spielmodi</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p>&nbsp;&nbsp;<strong><a href="#8ball">5.1 Klassisches 8 Ball (Kneipenvariante)</a></strong></p>
+		  <p>&nbsp;&nbsp;<strong><a href="#9ball">5.2 9 Ball</a></strong></p>
+		  <p>&nbsp;&nbsp;<strong><a href="#karambol">5.3 Karambol</a></strong></p>
+		  <p>&nbsp;&nbsp;<strong><a href="#snooker">5.4 Snooker (einfachste Variante)</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a name="Einleitung" id="Einleitung"></a>1. Einleitung</strong></p>
+<p>&nbsp;</p>
+		  <p>Vielen Dank, dass Sie sich f&uuml;r Foobillard++ entschieden haben. Foobillard++ ist ein Billardspiel in OpenGL, welches auf das urspr&uuml;nglich von Florian Berger programmierte Foobillard V3.0a beruht. Foobillard zeichnet sich insbesondere durch eine hervorragende praktisch unerreichte Ballphysik aus. Im Laufe der Jahre sind viele &Auml;nderungen und teils auch Erweiterungen in Foobillard von vielen unterschiedlichen Programmieren eingepflegt worden. Die Pflege des urspr&uuml;nglichen Programms wurde jedoch leider eingestellt, sodass es bei der letzten nicht ganz fertiggestellten Version aus 2007 verblieb. Mit Foobillard++ wurde die weitere Entwicklung und Erweiterung durch Holger Sch&auml;kel wieder aufgenommen. In der hier exklusiv f&uuml;r das WeTab erstellten Version erhalten Sie Zugriff auf die neueste Entwicklung des Billardspiels. Eine auf Fingerbewegung optimierte Steuerung und auf Wunsch einiger Tester mittels des WeTab eigenen Gameframe auch mit der WeTab typischen Daumenbedienung. Es wurde viel Wert darauf gelegt, dass Programm mit nur einer Fingergeste bedienbar zu machen. Die gesamte Steuerung ist jetzt realistischer (optimierter Queue-Fingerschuss), alle Spiele sind nunmehr turnierf&auml;hig, weitere bildschirmorientierte Steuerung auf dem Touchscreen, realistische Schl&auml;ge auch &uuml;ber andere Kugeln hinweg, neuer Anschneidemodus, mehr Ton, neue Optionen, Grafikoptimierungen, Anzeigen im Spielablauf und viele Fehlerbehebungen. Eine WeTab spezifische Bluetooth und eine Netzwerkunterst&uuml;tzung bis inkl. IPV6 f&uuml;r Mehrspielermodi ist in Arbeit. Ebenso wird an einer teils neuen Regelbehandlung innerhalb der einzelnen Spielmodi gearbeitet.</p>
+		  <p>&nbsp;</p>
+		  <p>Das Spiel unterst&uuml;tzt derzeit einfache Varianten von 8 Ball, 9 Ball, Karambol und Snooker.</p>
+		  <p>&nbsp;</p>
+		  <p>Foobillard begann als Open Source Projekt unter der GPL. So ist es auch mit Foobillard++. Es ist ein freies Programm, keine Kosten, keine versteckte Werbung. Daf&uuml;r aber auch keine Garantie, dass das Programm Ihren W&uuml;nschen voll entspricht.</p>
+		  <p>&nbsp;</p>
+		  <p>Bei der Realisierung des Spiels f&uuml;r das WeTab wurde ein besonderes Augenmerk auf m&ouml;glichst ruckelfreie Animation und Akkueinsparung gelegt. Bitte haben Sie Verst&auml;ndnis daf&uuml;r, dass dem Anspruch nicht durchg&auml;ngig gerecht wurde. In besonders hohen Zoomstufen kommt es bei der Darstellung der Kugeln zu ganz leichtem Ruckeln. Die Leistungskraft des WeTab reicht durchaus aus, um die Animation auch dort ruckelfrei darzustellen oder die Kugeln mit mehr Glanz, Blending-Funktionen und Vertex-Shader darzustellen. Der Nachteil ist, dass dadurch -wie bei jedem akkubetriebenen System- die Leistungsabforderung an das Akku exorbitant ansteigt.</p>
+		  <p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a name="Programmstart" id="Programmstart"></a>2. Programmstart</strong></p>
+		  <p>&nbsp;</p>
+		  <p>Nach Programmstart sollte nachfolgender Bildschirmaufbau erfolgen. Die Introsequenz k&ouml;nnen Sie durch einen Fingerdruck auf das Touchdisplay unterbrechen. Die im Hintergrund redenden Personen verstummen dadurch jedoch nicht. Auch das virtuelle Hinsetzen braucht eben etwas Zeit. Unmittelbar nach Start befinden Sie sich bereits in einem beginnenden Spiel. Die Art des Spiels und wer den Er&ouml;ffnungszug im Spiel durchf&uuml;hrt h&auml;ngt davon, in welchem Spielmodus Sie das Spielprogramm beendet haben. War das letzte Spiel ein Karambol im Turniermodus, so startet das Programm beim n&auml;chsten Mal auch wieder mit Karambol. Beim allerersten Start des Programms wird ein 8Ball Spiel im 1 Spielermodus gestartet. Der erste Spieler sind Sie und Spieler 2 ist das WeTab. Als Namensangabe erfolgt der bei Installation des WeTab angegebene Benutzername f&uuml;r Spieler 1 und f&uuml;r Spieler 2 4tiitoo. Die Spielst&auml;rke des WeTab ist auf Mittel voreingestellt. Alle diese Einstellungen, sowie Startreihenfolge k&ouml;nnen Sie in den Men&uuml;s ver&auml;ndern und abspeichern.</p>
+		  <p>&nbsp;</p>
+		  <p><img src="../img/start.png" alt="Startbildschirm" width="800" height="445" /></p>
+		  <p id="bildtext">Bild 1 (Programmstart)</p>
+<p>&nbsp;</p>
+<p>Die einzelnen jeweils am linken und rechten Bildschirmrand befindlichen Steuerungselemente sind f&uuml;r die Daumensteuerung vorgesehen. Ein Ausblenden ist nicht m&ouml;glich. Alle hier dargestellten Bedienm&ouml;glichkeiten k&ouml;nnen auch per Fingerbewegung im Spielfenster durchgef&uuml;hrt werden. Darauf wird sp&auml;ter noch n&auml;her eingegangen. Das Spielfeld befindet sich in der Mitte und kann mittels Einsatz nur eines Fingers vollst&auml;ndig bedient werden.</p>
+<p>&nbsp;</p>
+<p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+<p><strong><a name="Steuerung" id="Steuerung"></a>3. Steuerung</strong></p>
+<p>&nbsp;</p>
+<p><strong><a name="linkedaumenleiste" id="linkedaumenleiste"></a>3.1 Linke Daumenleiste</strong></p>
+<p>&nbsp;</p>
+		  <p>In der linken Daumenleiste befinden sich die Aktionstasten. Die Aktionstasten dienen hierbei zur Einleitung von besonderen Steuerungsmodi (S, B, E, M, F, F3,  F6, F9, Men&uuml;aufrufen (Menue), Hilfe (F1 oder Logo), Neustart (F10) und Anzeigemodi (F2, F4, F8). Alle folgenden Symboltasten k&ouml;nnen Sie auch bei angeschlossener USB-Tastatur direkt auf der Tastatur eingeben.</p>
+<p>&nbsp;</p>
+		  <table width="100%" border="0" cellpadding="2" cellspacing="4" id="next-button">
+		    <tr>
+		      <td valign="top"><img src="../img/f1.png" alt="Hilfe" width="73" height="44" /></td>
+		      <td align="left" valign="top">Mit Auswahl von F1 (oder Logo) wird die einfache Schnellhilfe aufgerufen	und	wieder beendet. </td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f2.png" alt="F2" width="73" height="44" /></td>
+		      <td align="left" valign="top"><p>Mit F2 schalten Sie zwischen der Vogelperspektive hin und her. In der Vogelperspektive sind lediglich die Einstellung der Schlagst&auml;rke, sowie die Ausl&ouml;sung eines Schlages selbst und der Men&uuml;aufruf erlaubt.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="right" valign="top"><img src="../img/f3.png" width="73" height="44" alt="F3" /></td>
+		      <td align="left" valign="top"><p>Wechselt zwischen der sogenannten Queue- und der queuelosen Ansicht. In der Queueansicht erfolgt die Anzeige eines virtuellen Queues. Eventuelle Schlagfolgen erfolgen nicht direkt, sondern werden animiert dargestellt. Ein besonderer Vorteil der Queueansicht besteht darin, dass Sie dadurch den Schlagwinkel f&uuml;r den folgenden Schlag erkennen k&ouml;nnen. Eventuelle Bewegungen des Tisches in verschiedene Sichten bewegt im Falle der Queueansicht nicht die Schlagrichtung. Sie k&ouml;nnen dadurch den Winkel des Schlages aus allen Blickwinkeln betrachten.</p>
+	          <p>&nbsp;</p>
+	          <p>In der externen Ansicht erfolgt keine Anzeige des Queue. Hierbei ist zu beachten, dass sich die Schlagrichtung mit jeder Bewegung entsprechend &auml;ndert. Wenn Sie den Tisch in der horizontalen Achse bewegen, &auml;ndert sich auch die Schlagrichtung entsprechend. Um in der Anfangsphase ein Gef&uuml;hl daf&uuml;r zu bekommen, empfehlen wir bei Bewegungen des Tisches &ouml;fters zwischen der Queue und queuelosen Ansicht umzuschalten. Ver&auml;nderungen der Schlagrichtung werden dadurch verst&auml;ndlicher und Sie erhalten ein Gef&uuml;hl daf&uuml;r.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f4.png" width="73" height="44" alt="F4" /></td>
+		      <td align="left" valign="top"><p>Hiermit  wechseln Sie  zwischen der freien und der externen Ansicht. Die Einschaltung der externen Ansicht (Standard an) f&uuml;hrt bei der Ausf&uuml;hrung eines Schlages dazu, dass dem Ballverlauf der Spielkugel nach Ausf&uuml;hrung eines Schlages gefolgt wird. Das die externe Ansicht aktiv ist, wird Ihnen auf der rechten Seite des Spielfeldes durch das Symbol <img src="../img/symbol-f.png" alt="Ansicht" width="26" height="26" align="absmiddle" /> angezeigt.</p>
+	          <p>&nbsp;</p>
+	          <p>Ist die externe Ansicht nicht aktiv, wird dem Ballverlauf des menschlichen Spielers nicht gefolgt. Das gilt jedoch nicht f&uuml;r den WeTab-Gegner. In der normalen Ansicht k&ouml;nnen Sie bei aktiver Queueansicht den gesamten Tisch im Sichtfeld bewegen. Das kann hilfreich sein, wenn Sie ohne die Schlagrichtung oder das Sichtfeld ver&auml;ndern zu wollen, den Tisch genauer einsehen m&ouml;chten.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f5.png" alt="F5" width="73" height="44" /></td>
+		      <td align="left" valign="top"><p>Alle  derzeit eingestellten Optionen werden in der Konfigurationsdatei <strong>.foobillardrc</strong> abgespeichert. Die Konfigurationsdatei befindet sich in Ihrem home-Verzeichnis. Auf dem WeTab w&auml;re das /home/&lt;Benutzername&gt;/.foobillardrc. Sollte wider Erwarten das Programm einmal nicht mehr wie erwartet funktionieren, k&ouml;nnen Sie die Konfigurationsdatei einfach l&ouml;schen. Das Programm startet daraufhin mit einer ganz neuen Standardkonfiguration. Bitte ver&auml;ndern Sie nicht per Editor die Konfigurationsdatei.</p>
+	          <p>&nbsp;</p>
+	          <p>Ein laufender Speichervorgang wird &uuml;ber das auf der rechten Seite des Spielfeldes &uuml;ber Symbol <img src="../img/document-save.png" alt="Speichern" width="26" height="26" align="absmiddle" /> angezeigt. Desweiteren findet bei jedesmaligen normalen Beenden von foobillard++ ein automatischer Speichervorgang statt.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f6.png" width="73" height="44" alt="F6" /></td>
+		      <td align="left" valign="top"><p>Durch bet&auml;tigen der Taste F6 wechselt der aktuelle Spieler von Mensch auf Computer bzw. von Computer auf Mensch. Hierbei wird lediglich der Spielermodus getauscht. Eine Ver&auml;nderung der vorher festglegten Namen erfolgt dabei nicht.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f7.png" width="73" height="44" alt="F7" /></td>
+		      <td align="left" valign="top"><p><em>Ballspuren - An/Aus</em>. Mit den Ballspuren k&ouml;nnen Sie nach einem Schlag die tats&auml;chliche Bewegung aller Kugeln nochmals nachverfolgen. Das kann f&uuml;r zuk&uuml;nftige Schl&auml;ge von Relevanz sein, um das Verhalten der Kugeln z.B. auf Anschneiden besser beurteilen zu k&ouml;nnen. Au&szlig;erdem sieht das ganze auch mal recht interessant aus (Anm.des Autors).</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f8.png" width="73" height="44" alt="F8" /></td>
+		      <td align="left" valign="top"><p>Mittels F8 wird die Hilfslinie (gestrichelte Linie oberhalb der Spielkugel) an bzw. abgeschaltet. Der Standard ist An. Bei angeschalteter Hilfslinie f&auml;llt die Ermittlung eines passablen Schusses einfacher, wenn es auch unrealistisch ist. F&uuml;r mehr Realismus ist eine ausgeschaltete Hilfslinie f&ouml;rderlich.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f9.png" width="73" height="44" alt="F9" /></td>
+		      <td align="left" valign="top"><p>Wenn Sie am Zuge sind und Sie die Taste F9 bet&auml;tigen, schl&auml;gt der Computer eine Schussfolge vor. Der Vorschlag basiert dabei auf die derzeit eingestellte Geschicklichkeitsstufe des Computerspielers. Ist diese auf Hervorragend, wird der Vorschlag auch entsprechend sein. Das gleiche gilt nat&uuml;rlich auch auf der Stufe Schwach.</p>
+	          <p>&nbsp;</p>
+	          <p>Der Zug wird lediglich &quot;vorgeschlagen&quot;. Tats&auml;chlich sichtbar ist die Einstellung nicht. Wenn Sie unmittelbar nach F9 einen Schuss durchf&uuml;hren, wird der Schlag mit dem Vorschlag durchgef&uuml;hrt.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><a name="F10" id="F10"></a><img src="../img/f10.png" width="73" height="44" alt="F10" /></td>
+		      <td align="left" valign="top"><p>Bei F10 wird lediglich ein Neustart des aktuellen Spieles durchgef&uuml;hrt. Ist w&auml;hrend der Bet&auml;tigung der Computerspieler aktiv, bleibt er am Zuge.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/menue.png" width="73" height="44" alt="Men&uuml;" /></td>
+		      <td align="left" valign="top"><p>Das Hauptmen&uuml; wird aufgerufen, oder sofern bereits aktiv wieder beendet. Befinden Sie sich w&auml;hrend der Aktivierung in einem Untermen&uuml;, wird eine Men&uuml;stufe zur&uuml;ck verzweigt. Eine Erkl&auml;rung zu den Men&uuml;funktionen erfolgt an sp&auml;terer Stelle.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><a name="symbols" id="symbols"></a><img src="../img/s.png" width="73" height="44" alt="S" /></td>
+		      <td align="left" valign="top"><p>Der Fingerschuss wird ein- oder ausgeschaltet. Ein aktiver Fingerschuss wird am rechten Bildschirmrand mittels des Symbols <img src="../img/s1.png" alt="Fingerschuss" width="26" height="26" align="absmiddle" />angezeigt. Mit dem Fingerschuss k&ouml;nnen Sie auf dem Spielfeld direkt durch eine Ziehenbewegung eines Fingers den Queueschuss wie im echten Billard durchf&uuml;hren. Damit es nicht ganz so schwer ist, brauchen Sie nicht direkt den Finger auf das Queue platzieren, sondern irgendwo auf dem Bildschirm. Auch die Richtung muss nicht hundertprozentig so durchgef&uuml;hrt werden, wie das Queue platziert ist, sondern nur ungef&auml;hr in die Richtung. Probieren Sie es ruhig einmal aus. Beispielsweise k&ouml;nnen Sie mittels B das Queue ausrichten und dann mit F3 in die Queueansicht wechseln und den Tisch in eine Ansicht drehen, wie Sie den Ballverlauf nach Durchf&uuml;hrung eines Schlages gerne sehen m&ouml;chten. Dann mit S in den Fingerschussmodus wechseln und den Schuss durchf&uuml;hren.</p>
+	          <p>&nbsp;</p>
+	          <p>Die Standardeinstellung ist die oben beschriebene Fingersteuerung. Es gibt noch den klassischen Modus aus dem urspr&uuml;nglichen foobillard. Dort ist ein Fingerschuss/Mausschuss lediglich mit Ziehen von unten nach oben erlaubt, egal wie das Queue in der Ansicht gerade steht. Die &Auml;nderung erfolgt im Men&uuml;.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/b.png" width="73" height="44" alt="B" /></td>
+		      <td align="left" valign="top"><p>Mit B wird der Queue H&ouml;henmodus aktiviert und deaktiviert. Das der H&ouml;henmodus aktiv ist wird Ihnen durch das Symbol <img src="../img/cue.png" alt="Queue H&ouml;henmodus" width="26" height="26" align="absmiddle" />am rechten Rand des Spielfeldes angezeigt. Mit der einer Fingerbewegung hoch oder nach unten auf dem Spielfeld wird das Queue ausgerichtet.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/e.png" width="73" height="44" alt="E" /></td>
+		      <td align="left" valign="top"><p>Die Symboltaste E f&uuml;hrt Sie in den Anschneidemodus zum Setzen des Schlagpunktes auf der Billard Spielkugel. Das der Anschneidemodus aktiv ist, wird unmissverst&auml;ndlich durch eine vergr&ouml;&szlig;erte Darstellung der Spielkugel mit Anschlagpunkt (Fadenkreuz) im linken Bildschirmbereich angezeigt. Zus&auml;tzlich ist das Symbol <img src="../img/e1.png" alt="Anschneiden" width="26" height="26" align="absmiddle" /> am rechten Rand des Spielfeldes zu sehen. Mit Fingerbewegung im Spielfeld kann der Anschlagpunkt entsprechend ver&auml;ndert werden. Zus&auml;tzlich ist eine kleine Anzeige eines Fadenkreuzes auch auf der Spielkugel auf dem Billardtisch zu sehen. Eine Ver&auml;nderung des Anschlagpunktes hat wie im echten Billard auch, eine Ver&auml;nderung der Ballf&uuml;hrung zur Folge. Ist die mit Symboltaste F3 zur Verf&uuml;gung stehende Queue-Ansicht aktiv, bewegt sich das Queue entsprechend mit.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/m.png" width="73" height="44" alt="M" /></td>
+		      <td align="left" valign="top"><p>Spielkugel Verschiebemodus An/Aus. Hierdurch k&ouml;nnen Sie den Platz der Spielkugel in den Grenzen des Billardregelwerkes zum aktuellen Spiel ver&auml;ndern. Das dieser Modus aktiv ist, erkennen Sie am Symbol <img src="../img/m1.png" alt="Spielkugel verschieben" width="26" height="26" align="absmiddle" /> und einem gerasterten blauen Balken &uuml;ber der Spielkugel. Die Bet&auml;tigung der Symboltaste M hat nur dann Auswirkungen, wenn eine Bewegung der Spielkugel nach dem Billard Regelwerk derzeit &uuml;berhaupt m&ouml;glich ist.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f.png" width="73" height="44" alt="F" /></td>
+		      <td align="left" valign="top"><p>Mit der Symboltaste F (An/Aus) wird das Sichtfeld (Field of View - FOV) ver&auml;ndert.. Der Sichtfeldmodus ist mehr eine kleine Spielerei und f&uuml;hrt zu einer verzerrten Darstellung des gesamten Spielfeldes. Das der Modus aktiv ist, erkennen Sie am Symbol <img src="../img/fov.png" alt="FOV" width="26" height="26" align="absmiddle" /> am rechten Spielfeldrand. Eine Ver&auml;nderung des Sichtfeldes wird durch Auf- und Abbewegung eines Fingers auf dem Spielfeld erreicht.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/tab.png" width="73" height="44" alt="Spielball &auml;ndern" /></td>
+		      <td align="left" valign="top"><p>Diese Symboltaste ist nur im Trainingsmodus aktiv. Durch Auswahl wird schlichtweg die Spielkugel  gegen eine derzeit noch auf dem Billardtisch vorhandene andere normale Kugel ausgetauscht.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/u.png" width="73" height="44" alt="Undo" /></td>
+		      <td align="left" valign="top"><p>Auch die Symboltaste U hat nur Auswirkungen im Trainingsmodus. Der letzte Schlag wird schlichtweg zur&uuml;ckgenommen. Damit k&ouml;nnen Sie das Verhalten einzelner Schlagfolgen auf ein und dieselbe Tischkonstellation ausprobieren.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+	      </table>
+<p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+<p>&nbsp;</p>
+<p><strong><a name="spielfeld" id="spielfeld"></a>3.2 Spielfeld</strong></p>
+<p>&nbsp;</p>
+		  <p>Im Spielfeld k&ouml;nnen Sie je nach eingestelltem Modus (linke Daumenleiste) den Tisch in alle Richtungen schnell und komfortabel bewegen. Die Schlagst&auml;rke stellen Sie bequem durch Fingerdruck auf die Symbole <img src="../img/b1.png" alt="Weniger" width="26" height="26" align="absmiddle" /> und <img src="../img/n.png" alt="St&auml;rker" width="26" height="26" align="absmiddle" /> ein. Auf dem St&auml;rkebalken in dem unteren mittleren Bereich ver&auml;ndert sich entsprechend die L&auml;nge der Anzeige und die Prozentzahl der Schlagst&auml;rke. Einen Schlag k&ouml;nnen Sie letztlich durch Fingerdruck auf das Symbol <img src="../img/shot.png" alt="Schuss" width="26" height="26" align="absmiddle" /> ausl&ouml;sen. Mittels der Symbole <img src="../img/up.png" alt="Zoom" width="26" height="26" align="absmiddle" /> und <img src="../img/down.png" alt="Zoom" width="26" height="26" align="absmiddle" /> wird das gesamte Bild in den Grenzen der Darstellungsm&ouml;glichkeiten heran- oder weggezoomt. Ein Zoomen hat in einigen Schussfolgen durchaus Sinn, auch wenn diese Art des Spieles nicht unbedingt realistisch ist. Ein Schlag in der Queueansicht wird inkl. animierter Queue durchgef&uuml;hrt. Ohne Queueansicht erfolgt die unmittelbare Ausf&uuml;hrung eines Schlages.</p>
+		  <p>&nbsp;</p>
+		  <p>Bei der Bewegung m&uuml;ssen Sie ber&uuml;cksichtigen, dass eine Auf- und Abbewegung des Billardtisches auch immer eine Auswirkung auf die Schlagh&ouml;he des Queue hat. Mittels der B Symboltaste kann die H&ouml;he noch vor dem Schlag entsprechend eingestellt werden ohne das Sichtfeld dabei zu ver&auml;ndern. Die Schlagh&ouml;he hat Auswirkung auf die Ballf&uuml;hrung. Je h&ouml;her der Ansatz, desto eher fliegt eine Kugel im Standardmodus der &quot;realistischen Kugelbewegung&quot; &uuml;ber andere hinweg oder sogar vom Billardtisch. Dieses Verhalten kann in den Optionen derart ver&auml;ndert werden, dass die Kugeln praktisch bei Bewegung auf dem Tisch &quot;kleben&quot;. Dieses Verhalten ist das normale Verhalten des foobillard 3.0a gewesen. In der klassischen Einstellung hat eine Ver&auml;nderung der Queue H&ouml;henposition keine Auswirkung auf m&ouml;glichen Kugelflug.</p>
+		  <p>&nbsp;</p>
+		  <p>im linken oberen Bereich befindet sich die Statuszeile, die einige n&uuml;tzliche Hinweise zum Spielverlauf anzeigt. In manchen F&auml;llen ist nicht klar ersichtlich, warum z.B. schlagartig der n&auml;chste Spieler den Zug erh&auml;lt, obwohl vielleicht die richtige Kugel eingelocht wurde. Den Grund hierf&uuml;r, k&ouml;nnen Sie der Ausgabe der Statuszeile entnehmen. Z.B. wurde zuerst im 8 Ball eine gegnerische Kugel angespielt oder aber die erste Kugel im Strafraum angespielt. Die Anzeige der Statuszeile kann in den Optionen an- oder ausgeschaltet werden.</p>
+		  <p>&nbsp;</p>
+		  <p>Welcher Spieler am Zug ist, steht links unten im Spielfeld. Je nach gew&auml;hlter Spielart ist hier auch die zu spielende Farbe zu erkennen:</p>
+		  <p>&nbsp;</p>
+		  <p><strong><em>8 Ball</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p> <img src="../img/weiss.png" alt="Welche Kugelfarbe" width="26" height="26" align="absmiddle" /> = noch unbekannt</p>
+		  <p><img src="../img/halb.png" alt="Halb" width="26" height="26" align="absmiddle" /> = halbe Kugeln</p>
+		  <p><img src="../img/voll.png" alt="Volle" width="26" height="26" align="absmiddle" /> = Volle Kugeln</p>
+		  <p>&nbsp;</p>
+		  <p><strong><em>9 Ball</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p>Welche Kugelnummer und Farbe als n&auml;chstes einzulochen ist.</p>
+		  <p>&nbsp;</p>
+		  <p><strong><em>Karambol</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p>Erreichte Punktezahl</p>
+		  <p>&nbsp;</p>
+		  <p><strong><em>Snooker</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p>Erreichte Punktezahl und die Information welche Kugel als n&auml;chstes einzulochen ist.</p>
+		  <p>&nbsp;</p>
+		  <p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+		  <p><strong><a name="rechtedaumenleiste" id="rechtedaumenleiste"></a>3.3 Rechte Daumenleiste</strong></p>
+		  <p>&nbsp;</p>
+		  <p>Im oberen Bereich der rechten Daumenleiste befinden sich die Standardsymbole des Gameframe. Hierauf wird nicht n&auml;her eingegangen, da sie zum Betriebssystem geh&ouml;ren.</p>
+		  <p>&nbsp;</p>
+		  <table width="100%" border="0" cellspacing="4" cellpadding="2">
+		    <tr>
+		      <td align="center"><img src="../img/steuerkreuz.png" width="165" height="164" alt="Steuerkreuz" /></td>
+		      <td align="left" valign="top"><p>Mit den Tasten des Steuerkreuzes werden die Pfeiltasten einer normalen Tastatur simuliert. Alle Steuerungen, die im Rahmen der Fingerbedienung im Spielfeld vorgenommen werden, k&ouml;nnen f&uuml;r alle daumenverw&ouml;hnten Anwender auch &uuml;ber das Steuerkreuz durchgef&uuml;hrt werden.</p>
+	          <p>&nbsp;</p>
+	          <p>Als einzige Ausnahme gilt hier der Fingerschuss. Bitte beachten Sie dazu die Hinweise zur Symboltaste S in den Ausf&uuml;hrungen zur linken Daumenleiste.</p></td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/up1.png" alt="Zoom +" width="73" height="44" /></td>
+		      <td align="left" valign="top">Diese Symboltaste leistet &auml;quivalente Dienste wie das Symbol <img src="../img/up.png" alt="Zoom +" width="26" height="26" align="absmiddle" />auf dem Spielfeld. Hiermit wird der sichtbare Bildausschnitt herausgezoomt.</td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/down1.png" width="73" height="44" alt="Zoom -" /></td>
+		      <td align="left" valign="top">Diese Symboltaste leistet &auml;quivalente Dienste wie das Symbol <img src="../img/down.png" alt="Zoom +" width="26" height="26" align="absmiddle" />auf dem Spielfeld. Hiermit wird in den sichtbaren Bildausschnitt hineingezoomt.</td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/schuss.png" width="95" height="95" alt="Schuss" /></td>
+		      <td align="left" valign="top">Die Ausf&uuml;hrung eines Schlages wird ausgef&uuml;hrt. Auch diese Symboltaste hat die gleiche Bewandtnis, wie das Symbol <img src="../img/shot.png" alt="Schuss" width="26" height="26" align="absmiddle" /> auf dem Spielfeld.</td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/left.png" width="73" height="44" alt="Schusst&auml;rke -" /></td>
+		      <td align="left" valign="top">Einstellung der Schussst&auml;rke in negativen Schritten. Das gleiche erledigt das Symbol <img src="../img/b1.png" alt="Weniger" width="26" height="26" align="absmiddle" /> auf dem Spielfeld.</td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/right.png" width="73" height="44" alt="Schusst&auml;rke +" /></td>
+		      <td align="left" valign="top">Die Schussst&auml;rke wird erh&ouml;ht. Wie Sie sichelich erraten haben, ist das &auml;quivalent zum Symbol <img src="../img/n.png" alt="St&auml;rker" width="26" height="26" align="absmiddle" /> auf dem Spielfeld.</td>
+	        </tr>
+	      </table>
+		  <p>&nbsp;</p>
+<p><strong><a name="menue" id="menue"></a>4. Men&uuml;</strong></p>
+		  <p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+		  <p>&nbsp;</p>
+		  <p>&nbsp;</p>
+		  <p><img src="../img/menue-haupt.png" width="800" height="450" alt="Hauptmen&uuml;" /></p>
+		  <p id="bildtext">Bild 2 (Hauptmen&uuml;)</p>
+<p>&nbsp;</p>
+		  <p>Nach Auswahl von Menue &uuml;ber die linke Daumenleiste erfolgt die Ausgabe des Hauptmen&uuml;s wie im vorstehenden Bild gezeigt. Einige Men&uuml;punkte haben eine sofortige Auswirkung und beenden das Men&uuml; wieder. Einige f&uuml;hren in weitere Untermen&uuml;s. In manchen Optionen k&ouml;nnen Daten direkt &uuml;ber die virtuelle Tastatur des WeTab eingegeben werden. Das k&ouml;nnen Sie daran erkennen, dass sich die aktivierte Aktion rot einf&auml;rbt. Dann ist in der rechten Daumeleiste das Symbol f&uuml;r die Tastatur aufzurufen. Soll keine Eingabe vorgenommen werden, k&ouml;nnen Sie den Vorgang &uuml;ber die Symboltaste Menue wieder abbrechen.</p>
+		  <p>&nbsp;</p>
+		  <p>Bei Eingaben sind lediglich die Zeichen m&ouml;glich, die zur erwartenden Funktion passen. Welche Eingaben zul&auml;ssig sind, wird im weiteren Verlauf der Optionen noch bekanntgegeben. Bei einer aktivierten Eingabem&ouml;glichkeit ist der alte Eintrag erst mittels der R&uuml;cktaste bis zum &Auml;nderungspunkt zu l&ouml;schen. Dann k&ouml;nnen wieder Zeichen eingeben werden.</p>
+		  <p>&nbsp;</p>
+		  <p>Jedes Eingabefeld hat eine Maximal- und eine Minimall&auml;nge. Wird die Maximall&auml;nge &uuml;berschritten, ist keine weitere Eingabe mehr m&ouml;glich. Wird die minimale Eingabel&auml;nge unterschritten, kann der Eintrag nicht best&auml;tigt werden.</p>
+		  <p>&nbsp;</p>
+		  <p>Ist die Eingabe zum erwartenden Format (Zahlen, Buchstaben etc.) nicht korrekt, erfolgt eine akustische Mitteilung mittels einer Explosion.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>Folgende Einstellungen k&ouml;nnen vorgenommen werden:</strong></p>
+		  <p>&nbsp;</p>
+		  <table width="100%" border="0" cellspacing="4" cellpadding="2">
+		    <tr>
+		      <td align="left" valign="top"><strong>Fortsetzen</strong></td>
+		      <td align="left" valign="top"><p>Das beendet das Men&uuml; in den derzeit ausgew&auml;hlten Einstellungen und hat die gleiche Wirkung wie die Symboltaste Menue oder aber ein Druck auf das Logo oben links.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Neustart</strong></td>
+		      <td align="left" valign="top"><p>Die gleiche Auswirkung wie die Taste F10 in der linken Daumenleiste. Das Spiel wird von vorne gestartet. N&auml;here Informationen dazu unter <a href="#F10"><strong>F10</strong></a>.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Spieler</strong></td>
+		      <td align="left" valign="top"><p>Hier k&ouml;nnen Sie Einstellungen zu den Spielern 1 und 2 vornehmen. Dabei handelt es sich um Namensvergabe, den Typ (Mensch oder 4tiitoo) und die Geschicklichkeit des Spielers. Eine Einstellung der Geschicklichkeit hat nat&uuml;rlich bei Ihnen als menschlichen Spieler keinen Einfluss. Allerdings wird bei einem menschlichen Spieler dar&uuml;ber eingestellt, mit welcher Geschicklichkeit ein Computer Schlagvorschlag durchgef&uuml;hrt wird. Als Geschicklichkeit stehen Hervorragend, Gut, Mittel, Ausreichend und Schlecht zur Verf&uuml;gung. Die Standardeinstellung eines Computerspielers bei Erststart ist Mittel. Je gr&ouml;&szlig;er der Tisch gew&auml;hlt wird (h&ouml;here Turniergr&ouml;&szlig;e), je besser spielt der Computer bei gleicher Geschicklichkeitseinstellung.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Spieloptionen</strong></td>
+		      <td align="left" valign="top"><p>Es &ouml;ffnet sich ein weiteres Untermen&uuml; und alle f&uuml;r den Spielablauf relevanten Optionen sind hier einstellbar. Dabei handelt es sich im Einzelnen um:</p>
+	          <p>&nbsp;</p>
+	          <p><em>Spielart - 8Ball, 9Ball, Karambol oder Snooker</em></p>
+	          <p>&nbsp;</p>
+	          <p>Je Spielart stehen die Varianten 1-2 Spieler Start, Turnier und Training zur Verf&uuml;gung. Die Art des 1-2 Spielers ergibt sich aus den Einstellungen des Hauptmen&uuml;punktes <strong>Spieler</strong>. Damit wird auch die Reihenfolge festgelegt. Daraus ergibt sich auch ein reiner Zuschauermodus, wenn beide Spieler auf Computer eingestellt sind. Im Karambolmen&uuml; gibt es eine Besonderheit. Entgegen allen anderen Spielen k&ouml;nnen Sie hier die Punkteanzahl festlegen, ab wann ein Spiel als gewonnen gilt. Standard ist 5. Einstellbar sind hier Werte von 1 - 100.</p>
+	          <p>&nbsp;</p>
+	          <p>Im Turniermodus werden grunds&auml;tzlich 4 L&auml;ufe beginnend mit 16 Spielern durchlaufen. Die Zusammenstellung der Spieler ist rein zuf&auml;llig und alle computergesteuerten Spieler weisen unterschiedliche Geschicklichkeitsstufen auf. Gestartet wird ein Durchlauf mittels der gelben Schusstaste auf der rechten Daumenleiste. Nach Ablauf aller Durchl&auml;ufe wird der Turniergewinner ermittelt.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Tischl&auml;nge - 7, 8, 9 und 12 Fu&szlig;</em></p>
+	          <p>&nbsp;</p>
+	          <p>Die Tischl&auml;nge kann zwischen den o. a. Gr&ouml;&szlig;en in Fu&szlig; eingestellt werden. 7 Fu&szlig; ist die kleinste zul&auml;ssige Tischgr&ouml;&szlig;e nach Turniernorm und 12 Fu&szlig; die eigentliche Turniergr&ouml;&szlig;e.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Steuerungsschalter - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Dadurch kann die Anzeige der Steuerungsschalter <img src="../img/up.png" alt="Zoom +" width="26" height="26" align="absmiddle" />, <img src="../img/down.png" alt="Zoom +" width="26" height="26" align="absmiddle" />, <img src="../img/b1.png" alt="Weniger" width="26" height="26" align="absmiddle" />, <img src="../img/n.png" alt="St&auml;rker" width="26" height="26" align="absmiddle" /> und <img src="../img/shot.png" alt="Schuss" width="26" height="26" align="absmiddle" /> auf dem Spielfeld an- und ausgeschaltet werden. Wer insgesamt die Daumensteuerung vorzieht, ben&ouml;tigt die Steuerungsschalter nicht.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Realistischer Kugelflug - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Mit realistischer Kugelflug ist lediglich gemeint, dass Kugeln entsprechend den physikalischen Gesetzen nicht nur auf dem Spielfeld beweglich sind (Aus), sondern auch &uuml;ber andere Kugeln gespielt oder sogar den Tisch verlassen k&ouml;nnen (An). Auf Grund der doch von F. Berger urspr&uuml;nglich erstellten sehr komplexen Berechnungsformeln (bishin zum Luftwiderstand und Reibung), war es bis zuletzt nicht gelungen, den Modus in foobillard 3.0a fehlerfrei zu integrieren. Seit foobillard++ ist das vorbei.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Fingerschuss - Neu/Klassisch</em></p>
+	          <p>&nbsp;</p>
+	          <p>Wie der Fingerschuss letztendlich durchgef&uuml;hrt wird. F&uuml;r genauere Erl&auml;uterungen zum Fingerschuss sehen Sie bitte unter den Erl&auml;uterungen zur Symboltaste <a href="#symbols"><strong>S</strong></a>.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Auto freie Ansicht - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Mittels dieser Option stellen Sie ein, wie nach einem durchgef&uuml;hrten Schuss wieder zum n&auml;chsten Schuss zur&uuml;ckgef&uuml;hrt wird. Bei An werden alle Einstellungen, wie Queueansicht oder aber freie Ansicht wieder zur&uuml;ckgesetzt, so dass Sie sofort mit der Einstellung zum n&auml;chsten Schuss &uuml;bergehen k&ouml;nnen. Bei Aus bleiben die zuletzt eingestellten Ansichtsoptionen aktiv. Eine Queueansicht f&uuml;hrt daher wieder zur Queueansicht zur&uuml;ck. Standard ist An.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Vogelperspektive Computer/Netzspieler - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Hiermit legen Sie fest, in welchem Ansicht ein m&ouml;glicher Netzwerkspieler (in Vorbereitung) und ein Computerspieler im Standard seine Schl&auml;ge durchf&uuml;hrt. Bei An wird automatisch in die Vogelperspektive gewechselt, damit Sie den Schlag des Gegners besser verfolgen k&ouml;nnen. Im ausgeschalteten Zustand erfolgt eine normale Anzeige. Standard ist ausgeschaltet.</p>
+	          <p>&nbsp;</p>
+	          <p>Zeitraffer Turnier - Normal, Langsam, Mittel, Hoch und Sehr hoch</p>
+	          <p>&nbsp;</p>
+	          <p>Die Geschwindigkeit, mit der Computerspieler ihre Z&uuml;ge durchf&uuml;hren. In der Stufe normal ist eine Echtzeitsteuerung aktiv. Mit jedem Stufe h&ouml;her wird die Anzeige schneller. Bei sehr hoch kommt praktisch Schlag - Ergebnis in einem Atemzug.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Ansicht</strong></td>
+		      <td align="left" valign="top"><p>Ein weiteres Untermen&uuml; wird mit folgenden Einstellungsm&ouml;glichkeiten ge&ouml;ffnet:</p>
+	          <p>&nbsp;</p>
+	          <p><em>Rot/Gr&uuml;n Stereo - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Wenn Sie im Besitz einer Rot/Gr&uuml;n oder Rot/Blau 3D-Brille sind, k&ouml;nnen Sie nach Aktivierung das Spiel in 3D genie&szlig;en. In einem weiteren Men&uuml;punkt wird dann noch eingestellt, welches Augenziel (links, Mitte oder rechts) Ihrem 3D-Empfinden am n&auml;chsten kommt. Es wird darauf hingewiesen, dass ein 3D-Effekt je nach Person Halluzinationen oder Kopfschmerz verursachen kann. Sobald Ihnen Unwohl wird, schalten Sie den Stereo-Modus bitte umgehend aus. Eine Verantwortung kann  nicht &uuml;bernommen werden und die Aktivierung geschieht vollst&auml;ndig auf eigene Gefahr.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Linsenlichtreflex - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Eine einfache Darstellung einer Lampe oberhalb des Tisches mit Linsenlichtreflex, so als w&uuml;rden Sie durch eine Kamera schauen.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Ball Detail - Wenig, Mittel, Hoch, Sehr hoch</em></p>
+	          <p>&nbsp;</p>
+	          <p><em>Tischthema - Gold-gr&uuml;n, Gold-rot, Chrom-blau, Schwarz-wei&szlig; und Schwarz-beige</em></p>
+	          <p>&nbsp;</p>
+	          <p>Der hier vorhandene Tron-Modus stellt den Billardtisch in einer an den Film angelehnten Weise dar. Die Farbwiedergabe der Tischlinien enstricht dabei den Einstellungen zum aktiven Tischthema. Der Tron-Modus wird durch Auswahl jeweils an- bzw. ausgeschaltet.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Hilfslinie - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p><em>Ballspuren - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Mit den Ballspuren k&ouml;nnen Sie nach einem Schlag die tats&auml;chliche Bewegung aller Kugeln nochmals nachverfolgen. Das kann f&uuml;r zuk&uuml;nftige Schl&auml;ge von Relevanz sein, um das Verhalten der Kugeln z.B. auf Anschneiden besser beurteilen zu k&ouml;nnen. Au&szlig;erdem sieht das ganze auch mal recht interessant aus (Anm.des Autors).</p>
+	          <p>&nbsp;</p>
+	          <p>Statustext - An/Aus</p>
+	          <p>&nbsp;</p>
+	          <p><em>Avatar - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Der Avatar ist eine schematische Darstellung einer Spielfigur (Schulter und Arme) an der Queue. Bisher ist der Programmierer noch am Ringen mit sich, ob eine aufwendigere Darstellung tats&auml;chlich besser aussehen w&uuml;rde (Anm. des Autors).</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Grafik</strong></td>
+		      <td align="left" valign="top"><p>Das darauf folgende Untermen&uuml; enth&auml;lt folgende Eintr&auml;ge:</p>
+		        <p>&nbsp;</p>
+	          <p><em>Anisotropischer Filter - Je nach Grafikkarte, WeTab V1. = 0 - 4 fach</em></p>
+	          <p>&nbsp;</p>
+	          <p>Bei einer Einstellungsver&auml;nderung muss das Spiel vollst&auml;ndig beendet und neu gestartet werden. Allerdings ist die Aufl&ouml;sung des WeTab auf dem Touchscreen derart hoch, dass eine &Auml;nderung nicht sehr stark ins Gewicht f&auml;llt.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Antialiasing - An/Aus</em></p>
+	          <p>&nbsp;</p>
+	          <p>Auf dem WeTab steht leider kein voll funktionierendes FSAA Anti-Aliasing zur Verf&uuml;gung. Zur Anwendung kommen lediglich rudiment&auml;re Gl&auml;ttungsmethoden f&uuml;r Linien.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Reflexionen - Rendering und Render Aufl&ouml;sung</em></p>
+	          <p>&nbsp;</p>
+	          <p>Bei den Rendermethoden k&ouml;nnen Sie noch Glaskugeln ausw&auml;hlen. Es erfolgt dadurch eine Darstellung der Kugeln so, als seien diese aus einem glasartigen durchscheinenden Material.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Lichteinfall - Positionslicht und Direkt</em></p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Ton</strong></td>
+		      <td align="left" valign="top"><p>An/Aus</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Hilfe</strong></td>
+		      <td align="left" valign="top"><p>Wie bereits zur Symboltaste F1 bzw. Logografik erl&auml;utert, erfolgt die Angabe einer kurzen Hilfe. Beendet wird die Hilfe &uuml;ber die Symboltaste F1 oder Touch auf die Logografik links oben.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Anleitung</strong></td>
+		      <td align="left" valign="top"><p>Ein wenig scherzhaft, diesen Men&uuml;punkt hier zu erl&auml;utern. Sie lesen ja schon darin...... Es ist darauf zu achten, dass w&auml;hrend der Ansicht der Anleitung das Spiel angehalten wird. Ein simpler Wechsel des Fensters in das Spielfeld reicht zum Weiterspielen nicht aus. Die Anleitung muss vollst&auml;ndig beendet werden. Erst dann ist ein Weiterspielen m&ouml;glich.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Beenden</strong></td>
+		      <td align="left" valign="top"><p>Das Programm kann mittels einer nachfolgenden Sicherheitsabfrage beendet werden. Das gleiche erfolgt ohne Sicherheitsabfrage &uuml;ber das Standard Gameframe Symbol zum Beenden. Alle derzeitigen Spieleinstellungen werden in der Konfigurationsdatei gespeichert. Ein  laufendes Spiel gilt allerdings als beendet.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+	      </table>
+		  <p>&nbsp;</p>
+		  <p><strong><a name="spielmodi" id="spielmodi"></a>5. Spielmodi</strong><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+		  <p>&nbsp;</p>
+		  <p>Die nun folgenden Erl&auml;uterungen stammen zum gr&ouml;&szlig;ten Teil aus der freien Enzyklop&auml;die Wikipedia. An einer m&ouml;glichst realistischen Wiedergabe der Spielregeln in Foobillard++ wird noch gearbeitet.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>&nbsp;<a name="8ball" id="8ball"></a>5.1 Klassisches 8 Ball (Kneipenvariante)</strong></p>
+		  <p>&nbsp;</p>
+		  <p><img src="../img/8ball.png" width="800" height="450" alt="8Ball" /></p>
+		  <p id="bildtext">Bild 3 Startbildschirm 8 Ball ohne Besonderheiten</p>
+<p>&nbsp;</p>
+		  <p>8-Ball bzw. 8 Ball ist eine Disziplin des Poolbillards, bei der mit f&uuml;nfzehn Objektb&auml;llen (die Farbigen) und einem Spielball (die Wei&szlig;e) auf einem Poolbillardtisch gespielt wird. Die Kugeln mit den Nummern 1 bis 7 sind komplett farbig und werden daher die Vollen genannt. Im Gegensatz dazu ist bei den Kugeln 9 bis 15 jeweils nur ein Streifen farbig und der Rest wei&szlig;, daher werden diese auch die Halben genannt.</p>
+		  <p>&nbsp;</p>
+		  <p>Beide Spieler m&uuml;ssen zun&auml;chst versuchen, ihre Farbgruppe komplett zu lochen, um dann die schwarze Acht versenken zu d&uuml;rfen, was bei korrekter Ausf&uuml;hrung zum Gewinn des Spieles f&uuml;hrt.<br />
+		  </p>
+		  <p>&nbsp;</p>
+		  <p><strong>Geschichte<br />
+	      </strong></p>
+		  <p>&nbsp;</p>
+		  <p>Die Disziplin 8-Ball entstand um 1900 aus anderen Billardvarianten und wurde zun&auml;chst mit je sieben gelben und roten sowie einer schwarzen Kugel sowie dem wei&szlig;en Spielball gespielt. Heute ist das Verwenden von Gelben und Roten Kugeln anstatt von Vollen und Halben im 8-Ball nicht mehr &uuml;blich, da man so mit dem gleichen Satz Kugeln auch andere Poolbillardvarianten wie z. B. 9-Ball oder 14 und 1 endlos spielen kann. In der, vor allem im britischen Raum, noch sehr verbreiteten Variante Blackball werden jedoch aus Tradition noch jene zwei Farben f&uuml;r die Objektb&auml;lle verwendet.<br />
+	      </p>
+<p>&nbsp;</p>
+		  <p><strong>Regeln</strong></p>
+		  <p>&nbsp;</p>
+<p>8-Ball ist ein Ansagespiel. Das bedeutet, dass man vorher ansagen muss, welche Kugel in welche Tasche gespielt wird, wenn es nicht offensichtlich ist. Banker, das Spiel &uuml;ber Banden, oder Kombinationen sind z. B. selten offensichtlich und sollten stets angesagt werden. Bei foobillard++ ist ein Ansagen jedoch nicht notwendig. Sie d&uuml;rfen Ihre Kugeln ohne Ansagen frei einlochen. Somit sind hier auch Gl&uuml;ckstreffer m&ouml;glich.</p>
+<p>&nbsp;</p>
+		  <p>Ein Spieler darf solange weiterspielen, bis er es nicht schafft, eine angesagte Kugel zu lochen ohne dabei ein Foul zu begehen.</p>
+		  <p>&nbsp;</p>
+		  <p>Wenn der Gegner ein Foul begeht, hat man grunds&auml;tzlich &quot;Ball in Hand&quot; (freie Lageverbesserung am ganzen Tisch), d. h. man darf den Spielball (die Wei&szlig;e) an eine beliebige Stelle des Tisches (au&szlig;er press, also anliegend an einen Objektball) legen und von dort aus in eine beliebige Richtung weiterspielen. Ausnahme bildet lediglich das Break (der Ansto&szlig;).</p>
+		  <p>&nbsp;</p>
+		  <p><strong>Aufbau und Break</strong></p>
+		  <p>&nbsp;</p>
+		  <p>Die Objektb&auml;lle werden zu Beginn im Dreieck aufgebaut: der vorderste Objektball am Fu&szlig;punkt, in der Mitte die Acht und je ein voller und ein halber Objektball an den hinteren Ecken. Die Farbgruppe der restlichen Kugeln (sowie die der vordersten) ist frei w&auml;hlbar. Der beginnende Spieler hat das Recht, die Position des Spielballs innerhalb des Kopffeldes (oberes Viertel des Tisches) zu w&auml;hlen.</p>
+<p>&nbsp;</p>
+		  <p>Beim Break m&uuml;ssen mindestens vier der Objektb&auml;lle eine Bande ber&uuml;hren oder ein Objektball muss versenkt werden. Ist beides nicht der Fall, kann der Gegner entweder die Lage &uuml;bernehmen oder den Neuaufbau einfordern (und hierbei auch &uuml;ber das Ansto&szlig;recht entscheiden).</p>
+		  <p>Nach dem Break ist der Tisch immer zun&auml;chst offen, d. h. dass es auch erlaubt ist, mit einer Halben eine Volle zu versenken und umgekehrt. Erst nach dem ersten korrekt (mit Ansage) versenkten Ball, nach dem Break (und keinesfalls schon nach dem Lochen einer oder mehrerer Kugeln beim Break), ist die Farbwahl entschieden.</p>
+		  <p>&nbsp;</p>
+		  <p>F&auml;llt beim Break der Spielball in eine Tasche oder springt er vom Tisch, hat der Gegner &quot;Ball in Hand&quot; aus dem Kopffeld heraus. Dabei darf er jedoch nur die Objektb&auml;lle spielen, die mindestens mit einem halben Durchmesser au&szlig;erhalb des Kopffelds liegen. Falls beim Break auch Objektb&auml;lle gelocht wurden, bleiben sie in der Tasche (au&szlig;er es handelt sich um die Acht).</p>
+		  <p>&nbsp;</p>
+		  <p>F&auml;llt die Acht beim Break, kann der breakende Spieler entscheiden, ob neu aufgebaut wird, oder ob er die Lage &uuml;bernimmt, wobei die Acht auf den Fu&szlig;punkt gelegt wird. Ein Neuaufbau wird in Foobillard++ durch Dr&uuml;cken der Symboltaste F10 erreicht.</p>
+		  <p>&nbsp;</p>
+		  <p>F&auml;llt sowohl der Spielball, als auch die schwarze Acht, so entscheidet der Gegner, ob neu aufgebaut wird, oder er die Lage mit zur&uuml;ckgelegter Schwarzen &uuml;bernehmen will. Hierbei hat er dann &quot;Ball in Hand&quot; aus dem Kopffeld heraus.</p>
+		  <p>&nbsp;</p>
+		  <p>F&uuml;r den unwahrscheinlichen Fall, dass ein Spieler beim Break alle Kugeln einer Farbe versenkt, kann er entweder die andere Farbe oder direkt die Schwarze Acht w&auml;hlen.</p>
+		  <p><br />
+          <strong>Korrekter Sto&szlig;</strong></p>
+		  <p>&nbsp;</p>
+		  <p>Nachdem die Farbwahl getroffen ist, reicht es f&uuml;r einen korrekten Sto&szlig; aus, eine (im Zweifelsfall vorher angesagte) Kugel seiner Gruppe zu treffen und nach der Kollision mit dem Spielball oder einem Objektball eine Bande zu ber&uuml;hren.</p>
+		  <p>&nbsp;</p>
+		  <p>Die schwarze Acht darf nicht in einem Sto&szlig; mit einer Farbigen versenkt werden, das Spiel w&auml;re dann verloren.</p>
+		  <p>&nbsp;</p>
+		  <p>Ein Foul liegt vor, wenn:</p>
+		  <p>&nbsp;</p>
+		  <p> * der Spielball versenkt wird.<br />
+		    * der Spielball keinen Objektball ber&uuml;hrt.<br />
+		    * der Spielball zuerst auf eine Kugel der gegnerischen Farbgruppe trifft, oder auf die schwarze Acht, solange noch eigene Objektb&auml;lle &uuml;brig sind.<br />
+		    * der Spielball zwar zuerst einen Objektball der eigenen Farbgruppe trifft, aber danach keine Kugel mehr eine Bande ber&uuml;hrt.<br />
+		    * eine Kugel vom Tisch f&auml;llt (oder auf der Bande liegenbleibt).<br />
+		    * eine Kugel mit dem Queue ber&uuml;hrt oder verschoben wird.<br />
+	      * der Spieler mit dem K&ouml;rper oder mit der Kleidung eine Kugel ber&uuml;hrt.</p>
+		  <p>&nbsp;</p>
+		  <p>Sollten in einem Sto&szlig; mehrere Fouls begangen werden, wird dies trotzdem nur als ein Foul gewertet.</p>
+		  <p>&nbsp;</p>
+		  <p>Bleibt der Spielball oder ein Objektball direkt auf dem Rand des Tisches liegen, liegt ebenfalls ein Foul vor. Der Ball gilt dann als &quot;vom Tisch gefallen&quot;, da die Banden nicht zur Spielfl&auml;che geh&ouml;ren, sondern diese lediglich abgrenzen.</p>
+		  <p>&nbsp;</p>
+		  <p>Sollte eine Tasche bereits so &uuml;berf&uuml;llt sein, dass die herausragenden Kugeln das Spielgeschehen beeinflussen, z. B. den Spielball davon abhalten, in die Tasche zu fallen, liegt ebenfalls ein Foul vor.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>Kein Foul liegt vor:</strong></p>
+		  <p>&nbsp;</p>
+		  <p> wenn der Spieler einen Objektball des Gegners versenkt, aber dabei vorher eine Kugel der eigenen Farbgruppe angespielt hat; die Aufnahme ist lediglich beendet und der andere Spieler ist am Zug, jedoch ohne &quot;Ball in Hand&quot;.</p>
+		  <p><br />
+	      wenn der eigene angesagte Objektball angespielt und versenkt wird, und hierbei einer oder mehrere Objektb&auml;lle der gegnerischen Farbgruppe mit versenkt werden. Der Spieler bleibt in diesem Fall weiterhin am Tisch und darf weiterspielen.</p>
+		  <p><br />
+	      wenn eine Kugel kurzzeitig &uuml;ber die Bande rollt, dann aber wieder auf die Spielfl&auml;che zur&uuml;ckkehrt.</p>
+		  <p>&nbsp;</p>
+		  <p>Jeder Spieler kann aus taktischen Gr&uuml;nden jederzeit einen Sicherheitssto&szlig; (engl. auch Safety) ansagen. Wenn er dann einen seiner B&auml;lle korrekt locht, ist die Aufnahme trotzdem beendet und der Gegner an der Reihe.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>Das Spiel ist verloren, wenn:</strong></p>
+<p>&nbsp;</p>
+		  <p> * ein Spieler die Acht versenkt, bevor er berechtigt ist, darauf zu spielen.<br />
+		    * ein Spieler ein Foul begeht, w&auml;hrend er die Acht versenkt. (Ausnahme: Acht f&auml;llt beim Er&ouml;ffnungssto&szlig;)<br />
+		    * ein Spieler die Acht mit demselben Sto&szlig; versenkt, mit dem er einen seiner noch auf dem Tisch liegenden Objektb&auml;lle versenkt.<br />
+		    * ein Spieler die Acht in eine andere als die angesagte Tasche versenkt.<br />
+	      * einem Spieler die Acht vom Tisch springt.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>Spezialfall Pattsituation</strong></p>
+		  <p>&nbsp;</p>
+		  <p>Wenn noch maximal zwei Objektb&auml;lle und die Acht auf dem Tisch liegen, aber kein Spieler versucht, das Spiel zu beenden, dann kann nach einer bestimmten Anzahl von St&ouml;&szlig;en (in der Regel von jedem drei) das Spiel als unentschieden gewertet werden, oder es wird neu begonnen. Es beginnt wieder derjenige, der diese Partie begonnen hat. Aus taktischen Gr&uuml;nden kann es vorkommen, dass man nicht versucht, seine Objektb&auml;lle zu versenken, weil es zu schwer ist oder weil man vielleicht l&ouml;sen muss. In diesem Fall geht man auf Nummer sicher und riskiert nichts.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>&quot;Kneipenvariante&quot;</strong></p>
+		  <p>&nbsp;</p>
+		  <p>Eine in Kneipen bisweilen gespielte Variante besagt, dass nach dem korrekten Lochen aller eigenen Objektb&auml;lle die Acht in die Tasche gelocht werden muss, die derjenigen Tasche gegen&uuml;ber liegt, in die der letzte eigene Objektball gelocht wurde. Diese Variante ist jedoch au&szlig;erhalb der offiziellen Regeln und hat lediglich den Sinn, an Billardtischen mit M&uuml;nzeinwurf (Bezahlung pro Spiel) das Spiel k&uuml;nstlich zu verl&auml;ngern.</p>
+		  <p>Des weiteren gibt es eine einfachste Variante, die die schwarze 8 als letzte Kugel in irgendein Loch spielen darf. Derzeit handelt es sich dabei um die in foobillard++ realisierte Fassung.</p>
+<p>&nbsp;</p>
+          <p><strong>&nbsp;<a name="9ball" id="9ball"></a>5.2 Einfaches 9 Ball</strong><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+          <p>&nbsp;</p>
+          <p><img src="../img/9ball.png" width="800" height="450" alt="9Ball" /></p>
+    <p id="bildtext">Bild 4: 9 Ball Variante aus R&uuml;ckenansicht mit aktiver Spielballkorrektur</p>
+    <p>&nbsp;</p>
+          <p>9-Ball bzw. 9 Ball ist eine Disziplin des Poolbillards, bei der mit neun durchnummerierten Objektb&auml;llen und einem Spielball (der &quot;Wei&szlig;en&quot;) auf einem Poolbillardtisch gespielt wird. Bei jedem Sto&szlig; muss die Kugel mit der niedrigsten Zahl zuerst angespielt werden. Es gewinnt der Spieler, der die Kugel mit der Nummer 9 zuerst korrekt versenkt oder den Gegner zu drei Fouls in Folge zwingt.</p>
+          <p>&nbsp;</p>
+          <p><strong>Regeln</strong></p>
+          <p>&nbsp;</p>
+          <p>Im Gegensatz zum 8-Ball, 10-Ball und 14/1 endlos ist 9-Ball kein Ansagespiel. Das bedeutet, man muss nicht vor dem Sto&szlig; ansagen, welche Kugel in welche Tasche gespielt wird. So ist auch nach ungewollten Gl&uuml;ckstreffern eine Fortsetzung m&ouml;glich, d. h. man darf weiterspielen.</p>
+          <p>Um an der Aufnahme zu bleiben, muss man mindestens einen Objektball lochen und dabei kein Foul begehen.</p>
+          <p>Wenn der Gegner ein Foul begeht, hat man grunds&auml;tzlich Ball in Hand (freie Lageverbesserung) auf dem ganzen Tisch, d. h. man darf den Spielball an eine beliebige Stelle des Tisches (au&szlig;er press, also anliegend an einen anderen Objektball) legen und von dort aus in eine beliebige Richtung weiterspielen.</p>
+          <p><br />
+            <strong>Aufbau und Break</strong></p>
+          <p>&nbsp;</p>
+          <p>Die Objektb&auml;lle werden zu Beginn im Rhombus aufgebaut. Vorgegeben ist nur, dass der Objektball mit der Nummer 1 vorne, die 9 in der Mitte und die &uuml;brigen Kugeln ohne erkennbares System liegen. Der beginnende Spieler hat das Recht, die Position des Spielballs innerhalb des Kopffeldes (oberes Viertel des Tisches) zu w&auml;hlen.</p>
+          <p>Beim Break muss die vorderste Kugel - also die 1 - zuerst getroffen werden. Au&szlig;erdem m&uuml;ssen mindestens vier der Objektb&auml;lle eine Bande ber&uuml;hren, andernfalls kann der Gegner entweder die Lage &uuml;bernehmen oder den Neuaufbau einfordern (und hierbei auch &uuml;ber das Ansto&szlig;recht entscheiden). F&auml;llt jedoch einer oder mehrere Objektb&auml;lle, bleibt der Spieler, der angesto&szlig;en hat, am Tisch und darf weiterspielen.</p>
+          <p>F&auml;llt beim Break eine Kugel vom Tisch, ist dies ein Foul. Versenkte Kugeln 1 bis 8 bleiben in diesem Fall in den Taschen und werden nicht wieder aufgesetzt. Die 9 hingegen kommt zur&uuml;ck ins Spiel und wird auf den Fu&szlig;punkt bzw. von der Fu&szlig;bande aus gesehen so nahe wie m&ouml;glich an diesen gelegt. In jedem Fall hat der gegnerische Spieler &quot;Ball in Hand&quot;.</p>
+          <p>Sollte es einem Spieler gelingen, die 9 direkt beim Er&ouml;ffnungssto&szlig; zu versenken, gilt dies als &quot;Ass&quot; und das Spiel ist sofort gewonnen, vorausgesetzt, dass der Spielball auf dem Tisch geblieben ist und auch sonst kein Foul vorliegt.</p>
+          <p>Wie beim 8-Ball ist auch beim 9-Ball das Break von enormer Bedeutung. Topspieler haben eine gro&szlig;e Chance auf einen Ausschuss, bei dem sie den Gegner nicht mehr zum Sto&szlig; kommen lassen.</p>
+          <p><br />
+            <strong>Push Out</strong></p>
+          <p>&nbsp;</p>
+          <p>Derjenige Spieler, der unmittelbar nach einem korrekten Er&ouml;ffnungssto&szlig; an der Aufnahme ist, kann einen Push Out ansagen. Das bedeutet er kann nun einen freien Sto&szlig; ausf&uuml;hren und seinen Gegner dann vor die Wahl stellen, das Bild zu &uuml;bernehmen oder nicht. Beim Push Out sind diverse Regeln au&szlig;er Kraft gesetzt. So muss bspw. nicht zwingend ein Objektball angespielt oder eine Bande angelaufen werden. Es darf auch eine beliebige Kugel auf dem Tisch direkt angespielt und versenkt werden. Alle anderen Foulm&ouml;gichkeiten bleiben jedoch vorhanden.</p>
+          <p>Der Push Out ist eine taktische Variante, die in der Regel nur dann angewendet wird, wenn der zu spielende Objektball nicht direkt zu treffen ist.</p>
+          <p>Wird beim Push Out eine Kugel gelocht, verbleibt sie in der Tasche und wird nicht wieder aufgebaut. Lediglich die 9 kommt auf den Fu&szlig;punkt zur&uuml;ck, sollte sie beim Push Out versenkt worden sein, etwa aus strategischen Gr&uuml;nden.</p>
+          <p><br />
+            <strong>Korrekter Sto&szlig;</strong></p>
+          <p>&nbsp;</p>
+          <p>F&uuml;r einen korrekten Sto&szlig; reicht es aus, den Objektball mit der niedrigsten Nummer auf dem Tisch als erstes anzuspielen und nach der Kollision mit dem Spielball oder einem Objektball eine Bande zu ber&uuml;hren. Bei jedem Sto&szlig; muss die Kugel mit der niedrigsten Zahl zuerst angespielt   werden. Es gewinnt der Spieler, der die Kugel Nummer 9 zuerst korrekt   locht. Es ist jedoch erlaubt, eine Kugel zu lochen, die noch gar nicht   an der Reihe ist, solange man zuerst den Ball mit der niedrigsten Zahl   angespielt hat (&bdquo;Kombination&ldquo;).</p>
+          <p>&nbsp;</p>
+          <p><strong>Ein Foul liegt vor, wenn:</strong></p>
+          <p>&nbsp;</p>
+          <p> * der Spielball versenkt wird.<br />
+            * der Spielball keinen Objektball ber&uuml;hrt.<br />
+            * der Spielball zuerst auf einen Objektball trifft, der nicht die niedrigste Nummer auf dem Tisch hat.<br />
+            * der Spielball zwar zuerst auf den Objektball trifft, der die niedrigste Nummer auf dem Tisch hat, aber danach keine Kugel mehr eine Bande ber&uuml;hrt.<br />
+            * eine Kugel vom Tisch f&auml;llt (oder auf der Bande liegenbleibt).<br />
+            * eine Kugel mit dem Queue ber&uuml;hrt oder verschoben wird.<br />
+          * der Spieler mit dem K&ouml;rper oder mit der Kleidung eine Kugel ber&uuml;hrt.</p>
+          <p>&nbsp;</p>
+          <p>Sollten in einem Sto&szlig; mehrere Fouls begangen werden, wird dies trotzdem nur als ein Foul gewertet.</p>
+          <p>&nbsp;</p>
+          <p>Bleibt der Spielball oder ein Objektball direkt auf dem Rand des Tisches liegen, liegt ebenfalls ein Foul vor. Der Ball gilt dann als &quot;vom Tisch gefallen&quot;, da die Banden nicht zur Spielfl&auml;che geh&ouml;ren, sondern diese lediglich abgrenzen. Rollt eine Kugel jedoch kurzzeitig &uuml;ber die Bande und kommt wieder auf die Spielfl&auml;che zur&uuml;ck, ist der Sto&szlig; korrekt.</p>
+          <p>&nbsp;</p>
+          <p>Sollte eine Tasche bereits so &uuml;berf&uuml;llt sein, dass die herausragenden Kugeln das Spielgeschehen beeinflussen, z. B. den Spielball davon abhalten, in die Tasche zu fallen, liegt ebenfalls ein Foul vor.</p>
+          <p><br />
+            <strong>Spielverlust</strong></p>
+          <p>&nbsp;</p>
+          <p>Spielt ein Spieler in einer Partie drei aufeinanderfolgende Fouls, ohne zwischendurch einen korrekten Sto&szlig; auszuf&uuml;hren, so verliert er die Partie. Zwischen dem zweiten und dem dritten Foul muss jedoch eine Warnung vom Schiedsrichter bzw. Gegenspieler erfolgen.</p>
+          <p><br />
+            <strong>Taktik</strong></p>
+          <p>&nbsp;</p>
+          <p>Das Stellungsspiel ist wichtig, um den weiteren Spielverlauf zu bestimmen. Fehler auf die letzten drei Kugeln bedeuten oft schon den Verlust eines Spiels. 9-Ball ist ein Spiel, in dem man sich kaum Fehler erlauben darf, da man sonst selten wieder eine gute Chance bekommt. Oft wird auf Turnieren mit Wechselbreak gespielt, damit Spitzenspieler nicht mehrere Partien vom Break an bestimmen. Wechselbreak bedeutet, dass man unabh&auml;ngig davon, ob man eine Partie gewinnt oder verliert, immer im Wechsel anst&ouml;&szlig;t.</p>
+<p>&nbsp;</p>
+          <p><strong>&nbsp;<a name="karambol" id="karambol"></a>5.3 Karambol</strong><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+          <p>&nbsp;</p>
+          <p><img src="../img/karambol.png" width="800" height="450" alt="Karambol" /></p>
+    <p id="bildtext">Bild 5: Karambol-Ansicht mit aktiven Ballspuren</p>
+    <p>&nbsp;</p>
+          <p>Carambolage, auch Karambol, ist der &Uuml;berbegriff einer Billard-Variante, die mit drei Kugeln gespielt wird. Die Kugeln werden im Fachjargon &bdquo;B&auml;lle&ldquo; genannt, sie haben die Farben Rot, Wei&szlig; und Gelb. Alternativ wird mit einer roten und zwei wei&szlig;en Kugeln gespielt, von denen eine mit einem Punkt markiert ist. Im Gegensatz zum Poolbillard oder Snooker werden hier keine Kugeln in Taschen versenkt; der Tisch hat keine L&ouml;cher. Carambolage ist eine Pr&auml;zisionssportart.</p>
+          <p>&nbsp;</p>
+          <p><strong>Grundregeln</strong></p>
+          <p>&nbsp;</p>
+          <p>Die Grundregeln sind einfach und gelten f&uuml;r alle Disziplinen: Jeder Spieler spielt &uuml;ber die gesamte Partie mit demselben Ball, seinem &bdquo;Spielball&ldquo;, der gelb oder wei&szlig; gef&auml;rbt ist. Er muss versuchen, diesen so zu sto&szlig;en, dass er die beiden anderen B&auml;lle ber&uuml;hrt (&bdquo;karamboliert&ldquo;). Gelingt dies, z&auml;hlt das einen Punkt und der Spieler darf seine Serie fortsetzen. Protokolliert werden sowohl die erzielten Punkte, als auch die sogenannten Aufnahmen, die besagen, wie oft jeder Spieler an den Tisch kam. Die Partie endet, wenn einer der Spieler eine festgelegte Punktzahl erreicht. Meistens wird auch die Zahl der Aufnahmen begrenzt. In der letzten Aufnahme, oder wenn der erste Spieler die erforderliche Punktzahl erreicht hat, f&uuml;hrt der zweite Spieler den &bdquo;Nachsto&szlig;&ldquo; aus der Anfangsposition aus (Ausnahme: im Satzsystem bei mehr als einer Aufnahme). Begonnen wird jede Partie mit dem Anfangssto&szlig;. Dieser Ball muss von dem roten Ball aus gespielt werden.</p>
+          <p>&nbsp;</p>
+          <p>Internationales Turnierma&szlig; der Tische ist das Matchbillard mit einer Spielfl&auml;che von 1,42 m &times; 2,84 m &ndash; dies entspricht 5 Fu&szlig; &times; 10 Fu&szlig;. Es gibt aber auch ein kleineres, sogenanntes Turnierbillard mit einer Gr&ouml;&szlig;e 1,05 m &times; 2,10 m, welches au&szlig;er bei der Bundesliga oder gro&szlig;en Deutschen Meisterschaften verwendet wird. Au&szlig;erdem gibt es noch ein Halbmatchbillard mit den Ma&szlig;en 1,15 m &times; 2,30 m.</p>
+          <p><br />
+            <strong>Die Disziplinen</strong></p>
+          <p>&nbsp;</p>
+          <p>Urspr&uuml;ngliche Variante ist die Freie Partie, in anderen Disziplinen kommen erschwerende Zusatzregeln hinzu, die das Verlassen eingezeichneter Felder nach bestimmten Regeln (Cadre-Disziplinen) oder das Spiel &uuml;ber Bande (Einband, Dreiband) fordern.</p>
+          <p><br />
+            <strong>Freie Partie</strong></p>
+          <p>&nbsp;</p>
+          <p>Die Freie Partie ist die Grunddisziplin von Carambole-Billard. Hier gilt die Grundregel, wonach eine Carambolage dann erzielt ist, wenn der Spielball die beiden anderen B&auml;lle ber&uuml;hrt, ohne Einschr&auml;nkungen. Einzige Ausnahme bildet der Eckbereich, der durch eine feine Kreidelinie auf dem Tuch markiert ist (Eckenabstrich). Hier gilt die Einschr&auml;nkung, dass wenn beide Objektb&auml;lle (Ball 2 und 3) in den markierten Bereich eingetreten sind, nur noch einmal eine uneingeschr&auml;nkte Carambolage erzielt werden darf. Im zweiten Sto&szlig; nach Eintritt muss einer der beiden Objektb&auml;lle den markierten Bereich verlassen. Er darf aber wieder in diesen zur&uuml;cklaufen. Der Schiedsrichter k&uuml;ndigt diese Spielsituationen mit den Ansagen &bdquo;Eintritt&ldquo; (oder &bdquo;Herein&ldquo;; &bdquo;Entr&eacute;e&ldquo;) und &bdquo;Drin&ldquo; (&bdquo;Dedans&ldquo;) an. Ein mittig auf der Markierung liegender Ball wird dabei gegen den Spieler (also als &bdquo;herein&ldquo; bzw. &bdquo;drin&ldquo;) gewertet; mit der Ansage &bdquo;rittlings&ldquo; entscheidet der Schiedsrichter in nicht sofort ersichtlicher Situation (zur Information f&uuml;r Gegner und Publikum), dass sich nicht (mehr) beide Objektb&auml;lle im Sperrbereich befinden.</p>
+          <p>&nbsp;</p>
+          <p>Charakteristisch f&uuml;r die Freie Partie ist die &bdquo;Amerikanische Serie&ldquo;. Sie wurde 1876 von den kanadischen Br&uuml;dern Dion und dem US-amerikanischen Spieler Sexton entwickelt. In der Amerikanischen Serie treibt der Spieler die beiden Objektb&auml;lle der Bande entlang rund um den Tisch. Prinzipiell unterscheidet man zwei verschiedene Techniken. Diese Techniken sind einerseits die &quot;Treibserie&quot;, auf der anderen Seite das &quot;Dreier-System&quot;.</p>
+          <p>Beim &quot;Dreier-System&quot; wird von einer geschlossenen Position aus begonnen (geschlossene Position bedeutet, dass der zweite und dritte Ball pressen). Eine gedachte Linie durch die beiden pressenden B&auml;lle w&uuml;rde in etwa einen 45 Grad Winkel zur Bande ergeben. Das &quot;Dreier-System&quot; hat seinen Namen dadurch bekommen, weil genau 3 St&ouml;&szlig;e ben&ouml;tigt werden, um wieder in die Ausgangsposition zu gelangen, jedoch einige Zentimeter weiter in der Spielrichtung. Beim ersten Sto&szlig; wird jener Ball zuerst angespielt, der weiter von der Bande entfernt liegt. Beim Zweiten wird der bandenn&auml;here Ball zuerst getroffen und eine so genannte Einstellung auf einen &quot;Tusch am eigenen Ball&quot; geschaffen. Der dritte Sto&szlig; trifft wieder den bandenn&auml;heren Ball zuerst, der Spielball legt sich &quot;press&quot; auf den bandenentfernteren Ball und der zuerst getroffene Ball tuscht den eigenen Ball nach hinten und legt sich wieder press zum bandenentfernteren Ball (Ausgangsposition). Das &quot;Dreier-System&quot; ist bei korrekter und genauer Spielweise auch bei gr&ouml;&szlig;eren Entfernungen aller drei B&auml;lle zur Bande m&ouml;glich.</p>
+          <p>&nbsp;</p>
+          <p>Bei der Treibserie wird ebenfalls von einer geschlossenen Position ausgegangen, wobei der Spielball im Normalfall etwas n&auml;her bei der Bande liegt. Die Treibserie besteht bei perfekter Spielweise aus lediglich einem Sto&szlig;, wobei der bandenn&auml;here Ball zuerst getroffen wird und &uuml;ber die Bande einige Centimenter in Spielrichtung &quot;getrieben&quot; wird. In der Zwischenzeit trifft der Spielball den bandenentfernteren Ball und treibt diesen ebenfalls etwas nach vorne. Das Tempo von bandenn&auml;herem und bandenentfernteren Ball ist genau so gew&auml;hlt, dass wiederum eine geschlossene Position das Ergebnis ist und genau der gleiche Sto&szlig; wiederholt werden kann.</p>
+          <p>&nbsp;</p>
+          <p>Zus&auml;tzlich zu diesen beiden Techniken existiert eine Menge an so genannten Zwischenb&auml;llen (Zwischenst&ouml;&szlig;en), die nicht genau einer dieser beiden Techniken zugewiesen werden kann. Die Perfektionierung der Freien Partie mit weit &uuml;ber 1000 Punkten in Serie f&uuml;hrte in der Folge zur Entwicklung der Disziplin Cadre, wobei das beschriebene &quot;Dreiersystem&quot; auch hier zum Einsatz kommt.</p>
+          <p><br />
+            <strong>Cadre</strong></p>
+          <p>&nbsp;</p>
+          <p>          Beim Cadre ist der Tisch durch feine Kreidestriche in neun beziehungsweise sechs Felder eingeteilt. Zus&auml;tzlich werden am gro&szlig;en Tisch so genannte Anker eingezeichnet. Innerhalb dieser Fl&auml;chen gelten gesonderte Regeln. Haben der Spielball und einer der anderen B&auml;lle Kontakt, nachdem sie zur Ruhe gekommen sind, was auch als Press bezeichnet wird, so hat man hier im Gegensatz zur freien Partie die Wahl, ob die B&auml;lle neu aufgestellt werden oder ob man weiterspielen m&ouml;chte. Im Fall, dass man weiterspielt, muss von dem Ball, mit dem Kontakt besteht, weggespielt werden, da ansonsten ein sogenannter Durchsto&szlig; erfolgt. Beim Aufstellen nach Press oder Hinausspringen eines Balls vom Tisch werden immer alle drei B&auml;lle neu aufgesetzt. Folgende Cadre-Disziplinen sind zu unterscheiden:</p>
+          <p>&nbsp;</p>
+          <p> * 47/2, 71/2, 47/1 f&uuml;r das gro&szlig;e Billard<br />
+            * 38/2 und 57/2 f&uuml;r das Halbmatch-Billard<br />
+          * 35/2 und 52/2 f&uuml;r das kleine Billard</p>
+          <p>&nbsp;</p>
+          <p>Die Zahl vor dem Schr&auml;gstrich gibt den Abstand der eingezeichneten Linien in Zentimeter zu den Banden an. Die daraus entstehenden Felder sind die Cadrefelder. Es ergeben sich daraus f&uuml;r 47/1, 47/2, 38/2 und 35/2 neun Felder und f&uuml;r die anderen Disziplinen im Cadre sechs Felder. Die Zahl nach dem Schr&auml;gstrich gibt an, wie viele Punkte man in diesen Feldern erzielen darf, bevor Ball 2 oder 3 diese verlassen muss. Das bedeutet: Rollen Ball 2 und Ball 3 (Ball 1 ist immer der Spielball) in eines dieser Felder, so befinden sie sich in /2 - Disziplinen 'herein', in /1 - Disziplinen 'drin'. Erzielt man in einem Feld bei 'herein' einen Punkt und die B&auml;lle 2 und 3 befinden sich immer noch in demselben Feld, so hei&szlig;t es nun 'drin'. Bei 'drin' muss Ball 2 oder Ball 3 dieses Feld verlassen. Wird ein Ball aus dem Feld gespielt und rollt wieder in das gleiche Feld zur&uuml;ck, so ist dies erlaubt. Auf dem gro&szlig;en Tisch werden zus&auml;tzlich sogenannte Anker eingezeichnet. In diesen Feldern gelten zus&auml;tzlich die gleichen Bedingungen wie in den normalen Cadrefeldern.</p>
+          <p>Charakteristisch f&uuml;r Cadre ist die sogenannte &bdquo;Strich-Serie&ldquo;. Vergleichbar mit der amerikanischen Serie wird hierbei versucht, die beiden Objektb&auml;lle nebeneinander am Cadre-Strich in verschiedenen Cadrefeldern zu karambolieren. Da sich die beiden angespielten B&auml;lle - auch bei gr&ouml;&szlig;tem Feingef&uuml;hl - immer ein wenig voneinander entfernen, wird es nach wenigen St&ouml;&szlig;en erforderlich, den der Bande n&auml;heren Ball 2 an die Bande zu dr&uuml;cken, um dessen Lauf wieder in unmittelbarer N&auml;he von Ball 3 und des Cadrestrichs durch Ball 1 zu stoppen: Die Strichserie beginnt erneut.</p>
+          <p>Aus den Schiedsrichterregeln: Werden im Anker zwei Ballpositionsangaben erforderlich, so ist die auf das Cadrefeld bezogene Position der B&auml;lle grunds&auml;tzlich zuerst anzugeben, z. B. &bdquo;drin&ldquo; (im Cadrefeld) - &bdquo;herein&ldquo; (im Anker). Ist die Position der B&auml;lle 2 und 3 ausschlie&szlig;lich f&uuml;r eines der Cadrefelder von Bedeutung, gen&uuml;gt diese eine Angabe. Hingegen ist der Bezeichnung einer bedeutsamen Ballposition im Anker stets die Angabe der Ballposition im Cadrefeld voranzusetzen, auch dann, wenn im Cadrefeld keine &bdquo;herein&ldquo;- oder &bdquo;drin&ldquo;-Situation besteht. In diesem Fall bedient sich der Schiedsrichter ersatzweise des Begriffs &bdquo;rittlings&ldquo;, z. B. &bdquo;rittlings-herein&ldquo; keinesfalls &bdquo;Anker herein&ldquo;). Der Schiedsrichter vermeidet zwei gleichlautende Ballpositionsangaben, er sagt nicht: &bdquo;herein-herein&ldquo; oder &bdquo;drin-drin&ldquo;, sondern &bdquo;herein beide&ldquo; oder &bdquo;drin beide&ldquo;.</p>
+          <p>&nbsp;</p>
+          <p>Die Anker befinden sich an jedem Ende eines Cadrestriches an der Bande. Der Anker hat die Ma&szlig;e 17,8 cm &times; 17,8 cm und ist jeweils zur H&auml;lfte in benachbarten Cadrefeldern.</p>
+          <p><br />
+            <strong>Einband</strong></p>
+          <p>&nbsp;</p>
+          <p>In dieser Disziplin muss die eigene Spielkugel (Ball 1) mindestens eine Bande ber&uuml;hren, bevor die Carambolage beendet wird. Die regelm&auml;&szlig;ig einfachste Variante d&uuml;rfte hierf&uuml;r das Anspiel von Ball 2, Bande(n), Ball 3 sein. Denkbar sind aber auch weitere M&ouml;glichkeiten durch Anspiel einer/mehrerer Vorbande(n), B&auml;lle 2 und 3 mit oder ohne weitere Zwischenbande(n). Eine interessante Variante ist das sog. Einband - Amerika. Dabei werden die Objektb&auml;lle (2 und 3) in Bandenn&auml;he mit ca. 90 Grad Neigung auf die Bande eingestellt. Mit dem Spielball (1) werden nun ganz zarte Vorb&auml;nder gespielt, bis die Position ge&ouml;ffnet ist. Richtig auf B2 eingestellt, l&auml;sst sich dieser &uuml;ber die gegen&uuml;berliegende Bande in die Stellung zur&uuml;ck holen und die Vorbandenserie beginnt von vorn.</p>
+          <p><br />
+            <strong>Dreiband</strong></p>
+          <p>&nbsp;</p>
+          <p>Bei dieser Spielart des Carambolage-Billards muss die eigene Spielkugel vor der Karambolage mit der dritten Spielkugel mindestens dreimal eine Bande ber&uuml;hrt haben, damit ein Punkt gez&auml;hlt werden kann, dabei kann es auch immer dieselbe sein. Diese besondere Herausforderung erm&ouml;glicht, im Gegensatz zu anderen Carambolagevarianten, auch fortgeschrittenen Spielern nur wenige Punkte pro Aufnahme: Es kommt zu einem vergleichsweise schnellem Wechsel der Spieler. Aus diesem Grund ist die Spannung f&uuml;r den Zuschauer besonders gro&szlig;, was auch das vergleichsweise gro&szlig;e &ouml;ffentliche Interesse an dieser Variante erkl&auml;rt. F&uuml;r diese Disziplin wird seit 2005 sowohl bei Welt- und Europameisterschaften, als auch in den deutschen Bundesligen ein speziell mit roten Punkten markierter Satz B&auml;lle (Billardkugeln) verwendet, die den Zuschauern eine bessere Nachverfolgbarkeit des Effets erm&ouml;glichen.</p>
+          <p>&nbsp;</p>
+          <p>Die Qualifikation zur Deutschen Meisterschaft Dreiband findet, neben den Landesmeisterschaften der einzelnen Landesverb&auml;nde, &uuml;ber die German Grand Prix Turnierserie statt, die sechs Turniere pro Jahr in ganz Deutschland beinhaltet. Die Deutsche Meisterschaft findet anschlie&szlig;end im November in Bad Wildungen statt.</p>
+<p>&nbsp;</p>
+          <p><strong>&nbsp;<a name="snooker" id="snooker"></a>5.4 Snooker (einfachste Variante</strong>)<a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+          <p>&nbsp;</p>
+          <p><img src="../img/snooker.png" alt="Snooker" /></p>
+          <p id="bildtext">Bild 6: Snooker Startbildschirm mit aktivem Anschneidemodus in Queueansicht<br />
+          </p>
+    <p>&nbsp;</p>
+          <p>Snooker ist eine Variante des Pr&auml;zisionssports Billard, die mit speziellen Queues auf einem Snookertisch gespielt wird. Das Spielprinzip besteht darin, 15 rote und sechs andersfarbige B&auml;lle (&bdquo;die Farben&ldquo;) mit dem wei&szlig;en Spielball nach bestimmten Regeln in die Taschen zu versenken.</p>
+          <p>&nbsp;</p>
+          <p><strong>Allgemeines</strong></p>
+          <p>&nbsp;</p>
+          <p>Der Name Snooker bezieht sich auf eine Snooker genannte Spielsituation, in der ein Spieler einen Ball, den er laut Regeln anspielen m&uuml;sste, nicht auf direktem Wege anspielen kann und so zu einer schwierigeren L&ouml;sung gezwungen ist (er wurde &bdquo;gesnookert&ldquo;). Das Wort &bdquo;snooker&ldquo; hat aus dieser Bedeutung heraus auch im &uuml;bertragenen Sinne Eingang in die englische Sprache gefunden (to snooker somebody: &bdquo;jemanden sperren, behindern&ldquo;).</p>
+          <p>Snooker hat, verglichen mit anderen popul&auml;ren Formen des Billards, einen h&ouml;heren technischen Schwierigkeitsgrad und stellt gr&ouml;&szlig;ere Anforderungen an die spieltaktischen F&auml;higkeiten der Spieler. Die h&ouml;here technische Schwierigkeit ergibt sich haupts&auml;chlich aus der im Vergleich zu vielen anderen Billardvarianten gr&ouml;&szlig;eren Fl&auml;che des Spieltisches und aus dem kleineren Durchmesser der B&auml;lle. Auch sind die Taschen weiter in die Banden eingezogen und enger; vor allem sind die Einl&auml;ufe in die Taschen abgerundet (nicht so beim Poolbillard), so dass ein dort ansto&szlig;ender (nicht genau gespielter) Ball wesentlich leichter wieder aus dem Tascheneinlauf herausl&auml;uft, da er radial am kurvigen Einlauf reflektiert wird. Das abwechselnde Anspielen von roten und nicht-roten B&auml;llen und das angestrebte Spiel auf den h&ouml;chstwertigen (schwarzen) Ball erfordert dar&uuml;ber hinaus ein hohes Ma&szlig; an Kontrolle &uuml;ber den wei&szlig;en Spielball.</p>
+          <p>&nbsp;</p>
+          <p>Vor allem in Gro&szlig;britannien, Irland und in einigen L&auml;ndern des Commonwealth hat Snooker einen hohen gesellschaftlichen Stellenwert. Erfolgreiche Snookerspieler besitzen dort den Status von Stars oder gelten fast als Nationalhelden wie zum Beispiel Ken Doherty in Irland oder James Wattana (Ratchaphon Phu-Ob-Om) in Thailand. Die meisten der Profi-Snookerspieler stammen dieser Tradition entsprechend aus England, Schottland, Wales, Nordirland und Irland. Die bedeutendsten Turniere sind mit bis zu mehreren Hunderttausend Euro dotiert und werden insbesondere von den Fernsehanstalten BBC, Sky Digital und Eurosport live &uuml;bertragen.</p>
+          <p>&nbsp;</p>
+          <p>In Deutschland ist Snooker mit etwa 4000 im Verein organisierten Spielern eher eine Randsportart (zum Vergleich: Gro&szlig;britannien etwa sechs Millionen), jedoch wird das Spiel in Deutschland immer popul&auml;rer (vgl. Abschnitt Snooker in Deutschland). In China ist Snooker hingegen auf dem Wege, den Status einer Randsportart zu verlassen. Das Finale der China Open 2005, das der Chinese Ding Junhui gegen Stephen Hendry gewann, wurde dort von &uuml;ber 100 Millionen Fernsehzuschauern verfolgt.</p>
+          <p><br />
+          </p>
+<p>Der offizielle Turnier-Snookertisch ist ein 12-Fu&szlig;-Tisch. Sein Spielfeld hat die Abmessungen 3556 mm &times; 1778 mm (jeweils +/-13 mm) und ist damit &ndash; wie auch andere Billardtische &ndash; doppelt so lang wie breit. Die H&ouml;he des Spieltisches liegt zwischen 851 mm und 876 mm. Snookertische sind bis zu 1500 kg schwer.</p>
+          <p>&nbsp;</p>
+          <p>Die durchgezogene Linie am Fu&szlig; des D (Baulk-Line) ist 737 mm von der Fu&szlig;bande entfernt. Das D hat einen Radius von 292 mm. Die Aufsetzmarke f&uuml;r den schwarzen Ball ist 324 mm von der Kopfbande entfernt. Die Aufsetzmarke des pinkfarbenen Balls liegt genau in der Mitte zwischen der Aufsetzmarke von Blau (Mittelpunkt des Tisches) und der Kopfbande.</p>
+          <p><br />
+          </p>
+          <p>Der Aufbau des Tisches vom Ansto&szlig;bereich nach oben:</p>
+<p>&nbsp;</p>
+          <p> * Baulk-Line mit dem aufgezeichneten D, hier liegen der gelbe, braune und gr&uuml;ne Ball, aus dem D wird angesto&szlig;en<br />
+            * Center-Spot f&uuml;r den blauen Ball<br />
+            * Pyramid-Spot f&uuml;r den pinkfarbenen Ball<br />
+            * Triangle, das Dreieck mit den roten B&auml;llen, oft nur Tri genannt<br />
+          * Black-Spot f&uuml;r den schwarzen Ball</p>
+          <p>&nbsp;</p>
+          <p>Die roten B&auml;lle werden m&ouml;glichst nah am pinkfarbenen Ball aufgesetzt, ohne ihn zu ber&uuml;hren.</p>
+          <p>&nbsp;</p>
+          <p><strong>Regeln</strong></p>
+<p>&nbsp;</p>
+          <p>Snooker ist ein Ansage- und Punktespiel. Das Grundprinzip besteht   darin, abwechselnd einen roten Ball und einen der sechs farbigen B&auml;lle   zu versenken, bis alle Objektb&auml;lle vom Tisch sind oder &ndash; bei einer   Punktedifferenz gr&ouml;&szlig;er als sieben &ndash; sich au&szlig;er dem wei&szlig;en nur noch der   schwarze Ball auf dem Tisch befindet. Ist das der Fall, ist der <em>Frame</em> (das Spiel beziehungsweise der Satz) beendet. Ein Match besteht meist   aus mehreren Frames; es gewinnt der Spieler das Match, der als erster   mehr als die H&auml;lfte einer festgelegten Zahl von Frames gewonnen hat.</p>
+          <p>&nbsp;</p>
+          <p>Bei Ranglistenturnieren ist die Anzahl der Frames immer ungerade, so   dass kein Unentschieden m&ouml;glich ist. Bei Ligaspielen (wie in der <em>Premier League</em>) kann die Anzahl der Frames gerade sein, womit Matches unentschieden enden k&ouml;nnen.</p>
+          <p>&nbsp;</p>
+          <table bgcolor="#CCCCCC" align="left" cellspacing="7">
+            <tbody>
+              <tr>
+                <th colspan="2">Farbe</th>
+                <th width="69">Wert</th>
+              </tr>
+              <tr>
+                <td width="58">Rot</td>
+                <td width="8" bgcolor="#FF0000"></td>
+                <td>1 Punkt</td>
+              </tr>
+              <tr>
+                <td>Gelb</td>
+                <td bgcolor="#FFFF00"></td>
+                <td>2 Punkte</td>
+              </tr>
+              <tr>
+                <td>Gr&uuml;n</td>
+                <td bgcolor="#00C000"></td>
+                <td>3 Punkte</td>
+              </tr>
+              <tr>
+                <td>Braun</td>
+                <td bgcolor="#996633"></td>
+                <td>4 Punkte</td>
+              </tr>
+              <tr>
+                <td>Blau</td>
+                <td bgcolor="#0000FF"></td>
+                <td>5 Punkte</td>
+              </tr>
+              <tr>
+                <td>Pink</td>
+                <td bgcolor="#FB5F87"></td>
+                <td>6 Punkte</td>
+              </tr>
+              <tr>
+                <td>Schwarz</td>
+                <td bgcolor="#000000"></td>
+                <td>7 Punkte</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Jeder der B&auml;lle hat einen bestimmten Wert. Dieser Wert wird beim Lochen dem Punktestand des Spielers hinzuaddiert.</p>
+          <p>&nbsp;</p>
+          <p>Beispielsweise erh&ouml;ht sich das Punktekonto des Spielers f&uuml;r die   Abfolge &bdquo;Rot &ndash; Schwarz &ndash; Rot &ndash; Pink &ndash; Rot &ndash; Schwarz&ldquo; um 23&nbsp;Punkte.</p>
+          <p>&nbsp;</p>
+          <p>Wird ein Ball vom Spieler nicht versenkt, kommt der gegnerische   Spieler an den Tisch und erh&auml;lt seinerseits die M&ouml;glichkeit, eine Folge   von B&auml;llen zu versenken. Wenn ein Spieler an den Tisch kommt, muss er   zun&auml;chst immer einen roten Ball anspielen. Im Endspiel auf die Farben,   wenn keine Roten mehr auf dem Tisch sind, wird immer mit dem   niedrigstwertigen Ball begonnen, der sich noch auf dem Tisch befindet.</p>
+          <p>&nbsp;</p>
+          <p>Die farbigen B&auml;lle werden nach dem Versenken wieder auf dem Tisch auf   ihren vorgegebenen Startpositionen aufgesetzt; rote verbleiben, auch   nach einem Foul, in den Taschen.   Nach dem letzten roten darf noch ein farbiger Ball nach Wahl gespielt   werden. Sind alle roten B&auml;lle und die letzte frei w&auml;hlbare Farbe   versenkt, m&uuml;ssen die farbigen B&auml;lle in Reihenfolge ihrer Wertigkeit vom   Tisch gespielt werden, angefangen mit Gelb (2), Gr&uuml;n (3), &hellip; und zuletzt   Schwarz (7); sie verbleiben nun auch in den Taschen.</p>
+          <p>&nbsp;</p>
+          <p>Kann der Spieler keinen Ball gem&auml;&szlig; den Regeln versenken, versucht er, den Gegner zu <em>snookern</em>.   Das geschieht, indem er den Spielball in eine Position bringt, aus der   der Gegner keinen anzuspielenden Ball auf direkter Linie erreichen kann.   Aus einem <em>Snooker</em> heraus passieren h&auml;ufig Fehler oder Fouls. Die   Foulpunkte erh&ouml;hen den Punktestand, und es ergibt sich im Anschluss an   den Sto&szlig; des Gegners m&ouml;glicherweise eine Situation, die der Spieler dann   nutzen kann, um das Spiel f&uuml;r sich zu entscheiden. Der Gegner, der   gesnookert wird, muss reagieren, w&auml;hrend der andere Spieler selbst die   Chance hat, das Spiel zu bestimmen.</p>
+          <p>&nbsp;</p>
+          <p>Es gewinnt der Spieler, der bei Beendigung des Frames die h&ouml;here   Punktzahl hat. Haben beide Spieler die gleiche Anzahl von Punkten, so   wird der schwarze Ball erneut aufgesetzt und weitergespielt, bis der   schwarze Ball f&auml;llt oder ein Foul begangen wurde (re-spotted black).   Befindet sich au&szlig;er dem Spielball nur noch der schwarze Ball auf dem   Tisch und ist die Punktedifferenz gr&ouml;&szlig;er als sieben, gilt der Frame als   beendet. Der Spieler, der den vorletzten (pinkfarbenen) Ball eingelocht   hat, kann den schwarzen Ball noch spielen, wenn er es w&uuml;nscht. Gelingt   es ihm, den schwarzen Ball zu versenken, bekommt er die Punkte regul&auml;r   zu seinem Punktestand hinzuaddiert. Ein Frame ist auch beendet, wenn ein   Spieler aufgibt, weil er seinen R&uuml;ckstand als unaufholbar einsch&auml;tzt,   das hei&szlig;t, wenn mit den verf&uuml;gbaren B&auml;llen weniger Punkte erreicht   werden k&ouml;nnen, als zum &Uuml;bertreffen des gegnerischen Punktestandes   notwendig w&auml;ren und der Spieler weiter nicht glaubt, noch ausreichend   Punkte durch erfolgreiche <em>Snooker</em> und die daraus resultierenden   Foulpunkte zu erlangen. In diesem Fall gilt es als gutes Benehmen, den   Frame aufzugeben, nachdem der Gegner am Tisch sein Break beendet hat.</p>
+          <p>Die maximal verbleibende Anzahl an Punkten, die sich noch auf dem   Tisch befindet, l&auml;sst sich wie folgt berechnen: Anzahl roter B&auml;lle &times; 8 +   27.</p>
+          <p>&nbsp;</p>
+          <p><strong>Taktik</strong></p>
+          <p>&nbsp;</p>
+          <p>Ein fester Bestandteil der Snookertaktik sind Sicherheitsst&ouml;&szlig;e (<em>Safeties</em>),   bei denen versucht wird, den Spielball nahe an der Bande abzulegen,   wodurch nur die obere Seite des Spielballs angespielt werden kann. Das   schr&auml;nkt die Pr&auml;zision ein, macht eine Kontrolle des Spielballs durch   Effets praktisch unm&ouml;glich und erh&ouml;ht das Risiko eines Foulspiels durch   den gegnerischen Spieler. Es gibt eine damit vergleichbare, im Jargon   der Turnierspieler scherzhaft <em>chinese snooker</em> (chinesischer Snooker) genannte Konstellation, bei der ein Objektball nicht wie bei einem echten <em>Snooker</em> den Weg des Spielballs blockiert, sondern dicht an der anderen Seite   des Spielballs liegt und die F&uuml;hrung des Queues erschwert. Au&szlig;erdem   sollte der Spielball bei einer Safety m&ouml;glichst weit von den Roten   entfernt sein, was das Lochen eines Balls erschwert.</p>
+          <p>&nbsp;</p>
+          <p>Eine andere h&auml;ufig gespielte taktische Variante ist der so genannte <em>Shot to Nothing</em>,   was in etwa &bdquo;Sto&szlig; auf Nichts&ldquo; bedeutet. Gemeint ist damit, dass bei   diesem Sto&szlig; ein Spieler einen roten Ball anspielt ohne zu beabsichtigen,   dadurch eine gute Position auf eine Farbe zu erreichen. Ziel ist es   stattdessen, m&ouml;glichst einen roten Ball zu versenken und gleichzeitig   den wei&szlig;en Spielball wieder so abzulegen, dass beim Verfehlen der Tasche   der Gegner keinen einfachen Einstiegsball vorfindet. Es wird also auf   keinen farbigen Ball f&uuml;r eine Fortsetzung des Breaks gespielt, sondern   auf &bdquo;nichts&ldquo;. In der Regel wird so ein Sto&szlig; dann gespielt, wenn die   roten B&auml;lle alle noch in der unteren Tischh&auml;lfte liegen und der   Spielball in der oberen. Wird tats&auml;chlich ein roter Ball versenkt, ist   die Chance auf eine Fortsetzung des Breaks manchmal vorhanden, da   anschlie&szlig;end ein farbiger Ball versenkt werden muss und diese sich auch   in der oberen Tischh&auml;lfte befinden. Ist das nicht m&ouml;glich, besteht oft   die Chance, den Gegner zu snookern, indem der Spielball direkt hinter   einen farbigen Ball gelegt wird. Da jeder versenkte rote Ball die Summe   der noch erreichbaren Punkte um acht reduziert, ist diese Methode vor   allem bei schwierigen St&ouml;&szlig;en und in F&uuml;hrung liegend vorteilhaft.</p>
+<p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+</div>
+</div>
+</body>
+</html>

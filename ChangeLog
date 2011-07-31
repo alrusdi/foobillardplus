@@ -1,0 +1,422 @@
+new in Beta 2
+=============
+
+- Tron like game playfield (a little bit like the movie ;-)
+- Glass balls (not really perfect, but a beginning
+- new network module IPv4
+- IPv6 only in the start mode shown, but only IPv4 works now (SDL_net problem)
+- all game types can be played in the network gaming mode
+- in birds eye view it's now possible to play a game with cue-moving etc.
+- the main-menu now shows some more help on every option.
+
+﻿Start of foobillard++
+=====================
+ - a little bit textures for the roomfloor
+ - new handling of changing to the next shot (more human feeling)
+ - start to write a whole manual
+ - start of basic utf8 handling for strings and fonts
+ - bugfixing
+ - much code rewriting
+ - most mouse-commands also with keyboard possible
+ - some problems with the .rc file solved
+ - new improved controls direct on the screen (visible with icons)
+ - some antialiasing filtering functionality
+ - some anisotropic filtering funcionality
+ - lost balls from table are detected correctly in jump shots
+ - switching the jump shots on as default
+ - more graphics
+ - more sound
+ - more options adjustable inside the game
+ - new options
+ - carambol play has now a (adjustable) defined ending with winning option
+ - carambol play has a functional tournament mode
+ - bug fixing
+ - SDL is now a must have. Glut isn't supported anymore
+ - freetype2 is now a must have. Without it, the program won't work
+ - Snooker shows now the correct balls to play
+ - new statusline for more info in gameplay
+ 
+new in 3.2 (not published)
+==========
+ - Start of Localisation
+ - better orientation for the Fonts
+ - changed fonts for blueboldttf,iomanoid,youregon because they are not GPL
+   (thanks to the Meego Port Team)
+ - Special Options for WeTab Port
+ - Corrected Game Start
+ - Corrected Tournament
+ - Corrected functions in billard3d.c
+ - Corrected Menu handling
+ - Improved and corrected moving around in all states
+
+3.1 (internal Version)
+======================
+ - not published (internal Version, pre foobillard++)
+
+new in 3.0a
+===========
+ - 3.0 didnt work because of wrong data-directory (thx to Jens Granseuer)
+
+new in 3.0
+==========
+ - directional lighting working again
+ - multitex check for table detail map (thx to Alan W. Irwin)
+ - commandline option for table detail map
+ - timeout for network-read 
+ - snooker: white potted -> next !act player may place (thx to Peter Lord)
+ - more realistic near range ball reflection (in fresnel vertex program)
+ - correct VRPool keybindings for glut (press/release instead of toggle)
+ - more intuitive --enable-sdl/glut (thx to Mike Frysinger)
+ - fix: carambol: 2nd player uses yellow ball again
+
+new in 2.9
+==========
+ - added 'struct' before GLUtesselator (thx to Lukasz Szift Hejnak)
+ - table detail map texture (cloth)
+ - better mipmap settings for text objects
+ - internal format for rendered reflection GL_RGB instead of GL_RGB16
+ - fixed some restart-bugs (player parameters wouldnt be kept)
+ - undo for training mode
+
+new in 2.8
+==========
+ - new configure option --enable-nvidia=off also disables fresnel reflections
+ - configure option --enable-bumpref is discarded.
+ - tournament mode implemented
+   * several named opponents with different strengths
+   * a tounament window with status info after every match
+   * cmdline option for fast motion of AI vs. AI games
+ - internal changes in the main simulation loop
+ - segfault fix (uninitialized string for score text in 8ball)
+ - removed some compile warnings
+ - sound also with glut (hardcoded for s16le and /dev/dsp for now)
+ - new configure option "--enable-sound" to explicitly en/disable sound
+ - VRPool keyfuncs also for glut (toggle instead of press/release)
+ - also using glutPassiveMotionFunc for mouse movements
+ - some simplifications of restart menu
+
+new in 2.7
+==========
+ - bugfix: place-ball-texture in reflections always under white ball
+ - performance gain by whole ball culling (also in reflections)
+ - fresnel-like reflections using NV_vertex_program
+ - rendered reflections a bit more decent
+ - experimental, simple (really simple!) avatar
+ - bugfix: training mode: if cueball into pocket take next ball still in game
+ 
+new in 2.6
+==========
+ - switch for debug messages in configure script
+ - bugfix: dont write .rc when not writeable
+ - bugfix: segfault when more than 50 display modes (thx to Alan Claunch)
+ - bumpmaps on table frame
+ - slight performance gain by triangle strips (experimental)
+ - variable bird view distance for different table sizes (thx to Stephen Illingworth)
+ - ball spin prop. to hit strength again (seems i changed this once for testing)
+ - cushion physics changes
+ 
+new in 2.5
+==========
+ - polygon offset for reflections due to z-fighting on some hardware (thx to Michel D�nzer)
+ - bugfix: str_contains didnt check for termination of 1st string (thx to Frank Gevaerts)
+ - bugfix: fullscreen mode wasn't saved in config file.
+ - AI-player skill adjustible in menu
+ - gamemodes match/training
+ - training mode: free placement and cueball selection
+ - training mode: tab key to switch cueball
+ - some VRPool hold-key-funcs implemented (work correctly in SDL only)
+   * s .... mouse shot
+   * b .... cue butt up/down
+   * e .... english
+   * m .... place cue ball
+
+new in 2.4
+==========
+ - button2 after button1 = toggle cue view
+ - hold button2 after button1 = place cue ball
+ - hold button1 after button2 = adjust effet
+ - black outlines for menu text
+ - different blending func for rendered reflections
+ - 8ball rule fix: potting 8 at break caused a win (thx to A. Friesen.)
+ - manpage (thanx to Wouter Eerdekens)
+
+new in 2.3
+==========
+ - bugfix: bumpref_list was not generated
+ - fix: cueball could be placed all the time
+ - new more complete snooker code (thx to Frank Gevaerts)
+ - sound compatibility fix for big endian machines (thx to Frank Gevaerts)
+ - table socket and floor
+ - black ground of holes (no floor see through)
+ - bugfix for some voodoo drivers (player text and menu didnt show up)
+ - pool rules fix: no foul when hitting cushion outside the foul-region before ball in the foul-region
+ - pool rules fix: no foul at break when potting other balltype than 1st hit
+ - 3D-font rendering for text objects
+ - 3D winner text
+ - some debug message cleanup
+
+new in 2.2
+==========
+ - non ANSI conform variable declaration fixed - sloppy me
+ - only printable characters are accepted in textfield (thx Corey Edwards)
+ - removed hardcoded "CC=gcc" in Makefile.am (thx Corey Edwards)
+
+new in 2.1
+==========
+ - vast performance improvements of rendered reflections
+   * cuberef lod (mipmap levels)
+   * calc only cuberefs of balls in FOV
+ - human/ai player adjustible in menu
+ - better sdl friendliness (thx to Michael G. Martin)
+ - automatically save actual settings into .foobillardrc file on quit
+ - correct wraping (clamp to edge) of cubemaps
+ - cue-offset crosshair on ball
+
+new in 2.0
+==========
+ - fallback for systems without sound
+ - automatically exclude bumpref for non NVIDIA cards at compiletime
+ - additional configure parameter for enabling/disabling bumpref
+     (if automatic detection doesnt work)
+
+new in 1.9
+==========
+ - exact table polygons (no more black dots)
+ - ball traces
+ - better sound timing
+ - better sound data 
+   (ball-ball sound borrowed from kbilliards - scaled in time by 0.7 -
+   thx to Samuele Catuzzi)
+ - better rendered reflections due to cube offset
+ - bump reflections on edges using NVIDIA opengl extensions
+ - place_cue_ball.png real black instead of 0x010101
+ - removed --netgame and --host=... options 
+     (network game should be started from menu)
+ - menu code for textfield entry
+ - menu: added textfield for IP
+ - menu: added textfield for portnumber
+ - menu: added textfield for player names
+ - smaller near clipping value
+ - fixed shadow flicker bug
+
+new in 1.8
+==========
+ - realtime rendered cubemap ball reflections
+ - jumpshot code (experimental - not activated yet)
+ - random seed at startup
+ - bugfix: "rg on/off" text for lensflare menu
+ - table theme moved to display menu
+ - menu and cmdln option entries for cubemap reflections
+ - cmdln option for cubemap reflection resolution
+ - 2 GL_LIGHTs instead of one
+ - rgstereo aim (specify left/middle/right eye for aiming (menu and cmdln))
+ - player data of both players displayed
+ - bugfix: intialize scores, when starting a new game
+ - now also possible to run non-installed (from anywhere in the sourcetree)
+ - bird view <F2> (external+freemove+centered position)
+ - <F3> equivalent to <c>
+ - <F4> equivalent to <f>
+
+new in 1.7
+==========
+ - buxfix: glut linked in SDL binaries (thx to Corey Edwards)
+ - black-white theme without frame texture
+ - options_frame_tex now variable options_frame_tex_var
+ - commandline options for famecolor and blackwhite theme
+ 
+new in 1.6
+==========
+ - physics adjusted to more realistic speeds and friction coeffs.
+ - added 0th and 1st order (in speed) cushion damping
+ - power bar now prop to energy (speed^2) with max 7 m/s.
+ - non-vertexarray code works again
+ - ball-ball ang. mom. transfer with rolling cutoff
+ - more english (spin) according to higher speeds and higher friction.
+ - help added to menu
+ - bugfix: wall-ball strobe-apart-check before dt
+                   (balls would leave table on edges)
+ - bugfix: balls strobe-apart-check before dt
+                   (balls would not collide at flat angles and hight speed )
+ - added free move mode for external view
+ - added network game to menu
+ - configure defaults to SDL instead of glut
+ 
+new in 1.5
+==========
+ - holes adjusted to norm-sizes (and positions)
+ - ball colors adjusted to normed colors
+ - bugfix: create/free_pooltexbinds in MENU_ID_RGSTEREO_ON callback removed
+ - create_pooltexbinds capsuled from code (only create_texbinds)
+ - configure and spec files patched for "make srpm" (thx to Michal Ambroz)
+
+new in 1.4
+==========
+ - carambol added (only simplified rules yet)
+ - rudimentary carambol ai-player
+ - snooker added (only simplified rules yet)
+ - rudimentary snooker ai-player
+ - bugfix: args can be seperated by whitespc in .foobillardrc (thx to Frank)
+ - bugfix: SDL: keyrepeat used to hang, when toggling fullscreen
+ - fullscreen also for GLUT
+ - scoretext or symbol above player name, depending on gametype
+ - ai_get_stroke_dir gets full player-struct as 3rd arg (instead of full_half)
+ - menu entry for lensflare and helpline
+ - stippled helpline
+ - bugfix: user could place cue offset and cueball of AI-player
+
+new in 1.3
+==========
+ - popup menu for many many options and game settings (ESC)
+ - many code adapted for "on the fly"-switching in menus
+ - experimental direct mouse-cue-move shot (using CTRL+button1)
+ - bigger and seperate winner-text
+ - no cue offset placement (shift+button2) when in cue view mode
+ - bugfix: performance used to sink when using vertex arrays
+ - bugfix: freetype lib used to initialize more than once
+ - code cleanup: warning-free
+
+new in 1.2
+==========
+ - bugfix: LOD depends on window size again
+ - bugfix: font rendering: overlapping characters overwrote each other
+ - fullscreen mode for SDL
+ - commandline parameter for screen (window) geometry
+ - darker place-cue-ball-cursor
+
+new in 1.1
+==========
+ - SDL support included "configure --enable-SDL" (thx to Stephane Chauveau)
+ - proper timing for SDL-version
+ - simple network game support (--host=HOST_IP, --netgame)
+ - better LOD-determination
+ - additional detail level --balldetail=v (very high)
+ - bugfix: place cue-ball into other balls not possible (+initial placement)
+ - bugfix: in place-cue-ball-mode help text was brighter
+ - sound support when compiling with SDL
+
+new in 1.0
+==========
+ - major physics changes:
+   * ball-ball friction (ang mom transfer, par mom transfer)
+   * ball-wall friction (ang mom transfer, par mom loss)
+ - ball cant rebounce on table after falling into hole
+ - switched to more free fonts. (http://www.larabiefonts.com)
+ - different fonts for player-, help-, and balltext.
+ - again autoconf and automake applied (thx to Michal Ambroz)
+ - again foobillard.spec for rpm       (thx to Michal Ambroz)
+
+new in 0.9b
+===========
+ - bugfix: obsolete GLUT_STENCIL caused some problems for depth>16bit.
+ - wheel support even for non imwheel-ers
+
+new in 0.9a
+===========
+ - bugfix: segfault when no .foobillardrc present
+ - help line for FOV added
+
+new in 0.9
+==========
+ - freetype fonts for balls and player text
+    ( fonts lent from http://www.pizzadude.dk )
+ - balls autotextured (colors+text)
+ - smooth movement (fine adjust per Ctrl obsolete)
+ - red-green(cyan) stereo !!!!
+ - symbolic icons for half/full/any
+ - default ball detail set to high
+ - bugfix: place cue ball not possible while balls moving
+ - <F1> for help screen
+ 
+new in 0.8
+==========
+ - better hole, edge and table surface design
+ - better structure: HOLE_W substituted by HOLE_TAN (internal)
+ - balls dropping into holes
+ - bande: lower edge in line with upper edge
+ - bande: corrected hit position to z=0
+ - additional commandline option for balldetail
+
+new in 0.7
+==========
+ - lensflare
+ - stricter 8pool rules
+ - correct timing for queue
+ - more commandline options
+ - config file (~/.foobillardrc) - takes same args as commandline
+ - winner/loser bug with 8ball fixed
+ - better table texture
+ - positional light
+ - segmented table area
+ - table frame specular
+ - hole bumpers
+ - segmented cue
+ - err of ai-players (commandline parameters)
+ - X11R6 instead of X11 in makefile - thx to Mirco Mueller
+
+new in 0.6
+==========
+ - compiles under windows (but runs?)
+ - foul - placing of cue ball
+ - 9-ball game
+ - 9-ball aiplayer
+ - commandline options (not for windows) for...
+   * player names
+   * player ai setting
+   * 8/9 ball
+   * table,edge color
+   * table size
+ - smaller default table size (7 ft)
+ - display next ball for 9ball
+
+new in 0.5
+==========
+ - timing also for zooming
+ - corrected framerate-independent timing with max 100 fps
+ - multiple position dependent shadows
+ - cue shadows added
+ - slow move also with both mouse buttons
+ - queue move bound to 0-90
+ - queue excentricity bound to ball radius
+ - no shot while balls moving or AI-player
+ - no power adjustments when AI-player active
+
+new in 0.4
+==========
+ - proceed_dt_euler_new debugged and used
+ - most sliding and rolling physics corrected
+ - raii of xxxhedron-balls scaled to match sphere volume
+ - increased default detail
+ - detail adjusted for different window sizes
+ - cue offset adjustible for excentric hit (ctrl+right mouse button)
+ - diamond normals fixed and calculated concave
+ - idle callback time triggered and # of proceed_td calls framerate dependent
+ - billmove.c: replaced wirkabstand by mu*I/(m*d) instead of mu*d/10
+ - added strength bar and adjustment (CRSR UP/DN)
+ - players are reset to "any" when <n> pressed
+ - command line argument "2" for human-human game
+ - <enter> and <space> for fire
+ - removed some obsolete pics
+
+new in 0.3
+==========
+ - texture on table
+ - simple billard rules
+ - removed freeze bug
+ - added multitexture reflection (faster but simpler) (<r>-key)
+ - table foot brown instead of green
+ - improved shadow map (only 8-bit gray)
+ - new proceed_dt_euler func (not used yet)
+
+new in 0.2
+==========
+ - better implementation of borders/holes
+ - nicer table with wood furniture 
+ - gold covers on table edges and golden diamonds
+ - simple ai-player (space button)
+
+new in 0.1
+==========
+ - table borders linear
+ - better ball textures
+ - animated queue with texture 
+ 

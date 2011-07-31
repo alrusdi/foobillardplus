@@ -1,0 +1,709 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="../css/help1.css" />
+	<title>Foobillard ++ WeTab Edition Anleitung</title>
+<style type="text/css">
+<!--
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+a:active {
+	text-decoration: none;
+}
+-->
+</style></head>
+<body>
+<div id="all">
+  <div id="content">
+<h1><strong><a name="top" id="top"></a><img src="../img/logo.png" alt="Logo" width="128" height="128" align="middle" />&nbsp;&nbsp;&nbsp;Foobillard ++ Manual</strong></h1>
+		  <p>&nbsp;</p>
+		  <hr align='left'width="600"/>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#Einleitung">1. Introduction</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#Programmstart">2. Programstart</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><a href="#Steuerung"><strong>3. Controls</strong></a></p>
+		  <p>&nbsp;</p>
+		  <p><a href="#linkedaumenleiste"><strong>&nbsp;&nbsp;3.1 Keyboard</strong></a></p>
+		  <p><a href="#spielfeld"><strong>&nbsp;&nbsp;3.2 Playfield</strong></a></p>
+		  <p><a href="#rechtedaumenleiste"><strong>&nbsp;&nbsp;3.3 Other controls</strong></a></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#menue">4. Menu</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a href="#spielmodi">5. Gamemodes</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p>&nbsp;&nbsp;<strong><a href="#8ball">5.1 Classical 8 Ball</a></strong></p>
+		  <p>&nbsp;&nbsp;<strong><a href="#9ball">5.2 9 Ball</a></strong></p>
+		  <p>&nbsp;&nbsp;<strong><a href="#karambol">5.3 Carom</a></strong></p>
+		  <p>&nbsp;&nbsp;<strong><a href="#snooker">5.4 Snooker (simplest variant)</a></strong></p>
+		  <p>&nbsp;</p>
+		  <p><strong><a name="Einleitung" id="Einleitung"></a>1. Introduction</strong></p>
+<p>&nbsp;</p>
+		  <p>Thank you for choosing foobillard++. Foobillard++ is a pool game in OpenGL, which is based on the originally foobillard V.3.0a programmed by Florian Berger. Foobillard characterized in particular by an excellent virtually unprecedented ball physics. Over the years, many changes and enhancements have been made from programmers all over the world. The maintenance of the original program was unfortunately set so that it remains at the last not really finished version in 2007. With foobillard++ the further development and expansion is made by Holger Sch&auml;kel. An optimized control of touch movement and mouse, keyboard is implemented. There was much emphasis on that program to make operable with just the mouse-popinter. The entire system is now more realistic (optimized table movement), all games are now tournament ready, away more screen-oriented control on the screen, realistic shots over other balls, new cut mode, more sound, new options, graphic optimization, more infos in game play and many bug fixes. A  Bluetooth and a network support IPv6 is included for multiplayer in the future. Similarly, work is proceeding on some new rule within the individual treatment modes.</p>
+    <p>&nbsp;</p>
+		  <p>The game currently supports simple versions of 8 ball, 9 Ball, Snooker and Carom.</p>
+    <p>&nbsp;</p>
+		  <p>Foobillard began as an open source project under the GPL. So it is with foobillard++. It is a free program, no fees, no hidden advertising. But also no guarantee that the program meets your needs.</p>
+<p>&nbsp;</p>
+		  <p><strong><a name="Programmstart" id="Programmstart"></a>2. Programstart</strong></p>
+		  <p>&nbsp;</p>
+		  <p>After starting the program you can see the following screen layout. The intro-sequence can be interrupted by a keystrok or mouseclick. The persons speaking in the background need a little bit time to sit virtually down.  Immediately after the start you are already in a  game. The nature of the game and who is the opening move in the game performs depends on whether, in what game mode you finish the whole program. Was the last game a carom in the tournament mode, the program starts next time again with carom. The  first start of the program  started a game in 8Ball player mode. The first player are you and player 2 is the Computer. The human player name is Player 1. The second player is named Computer 1. The skill level of the computer defaults to Medium. All these settings you can change in the menus and you can save it.</p>
+    <p>&nbsp;</p>
+		  <p><img src="../img/start_a.png" alt="Startbildschirm" width="519" height="419" /></p>
+		  <p id="bildtext">Picture  1 (Programstart)</p>
+<p>&nbsp;</p>
+<p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+<p><strong><a name="Steuerung" id="Steuerung"></a>3. Controls</strong></p>
+<p>&nbsp;</p>
+<p><strong><a name="linkedaumenleiste" id="linkedaumenleiste"></a>3.1 Keyboard</strong></p>
+<p>&nbsp;</p>
+		  <p>The keyboard strokes are called action buttons. The action buttons are used here for introducing special control modes (S, B, E, M,  F3, F6, F9), ESC (menu), helpscreen (F1), Restart (F10) and display (F2, F4, F8 ).</p>
+<p>&nbsp;</p>
+		  <table width="100%" border="0" cellpadding="2" cellspacing="4" id="next-button">
+		    <tr>
+		      <td valign="top"><img src="../img/f1.png" alt="Hilfe" width="73" height="44" /></td>
+		      <td align="left" valign="top"><span id="result_box" lang="en" xml:lang="en">The <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">selection</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">of</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">F1</span> toggles <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">a little helpscreen</span></span></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f2.png" alt="F2" width="73" height="44" /></td>
+		      <td align="left" valign="top"><p>Press F2 to switch between the birdview and the normal view. In the birdview only some of the adjustments are allowed.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="right" valign="top"><img src="../img/f3.png" width="73" height="44" alt="F3" /></td>
+		      <td align="left" valign="top"><p>Changes between the so-called cue and cue-free view. In the cue-view you can see a virtual cue. Any strike episodes not be direct, but will be animated. A particular advantage of the cue-view is that you can see by the firing angle for the next blow. Any movement of the table moves in different views in the case of the cue- view is not the direction of impact. It allows them to consider the angle of the blow from all angles.</p>
+		        <p>&nbsp;</p>
+		        <p>The external view is no indication of the cue. It should be noted that the impact direction corresponding with each movement changes. If you move the table in the horizontal axis, the direction of impact will change accordingly. To get in the initial phase of a feel for it, we recommend movements the table several times between the cue and cue-free view. Changes in the direction of impact are thus understandable and get a feel for it.</p>
+<p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f4.png" width="73" height="44" alt="F4" /></td>
+		      <td align="left" valign="top"><p>Use to switch between the free and the external view. The involvement of the external view (standard on) results in the execution of a shoot result in the ball during a game ball after a stroke is followed. The external view is active, is shown on the right side of the field by the <img src="../img/symbol-f.png" alt="Ansicht" width="26" height="26" align="absmiddle" /> symbol.</p>
+<p>&nbsp;</p>
+	          <p>Is the external view is not active, the ball throughout of the human player will not be followed. This does not apply to the computer opponents. In the normal view, you can move with active cue-view the entire table out of view. This can be useful if you want  without changing the direction of impact or field of view, want to see the table in more detail.</p>
+<p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f5.png" alt="F5" width="73" height="44" /></td>
+		      <td align="left" valign="top"><p>All options are currently stored in the configuration file<strong> .foobillardrc</strong>. The configuration file is located in your home directory. On linux based systems it would be /home/&lt;username&gt;. foobillardrc. In the unlikely event the program work even not as expected, you can delete the configuration file. The next program execution starts with a completely default configuration. Please do not change the configuration file manually.</p>
+		        <p>&nbsp;</p>
+		        <p>A running save operation is displayed on the right side of the playing field by symbol <img src="../img/document-save.png" alt="Speichern" width="26" height="26" align="absmiddle" />. If you leave the programm, it's save the configuration too.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f6.png" width="73" height="44" alt="F6" /></td>
+		      <td align="left" valign="top"><p>By pressing the F6 key, players of the current human changes to computer or from computer to human. Here, only the player mode is changed. A change of name is not there.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f7.png" width="73" height="44" alt="F7" /></td>
+		      <td align="left" valign="top"><p><span id="result_box2" lang="en" xml:lang="en"><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">Ball</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">tracks</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">-</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">On</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">/</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">Off</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">With</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">ball</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">tracks</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">, you</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">can</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">track</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken"> the actual</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">movement of all</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">balls</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">This may</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">be</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">of</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">relevance</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">to</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">future</span> shoots.</span></p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f8.png" width="73" height="44" alt="F8" /></td>
+		      <td align="left" valign="top"><p><span id="result_box3" lang="en" xml:lang="en"><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">F8</span> toggles <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the</span> help<span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">line</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">(</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">dashed</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">line above</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">cue ball</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">)</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">The</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">default</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">is On</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">For</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">more</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">realism,</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken"> switch it  off</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span></span></p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f9.png" width="73" height="44" alt="F9" /></td>
+		      <td align="left" valign="top"><p>If you are on the course and press the F9 key, the computer calculating a firing sequence. The proposal is based on the currently selected skill level of the computer player.</p>
+		        <p>&nbsp;</p>
+		        <p>The shoot is only &quot;proposed&quot;. In fact, the setting is not visible. If you do  F9 to a shot, the impact is carried out with the proposal.</p>
+<p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><a name="F10" id="F10"></a><img src="../img/f10.png" width="73" height="44" alt="F10" /></td>
+		      <td align="left" valign="top"><p><span id="result_box4" lang="en" xml:lang="en"><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">F10</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">simply restarting the</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">current</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">game</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">During the</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">operation</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the</span> a<span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">ctive gamer </span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">remains</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">on</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">course</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span></span></p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/esc.png" width="73" height="44" alt="Men&uuml;" /></td>
+		      <td align="left" valign="top"><p>Toggles the  main menu. If a submenu is active, a menu level branches back.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><a name="symbols" id="symbols"></a><img src="../img/s.png" width="73" height="44" alt="S" /></td>
+		      <td align="left" valign="top"><p>The mouse-shot is on or off. An active mouse-shot is displayed on the right of the screen by  the symbol<img src="../img/s1.png" alt="Fingerschuss" width="26" height="26" align="absmiddle" />. With mouse-shot you can shoot directly on the field by dragging a mouse movement. Thus, it is not so difficult, you do not place your mouse directly on the cue, but somewhere on the screen. The direction can not be carried out one hundred percent the way the cue is placed, but only approximately in the direction. Try it.</p>
+		        <p>&nbsp;</p>
+		        <p>The default is the above described mouse control. There are the classic mode from the original foobillard. There, a mouse income / profit is permitted only with mouse drag from bottom to top, no matter how the cue in the view is level.</p>
+<p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/b.png" width="73" height="44" alt="B" /></td>
+		      <td align="left" valign="top"><p>With B height of the cue mode is enabled or disabled. The  active height mode is displayed by the symbol <img src="../img/cue.png" alt="Queue H&ouml;henmodus" width="26" height="26" align="absmiddle" />on the right side of the playing field. With a  mouse up or down on the field, the cue is organized.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/e.png" width="73" height="44" alt="E" /></td>
+		      <td align="left" valign="top"><p>The key symbol E takes you to set the cut mode  on the billiard ball. That cut mode is active, is shown  by an enlarged representation of the game ball with anchor point (cross hairs) in the left of the screen. In addition, the symbol <img src="../img/e1.png" alt="Anschneiden" width="26" height="26" align="absmiddle" /> at the right edge of the field is seen. With mouse movement in the field of play, the shoot point will be changed accordingly. In addition, a small display of a cross-hair is also on the cue ball on the pool table. A change of the anchor point as in the real pool also has a change of ball shoot result. If  F3  cue-view is active, it moves the cue accordingly.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/m.png" width="73" height="44" alt="M" /></td>
+		      <td align="left" valign="top"><p>Game ball position sliding mode On / Off. This allows you to change the position of the cue- ball in the limits of the pool rules and regulations to the current game. That this mode is activated if you see the icon <img src="../img/m1.png" alt="Spielkugel verschieben" width="26" height="26" align="absmiddle" />, and a  blue bar above the game ball.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/f.png" width="73" height="44" alt="F" /></td>
+		      <td align="left" valign="top"><p>The symbol F key toggles the FOV (field of view) between on/off.. The field of view mode is a little more playing around and leads to a distorted representation of the entire playing field. This mode is activated if you see the icon <img src="../img/fov.png" alt="FOV" width="26" height="26" align="absmiddle" /> on the right. A change in the field of view is done by  up and down movement of the mouse on the playing field.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/tab.png" width="73" height="44" alt="Spielball &auml;ndern" /></td>
+		      <td align="left" valign="top"><p>This symbol key is only active in the training mode. It changes the game ball.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td valign="top"><img src="../img/u.png" width="73" height="44" alt="Undo" /></td>
+		      <td align="left" valign="top"><p><span id="result_box5" lang="en" xml:lang="en"><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">The</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">Symbol Key</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">U</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">has only effect</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">in training</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">mode</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> Undo the last move.</span></p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+	      </table>
+<p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+<p>&nbsp;</p>
+<p><strong><a name="spielfeld" id="spielfeld"></a>3.2 Playfield</strong></p>
+<p>&nbsp;</p>
+<p>In the game box, depending on the mode (action-keys), you can move the table in all directions quickly and conveniently with hold left mousekey and mouse-movement. The strength is set easily by mouse-click on the icons <img src="../img/b1.png" alt="Weniger" width="26" height="26" align="absmiddle" /> and <img src="../img/n.png" alt="St&auml;rker" width="26" height="26" align="absmiddle" />. A shoot is done by mouse-click on the icon <img src="../img/shot.png" alt="Schuss" width="26" height="26" align="absmiddle" />. By means of symbols<img src="../img/up.png" alt="Zoom" width="26" height="26" align="absmiddle" /> and <img src="../img/down.png" alt="Zoom" width="26" height="26" align="absmiddle" /> the entire image within the limits of display options  zooms in or out. Zoom has a lot of sense in some shooting sequences, even if this type of game is not necessarily realistic. A slap in the cue-view will be carried out including animated cue. Without cue-view  the immediate execution of a shoot is done.</p>
+<p>&nbsp;</p>
+<p>During the movement must take into account that an up and down movement of the table you always have an effect on the impact level of the cue. Using the B button icon can still be adjusted according to the amount before the impact to the field without changing it. The striking effect of altitude on the ball control. The higher the approach, the more likely a ball flies in the default mode of &quot;realistic ball movement &quot; on other time, or even from the pool table. This behavior can be changed in the options to the old classical mode. This &quot;sticks&quot; the balls on the playing field without &quot;flying&quot;. This behavior is the normal behavior of the foobillard  3.0a.</p>
+<p>&nbsp;</p>
+<p>In the upper left is the status line that displays some useful information on game play. In some cases it is not clear why, for example, abruptly replaced by the next player, although perhaps the right ball is holed. The reason for this you can see on the status bar. E.g. first in the 8 ball has an opponent's ball is played or not played the first ball in the penalty area. The display of the status line can be switched on or off in the options.</p>
+<p>&nbsp;</p>
+<p>Which player on the course you can see in left in the game field. Depending on the selected category to be played here the color can be recognized:</p>
+<p>&nbsp;</p>
+		  <p><strong><em>8 Ball</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p> <img src="../img/weiss.png" alt="Welche Kugelfarbe" width="26" height="26" align="absmiddle" /> = unknown</p>
+		  <p><img src="../img/halb.png" alt="Halb" width="26" height="26" align="absmiddle" /> = half balls</p>
+		  <p><img src="../img/voll.png" alt="Volle" width="26" height="26" align="absmiddle" /> = full balls</p>
+		  <p>&nbsp;</p>
+		  <p><strong><em>9 Ball</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p>Which ball number and color is putt next.</p>
+    <p>&nbsp;</p>
+		  <p><strong><em>Carom</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p>Scored Points.</p>
+    <p>&nbsp;</p>
+		  <p><strong><em>Snooker</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p>Scores and the information which is next ball.</p>
+		  <p>&nbsp;</p>
+		  <p><strong><em>Mouse</em></strong></p>
+		  <p>&nbsp;</p>
+		  <p>With the mouse movement, many sequences are executed immediately. Use the mouse wheel (if available), the firing strength be increased or decreased directly. By holding the right mouse button with mouse movement, the view is zoomed in or out (like button 1 and 2 or symbol <img src="../img/up.png" alt="Zoom" width="26" height="26" align="absmiddle" /> and <img src="../img/up.png" alt="Zoom" width="26" height="26" align="absmiddle" />). And at first, hold the left mouse button and then right-click with mouse movement, the cue ball sliding mode is active (see Action button M), provided that the rules currently allow it. At first, holding the right mouse button and then left mouse button pressed with mouse movement the snipping mode is activated (see Action button E). Pressed left mouse button and mouse movement rotate the table.</p>
+		  <p>&nbsp;</p>
+<p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+		  <p><strong><a name="rechtedaumenleiste" id="rechtedaumenleiste"></a>3.3 Other controls</strong></p>
+		  <p>&nbsp;</p>
+		  <p>&nbsp;</p>
+		  <table width="100%" border="0" cellspacing="4" cellpadding="2">
+		    <tr>
+		      <td align="center"><img src="../img/up1.png" alt="Zoom +" width="73" height="44" /><br />
+                <img src="../img/down1.png" width="73" height="44" alt="Zoom -" /><br />
+                <img src="../img/left.png" width="73" height="44" alt="Schusst&auml;rke -" /><br />
+              <img src="../img/right.png" width="73" height="44" alt="Schusst&auml;rke +" /></td>
+		      <td align="left" valign="top"><p><span id="result_box6" lang="en" xml:lang="en">With the Cursor-keys you can move the table like the mouse-movement.<br />
+		        <br />
+              <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">The only</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">exception</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">here</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">is</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the</span> mouse-<span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">shot</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">Please follow</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the instructions</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">for</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">Symbol Key</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">S</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span></span></p></td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/2.png" alt="Zoom +" width="73" height="44" /></td>
+		      <td align="left" valign="top"><p><span id="result_box7" lang="en" xml:lang="en"><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">This</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">symbol</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">button</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">make</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">equivalent</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">services</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">as</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the symbol <img src="../img/up.png" alt="Zoom +" width="26" height="26" align="absmiddle" /></span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">on</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the field</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">Hereby</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">actual screen</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">is</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">zoomed out</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span></span></p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/1.png" width="73" height="44" alt="Zoom -" /></td>
+		      <td align="left" valign="top"><p>This symbol button make equivalent services as the symbol <img src="../img/down.png" alt="Zoom +" width="26" height="26" align="absmiddle" /> on the field. This is to zoom into the image area.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/enter.png" width="73" height="44" alt="Schuss" /></td>
+		      <td align="left" valign="top"><p>A  shoot is executed. This button has the same  explanation, as the symbol <img src="../img/shot.png" alt="Schuss" width="26" height="26" align="absmiddle" /> on the field. Enter with simultaneous pressure on ALT switch between full and window mode.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/pgdown.png" width="73" height="44" alt="Schusst&auml;rke -" /></td>
+		      <td align="left" valign="top"><p>Setting the firing strength in negative steps. The same does the symbol <img src="../img/b1.png" alt="Weniger" width="26" height="26" align="absmiddle" /> on the field.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="center"><img src="../img/pgup.png" width="73" height="44" alt="Schusst&auml;rke +" /></td>
+		      <td align="left" valign="top"><p><span id="result_box8" lang="en" xml:lang="en"><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">The</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">firing strength</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">is increased</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">As</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">you</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">have</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">guessed</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">,</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">this</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">is equivalent</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">to the</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">symbol</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken"><img src="../img/n.png" alt="St&auml;rker" width="26" height="26" align="absmiddle" /> on the field</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span></span></p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+	      </table>
+		  <p>&nbsp;</p>
+<p><strong><a name="menue" id="menue"></a>4. Menu</strong></p>
+		  <p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+		  <p>&nbsp;</p>
+		  <p>&nbsp;</p>
+		  <p><img src="../img/menue2.png" width="519" height="419" alt="Hauptmen&uuml;" /></p>
+		  <p id="bildtext">Picture  2 (Game menu)</p>
+<p>&nbsp;</p>
+		  <p>After selecting ESC, there is shown the main menu. Some items have an immediate impact and exit the menu. Some lead to submenus. In some options, data can be entered directly on the  keyboard of your computer. You can see this, because the enabled action is red colored.  Should no entry be made, you can cancel the operation using the ESC key again.</p>
+		  <p>&nbsp;</p>
+		  <p>When entries are possible, only the characters that fit the expected function are allowed. Which entries are allowed will be announced later in the options.</p>
+		  <p>&nbsp;</p>
+		  <p>Each input field has a maximum and a minimum length. If the maximum length exceeded, no further input is possible. If the minimum input length is reached, the entry can not be confirmed.</p>
+		  <p>&nbsp;</p>
+		  <p>If the input to the expected format is not (numbers, letters, etc.) correctly, you can hear a sound explosion.</p>
+<p>&nbsp;</p>
+		  <p><strong>The following settings can be made:</strong></p>
+    <p>&nbsp;</p>
+		  <table width="100%" border="0" cellspacing="4" cellpadding="2">
+		    <tr>
+		      <td align="left" valign="top"><strong>Resume</strong></td>
+		      <td align="left" valign="top"><p>This stops the menu in the currently selected settings and has the same effect as the ESC key. </p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Restart game</strong></td>
+		      <td align="left" valign="top"><p>The same effect as the F10 key. The game starts all over again. More information see <a href="#F10"><strong>F10</strong></a>.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Player</strong></td>
+		      <td align="left" valign="top"><p>You can make adjustments to players 1 and 2. It is naming, type (human or Computer) and the skill of the player. The skill level of the human player has effects on the quality of calculating a firing sequence of the computer for you (see F9 key).</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Game Menu</strong></td>
+		      <td align="left" valign="top"><p>It opens another submenu, and all relevant options for the game  are set here:</p>
+		        <p>&nbsp;</p>
+		        <p><em>Category - 8Ball, 9Ball, Snooker or Carom</em></p>
+		        <p>&nbsp;</p>
+		        <p>Each category has options 1-2 player start, tournament and practice sessions. The nature of the 1-2 games results from the settings of the main menu option players. Thus, the order is determined. The result is a pure spectator mode, when both players are set to the computer. In carom menu there is something special. Contrary to all other games you can specify the number of points  when a game is won. Default is 5 Adjustable here are values of 1 - 100</p>
+		        <p>&nbsp;</p>
+		        <p>In the tournament mode basically 4 runs are starting to go through 16 players. The compilation of the players is purely coincidental, and all computer-controlled players have different skill levels. The start is a press on the Enter key. After all the passes of the tournament a winner is determined.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Table length - 7, 8, 9 and 12 feet</em></p>
+		        <p>&nbsp;</p>
+		        <p>The table length can be set between the above sizes in feet. 7 feet is the minimum allowable size for the tournament standard and  12 feet, the actual tournament standard.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Control Switch - On / Off</em></p>
+<p>&nbsp;</p>
+	          <p>This can be turned on and off the display of the control switches  <img src="../img/up.png" alt="Zoom +" width="26" height="26" align="absmiddle" />, <img src="../img/down.png" alt="Zoom +" width="26" height="26" align="absmiddle" />, <img src="../img/b1.png" alt="Weniger" width="26" height="26" align="absmiddle" />, <img src="../img/n.png" alt="St&auml;rker" width="26" height="26" align="absmiddle" />and <img src="../img/shot.png" alt="Schuss" width="26" height="26" align="absmiddle" /> on the field. For those who prefer total control with the keyboard, does not require the control switch.</p>
+	          <p>&nbsp;</p>
+<p><em>Realistic ball flight - on / off</em></p>
+<p>&nbsp;</p>
+<p>With realistic ball flight is only meant that balls are movable according to the laws of physics not only on the playing field (off), but also played on other spheres, or even to leave the table (on). Because on F. Berger originally created very complex calculation formulas (air resistance and friction), it was not  recently managed in foobillard 3.0a. Since foobillard++ that is over.</p>
+<p>&nbsp;</p>
+<p><em>Mouse Shot - New / Classic</em></p>
+<p>&nbsp;</p>
+<p>For more details, please refer to the mouse shot in the notes to the key symbol <a href="#symbols"><strong>S</strong></a>.</p>
+<p>&nbsp;</p>
+	          <p><em>Auto Clear View - On / Off</em></p>
+	          <p>&nbsp;</p>
+	          <p>With this option you can set is returned after a shoot forward to the next shot. If at all settings, such as cue-view, or clear view again reset so that you can immediately proceed with the setting to the next shot. Default is On.</p>
+	          <p>&nbsp;</p>
+	          <p><em>birdview  computer / network player - On / Off</em></p>
+	          <p>&nbsp;</p>
+	          <p>Allows you to control which view a possible network player (in preparation) and a computer in the default player performs his hits. On arrival is automatically changed to a birdview so you can track the impact of the player better. In the off state is a normal display. Default is off.</p>
+	          <p>&nbsp;</p>
+	          <p><em>Tournament Time Lapse - Normal, Slow, Medium, High and Very High</em></p>
+	          <p>&nbsp;</p>
+	          <p>The speed of the computer players in tournament mode. In the normal stage, a real-time control is active. With each step higher, the display is faster.</p>
+<p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>View Options</strong></td>
+		      <td align="left" valign="top"><p>Another sub-menu opens with the following options:</p>
+		        <p>&nbsp;</p>
+		        <p><em>Red / Green Stereo - On / Off</em></p>
+		        <p>&nbsp;</p>
+		        <p>If you have 3D glasses (red/green or red/blue), you can enjoy the game after activation in 3D. In another menu you can adjust the eye target (left, center or right) comes closest to your 3D perception. It should be noted that a 3D effect can cause hallucinations, depending on the person or headache. Once you are unwell, turn the stereo mode off immediately. An activation is entirely at your own risk.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Lens flare - On / Of</em>f</p>
+		        <p>&nbsp;</p>
+		        <p>A simple illustration of a lamp above the table with lens flare, as if you were looking through a camera.</p>
+		        <p>&nbsp;</p>
+		        <p>Ball Detail - Low, Medium, High, Very High</p>
+		        <p>&nbsp;</p>
+		        <p>Table theme - gold green, gold, red, blue and chrome and black-and-beige</p>
+		        <p>&nbsp;</p>
+		        <p>In the  Tron-mode, the billiard table is in a style similar to the film Tron. You can toggle this feature with this option.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Help line - On / Off</em></p>
+		        <p>&nbsp;</p>
+		        <p><em>Ball tracks - On / Off</em></p>
+		        <p>&nbsp;</p>
+		        <p><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">With</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">the</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">ball</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">tracks</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">, you</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">can</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">track</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken"> the actual</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">movement of all</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">balls</span><span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">.</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">This may</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">be</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">of</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">relevance</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">to</span> <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">future</span> shoots.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Status Text - On / Off</em></p>
+		        <p>&nbsp;</p>
+		        <p><em>Avatar - On / Off</em></p>
+<p>&nbsp;</p>
+<p><em>Browser</em></p>
+<p>&nbsp;</p>
+<p>This can be set to display the necessary Internet browser. The default is firefox. The maximum input length is limited to 15 characters and the browser needs to be in search path. I.e. a start of the browser is possible only with his programname accessed anywhere from any directory. On newer Linux distributions that is the case.</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Graphic</strong></td>
+		      <td align="left" valign="top"><p>The  sub-menu contains the following entries:</p>
+		        <p>&nbsp;</p>
+		        <p><em>Anisotropic filtering</em> - Depending on your graphics card</p>
+		        <p>&nbsp;</p>
+		        <p>With a setting change in the game the whole program has completely stopped and restarted.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Antialiasing</em> - On / Off</p>
+		        <p>&nbsp;</p>
+		        <p>When antialiasing on Linux is to note that any existing anti-aliasing can not be displayed immediately. You have to restart the program. When you restart the program is followed by attempts to an existing valid screen mode (anti-aliasing mode FSAA). On failure, the program will not start and the settings for anti-aliasing will be reset in FSAA and stored. Please restart the program. The application will then only accept rudimentary smoothing methods for lines.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Reflections</em> - Rendering and render resolution</p>
+		        <p>&nbsp;</p>
+		        <p>In the Render methods, you can still choose glass balls. The representation of the balls as if they were made of a translucent glass-like material.</p>
+		        <p>&nbsp;</p>
+		        <p><em>Light</em> - direct or positionional lightning</p>
+<p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Sound</strong></td>
+		      <td align="left" valign="top"><p>On/Off</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Help</strong></td>
+		      <td align="left" valign="top"><p>The <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">selection</span> toggles <span title="Zur Anzeige alternativer &Uuml;bersetzungen klicken">a little helpscreen</span> like F1.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Manual</strong></td>
+		      <td align="left" valign="top"><p>A little joke to explain this menu here. You already read it ...... It is important to ensure that while viewing the guide, the game is paused. A simple change of the active window to the game back is not enough to continue playing. The instructions must be completely stopped. Only then a further play is possible.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Quit</strong></td>
+		      <td align="left" valign="top"><p>The program can be terminated by a  security check.  All the current game settings are stored in the config file. A running game is, however, terminated.</p>
+	          <p>&nbsp;</p></td>
+	        </tr>
+	      </table>
+    <p>&nbsp;</p>
+		  <p><strong><a name="spielmodi" id="spielmodi"></a>5. Gamemodes</strong><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+		  <p>&nbsp;</p>
+		  <p>The explanations are mostly from Wikipedia. We work on more implemantation inside foobillard++.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>&nbsp;<a name="8ball" id="8ball"></a>5.1 Classical 8Ball</strong></p>
+		  <p>&nbsp;</p>
+		  <p><img src="../img/snipping.png" width="519" height="419" alt="8Ball" /></p>
+		  <p id="bildtext">Picture  3  8 Ball in snipping mode</p>
+<p>&nbsp;</p>
+		  <p><strong>History</strong></p>
+    <p>&nbsp;</p>
+    <p>The game of eight-ball is derived from an earlier game invented around 1900 (first recorded in 1908) in the United States and initially popularized under the name &quot;B.B.C. Co. Pool&quot; (a name that was still in use as late as 1925) by the Brunswick-Balke-Collender Company. This forerunner game was played with seven yellow and seven red balls, a black ball, and the cue ball. Today, numbered stripes and solids are preferred in most of the world, though the British-style offshoot, blackball, uses the traditional colors (as did early televised &quot;casino&quot; tournaments in the U.S.). The game had relatively simple rules compared to today and was not added (under any name) to an official rule book (i.e., one published by a national or international sport governing body) until 1940.</p>
+    <p><br />
+    </p>
+		  <p><strong>World Standardized Rules</strong></p>
+    <p>&nbsp;</p>
+		  <p>American-style eight-ball rules are played around the world by professionals, and in many amateur leagues. Nevertheless, the rules for eight-ball may be the most contested of any billiard game. There are several competing sets of &quot;official&quot; rules. The non-profit World Pool-Billiard Association (WPA), with national affiliates around the world, some of which long pre-date the WPA, such as the Billiard Congress of America (BCA), promulgates the World Standardized Rules[5] for amateur and professional play. The for-profit International Pool Tour has also established an international set of rules[6] for professional and semi-professional play, used in major tournaments broadcast on television (as of 2007, this league has suspended operations, and is focusing on invitational matches, but is expected by many players to resume more broadly at some point after 2010). Meanwhile, many amateur leagues, such as the American Poolplayers Association (APA) / Canadian Poolplayers Association (CPA), and the Valley National Eight-ball Association (VNEA) / VNEA Europe, use their own rulesets as their standards (most of them at least loosely based on the WPA/BCA version), while millions of individuals play informally using colloquial rules which vary not only from area to area but even from venue to venue.</p>
+		  <p>&nbsp;</p>
+		  <p><strong>Equipment</strong></p>
+    <p>&nbsp;</p>
+		  <p>The table's playing surface is approximately 9 by 4.5 feet (2.7 by 1.4 m) (regulation size), though some leagues and tournaments using the World Standardized Rules may allow smaller sizes, down to 7 by 3.5 feet (2.1 by 1.1 m), and early 20th century 10 by 5 feet (3.0 by 1.5 m) models are sometimes also used.</p>
+		  <p>There are seven solid-colored balls numbered 1 through 7, seven striped balls numbered 9 through 15, an 8 ball, and a cue ball. The balls are usually colored as follows:</p>
+    <p>&nbsp;</p>
+		  <p> 1 and 9 - yellow<br />
+		    2 and 10 - blue<br />
+		    3 and 11 - red<br />
+		    4 and 12 - purple (TV: pink)*<br />
+		    5 and 13 - orange<br />
+		    6 and 14 - green<br />
+    7 and 15 - brown (TV: tan)*</p>
+		  <p><br />
+		    8 - black<br />
+		    Cue - white</p>
+    <p>&nbsp;</p>
+		  <p> *Special sets designed to be more easily discernible on television substitute a rather light tan shade for the normally darker brown of the 7 and 15 balls, and pink for the dark purple of the 4 and 12; these alternative-color sets are now also available to consumers.</p>
+    <p>&nbsp;</p>
+		  <p><strong>Setup</strong></p>
+    <p>&nbsp;</p>
+    <p>To start the game, the object balls are placed in a triangular rack. The base of the rack is parallel to the end rail (the short end of the pool table) and positioned so the apex ball of the rack is located on the foot spot. The balls in the rack are ideally placed so that they are all in contact with one another; this is accomplished by pressing the balls together from the back of the rack toward the apex ball. The order of the balls should be random, with the exceptions of the 8 ball, which must be placed in the center of the rack (i.e., the middle of the third row), and the two back corner balls one of which must be a stripe and the other a solid. The cue ball is placed anywhere the breaker desires inside the &quot;kitchen&quot;.</p>
+		  <p><br />
+		    <strong>Break</strong></p>
+    <p>&nbsp;</p>
+		  <p>One person is chosen (by a predetermined method, e.g., coin flip, win or loss of previous game, lag) to shoot first and break the object ball rack apart. If the shooter who breaks fails to make a legal break (usually defined as at least four balls hitting cushions or an object ball being pocketed), then the opponent can demand a re-rack and become the breaker, or elect to play from the current position of the balls.</p>
+		  <p>According to World Standardized Rules, if the 8 ball is pocketed on the break without fouling, the breaker may ask for a re-rack and break again, or have the 8 ball spotted and continue shooting with the balls as they lie. If the breaker scratches while pocketing the 8 ball on the break, the incoming player may call for a re-rack and break, or have the 8 ball spotted and begin shooting with ball-in-hand behind the head string, with the balls as they lie.</p>
+    <p>&nbsp;</p>
+		  <p><strong>Turns</strong></p>
+    <p>&nbsp;</p>
+		  <p>A player (or team) will continue to shoot until committing a foul, playing a safety, or failing to legally pocket an object ball on a non-safety, non-foul shot. Thereupon it is the turn of the opposing player(s). Play alternates in this manner for the remainder of the game. Following a foul, the incoming player has ball-in-hand anywhere on the table, unless the foul occurred on the break shot, as noted previously.</p>
+		  <p>Once all of a player's or team's group of object balls are pocketed, they may attempt to sink the 8 ball. To win, the player (or team) must first designate which pocket they plan to sink the 8 ball into and then successfully pot the 8 ball in that called pocket. If the 8 ball falls into any pocket other than the one designated, is knocked off the table, or a foul (see below) occurs and the 8 ball is pocketed, this results in loss of game. Otherwise, the shooter's turn is simply over, including when a scratch occurs on an unsuccessful attempt to pocket the 8 ball. In short, a World Standardized Rules game of eight-ball, like a game of nine-ball, is not over until the &quot;money ball&quot; is no longer on the table. This rule is unusual to some bar and league players, because in American, Canadian and many other varieties of bar pool, and in some leagues, such as APA, such a foul is a loss of game. This is not the case in World Standardized Rules, nor in some other leagues that use those rules or a variant of them, e.g. VNEA beginning with the 2008/2009 season, and BCAPL), and USAPL.</p>
+    <p>&nbsp;</p>
+		  <p><strong>Any of the following results in a game win:</strong></p>
+<p>&nbsp;</p>
+    <p> A player legally pockets the 8 ball into a designated pocket, after all of that player's object balls have been pocketed</p>
+		  <p><br />
+		    The opposing player illegally pockets the 8 ball (e.g. before clearing all of that player's object balls, does so on the same shot as the last such object ball, or the 8 falls into a pocket other than the one that was designated)</p>
+		  <p><br />
+		    The opposing player knocks the 8 ball off the table.</p>
+		  <p><br />
+		    The opposing player commits any foul, including scratching the cue ball into a pocket, or knocking it off the table, in the course of a shot that pockets the 8 ball. (As noted above, a scratch or other foul while shooting for the 8 ball is not a loss of the game if the 8 is not pocketed or jumped from the table.)</p>
+    <p>&nbsp;</p>
+		  <p><strong>Fouls</strong></p>
+    <p>&nbsp;</p>
+    <p> The shooter fails to strike one of his own object balls (or the 8 ball, if all of said object balls are already pocketed) with the cue ball, before other balls (if any) are contacted by the cue ball. This does not include &quot;split&quot; shots, where the cue ball strikes one of the shooter's and one of the opponent's object ball simultaneously.</p>
+		  <p><br />
+		    No ball comes into contact with a cushion or is pocketed, after legal cue ball contact with the (first) object ball (or 8 ball, if shooting for the 8).<br />
+	      The cue ball is pocketed (&quot;scratched&quot;)</p>
+		  <p><br />
+    The shooter does not have at least one foot on the floor (this requirement may be waived if the shooter is disabled in a relevant way, or the venue has not provided a mechanical bridge)</p>
+		  <p><br />
+    The cue ball is shot before all balls have come to a complete stop from the previous shot</p>
+		  <p><br />
+    The cue ball is struck more than once during a shot</p>
+		  <p><br />
+    The cue ball is jumped entirely or partially over an obstructing ball with an illegal jump shot that scoops under the cue ball</p>
+		  <p><br />
+    The cue ball is clearly pushed (shoved slowly, rather than struck), with the cue tip remaining in contact with it more than momentarily</p>
+		  <p><br />
+    The shooter touches the cue ball with something other than the tip of the cue</p>
+		  <p><br />
+    The shooter touches any ball (with body, clothing or equipment), other than as necessary to move the cue ball when the player has ball-in-hand</p>
+		  <p><br />
+    The shooter knocks a ball off the table</p>
+		  <p><br />
+    The shooter has shot out-of-turn</p>
+		  <p><br />
+		    On the break shot, no balls are pocketed and fewer than four balls reach the cushions (in which case the incoming player can demand a re-rack and take the break or force the original breaker to re-break, or may take ball-in-hand behind the head string and shoot the balls as they lie)<br />
+    </p>
+<p>&nbsp;</p>
+          <p><strong>&nbsp;<a name="9ball" id="9ball"></a>5.2 9 Ball</strong><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+          <p>&nbsp;</p>
+          <p><img src="../img/9ball_a.png" width="519" height="419" alt="9Ball" /></p>
+    <p id="bildtext">Picture  4: 9 Ball Variant from rear</p>
+<p>&nbsp;</p>
+<p>Nine-ball (sometimes spelled 9-ball) is a contemporary form of pool, with historical beginnings rooted in the United States and traceable to the 1920s.[citation needed] The game may be played in social and recreational settings by any number of players (generally one-on-one) and subject to whatever rules are agreed upon beforehand, or in league and tournament settings in which the number of players and the rules are set by the sponsors. During much of its history, nine-ball was known as a &quot;money game&quot; in both professional and recreational settings, but has since been established as a legitimate alternative to eight ball, straight pool, and other variants.</p>
+    <p>&nbsp;</p>
+          <p>In recent years, nine-ball has become the game of choice in championship tournament matches in the United States; matches proceed quickly, suitable for the time constraints of television coverage, and games tend to keep the audience engaged. The sports network ESPN has been, for several years, a major catalyst for the popularity of nine-ball and a major sponsor of championship play.</p>
+    <p>&nbsp;</p>
+          <p><strong>Play</strong></p>
+    <p>&nbsp;</p>
+          <p>The game is played on a pocket billiards table with six pockets and with ten balls. The cue ball, which is usually a solid shade of white (but may be spotted in some tournaments), is struck to hit one or more of the other nine balls (often referred to as object balls), each of which is distinctly colored and numbered 1 through 9. The object of the game is to pocket the 9 ball in a legal manner, subject to the rules in effect at the time.</p>
+    <p>&nbsp;</p>
+          <p>In nine-ball, on all shots including the break shot, a player must cause the cue ball to contact the lowest numerical ball on the table first before the cue ball strikes any other ball and, except when a push-out has been invoked, either a numbered ball must be pocketed or any ball (including the cue ball) must contact a rail to avoid committing a foul. This does not mean that object balls have to be pocketed in order; any ball may be pocketed at any time during the game, so long as the lowest-numbered ball is contacted first by the cue ball. Because nine-ball is not a call shot game, the 9 ball itself can also be pocketed in this manner for a win at any time in the game, even on the break shot.</p>
+    <p>&nbsp;</p>
+          <p>Players alternate innings at the table, meaning play continues by one player until he or she misses, commits a foul, or pockets the 9 ball for the win. The penalty for a foul is that the player's inning ends and the opponent comes to the table with ball in hand, able to place the cue ball anywhere on the table prior to shooting.</p>
+    <p>&nbsp;</p>
+          <p>Nine-ball is a relatively fast-paced game and is rarely played by the rack. Instead, players normally play a match (or race) to a set number of games, often five, seven or nine. The first player to win that set number of games wins the match.</p>
+    <p>&nbsp;</p>
+          <p><strong>The rack</strong></p>
+    <p>&nbsp;</p>
+          <p>The object balls are placed in a diamond-shaped configuration, with the 1 ball positioned at the front (toward the position of the breaking player), and the 9 ball placed in the center. The physical rack used to position the balls is typically triangle-shaped, usually wood or plastic, and capable of holding all fifteen object balls, although diamond-shaped racks that hold only nine balls are sometimes used. The placement of the remaining balls is generally considered to be random. However, in some handicapped tournaments, the ball being spotted to the lesser player must be one of the two balls placed behind the 1 ball at the apex of the rack. The placement of balls is expected to be precise, especially in league and tournament play; if any ball in the rack does not touch each adjacent ball, or if the rack is not &quot;straight&quot;, or if the 1 ball is not resting precisely on the foot spot, the player assigned the break may demand a re-rack.</p>
+    <p>&nbsp;</p>
+          <p><strong>The break</strong></p>
+    <p>&nbsp;</p>
+          <p>One person is chosen to shoot first, by breaking the rack. Usually this is determined by flipping a coin, or by lagging, especially in professional tournaments in the case of the latter, or it may be ruled by the authority in charge or the sponsor or the players themselves that the winner or loser of the previous game will always shoot first in the next rack. If the player who breaks fails to make a legal break, the opponent can either demand a re-rack and become the breaker, or continue to play as if it had been an ordinary foul, depending upon the rules of the event. If the breaker pockets a ball and commits no foul, it remains the breaker's turn. If the breaker pockets the 9 ball on the break (without fouling), this is an instant win.</p>
+    <p>&nbsp;</p>
+          <p><strong>The push-out</strong></p>
+    <p>&nbsp;</p>
+          <p>Immediately after the break shot (regardless of its results) the player at the table may call a &quot;push-out&quot;, and may then shoot the cue ball to any location on the table (i.e. not into a pocket, in which case the player must continue shooting, nor off the table, which would be a foul), without incurring a foul for failure to hit the lowest-numbered ball on the table, and then control of the table passes to the other player. The incoming player has the choice of accepting the table as it lies, or forcing the pushing-out player to take the next shot. Only one push-out is allowed per game, and it must be immediately after the break.</p>
+          <p>The ideal push-out shot is one that the opponent will believe likely to be makeable, and will accept, but will fail to actually make, giving control of the table back to the pusher-out, and which the pusher-out is confident to make if forced to do so. Thus nine-ball players aim for a push-out that has about a 50/50 chance of being accepted or returned.</p>
+    <p>&nbsp;</p>
+          <p><strong>Winning</strong></p>
+    <p>&nbsp;</p>
+          <p>Winning a game occurs any time a player hits the lowest numbered ball first and pockets the 9-ball without committing a foul. When only the 9-ball is on the table, this is straightforward and obvious; however, when other balls remain on the table, any number of events can result in victory so long as the above requirements are met. Loss of game can occur if three successive fouls are committed and the fouling player is warned audibly or visually after the 2nd foul during the third inning. A loss of game also occurs if the awaiting player unscrews their cue at any time, or in any other way implies concession.</p>
+          <p>&nbsp;</p>
+          <p>In most rule systems, including BCA, if a player fouls and pockets or knocks off the table the 9-ball, the 9-ball is placed on the foot spot, and the incoming player receives ball-in-hand.</p>
+<p>&nbsp;</p>
+          <p><strong>&nbsp;<a name="karambol" id="karambol"></a>5.3 Carom</strong><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+          <p>&nbsp;</p>
+          <p><img src="../img/jumpshots.png" width="519" height="419" alt="Karambol" /></p>
+    <p id="bildtext">Picture  5: Carom with active Ball-tracks</p>
+    <p>&nbsp;</p>
+          <p>Carom, carom and is the umbrella term of a billiard-variant that is played with three balls. The balls are called in jargon &quot;balls&quot;, they have the colors red, white and yellow. Alternatively, is played with a red and two white balls, one of which is marked with a dot. In contrast to the pool or snooker are no balls are potted in pockets, and the table has no holes. Carom is a precision sport.</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p><strong>Basic rules</strong></p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>The basic rules are simple and apply to all disciplines: Each player plays the entire game with the same ball, his &quot;pawn&quot; which is colored yellow or white. He must try to push this so that it touches the other two balls (&quot;karamboliert&quot;). If successful, this is one of the one point and the player may continue his series. Logs, both the points scored, and the so-called shots that show how often each player came to the table. The game ends when one player reaches a set score. In most cases, the number of shots is limited. In the last shot, or if the first player has reached the required score, the second player takes the &quot;Nachsto&szlig;&quot; from the initial position (except in the block system on more than one image). It starts every game with the initial shock. This ball must be played by the red ball.</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>International tournament size of billiard tables is the match with a playing area of &#8203;&#8203;1.42 m &times; 2.84 m - equivalent to 5 feet x 10 feet. It is also a smaller, known Tournament Billiards is a size 1.05 m &times; 2.10 m, which is used except in the Bundesliga and German major championships. There is also an additional half-match pool with the dimensions 1.15 m &times; 2.30 m.</p>
+<p><br />
+          </p>
+          <p><strong>The disciplines</strong></p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>Original version is the free game, in other disciplines will be added aggravating additional rules that require the removal drawn-fields according to certain rules (Cadre-disciplines) or the game on the rebound (single pass, three-band).</p>
+<p><br />
+          </p>
+          <p><strong>Vacant lot</strong></p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>The free game is the basic discipline of carom billiards. Here, the basic rule that a carom is achieved when the ball touches the other two balls, without any restrictions. The only exception is the corner that is marked by a fine chalk line on the cloth (corner smear). Here is the limitation that when both object balls (Ball 2, and 3) in the selected area have taken place only once a full Carambolage may be achieved. left in the second shock after the occurrence must be one of the two object balls to the marked area. It also must go back into it. The referee announces this game situations with the announcement &quot;entry&quot; (or &quot;Come&quot;, &quot;Entr&eacute;e&quot;) and &quot;interpenetration&quot; (&quot;Dedan&quot;) to. A centrally lying on the ball marker is seen here against the player (as in, &quot;or&quot; in &quot;), with the announcement&quot; astride &quot;the referee decides not immediately apparent situation (for information on opponents and the audience) that to be (more) both object balls are in the stop band.</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>Characteristic of the free game, the &quot;American Series&quot;. It was developed in 1876 by the Canadian brothers Dion and the U.S. players Sexton. In the American series, the player drives the two object balls along the gang around the table. In principle there are two different techniques. These techniques are a part, the &quot;Drift Series&quot;, on the other hand, the &quot;tripartite system&quot;.</p>
+    <p>&nbsp;</p>
+          <p>The &quot;triple system&quot; is started from a closed position (closed position means that presses the second and third ball). An imaginary line through the two balls would be pressed resulting in approximately a 45 degree angle to the boards. The &quot;tripartite system&quot; got its name because, as just 3 shocks are required to return to the starting position, but a few inches further in the direction of play. The first shock of that first ball is played, the further away from the boundary. In the second, the ball hit first book approach and a so-called adjustment to a &quot;ink on your own ball&quot; was created. The third blow hits again the band closer ball first, the ball shall be &quot;press&quot; on the ball and the first taken bandenentfernteren Ball inked their own ball to the back and lies down again to press bandenentfernteren Ball (starting position). The &quot;tripartite system&quot; is possible with proper and accurate way of playing well at longer distances of all three balls to the gang.</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>When the driving range is also expected from a closed position, the ball usually lies slightly closer to the gang. The driving range is perfect for playing in only one shock, the band closer ball is hit first and &quot;driven&quot; about the band playing in some Centimenter direction. In the meantime, the ball hits the ball and drives it bandenentfernteren also slightly forward. The pace of bandenn&auml;herem and bandenentfernteren ball is exactly chosen so that the result is a closed position again, and exactly the same function can be repeated.</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>In addition to these two techniques exists a set of so-called intermediate balls (intermediate impact), which is not exactly one of these two techniques will be assigned. The perfection of free parties, with well over 1000 points in series led to the development of the discipline Cadre, the described &quot;tripartite system&quot; here is used.</p>
+<p><br />
+          </p>
+          <p><strong>Cadre</strong></p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>Cadre at the table is divided by fine chalk lines in nine and six fields. In addition, the large table called anchors are located. Within these areas are subject to separate rules. Did the ball and one of the other balls in contact after they have come to rest, which is also referred to as a press, then we have here, in contrast to the free game, the choice as to whether the balls are established or maintained to play if you like. In the event that one continues to play, must be of the ball, the contact is to be borne off, because otherwise there is a so-called puncture. When you stand on the press or jump out of a ball off the table are all three balls are re-implemented. Cadre following disciplines are distinguished:</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>* 47 / 2, 71 / 2, 47 / 1 for the big pool<br />
+            * 38 / 2 and 57 / 2 for the six-match pool<br />
+            * 35 / 2 and 52 / 2 for the small pool</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>The number before the slash is the distance between the lines drawn in centimeters to the bands. The resulting fields are the Cadrefelder. So there are for 47 / 1, 47 / 2, 38 / 2 and 35 / 2 for the other nine fields and disciplines in the Cadre six fields. The number after the slash indicates how many points you can achieve in those fields before ball 2 or 3, this has to leave. This means rolling ball 2 and ball 3 (Ball 1 is always the cue-ball) in one of these fields, they are in / 2 - disciplines 'Come in', in / 1 - 'inside' disciplines. Are achieved in a field near 'Come in' a point and the balls 2 and 3 are still in the same field, it is now 'inside'. For 'inside' ball must leave 2 or 3 of this ball field. If a ball played from the field and rolled back into the same box, so this is allowed. On the large table also called anchors are located. In addition, these fields are the same conditions as in the normal Cadrefeldern.</p>
+    <p>&nbsp;</p>
+          <p>Cadre characteristic of the so-called &quot;dash-series is. Similar to the American series is here trying to collide two object balls to each other on-line on Cadrefeldern Cadre. As the two played or balls - even with the greatest sensitivity - always remove a little of each other, it is necessary after a few bumps, the key to the band near Ball 2 to the band to its running again in the immediate vicinity of ball 3 and the Cadrestrichs to stop by Ball 1: The line series begins again.</p>
+    <p>&nbsp;</p>
+          <p>From the referee rules: If two ball in the anchor position information is needed, which related to the position of the balls Cadrefeld basically first state, such as &quot;inside&quot; (in Cadrefeld) - &quot;Come&quot; (the anchor). If the position of the balls 2 and 3 exclusively for one of the Cadrefelder important enough that one is acknowledged. In contrast, the name of a significant position in the anchor ball is always preceded enforce an indication of ball position in Cadrefeld, even if the Cadrefeld not &quot;come&quot; - or &quot;in it&quot; situation exists. In this case, the arbitrator, failing that, use of the term &quot;straddling&quot;, for example, &quot;astride-in,&quot; not &quot;anchor come&quot;). The referee prevents two identical ball position data, he does not say, &quot;Come in, come in,&quot; or &quot;inside-inside&quot;, but &quot;both come&quot; or &quot;in it both.&quot;</p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>The anchors are located at each end of a Cadrestriches to the gang. The anchor has the dimensions 17.8 cm &times; 17.8 cm and is shared equally in adjacent Cadrefeldern.</p>
+<p><br />
+          </p>
+          <p><strong>Binding</strong></p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>In this discipline has to touch their own game ball (ball 1) at least one band before the carom is terminated. The easiest way would this be a regular face-off of the ball 2, band (s), Ball 3rd Conceivable, however, are other options be scan of one or more support act (s), balls 2 and 3, with or without additional intermediate band (s). An interesting variation is the so-called Binding - America. Here, the object balls (2 and 3) set in volume close to 90 degree angle on the bonds. With the game ball (1) is now very soft billets are played until the position is open. Properly set to B2, this can be opposed on the band get back in the position and Vorbandenserie begins again.</p>
+<p><br />
+          </p>
+          <p><strong>Volume Three</strong></p>
+          <p>&nbsp;</p>
+          <p> </p>
+          <p>This category has the carom billiards must-own game ball before the collision with the third game ball touches at least three times a band, so that a point can be counted, this person may also be the same. This challenge allows, in contrast to other Carambolagevarianten, and advanced players, only a few points per fixture: It comes at a relatively rapid changes of the players. For this reason, the tension for the audience is very large, which explains the relatively large public interest in this variant. For this discipline since 2005, both at World and European championships, as well as in the German football leagues use a specially marked with red dots set points (billiard balls), which allow viewers a better traceability of the Effects.</p>
+<p>&nbsp;</p>
+          <p><strong>&nbsp;<a name="snooker" id="snooker"></a>5.4 Snooker (simplest variant</strong>)<a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+          <p>&nbsp;</p>
+          <p><img src="../img/birdview.png" alt="Snooker" width="519" height="419" /></p>
+          <p id="bildtext">Picture  6: Snooker in bird's eye-view<br />
+          </p>
+    <p>&nbsp;</p>
+          <p><strong>Objective</strong></p>
+    <p>&nbsp;</p>
+    <p>The objective of the game of snooker is to strike the white cue ball with a cue in the direction of other object balls and to pot these object balls in one of the six pockets. This must be done according to the rules of the game, described below. By potting object balls points can be scored. The player who scores most points wins the frame, and the player who wins most frames wins the match.</p>
+          <p><br />
+            <strong>Match</strong></p>
+    <p>&nbsp;</p>
+          <p>A match usually consists of a fixed, odd number of frames. A frame begins with setting up the balls as described above. A frame ends when all balls are potted, or when one of the players concedes defeat because he is too far behind in score to equal or beat the score of the other player.</p>
+          <p>A match ends when one of the players has won the majority of the set number of frames and the other player can therefore not equal this. For example, when a match consists of 19 frames, the match ends when one of the players has reached 10 frames.</p>
+    <p>&nbsp;</p>
+          <p><strong>Gameplay</strong></p>
+    <p>&nbsp;</p>
+          <p>At the beginning of each frame the balls are set up by the referee as explained. This will be followed by a break-off shot, on which the players take turns. At the break-off, the white cue ball can be placed anywhere inside the D, although it is common for players to start by placing the ball on the line, between the brown ball and either the green or yellow ball.</p>
+    <p>&nbsp;</p>
+          <p>Players take turns in visiting the table. When one player is at the table, the other cannot play. A break is the number of points scored by a player in one single visit to the table. A player's turn and break end when he fails to pot a ball, when he does something against the rules of the game, which is called a foul, or when a frame has ended.</p>
+    <p>&nbsp;</p>
+          <p>The ball or balls that can be hit first by the white are called the ball(s) &quot;on&quot; for that particular stroke. The ball(s) &quot;on&quot; differ from shot to shot: a red ball, if potted, must be followed by a colour, and so on until a break ends; if a red is not potted, any red ball remains the ball &quot;on&quot;. Only a ball or balls &quot;on&quot; may be potted legally by a player. If a ball not &quot;on&quot; is potted, this is a foul.</p>
+    <p>&nbsp;</p>
+          <p>If the cue ball is touching another ball which would otherwise be available for play (&quot;on&quot;), the referee or player shall state &quot;Touching ball&quot;, whereupon the striker must play away from it without moving it: if the ball moves, it is a push stroke, and a foul. No penalty is incurred for thus playing away if (1) the ball is not &quot;on&quot;; (2) the ball is on and the striker nominates such ball; or (3) the ball is on and the striker nominates, and first hits, another ball.</p>
+    <p>&nbsp;</p>
+          <p>If a ball is potted when a penalty has been conceded, the offending player's ball which has been potted is to be placed once again back into the original spot it was at before as it was an illegal pot.</p>
+    <p>&nbsp;</p>
+          <p>The game of snooker generally consists of two phases. The first phase is the situation in which there are still red balls on the table. In the first phase, at the beginning of a player's turn, the balls &quot;on&quot; are all remaining red balls. The player must therefore attempt to first hit and pot one or more red balls. For every red ball potted, the player will receive 1 point. When a red has been potted, it will stay off the table and the player can continue his break. If no red has been potted or a foul has been made, the other player will come into play.</p>
+    <p>&nbsp;</p>
+          <p>In case one or more red balls have been potted, the player can continue his break. This time one of the six colours (yellow, green, brown, blue, pink and black) is the ball &quot;on&quot;. Only one of these can be the ball &quot;on&quot; and the rules of the game state that a player must nominate his desired colour to the referee, although it is often clear which ball the striker is playing and it is not necessary to nominate.</p>
+    <p>&nbsp;</p>
+          <p>When the nominated colour is potted, the player will be awarded the correct number of points (yellow, 2; green, 3; brown, 4; blue, 5; pink, 6; black, 7). The colour is then taken out of the pocket by the referee and placed on its original spot. If that spot is covered by another ball, the ball is placed on the highest available spot. If there is no available spot, it is placed as close to its own spot as possible in a direct line between that spot and the top cushion, without touching another ball. If there is no room this side of the spot, it will be placed as close to the spot as possible in a straight line towards the bottom cushion, without touching another ball.</p>
+    <p>&nbsp;</p>
+          <p>Because only one of the colours is the ball &quot;on&quot;, it is a foul to first hit multiple colours at the same time, or pot more than one colour (unless a free ball has been awarded (q.v.)).</p>
+    <p>&nbsp;</p>
+          <p>If a player fails to pot a ball &quot;on&quot;, it being a red or nominated colour, the other player will come into play and the balls &quot;on&quot; are always the reds, as long as there are still reds on the table.</p>
+    <p>&nbsp;</p>
+          <p>The alternation between red balls and colours ends when all reds have been potted and a colour is potted after the last red, or a failed attempt to do so is made. All six colours have then to be potted in ascending order of their points value (yellow, green, brown, blue, pink, black). Each becomes the ball &quot;on&quot; in that order. During this phase, when potted, the colours stay down and are not replaced on the table, unless a foul is made when potting the colour, in which case the colour is respotted.</p>
+    <p>&nbsp;</p>
+          <p>When the colours have been potted, the frame is over and the player who has scored most points has won it.</p>
+    <p>&nbsp;</p>
+          <p><strong>Fouls</strong></p>
+    <p>&nbsp;</p>
+          <p>A foul is a shot or action by the striker which is against the rules of the game.</p>
+          <p>When a foul is made during a shot, the player's turn is ended and he will receive no points for the foul shot. The other player will receive penalty points.</p>
+    <p>&nbsp;</p>
+          <p><strong>Common fouls are:</strong></p>
+    <p>&nbsp;</p>
+          <p> failing to hit any other ball with the cue ball<br />
+            first hitting a ball &quot;not-on&quot; with the cue ball<br />
+            potting a ball &quot;not-on&quot;<br />
+            potting the white (in-off)<br />
+            hitting a ball other than the white with the cue<br />
+            making a ball land off the table<br />
+            touching the cue ball with something other than the tip of the cue<br />
+            playing a &quot;push shot&quot; - a shot where the cue, cue ball and object ball are in simultaneous contact<br />
+            playing a &quot;jump shot&quot;, which is where the cue ball leaves the bed of the table and jumps over a ball (even if touching it in the process) before first hitting another ball<br />
+    playing a shot with both feet off the ground</p>
+    <p>&nbsp;</p>
+          <p>Should a cue ball be touched with the tip while &quot;in-hand&quot;, i.e. when breaking-off or playing from the &quot;D&quot; after being potted, a foul is not committed as long as the referee is satisfied that the player was only positioning the ball, and not playing, or preparing to play, a shot.</p>
+    <p>&nbsp;</p>
+          <p>When a foul is made, the other player will receive penalty points. Penalty points are at least 4 points and at most 7 points. The number of penalty points is the value of the ball &quot;on&quot;, or any of the &quot;foul&quot; balls, whichever is highest. When more than one foul is made, the penalty is not the added total &mdash; only the most highly valued foul is counted.</p>
+    <p>&nbsp;</p>
+          <p>Not hitting the ball &quot;on&quot; first is the most common foul. Players can make life difficult for an opponent by making sure that they cannot hit a ball &quot;on&quot; directly. This is most commonly called &quot;snookering&quot; one's opponent or alternatively &quot;laying a snooker&quot; or putting the other player &quot;in a snooker&quot;.</p>
+    <p>&nbsp;</p>
+          <p>Since players receive points for fouls by their opponents, snookering one's opponent a number of times in a row is a possible way of winning a frame when potting all the balls on the table would be insufficient for you to win.</p>
+    <p>&nbsp;</p>
+          <p>If a player commits a foul, and his opponent considers that the position left is unattractive, he may request that the offender play again from the resulting position.</p>
+    <p>&nbsp;</p>
+          <p>If a foul has been committed by not hitting a ball &quot;on&quot; first, or at all, and the referee judges that the player has not made the best possible effort to hit a ball &quot;on&quot;, and neither of the players are in need of snookers to win the frame, or would be after the penalty points were applied, then &quot;foul, and a miss&quot; is called. In this instance the other player may request that all balls on the table are returned to their position before the foul, and the opponent play the shot again. (In top class play, this will usually require only the cue ball and a couple of other balls to be moved.) This rule is often applied less stringently, if at all, in amateur matches.</p>
+    <p>&nbsp;</p>
+    <p>Since jump shots are explicitly forbidden, it can happen that the ball on is physically impossible to hit even with a swerve shot. (This can happen, for instance, if the cue ball is crowded into a corner and closely surrounded by several reds after a red was potted. It is technically possible to drive one's opponent into a physically impossible snooker by dislodging several colours in one shot, but this is virtually unheard of.) In this case the player is nevertheless required to nominate a ball and attempt to hit it, i.e. to play in the direction that would hit it if the obstacles were not present. A foul shot will inevitably be called, but since the task was impossible, this will never be a miss, and the game continues normally.</p>
+          <p><br />
+            <strong>Free ball</strong></p>
+    <p>&nbsp;</p>
+          <p>Free ball occurs after a foul shot where the resultant layout of the table leaves the opponent snookered (unable to hit any legitimate ball on either side). The opponent of the player who committed the foul can choose any other ball on the table as a replacement for the ball in question, and pot this as if it were the intended ball. For example, if the ball &quot;on&quot; is a red, and the free ball is a pink, the player will receive one point for potting the pink (which is then respotted). He then continues to attempt to pot a colour which, if successful, is followed by another red etc. If a colour was ball on, and both the nominated (red) ball and the coloured ball on are potted, only the ball on (colour) is scored. Both balls are then spotted. This is the only time while attempting to pot a colour that two balls can be pocketed without a foul occurring. If the ball on is red and both the nominated and ball on are potted, then each ball potted is scored as a red, as would be typical if it were not a free ball. The colour free ball is then spotted and the ball on remains off the table.</p>
+    <p>&nbsp;</p>
+          <p>It is allowed to play a snooker using the free ball, providing the snooker does not leave all balls 'on' snookered behind the ball which has just been used as the ball 'on'. It is allowed to cannon a ball nominated as a red into another red, so as to pot this (a plant).</p>
+    <p>&nbsp;</p>
+          <p>The only exception to this rule is if the &quot;on&quot; ball is a red that is being obstructed by another red. For example, if the player breaking-off hits the white too soft and it does not hit the triangle of reds, a free-ball would not be called, even though no red can be hit on both sides, since the only thing preventing some of the reds being hit on both sides is another red.</p>
+    <p>&nbsp;</p>
+    <p>A free ball scenario does not occur when the ball gets stuck at the edge of a pocket jaw (commonly referred to as &quot;angled') in such a manner that the player is unable to hit any legitimate ball. This is because according to the official snooker rules a ball is snookered only if its way is obstructed by balls not on. In this scenario, after a foul, the player may choose to either take the shot from the current position or ask the offender to play again.</p>
+          <p><br />
+            <strong>Miss</strong></p>
+    <p>&nbsp;</p>
+          <p>A miss will be called if a player does not hit the ball &quot;on&quot; first and is deemed by the referee to have not made a good enough attempt at the shot. This gives his opponent the option of having the balls replaced as they were and have the fouling player take his shot again. A miss would not normally be called should the offending player require snookers, but there are exceptions to this scenario. Firstly, it may be possible to make full central contact with a ball &quot;on&quot; with a plain straight stroke, in which case a miss would be called every time an unsuccessful attempt at hitting it was produced. Secondly, it is still up to the referee's discretion whether an adequate attempt at hitting the object ball was made. If the referee deems that the snookered player has made no genuine effort to hit the ball, a miss can still be called despite snookers being required.</p>
+    <p>&nbsp;</p>
+          <p>The rule was introduced to prevent players from playing professional fouls, i.e. deliberately fouling so as to leave the balls in a safe position, reducing the risk of giving a frame-winning chance to the opponent. Multiple misses often occur because players attempt to hit a shot very softly or thinly in situations where a fuller contact might leave their opponent an easy potting chance. This can lead to an apparently easy escape being attempted several times, as players feel that it is better to concede many points but leave a safe position, than concede none and leave a frame-winning chance.</p>
+    <p>&nbsp;</p>
+    <p>However, the applied interpretation of the rule has proved controversial, as players sometimes narrowly miss a shot many times. Sometimes this is due to bad luck, or the difficulty of a snooker &ndash; meaning that a good snooker can pay more dividends than a great pot.</p>
+          <p><br />
+            <strong>The end of a frame</strong></p>
+    <p>&nbsp;</p>
+          <p>If the score is tied after the final black is potted, the black is &quot;respotted&quot; and the cue ball put &quot;in hand&quot;. The referee will then toss a coin, with the player winning the toss choosing who will take first strike at the black. Play then continues normally until the black is potted or another frame-ending situation occurs. A frame normally ends in one of three ways:</p>
+    <p>&nbsp;</p>
+    <p> A concession, when one player gives up due to being too far behind to have a realistic chance of winning the frame (usually when at the snookers-required stage).</p>
+          <p><br />
+            When the pink is potted in the final stage of the frame, and the potting player leads by more than seven points as a result. The striker may pot the black, for example to complete a high-scoring break, if he so desires.</p>
+          <p><br />
+            The final black is potted legally (including after a respot), and the seven points scored puts one player ahead.</p>
+    <p>&nbsp;</p>
+          <p><strong>There are three less common ways to end a frame</strong>:</p>
+    <p>&nbsp;</p>
+    <p> A foul on the black, when the black is the only ball left. It is sometimes wrongly assumed that play continues after a foul on the black if there are less than seven points between the scores. This is not the case: the player who is in the lead following the assessment of a penalty after a foul when only the black remains is the winner.</p>
+          <p><br />
+            Failure to hit a ball &quot;on&quot; three times in a row, if the player has a clear sight of the ball. The referee will warn a player after a second such miss that a third miss will mean, that the opponent will be awarded with the frame. This rule does not apply if the player is snookered. As missing due to avoiding a direct shot on a ball is usually a tactical, rather than skill-related, outcome, this rule is rarely invoked, as a player will simply hit the ball directly on the third shot.[1]<br />
+    If the referee deems a player is taking too long to take his shot, the player may be warned. If the player continues to hesitate, the frame may be awarded to the other player at the discretion of the referee. In practice, a delay of over two minutes can result in such a forfeiture.</p>
+    <p>&nbsp;</p>
+          <p><strong>Maximum break</strong></p>
+    <p>&nbsp;</p>
+          <p>The highest break that can be made under normal circumstances is 147. To achieve that, the player must pot all 15 reds, with the black after every red, followed by potting the six remaining colours. This &quot;maximum break&quot; of 147 rarely occurs in match play.</p>
+    <p>&nbsp;</p>
+          <p>If an opponent fouls before any balls are potted, and leaves the player a free ball, the player can then nominate a colour and play it as a red ball. Then, black can be nominated as the next colour. This means it is actually possible to score the value of 16 reds and blacks (16 * 8), plus the values of all the colours (27), which equals 155 points scored. This has never been done in a professional tournament. The highest break in tournament play is 149, and the highest break in professional matchplay is 148.</p>
+    <p>&nbsp;</p>
+          <p>The highest possible score, as distinct from the highest possible break, is unlimited and depends on the value of points scored from the opponent's foul shots when added to the player's own scored points (which may not require the highest break).</p>
+<p><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
+</div>
+</div>
+</body>
+</html>

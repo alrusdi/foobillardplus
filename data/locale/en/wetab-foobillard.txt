@@ -1,0 +1,417 @@
+Human Player
+4tiitoo
+Human Player 2
+4tiitoo
+Any
+Full
+Half
+arg=ai|human set player1 ai/human
+arg=ai|human set player2 ai/human
+arg=ai|human set player1 ai/human
+arg=ai|human set player2 ai/human
+Set name of player1
+Set name of player2
+8ball pool game
+9ball pool game
+Carambol billard game
+Snooker billard game
+arg=on|off
+arg=5-100
+Browser: %s
+Blue table with chrome edges
+Green table with gold edges
+Red table with gold edges
+Black table with white frame
+Beige table with black metal
+Table size (length) in foot (default=7.0)
+Turn on lens flare
+Turn off lens flare
+Use positional light
+Use directional light
+To err is artificial (player1 error 0..1)
+To err is artificial (player2 error 0..1)
+Set ball detail l[ow] m[edium] h[igh] or v[eryhigh]
+Start in stereo mode (red-green(cyan))
+arg=left|right|middle for aiming eye position
+arg=IP-address for TCP/IP connection
+arg=port# for TCP/IP connection
+<width>x<height> window geometry
+Play in fullscreen mode
+arg=on|off free move in external view mode
+arg=on|off rendered cubemap reflections
+arg=<texture size for cuberef> (must be power of 2)
+arg=on|off bumpmap reflections of edges
+arg=on|off bumpmap of wood covers
+arg=on|off trace lines of balls
+arg=match|training|tournament
+arg=on|off Glassballs on or off
+arg=on|off enable/disable avatar
+arg=1.0..10.0 AI fast motion ratio for tournament
+arg= browsername in path (default: firefox)
+This help
+Usage: %s [--option [<arg>]]\n
+  Options:\n
+The color <0xrrggbb> means one byte for each red, green, blue\n
+Can't write to %s - check rights\n
+4tiitoo
+Human
+AI for %d
+Human player %d
+Tournament Run %d/4
+<Fire> to continue
+<not available>
+More >
+< Back
+on
+off
+Spheremap
+Rendered
+Glassball On/Off
+low
+medium
+high
+very high
+middle
+left
+right
+rg on
+rg off
+enable
+aim eye
+on
+off
+Fullscreen
+window
+7 foot
+8 foot
+9 foot
+12 foot
+gold-green
+gold-red
+chrome-blue
+black-white
+black-beige
+8 ball
+9 ball
+Carambol
+Snooker
+Table size
+Help line
+Game type
+Resolution
+View mode
+red/green stereo
+Lens flare
+Ball detail
+Reflections
+Bump reflections
+Bumpy wood frame
+Table theme
+Ball traces
+YES  out'a here
+NO  continue
+Excellent
+Good
+Medium
+Bad
+Worse
+P2 Type
+P2 Skill
+Single match + Player options
+Tournament
+Training
+P1 Name: %s
+P2 Name: %s
+Port: %d
+Start Game
+IP: %s
+As Host
+Join
+Player1
+Player2
+Start Tournament
+Start Training
+Mode
+Restart Game
+Network game
+Display
+Sound
+Game
+Resume
+Game Menu
+Graphic
+Help
+Quit
+wins
+Hallo
+P1 Type
+P1 Skill
+FooBillard++ WeTab - Help
+ <ESC> ... Popup menu
+ <F1> ... Toggle this help screen
+ <F2> ... Birdview (same as <F3>+<F4>+centered pos)
+ <F3> or <b2>after<b1> (no move) ... Toggle cue/external view
+ <F4> ... Toggle free move mode in ext view
+ <F5> ... save config
+ <F6> ... Toggle actual player AI/Human
+ <F8> ... Toggle the shoot help line
+ <F9> ... Suggest AI-shot
+ <F10> ... Start a new game
+ <left><right><up><down> or <button1>+<mousemotion> ... Rotate
+ <1><2> or <button2>+<mousemotion> ... Radial move
+ <space> or <enter> or <button3> ... Shoot
+ <m>+<Cursor keys> or <shift>+<b1> or <b2>after<b1> ... Place cue ball
+ <e>+<Cursor keys>, <e>+<mousemotion> ... English adj.
+ <shift>+<b2> or <b1>after<b2> and <mousemotion>... English adj.
+ <ctrl>+<b2> or <f>+<cursor up/down> ... set front of view (FOV)
+ <s> or <ctrl>+<button1> ... Direct mouse-cue-shot
+ <pg-up><pg-down> ... Strength adj.
+ <r> ... Toggle simpler reflections
+ <b>+<mouse> or <b>+<Cursor keys> ... Cue butt up/down
+ <u> ... Undo last move (training mode)
+ <TAB> ... Change cueball (training mode)
+ 
+ (c) 2001 F. Berger, FB++ 2011 H. Schaekel. licensed under GPL
+Wins Tournament
+Goal of the game are %i points
+next:%d
+red
+col
+yellow"
+green
+brown
+blue
+pink
+black
+Foreign ball first alluded. 
+Played 8 ball first. 
+First ball played in the penalty. 
+Half ball pocketed - good. 
+Full ball pocketed - good. 
+No ball hit. 
+Game ball lost. 
+Player %s court. 
+Player %d court. 
+Player remains on course. 
+Wrong ball is played. 
+Player remains on course. 
+White cue ball is lost. 
+Yellow cue ball is lost. 
+Red ball lost. 
+Good hit - make the next. 
+Game ball lost. 
+Red ball was required. 
+Red ball - good. 
+Colored ball was required. 
+Colored ball - good. 
+%s was required. 
+%s holed - well done. 
+Rendering
+Resolution
+Positional
+Direct
+1-2 Player Game
+Points: %i
+Status text
+Avatar
+Jump Shots
+Anisothropic filter
+Antialiasing
+Lights
+Restart game
+Player
+View options
+Sound
+Manual
+NoName
+Keys Toggle S B E M F
+Birdview on AI/Net-Player
+Control buttons (HUD)
+Tournament timelapse
+Normal
+Slow
+Anisotrop * %01.0f
+Fingershoot
+new
+classic
+Auto free view
+Toggle Tron Mode
+IP-Addresses Server
+arg=1-5 Network-Speed slow to high
+Network-speed
+Slow
+Normal
+Middle
+High
+Menu - cancel
+Network error: received bad packet error
+Network error: wrong packet size sent
+Network error: no listener available
+Network error: First package failed to client
+Network error: the first response packet from the client incorrectly
+Network error: wrong client
+Network error: connection speed transmission
+Connected Client
+Network error: Incorrect receive packet size
+Network error: the first response packet from the server incorrectly
+Network error: First package to the server failed
+Network error: get incorrect settings
+Timer error: No more waiting for possible connection
+Network error: failed server socket connection
+Server connection established
+No Billiars partner found
+Network mode ends
+Only the Server can finish a network game
+Server / client are mathematically incompatible
+Network Compatibility Mode
+Exit to previous menu
+Compatible video modes
+Previous page
+Next page
+Shot by moving the mouse in the direction of the cue
+Shot by moving the mouse up or down
+Click to follow in real time
+Click to follow in double speed
+Click to follow in 10-fold speed
+Click to follow in 15-fold speed
+Click to follow in 30-fold speed
+Bumpmapping on the wooden edge on
+Bumpmapping on the wooden edge off
+Bumpmapping at the table corners on 
+Bumpmapping at the table corners off
+Low representation of reflections on the balls
+Middle reflections on the balls
+High reflections on the balls
+Very high reflections on the balls
+Simple spherical reflection on balls
+Rendered intensive reflections on the balls
+Glass balls on or off (spherical or rendered)
+Render and types of glass balls on or off
+Reflection and quality of ball presentation
+Bumpmapping of the table corners
+Bumpmapping of the wooden edge
+Positional light method
+Direct light
+Switch to full screen display
+Set to window mode
+Anti-aliasing on (restart required)
+Anti-aliasing off (restart required)
+Angle to middle set
+Angle to the left eye set
+Angle to the right eye set
+Stereo mode (3D) on. Red/Green glasses required
+Stereo mode off (3D)
+3D stereo menu. 3D Red/Green glasses required
+Eye view in 3D Mode
+Simulation of a lensflare on
+Simulation of a lensflare off
+Very low visual quality of the balls
+Middle visual quality of the balls
+High quality of the balls
+Very high image quality of the balls
+Table decorations in gold and green
+Table decor in red and gold
+Table decor in blue and chrome
+Table decor in black and silver
+Table representation modeled after the movie Tron (On/Off)
+Show control switch on the screen
+Hide Control switch on the screen
+Balls may fall off the pool table
+Balls can not fall off the pool table
+Specified keys have an on/off function (Recommended)
+Specified key must be pressed and hold for their function
+Player avatar on
+Player avatar off
+Show this status line
+Hide this status line
+Show Ball traces on move
+Hide Ball traces
+After a shot back to the settings-mode (Recommended)
+After a shot, stay with the last current setting
+Computer/Network player ever in bird's-eye view
+Computer/Network player ever in the regular table view
+Show the Help-line on the cue ball
+Hide the Help-line on the cue ball
+The smallest pool table with 7 feet
+8 foot pool table set
+Medium with 9 foot billiard table
+Largest pool table in 12 foot representation
+Slow network compatibility mode switch
+Changes to the fast network mode (Recommended)
+Network packets at a safe size (Standard)
+Network packets at regular size (Recommended)
+Network packets in a medium size (good cable necessary)
+Large network packets (very good line required)
+Enter the player name for player 1
+Enter the player name for player 2
+Port (both computer games must have the same values)
+Network game server as a start
+IP version 4 address of the partner (not your own)
+Participate in existing network game
+A network game
+Join to an existing network game
+Network packet size, speed or adjust
+Network compatibility mode on or off
+A local normal game for 1-2 players start
+A local one player tournament start
+Other settings for network play and start
+Start the training mode
+Number of points to be achieved in the game (1-100)
+Options for an 8 ball pool game and start
+Options for a 9 ball pool game and start
+Options for a carom billiards and start
+Options for a snooker game and start
+Selecting the type of game: 8Ball, 9Ball, Snooker or Carom
+Choose the size of the table
+Change the display control switch
+Change the behaviour of the ball physics
+Types of mouse-shot set
+View mode after a shot
+Key behavior for the specified key set
+View mode for computer and network players
+Speed of a shot of the computer in tournament
+Settings for 3D mode (Red/Green glasses needed)
+Settings for lensflare effect
+Settings for the detail of the ball presentation
+Table theme and color
+Settings to Cue Ball help-line
+Settings for the display of ball marks
+Settings for this status text
+Settings for a simple representation of a player
+Selection of the browser for the manual
+Anisotropic filtering on the textures
+Options for antialiasing
+Video mode select
+Select representation of the game on the screen
+Reflection Options
+Light source or type set of incoming light
+Enable sound output
+Sound off
+An excellent computer player
+A good computer player
+Middle Gamer
+A rather poor gamer
+A very vile, extremely poor gamer
+Player is controlled by the computer
+The player are you ......
+Computer or human player
+A player's skill level
+Settings to Player 1
+Settings to player 2
+This will leave the program - shame ..
+Thank you very much, you want to play more
+Starts the game in progress from scratch
+All options for the player settings
+Game type, table size, touch, play behavior, time-lapse ..
+3D, table themes, browser, text settings, details ....
+Options for look and feel of the graphics
+Sound output on or off
+Show a short help
+Launch the manual in the browser
+Stop playing with demand
+Player switched from human -> computer
+Player switched from computer -> human
+The function is currently not allowed
+Ball marks are now active
+Ball marks are no longer active
+Computer-shot proposal confirmed by shot

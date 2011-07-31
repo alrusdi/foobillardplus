@@ -1,0 +1,417 @@
+﻿Spieler 1
+4tiitoo
+Spieler 2
+4tiitoo
+Jede
+Voll
+Halb
+arg=ai|human setzt Spieler 1 als Computerspieler/Mensch
+arg=ai|human setzt Spieler 2 als Computerspieler/Mensch
+arg=ai|human setzt Spieler 1 als Computerspieler/Mensch
+arg=ai|human setzt Spieler 2 als Computerspieler/Mensch
+Setzt den angezeigten Namen von Spieler 1
+Setzt den angezeigten Namen von Spieler 2
+8Ball Spiel
+9Ball Spiel
+Karambol Billardspiel (3Ball)
+Snooker Billardspiel
+arg=on|off
+arg=5-100
+Browser: %s
+Tisch in blau mit Kanten in Chrom
+Tisch in gruen mit Kanten in gold
+Tisch in rot mit Kanten in gold
+Tisch in schwarz mit hellem Rahmen
+Tisch in beige mit schwarzem Metall
+Tischlaenge in Fuss (Standard=7.0)
+Linsenlichtreflex einschalten
+Linsenlichtreflex ausschalten
+Positonslicht verwenden
+Direktes Licht benutzen
+Irren ist nicht menschlich (Computerspieler 1 Fehlerstufe 0..1)
+Irren ist nicht menschlich (Computerspieler 2 Fehlerstufe 0..1)
+Balldetail setzen l[achnummer] m[ittel] h[och] oder v[erdammt hoch]
+Im Stereomodus starten (R/G-Brille notwendig)
+arg=left|right|middle der Augenposition
+arg=IP-Adresse der TCP/IP Verbindung
+arg=Portnummer der TCP/IP Verbindung
+<Breite>x<Hoehe> der Fenstergeometrie
+In Vollbild spielen
+arg=on|off freie Bewegung im Modus der externen Sicht
+arg=on|off gerenderte Reflektionen
+arg=<Texturpotenz für Reflektionen> (muss eine Potenz von 2 sein)
+arg=on|off bumpmap Reflektionen der Kanten
+arg=on|off bumpmap der Holzdecken
+arg=on|off Spurlinien der Kugeln
+arg=match|training|tournament (Spiel, Training oder Turnier)
+arg=on|off Glasball an bzw. aus
+arg=on|off Avatar Aktivieren/Deaktivieren
+arg=1.0..10.0 Computerspieler Zeitraffer für Turnier
+arg= Browsername im Suchpfad (Standard: firefox)
+Diese Hilfe
+Benutzung: %s [--option [<arg>]]\n
+  Optionen:\n
+Die Farbe <0xrrggbb> bedeutet je ein Byte für rot, gruen und blau\n
+In Datei %s kann nicht geschrieben werden - Bitte Rechte nachsehen\n
+4tiitoo
+Mensch
+Computer %d
+Spieler %d
+Turnier Lauf %d/4
+<Schuss> zum Fortfahren
+<nicht erreichbar>
+>>>
+<<<
+An
+Aus
+Sphärisch
+Gerendert
+Glasball An/Aus
+Wenig
+Mittel
+Hoch
+Sehr hoch
+Mitte
+Links
+Rechts
+R/G Stereo an
+R/G Stereo aus
+Anschalten
+Augenziel
+An
+Aus
+Vollbild
+Fenster
+7 Fuß
+8 Fuß
+9 Fuß
+12 Fuß
+Gold-grün
+Gold-rot
+Chrom-blau
+Schwarz-weiß
+Schwarz-beige
+8 Ball
+9 Ball
+Karambol
+Snooker
+Tischlänge
+Hilfslinie
+Spielart
+Grafikmodus
+Ansichtsmodus
+Rot/Grün Stereo
+Linsenlichtreflex
+Ball Detail
+Reflektionen
+Unebenheitsreflektion
+Unebener Holzrand
+Tischthema
+Ballspuren
+Ja, nur raus hier
+Nein, immer weiter
+Hervorragend
+Gut
+Mittel
+Ausreichend
+Schlecht
+Spieler 2 Typ
+Spieler 2 Geschick
+Einzelspiel + Spieleroptionen
+Turnier
+Training
+Spieler 1 Name: %s
+Spieler 2 Name: %s
+Port: %d
+Spiel starten
+IP: %s
+Als Host
+Beitreten
+Spieler1
+Spieler2
+Turnier starten
+Training starten
+Modus
+Spiel Neustart
+Netzwerkspiel
+Anzeige
+Ton
+Spiel
+Fortsetzen
+Spieloptionen
+Grafik
+Hilfe
+Beenden
+gewinnt
+Hallo
+Spieler 1 Typ
+Spieler 1 Geschick
+FooBillard++ WeTab Hilfe
+ 
+ (MENUE) ... Anzeige Popup Menü
+ (F1)  ... Hilfsbildschirm an/aus
+ (F2)  ... Vogelperspektive an/aus
+ (F3)  ... wechselt zwischen Queue und externer Ansicht
+ (F4)  ... wechselt zwischen freier Bewegung in externer Ansicht
+ (F5)  ... Einstellungen speichern
+ (F6)  ... wechselt aktuellen Spieler zwischen Mensch/Computer
+ (F7)  ... Ballspuren anzeigen/nicht anzeigen
+ (F8)  ... Vertikale Hilfslinie anzeigen/nicht anzeigen
+ (F9)  ... Schuss vom Computer vorschlagen lassen
+ (F10) ... Neues Spiel starten
+ (M)+(◀ ▶ ▲▼) bzw. (M)+(Fingerbewegung) ... Queueball setzen
+ (E)+(◀ ▶ ▲▼) bzw. (E)+(Fingerbewegung) ... Englische Ausrichtung
+ (F)+(▲▼) bzw. (F)+(Fingerbewegung ▲▼)... setzt Sichtpunkt (FOV)
+ (S)+(Fingerbewegung ▲▼)  ... Direkter Schuss am Bildschirm
+ (B)+(Fingerbewegung ▲▼) oder (B)+(◀ ▶ ▲▼) ... Queue hoch/runter
+ (U) ... Letzten Schlag zurücknehmen (im Trainingmodus)
+ (TAB) ... Spielball ändern (im Trainingmodus)
+ (◀ ▶ ▲▼) oder (Fingerbewegung) ... Rotieren
+ (◀)(▶) ... Schussstärke einstellen
+ (Gelb/weiß ▲)(Gelb/weiß ▼) ... Zoom +/-
+ (Roter Schalter) oder (Gelber Schalter) ... Schuss
+ © 2001 F. Berger, FB++ 2011 H. Schäkel. lizensiert unter GPL
+ 
+Turniergewinner
+Zu erreichendes Spielziel sind %i Punkte
+Einzulochen: %d
+Rot
+Farbe
+Gelb
+Grün
+Braun
+Blau
+Pink
+Schwarz
+Fremde Kugel zuerst angespielt. 
+8 zuerst getroffen - schlecht. 
+1. Kugel im Strafraum angespielt. 
+Halbe Kugel eingelocht - gut. 
+Volle Kugel eingelocht - gut. 
+Keine Kugel getroffen. 
+Spielkugel verloren. 
+Spieler %s am Zug. 
+Spieler %d am Zug. 
+Spieler bleibt am Zug. 
+Falsche Kugel angespielt. 
+Spieler bleibt am Zug. 
+Weiße Spielkugel verloren. 
+Gelbe Spielkugel verloren. 
+Rote Kugel verloren. 
+Guter Schlag - weiter. 
+Spielkugel verloren. 
+Rote Kugel war gefordert. 
+Rote Kugel - gut. 
+Farbige Kugel war gefordert. 
+Farbige Kugel - gut. 
+%s war gefordert. 
+%s eingelocht - gut. 
+Rendering
+Render-Auflösung
+Positionslicht
+Direkt
+1-2 Spieler Start
+Punkte: %i
+Statustext
+Avatar
+Realistischer Kugelflug
+Anisotropischer Filter
+Antialiasing
+Lichteinfall
+Neustart
+Spieler
+Ansicht
+Ton
+Anleitung
+Kein Name
+Einrasten Tasten S B E M F
+Vogelpers. Computer/Netzsp.
+Steuerungsschalter
+Zeitraffer Turnier
+Normal
+Langsam
+Anisotrop * %01.0f
+Fingerschuss
+Neu
+Klassisch
+Auto freie Ansicht
+Tron Modus An/Aus
+IP-Adressen des Servers
+arg=1-5 Netzwerkgeschwindigkeit langsam zu schnell
+Netzwerkgeschwindigkeit
+Langsam
+Normal
+Mittel
+Hoch
+Menue - Abbruch
+Netzwerkfehler: Fehlerhaftes Paket erhalten
+Netzwerkfehler: Falsche Paketgröße versendet
+Netzwerkfehler: Kein Listener vorhanden
+Netzwerkfehler: Erstes Paket zum Client fehlgeschlagen
+Netzwerkfehler: Erstes Antwortpaket vom Client fehlerhaft
+Netzwerkfehler: Falscher Client
+Netzwerkfehler: Übertragung Netzgeschwindigkeit
+Clientverbindung hergestellt
+Netzwerkfehler: Falsche Paketgröße erhalten
+Netzwerkfehler: Erstes Antwortpaket vom Server fehlerhaft
+Netzwerkfehler: Erstes Paket zum Server fehlgeschlagen
+Netzwerkfehler: Fehlerhafte Einstellungen erhalten
+Timerfehler: Kein Warten auf Verbindung möglich
+Netzwerkfehler: Server Socket-Verbindung fehlgeschlagen
+Serververbindung hergestellt
+Keinen Billardpartner gefunden
+Netzwerkmodus beendet
+Nur der Spielersteller darf ein Netzwerkspiel beenden
+Server/Client sind mathematisch inkompatibel
+Netz Kompatibilitätsmodus
+Ausgang zum nächsthöheren Menü
+Erreichbare kompatible Videomodi
+Eine Seite zurück
+Eine Seite vor
+Schuss mittels Fingerbewegung in Queuerichtung
+Schuss mittels Fingerbewegung hoch oder runter
+Abspielfolge in Echtzeit
+Abspielfolge in doppelter Geschwindigkeit
+Abspielfolge in 10-facher Geschwindigkeit
+Abspielfolge in 15-facher Geschwindigkeit
+Abspielfolge in 30-facher Geschwindigkeit
+Unebenheitsdarstellung auf dem Holzrand an
+Unebenheitsdarstellung auf dem Holzrand aus
+Unebenheitsdarstellung an den Tischecken an
+Unebenheitsdarstellung an den Tischecken aus
+Geringe Reflektionsdarstellung auf den Kugeln
+Mittlere Reflektionsdarstellung auf den Kugeln
+Hohe Reflektionsdarstellung auf den Kugeln
+Sehr hohe Reflektionsdarstellung auf den Kugeln
+Sphärische einfache Reflektion auf den Kugeln
+Gerenderte rechenintensive Spiegelung auf den Kugeln
+Glassbälle an oder aus (sphärisch oder gerendert)
+Renderarten und Glasskugeln an oder aus
+Reflektionsqualität der Kugeldarstellung
+Unebenheitsdarstellung der Tischecken
+Unebenheitsdarstellung des Holzrandes
+Positionelle Lichtmethode
+Direkter Lichteinfall
+Darstellung in den Vollbildschirm wechseln
+Darstellung in den Fenstermodus setzen
+Kantenglättung einschalten
+Kantenglättung ausschalten
+Blickwinkel auf das mittlere Auge einstelen
+Blickwinkel auf das linke Auge einstellen
+Blickwinkel auf das rechte Auge einstellen
+Stereomodus (3D) an. Rot/Grün Brille erforderlich
+Stereomodus (3D) ausschalten
+3D Stereomenü. 3D Rot/Grün Brille erforderlich
+Augenblickwinkel für 3D Modus einstellen
+Simulation eines Linsenlichreflexes einschalten
+Simulation eines Linsenlichreflexes ausschalten
+Sehr geringe Darstellungsqualität der Kugeln
+Mittlere Darstellungsqualität der Kugeln
+Hohe Darstellungsqualität der Kugeln
+Sehr hohe Darstellungsqualität der Kugeln
+Tischdekor in Gold und Grün
+Tischdekor in Gold und Rot
+Tischdekor in Chrom und Blau
+Tischdekor in Schwarz und Silber
+Tischdarstellung dem Film Tron nachempfunden (Ein/Aus)
+Steuerungsschalter auf dem Bildschirm einblenden
+Steuerungsschalter auf dem Bildschirm ausblenden
+Kugeln können vom Billardtisch fallen
+Kugeln können nicht vom Billardtisch fallen
+Angegebene Tasten haben eine Ein/Aus-Funktion (Empfohlen)
+Angegebene Tasten müssen für ihre Funktion gedrückt bleiben
+Angedeutete Spielerdarstellung einschalten
+Angedeutete Spielerdarstellung ausschalten
+Diese Statuszeile einblenden
+Diese Statuszeile ausblenden
+Ballspuren beim Schlag anzeigen
+Ballspuren beim Schlag ausblenden
+Nach einem Schlag zur Einstellungsansicht (Empfohlen)
+Nach einem Schlag die letzte aktuelle Einstellung belassen
+Computer/Netzspieler immer in der Vogelperspektive
+Computer/Netzspieler immer in der normalen Tischansicht
+Hilfslinie über dem Queueball einblenden
+Hilfslinie über dem Queueball ausblenden
+Kleinster Billardtisch mit 7 Fuß
+8 Fuß Billardtisch einstellen
+Mittlerer Billardtisch mit 9 Fuß
+Größter Billardtisch in 12 Fuß Darstellung
+Langsamen Netzwerkkompatibilitätenmodus einschalten
+Wechselt in den schnellen Netzwerkmodus (Empfohlen)
+Netzwerkpakete in sicherer Größe (Standard)
+Netzwerkpakete in normaler Größe (Empfohlen)
+Netzwerkpakete in mittlerer Größe (gute Leitung notwendig)
+Große Netzwerkpakete (sehr gute Leitung erforderlich)
+Eingabe des Spielernamens für Spieler 1
+Eingabe des Spielernamens für Spieler 2
+Port (beide WeTab müssen gleiche Werte haben)
+Netzwerkspiel als Server starten
+IP Version 4 Adresse des Spielepartners (nicht die eigene)
+An bestehendes Netzwerkspiel teilnehmen
+Ein Netzwerkspiel erstellen
+Einem bestehenden Netzwerkspiel beitreten
+Netzwerk Paketgeschwindigkeit bzw. -größe einstellen
+Netzwerkkompatibilitätsmodus ein- bzw. ausschalten
+Ein lokales normales Spiel für 1-2 Spieler beginnen
+Ein lokales 1 Spieler Turnier starten
+Weitere Einstellungen zum Netzwerkspiel und Start
+Den Trainingsmodus starten
+Anzahl der im Spiel zu erreichenden Punkte (1-100)
+Optionen für ein 8 Ball Billardspiel und -start
+Optionen für ein 9 Ball Billardspiel und -start
+Optionen für ein Carambol Billardspiel und -start
+Optionen für ein Snooker Billardspiel und -start
+Auswahl der Spielart: 8 Ball, 9 Ball, Carambol oder Snooker
+Größe des Billardtisches wählen
+Anzeige der Steuerungsschalter ändern
+Verhalten der Ballphysik verändern
+Arten des Mausschusses einstellen
+Ansichtsmodus nach einem durchgeführten Schuss ändern
+Tastenverhalten für die angegebenen Tasten einstellen
+Ansichtsmodus für WeTab und Netzspieler verändern
+Geschwindigkeit eines Computerzuges im Turnier
+Einstellungen zum 3D Modus (Rot/Grün Brille notwendig)
+Einstellungen zum Linsenlichtreflex
+Einstellungen zum Detail der Balldarstellung
+Tischthema und Farbe wählen
+Einstellungen zur Queueball Hilfslinie
+Einstellungen für die Anzeige von Ballspuren
+Einstellungen für diesen Statustext
+Einstellungen für eine einfache Darstellung eines Spielers
+Auswahl des zu verwendenen Browsers für die Anleitung
+Anisotropische Filterung für die Texturen wählen
+Optionen zur Kantenglättung
+Videomodus auswählen
+Darstellungsart des Spieles auf dem Bildschirm wählen
+Reflektionsoptionen
+Lichtquelle bzw. Art des Lichteinfalls einstellen
+Tonausgabe aktivieren
+Ton ausschalten
+Ein excellenter WeTab-Spieler
+Ein guter WeTab-Spieler
+Mittlerer WeTab-Spieler
+Ein recht schlechter WeTab-Spieler
+Ein ganz schnöder, extrem schlechter WeTab-Spieler
+Spieler wird vom WeTab gesteuert
+Der Spieler sind sie......
+WeTab oder menschlicher Spieler
+Könnerstufe eines Spielers
+Einstellungen zu Spieler 1
+Einstellungen zu Spieler 2
+Hiermit wird das Programm endgültig verlassen - Schade..
+Vielen Dank, sie möchten doch weiter spielen
+Startet das laufende Spiel von Neuem
+Alle Optionen zur Spielereinstellung
+Spielart, Tischgröße, Tasten, Spielverhalten, Zeitraffer..
+3D, Tischthemen, Browser, Texteinstellungen, Details....
+Optionen zum Aussehen und Verhalten der Grafik
+Tonausgabe ein- oder ausschalten
+Eine Kurzhilfe anzeigen
+Spielanleitung im Browser starten
+Spiel mit Nachfrage beenden
+Spieler gewechselt von Mensch -> WeTab
+Spieler gewechselt von WeTab -> Mensch
+Derzeit ist die Funktion nicht zulässig
+Ballspuren sind jetzt aktiv
+Ballspuren sind nicht mehr aktiv
+WeTab Schussvorschlag durch Auslösung bestätigen
