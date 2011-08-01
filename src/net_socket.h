@@ -25,6 +25,7 @@
 
 #ifndef NET_SOCKET_H
 #define NET_SOCKET_H
+#ifdef NETWORKING
 
 TCPsocket host_create_socket(char *net_ip);
 void net_close_listener(TCPsocket);
@@ -33,4 +34,5 @@ char* get_hostname(void);
 int socket_read(TCPsocket socket, char *buffer, int nbytes);
 int socket_write(TCPsocket socket, char *buffer, int nbytes);
 
+#endif
 #endif
