@@ -39,7 +39,9 @@
 
 #include <SDL.h>
 #include <SDL_audio.h>
-#include <SDL_net.h>
+#ifdef NETWORKING
+  #include <SDL_net.h>
+#endif
 
 #ifndef _WIN32
    #include <sys/time.h>    // us time measure
@@ -62,7 +64,9 @@
 #include "font.h"
 #include "textobj.h"
 #include "sys_stuff.h"
-#include "net_socket.h"
+#ifdef NETWORKING
+  #include "net_socket.h"
+#endif
 #include "sound_stuff.h"
 #include "menu.h"
 
