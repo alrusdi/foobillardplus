@@ -21,6 +21,7 @@ AC_CHECK_LIB(png,png_read_image)
 AC_CHECK_LIB(SDL,SDL_Init)
 AC_CHECK_LIB(SDL,SDL_LockAudio)
 AC_CHECK_LIB(SDL_net,SDLNet_Init)
+AC_CHECK_LIB(m,pow)
 
 dnl Checks for header files.
 AC_HEADER_STDC
