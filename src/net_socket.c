@@ -20,6 +20,7 @@
 **
 */
 
+#ifdef NETWORKING
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -216,3 +217,4 @@ int socket_write(TCPsocket socket, char *buffer, int nbytes)
   count = SDLNet_TCP_Send (socket, buffer, nbytes);
   return(count);
 }
+#endif
