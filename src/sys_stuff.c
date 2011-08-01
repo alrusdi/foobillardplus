@@ -28,7 +28,9 @@
 #include <getopt.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
-#include <SDL/SDL_net.h>
+#ifdef NETWORKING
+  #include <SDL/SDL_net.h>
+#endif
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "sys_stuff.h"
