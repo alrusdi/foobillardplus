@@ -40,14 +40,17 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-/opt/foobillardplus/data/*
-/opt/foobillardplus/bin/*
-/opt/foobillardplus/AUTHORS
-/opt/foobillardplus/COPYING
-/opt/foobillardplus/ChangeLog
-/opt/foobillardplus/INSTALL
-/opt/foobillardplus/README
-/opt/foobillardplus/TODO
+%dir /opt/%{name}
+%dir /opt/%{name}/bin
+%dir /opt/%{name}/data
+/opt/%{name}/data/*
+/opt/%{name}/bin/*
+/opt/%{name}/AUTHORS
+/opt/%{name}/COPYING
+/opt/%{name}/ChangeLog
+/opt/%{name}/INSTALL
+/opt/%{name}/README
+/opt/%{name}/TODO
 
 %build
 ./configure --prefix=$RPM_BUILD_ROOT/opt
