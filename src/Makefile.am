@@ -89,4 +89,4 @@ AM_CFLAGS = -Wall ${FREETYPE_CFLAGS} ${SDL_CFLAGS} ${NVIDIA_CFLAGS} ${SOUND_CFLA
             ${OPTIMIZATION_CFLAGS} -lm
 
 AM_LDFLAGS = ${all_libraries} ${FREETYPE_LIBS} ${SDL_LIBS}
-LDADD = -lGL -lGLU -lpng -lSDL_net -lpng -lfreetype
+LDADD = -lGL -lGLU -lpng -lSDL_net -lfreetype
