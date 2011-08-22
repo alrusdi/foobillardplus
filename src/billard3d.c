@@ -3908,7 +3908,7 @@ void DisplayFunc( void )
 
   VMfloat th,ph,cam_dist0;
   VMfloat znear=0.03;
-  VMfloat zfar=10.0;
+  VMfloat zfar=14.0;
   VMfloat eye_offs, zeye;        //for stereo view
   VMfloat eye_offs0, eye_offs1;  //for stereo view
 
@@ -4226,13 +4226,15 @@ void DisplayFunc( void )
        light1_position[3]=0.0;
    }
 
-   if(!FREE_VIEW){
+   if(!options_deco){ //fog only without decorations like chairs and so on
+     if(!FREE_VIEW){
        glFogf (GL_FOG_START, (cam_dist/2.0>cam_dist-1.0) ? cam_dist/2.0 : cam_dist-1.0 );
        glFogf (GL_FOG_END, cam_dist+6.0);
-   } else {
+     } else {
        cam_dist0 = vec_abs(cam_pos);
        glFogf (GL_FOG_START, (cam_dist0/2.0>cam_dist0-1.0) ? cam_dist0/2.0 : cam_dist0-1.0 );
        glFogf (GL_FOG_END, cam_dist0+6.0);
+     }
    }
 
    real_dist = cam_dist;
@@ -7102,12 +7104,12 @@ static void Init( void )
 #else
     create_png_texbind("mright.png", &mrightbind, 3, GL_RGBA);
 #endif
-    glEnable(GL_FOG);
-    glFogi (GL_FOG_MODE, GL_LINEAR);
-    glHint (GL_FOG_HINT, GL_FASTEST);
-    glFogf (GL_FOG_START, 0.0);
-    glFogf (GL_FOG_END, 10.0); //old is 9.0
-    glFogfv (GL_FOG_COLOR, fogColor);
+      glEnable(GL_FOG);
+      glFogi (GL_FOG_MODE, GL_LINEAR);
+      glHint (GL_FOG_HINT, GL_FASTEST);
+      glFogf (GL_FOG_START, 0.0);
+      glFogf (GL_FOG_END, 12.5);
+      glFogfv (GL_FOG_COLOR, fogColor);
 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
