@@ -158,7 +158,7 @@ for ( n = 0; string[n]!=0; n++ ) {
       n++;
     }
   } else if (( lb & 0xF0 ) == 0xE0 ) { // 1110 xxxx
-    printf( "3 octets\n" );
+    //fprintf(stderr,"3 octets\n" );
     if(string[n+1] == 0 || string[n+2] == 0) {
       //fprintf(stderr,"Error in 2 Octet. End of String reached\n");
     } else {
