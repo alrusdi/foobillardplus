@@ -101,19 +101,14 @@ void autonormalize_triangle( VMvect v1, VMvect v2, VMvect v3, int order )
 {
     VMvect n;
     n=vec_unit(vec_cross(vec_diff(v2,v1),vec_diff(v3,v1)));
+    glNormal3f( n.x, n.y, n.z );
     if( !order ) {
-        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v3.x,v3.y,v3.z);
-        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v2.x,v2.y,v2.z);
-        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v1.x,v1.y,v1.z);
     } else {
-        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v1.x,v1.y,v1.z);
-        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v2.x,v2.y,v2.z);
-        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v3.x,v3.y,v3.z);
     }
 }
@@ -126,18 +121,24 @@ void autonormalize_triangle_round( VMvect v1, VMvect v2, VMvect v3, int order, V
     n0=vec_cross(vec_diff(v2,v1),vec_diff(v3,v1));
     c=tri_center(v1,v2,v3);
     if( !order ) {
-        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v3,c),round))); glNormal3f( n.x, n.y, n.z );
+        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v3,c),round)));
+        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v3.x,v3.y,v3.z);
-        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v2,c),round))); glNormal3f( n.x, n.y, n.z );
+        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v2,c),round)));
+        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v2.x,v2.y,v2.z);
-        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v1,c),round))); glNormal3f( n.x, n.y, n.z );
+        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v1,c),round)));
+        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v1.x,v1.y,v1.z);
     } else {
-        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v1,c),round))); glNormal3f( n.x, n.y, n.z );
+        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v1,c),round)));
+        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v1.x,v1.y,v1.z);
-        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v2,c),round))); glNormal3f( n.x, n.y, n.z );
+        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v2,c),round)));
+        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v2.x,v2.y,v2.z);
-        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v3,c),round))); glNormal3f( n.x, n.y, n.z );
+        n=vec_unit(vec_add(n0,vec_scale(vec_diff(v3,c),round)));
+        glNormal3f( n.x, n.y, n.z );
         glVertex3f(v3.x,v3.y,v3.z);
     }
 }
@@ -514,37 +515,37 @@ void my_Cover( int segnr, VMfloat (*r1)(VMfloat), VMfloat l, int order, VMfloat 
             glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v1.x,v1.y,v1.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 0.0*0.5*tex_y);
-            glNormal3f(n1.x,n1.y,n1.z);
+            //glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v5.x,v5.y,v5.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
             glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v2.x,v2.y,v2.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
-            glNormal3f(n2.x,n2.y,n2.z);
+            //glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v6.x,v6.y,v6.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
             glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v3.x,v3.y,v3.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
-            glNormal3f(n3.x,n3.y,n3.z);
+            //glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v7.x,v7.y,v7.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
             glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4.x,v4.y,v4.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8.x,v8.y,v8.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_2.x,v4_2.y,v4_2.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_2.x,v8_2.y,v8_2.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_3.x,v4_3.y,v4_3.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_3.x,v8_3.y,v8_3.z);
             glEnd();
         } else {
@@ -553,37 +554,37 @@ void my_Cover( int segnr, VMfloat (*r1)(VMfloat), VMfloat l, int order, VMfloat 
             glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v5.x,v5.y,v5.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 0.0*0.5*tex_y);
-            glNormal3f(n1.x,n1.y,n1.z);
+            //glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v1.x,v1.y,v1.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
             glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v6.x,v6.y,v6.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
-            glNormal3f(n2.x,n2.y,n2.z);
+            //glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v2.x,v2.y,v2.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
             glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v7.x,v7.y,v7.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
-            glNormal3f(n3.x,n3.y,n3.z);
+            //glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v3.x,v3.y,v3.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
             glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8.x,v8.y,v8.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4.x,v4.y,v4.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_2.x,v8_2.y,v8_2.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_2.x,v4_2.y,v4_2.z);
             glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_3.x,v8_3.y,v8_3.z);
             glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_3.x,v4_3.y,v4_3.z);
             glEnd();
         }
@@ -669,37 +670,37 @@ void my_Cover2func( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*r2)(VMfloat), V
             glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v1.x,v1.y,v1.z);
             glTexCoord2f(v5.y*txfact,v5.x*tyfact);
-            glNormal3f(n1.x,n1.y,n1.z);
+            //glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v5.x,v5.y,v5.z);
             glTexCoord2f(v2.y*txfact,v2.x*tyfact);
             glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v2.x,v2.y,v2.z);
             glTexCoord2f(v6.y*txfact,v6.x*tyfact);
-            glNormal3f(n2.x,n2.y,n2.z);
+            //glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v6.x,v6.y,v6.z);
             glTexCoord2f(v3.y*txfact,v3.x*tyfact);
             glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v3.x,v3.y,v3.z);
             glTexCoord2f(v7.y*txfact,v7.x*tyfact);
-            glNormal3f(n3.x,n3.y,n3.z);
+            //glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v7.x,v7.y,v7.z);
             glTexCoord2f(v4.y*txfact,v4.x*tyfact);
             glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4.x,v4.y,v4.z);
             glTexCoord2f(v8.y*txfact,v8.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8.x,v8.y,v8.z);
             glTexCoord2f(v4_2.y*txfact,v4_2.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_2.x,v4_2.y,v4_2.z);
             glTexCoord2f(v8_2.y*txfact,v8_2.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_2.x,v8_2.y,v8_2.z);
             glTexCoord2f(v4_3.y*txfact,v4_3.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_3.x,v4_3.y,v4_3.z);
             glTexCoord2f(v8_3.y*txfact,v8_3.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_3.x,v8_3.y,v8_3.z);
             glEnd();
         } else {
@@ -708,37 +709,37 @@ void my_Cover2func( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*r2)(VMfloat), V
             glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v5.x,v5.y,v5.z);
             glTexCoord2f(v1.y*txfact,v1.x*tyfact);
-            glNormal3f(n1.x,n1.y,n1.z);
+            //glNormal3f(n1.x,n1.y,n1.z);
             glVertex3f(v1.x,v1.y,v1.z);
             glTexCoord2f(v6.y*txfact,v6.x*tyfact);
             glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v6.x,v6.y,v6.z);
             glTexCoord2f(v2.y*txfact,v2.x*tyfact);
-            glNormal3f(n2.x,n2.y,n2.z);
+            //glNormal3f(n2.x,n2.y,n2.z);
             glVertex3f(v2.x,v2.y,v2.z);
             glTexCoord2f(v7.y*txfact,v7.x*tyfact);
             glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v7.x,v7.y,v7.z);
             glTexCoord2f(v3.y*txfact,v3.x*tyfact);
-            glNormal3f(n3.x,n3.y,n3.z);
+            //glNormal3f(n3.x,n3.y,n3.z);
             glVertex3f(v3.x,v3.y,v3.z);
             glTexCoord2f(v8.y*txfact,v8.x*tyfact);
             glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8.x,v8.y,v8.z);
             glTexCoord2f(v4.y*txfact,v4.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4.x,v4.y,v4.z);
             glTexCoord2f(v8_2.y*txfact,v8_2.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_2.x,v8_2.y,v8_2.z);
             glTexCoord2f(v4_2.y*txfact,v4_2.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_2.x,v4_2.y,v4_2.z);
             glTexCoord2f(v8_3.y*txfact,v8_3.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v8_3.x,v8_3.y,v8_3.z);
             glTexCoord2f(v4_3.y*txfact,v4_3.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
+            //glNormal3f(n4.x,n4.y,n4.z);
             glVertex3f(v4_3.x,v4_3.y,v4_3.z);
             glEnd();
         }
@@ -887,20 +888,20 @@ void my_Bande( VMfloat x1, VMfloat y1, VMfloat z1,    /* inside up */
        if(!order){
            glNormal3f(0,-sin1,cos1);
            glVertex3f(p[10].x,p[10].y,p[10].z);
-           glNormal3f(0,-sin1,cos1);
+           //glNormal3f(0,-sin1,cos1);
            glVertex3f(p[11].x,p[11].y,p[11].z);
            glNormal3f(0,-cos2,-sin2);
            glVertex3f(p[2].x,p[2].y,p[2].z);
-           glNormal3f(0,-cos2,-sin2);
+           //glNormal3f(0,-cos2,-sin2);
            glVertex3f(p[1].x,p[1].y,p[1].z);
        }else{
            glNormal3f(0,-cos2,-sin2);
            glVertex3f(p[1].x,p[1].y,p[1].z);
-           glNormal3f(0,-cos2,-sin2);
+           //glNormal3f(0,-cos2,-sin2);
            glVertex3f(p[2].x,p[2].y,p[2].z);
            glNormal3f(0,-sin1,cos1);
            glVertex3f(p[11].x,p[11].y,p[11].z);
-           glNormal3f(0,-sin1,cos1);
+           //glNormal3f(0,-sin1,cos1);
            glVertex3f(p[10].x,p[10].y,p[10].z);
        }
     glEnd();
@@ -941,28 +942,28 @@ void my_HoleTuch( int xfact, int yfact )
        x=-TABLE_W/2.0-BANDE_D; y=-TABLE_L/2.0+edge_xyoffs;
        x*=xfact; y*=yfact;
        glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
+       //glNormal3f( 0.0, 0.0, 1.0 );
        glVertex3f(x,y,-BALL_D/2.0);
        x=-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO; y=-TABLE_L/2.0+edge_xyoffs+BANDE_D*HOLE1_TAN;
        x*=xfact; y*=yfact;
        glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
+       //glNormal3f( 0.0, 0.0, 1.0 );
        glVertex3f(x,y,-BALL_D/2.0);
 
        x=-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2; y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2;
        x*=xfact; y*=yfact;
        glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
+       //glNormal3f( 0.0, 0.0, 1.0 );
        glVertex3f(x,y,-BALL_D/2.0);
        x=-TABLE_W/2.0+edge_xyoffs+BANDE_D*HOLE1_TAN; y=-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO;
        x*=xfact; y*=yfact;
        glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
+       //glNormal3f( 0.0, 0.0, 1.0 );
        glVertex3f(x,y,-BALL_D/2.0);
        x=-TABLE_W/2.0+edge_xyoffs; y=-TABLE_L/2.0-BANDE_D;
        x*=xfact; y*=yfact;
        glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
+       //glNormal3f( 0.0, 0.0, 1.0 );
        glVertex3f(x,y,-BALL_D/2.0);
 
        glEnd();
@@ -980,7 +981,7 @@ void my_HoleTuch( int xfact, int yfact )
            y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi);
            x*=xfact; y*=yfact;
            glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( 0.0, 0.0, 1.0 );
+           //glNormal3f( 0.0, 0.0, 1.0 );
            glVertex3f(x,y,-BALL_D/2.0);
        }
        glEnd();
@@ -997,7 +998,7 @@ void my_HoleTuch( int xfact, int yfact )
            y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi);
            x*=xfact; y*=yfact;
            glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( 0.0, 0.0, 1.0 );
+           //glNormal3f( 0.0, 0.0, 1.0 );
            glVertex3f(x,y,-BALL_D/2.0);
        }
        glEnd();
@@ -1266,15 +1267,15 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
            glVertex3f( x,y, -balld/2.0);
            x=-area_w/2.0+i*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
            glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( 0.0, 0.0, 1.0 );
+           //glNormal3f( 0.0, 0.0, 1.0 );
            glVertex3f( x,y, -balld/2.0);
            x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
            glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( 0.0, 0.0, 1.0 );
+           //glNormal3f( 0.0, 0.0, 1.0 );
            glVertex3f( x,y, -balld/2.0);
            x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+j*area_l/jmax;
            glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( 0.0, 0.0, 1.0 );
+           //glNormal3f( 0.0, 0.0, 1.0 );
            glVertex3f( x,y, -balld/2.0);
 
            glEnd();
@@ -1303,13 +1304,13 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
    /* furchen */
    if(!carambol){
 #define TABLEVERTEX(x,y,z,f1,f2) \
-             glNormal3f(0.0,0.0,1.0); \
              glTexCoord2f( TABLETEXCOORD_X((x)*(f1),(y)*(f2)), TABLETEXCOORD_Y((x)*(f1),(y)*(f2)) ); \
              glVertex3f((x)*(f1),(y)*(f2),z);
    /*lower, upper*/
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
            glBegin(GL_QUAD_STRIP);
+           glNormal3f(0.0,0.0,1.0);
            TABLEVERTEX( area_w/2.0,                                -area_l/2.0,                        -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
            TABLEVERTEX( TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN, -TABLE_L/2.0-BANDE_D*BANDE_D2RATIO, -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
            for(j=0;j<AREA_SUBDIV_X-1;j++){
@@ -1325,6 +1326,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
            glBegin(GL_TRIANGLES);
+           glNormal3f(0.0,0.0,1.0);
            TABLEVERTEX( -area_w/2.0,                                  0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
            TABLEVERTEX( -TABLE_W/2.0-BANDE_D*BANDE_D2RATIO,          -HOLE2_R-HOLE2_TAN*BANDE_D,        -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
            TABLEVERTEX( -TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R,            0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
@@ -1349,6 +1351,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
 
            glBegin(GL_QUAD_STRIP);
            /* furchen */
+           glNormal3f(0.0,0.0,1.0);
            TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D, -HOLE1_R-HOLE2_TAN*BANDE_D,                 -BALL_D/2.0, fx,fy );
            TABLEVERTEX( -area_w/2.0,                        0.0,                                        -BALL_D/2.0, fx,fy );
            for(j=0;j<AREA_SUBDIV_Y/2-1;j++){
@@ -1361,6 +1364,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
 
            /* quad between area-edge and hole */
            glBegin(GL_TRIANGLES);
+           glNormal3f(0.0,0.0,1.0);
            TABLEVERTEX( -area_w/2.0,                            -area_l/2.0,                                -BALL_D/2.0, fx,fy );
            TABLEVERTEX( -TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2, -TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2,     -BALL_D/2.0, fx,fy );
            TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D,     -TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D, -BALL_D/2.0, fx,fy );
@@ -1411,7 +1415,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
                    if(j!=0) y=-y;
                    if(k!=0) x=-x;
                    glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-                   glNormal3f( 0.0, 0.0, 1.0 );
+                   //glNormal3f( 0.0, 0.0, 1.0 );
                    glVertex3f( x,y, -BALL_D/2.0 );
                }
                glEnd();
@@ -2000,19 +2004,19 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
            for(i=0;i<FEET_X_STEPS;i++){
                glNormal3f( 0.0, -1.0, 0.0 );
                glVertex3f( -(FEET_W/2.0 -FEET_R )/(VMfloat)FEET_X_STEPS*i, -(FEET_L/2.0),  -0.1 );
-               glNormal3f( 0.0, -1.0, 0.0 );
+               //glNormal3f( 0.0, -1.0, 0.0 );
                glVertex3f( -(FEET_W2/2.0-FEET_R2)/(VMfloat)FEET_X_STEPS*i, -(FEET_L2/2.0)-FEET_X_FUNC((VMfloat)i/(VMfloat)FEET_X_STEPS)*(FEET_L-FEET_L2)/2.0/(tableh+balld/2.0-0.1), -tableh-balld/2.0+FEET_X_FUNC((VMfloat)i/(VMfloat)FEET_X_STEPS) );
            }
            for(i=0;i<FEET_EDGE_STEPS;i++){
                glNormal3f( -1.0/sqrt(2.0), -1.0/sqrt(2.0), 0.0 );
                glVertex3f( -(FEET_W /2.0-FEET_R )-FEET_R *sin(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -(FEET_L/2.0- FEET_R )-FEET_R *cos(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -0.1 );
-               glNormal3f( -1.0/sqrt(2.0), -1.0/sqrt(2.0), 0.0 );
+               //glNormal3f( -1.0/sqrt(2.0), -1.0/sqrt(2.0), 0.0 );
                glVertex3f( -(FEET_W2/2.0-FEET_R2)-FEET_R2*sin(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -(FEET_L2/2.0-FEET_R2)-FEET_R2*cos(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -tableh-balld/2.0 );
            }
            for(i=1;i<FEET_Y_STEPS+1;i++){
                glNormal3f( -1.0, 0.0, 0.0 );
                glVertex3f( -(FEET_W/2.0),  -(FEET_L/2.0 -FEET_R )/(VMfloat)FEET_Y_STEPS*(FEET_Y_STEPS-i), -0.1 );
-               glNormal3f( -1.0, 0.0, 0.0 );
+               //glNormal3f( -1.0, 0.0, 0.0 );
                glVertex3f( -(FEET_W2/2.0)-FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS)*(FEET_W-FEET_W2)/2.0/(tableh+balld/2.0-0.1), -(FEET_L2/2.0-FEET_R2)/(VMfloat)FEET_Y_STEPS*(FEET_Y_STEPS-i), -tableh-balld/2.0+FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS) );
            }
            glEnd();
@@ -2034,62 +2038,56 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
    glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,0);
    glVertex2f(0,0);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,1);
    glVertex2f(5,0);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,1);
    glVertex2f(5,-5);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,0);
    glVertex2f(0,-5);
 
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,0);
    glVertex2f(0,5);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,1);
    glVertex2f(5,5);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,1);
    glVertex2f(5,0);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,0);
    glVertex2f(0,0);
-   glEnd();
 
-   glBindTexture(GL_TEXTURE_2D,floortexbind);
-   glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
-   glBegin(GL_QUADS);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,1);
    glVertex2f(-5,0);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,0);
    glVertex2f(0,0);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,0);
    glVertex2f(0,-5);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,1);
    glVertex2f(-5,-5);
 
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,1);
    glVertex2f(-5,5);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(0,0);
    glVertex2f(0,5);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,0);
    glVertex2f(0,0);
-   glNormal3f( 0.0, 0.0, 1.0 );
    glTexCoord2f(1,1);
    glVertex2f(-5,0);
+
+   // room walls
+
+/*   glTexCoord2f(0,1);
+   glVertex2f(-5,5);
+   glTexCoord2f(0,0);
+   glVertex2f(0,5);
+   glTexCoord2f(1,0);
+   glVertex2f(0,0);
+   glTexCoord2f(1,1);
+   glVertex2f(-5,0); */
+
+
+
+
    glEnd();
    glPopMatrix();
-   glEnable(GL_TEXTURE_2D);
 
   // for debugging only
   /* for(i=0;i<borders->holenr;i++){
