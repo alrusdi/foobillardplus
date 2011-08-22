@@ -150,6 +150,7 @@ int    options_auto_freemove = 1;  // after shoot switch back to freeview (Stand
 int    options_anisotrop = 0;      // Anisotropic Filter 0 = no, 1 = yes
 int    options_tronmode = 0;       // the special tron game mode
 int    options_glassballs = 0;     // play with glass balls or other to implement ball types
+int    options_deco = 0;           // special for showing deco on walls, chairs and so on (1 = on, 0 = off)
 GLfloat  options_maxanisotrop = 0.0;   // max. of anistropic filters
 VMfloat  options_value_anisotrop = 0.0;    // the vaule for anisotropic filtering if supported and < maxanisotrop (default 0.0)
 
