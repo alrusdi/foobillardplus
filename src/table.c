@@ -1053,6 +1053,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
     static GLuint doortexbind=-1;
     static GLuint boardtexbind=-1;
     static GLuint ceilingtexbind=-1;
+    static GLuint pricetexbind=-1;
     static GLuint frametexbind=-1;
     static GLuint floortexbind=-1;
     static GLuint tabletexbind=-1;
@@ -1186,7 +1187,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
     glGenTextures(1,&closewindowtexbind);
     load_png("closewindow.png",&frametexw,&frametexh,&depth,&frametexdata);
     glBindTexture(GL_TEXTURE_2D,closewindowtexbind);
-    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 4, frametexw, frametexh, GL_RGBA, GL_UNSIGNED_BYTE, frametexdata);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -1199,7 +1200,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
     glGenTextures(1,&doortexbind);
     load_png("door.png",&frametexw,&frametexh,&depth,&frametexdata);
     glBindTexture(GL_TEXTURE_2D,doortexbind);
-    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 4, frametexw, frametexh, GL_RGBA, GL_UNSIGNED_BYTE, frametexdata);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -1212,7 +1213,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
     glGenTextures(1,&boardtexbind);
     load_png("board.png",&frametexw,&frametexh,&depth,&frametexdata);
     glBindTexture(GL_TEXTURE_2D,boardtexbind);
-    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 4, frametexw, frametexh, GL_RGBA, GL_UNSIGNED_BYTE, frametexdata);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -1234,6 +1235,18 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
     }
     free( frametexdata );
 
+    if( pricetexbind > 0 ) glDeleteTextures( 1, &pricetexbind );
+    glGenTextures(1,&pricetexbind);
+    load_png("price.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,pricetexbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 4, frametexw, frametexh, GL_RGBA, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
 
     if( frametexbind > 0 ) glDeleteTextures( 1, &frametexbind );
     glGenTextures(1,&frametexbind);
@@ -2258,6 +2271,8 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
      glVertex3f(-5.0, 5.0, 0.0);    // Bottom Left
      glEnd();
 
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+     glEnable(GL_BLEND);
      glBindTexture(GL_TEXTURE_2D,boardtexbind);
      glBegin(GL_QUADS);
      glTexCoord2f(0,0);
@@ -2269,6 +2284,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
      glTexCoord2f(0,1);
      glVertex3f(-2.0, 4.999, 0.7);    // Bottom Left
      glEnd();
+     glDisable(GL_BLEND);
 
      glRotatef(90,0,0,1);
      glBindTexture(GL_TEXTURE_2D,corr1texbind);
@@ -2281,6 +2297,19 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
      glVertex3f( 5.0, 5.0, 0.0);    // Bottom Right
      glTexCoord2f(0,2);
      glVertex3f(-5.0, 5.0, 0.0);    // Bottom Left
+     glEnd();
+
+     glBindTexture(GL_TEXTURE_2D,pricetexbind);
+     glEnable(GL_BLEND);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(3.0, 4.999, 2.3);   // Top Left
+     glTexCoord2f(1,0);
+     glVertex3f( 4.0, 4.999, 2.3);   // Top Right
+     glTexCoord2f(1,1);
+     glVertex3f( 4.0, 4.999, 0.7);    // Bottom Right
+     glTexCoord2f(0,1);
+     glVertex3f(3.0, 4.999, 0.7);    // Bottom Left
      glEnd();
 
      glBindTexture(GL_TEXTURE_2D,closewindowtexbind);
@@ -2306,6 +2335,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
      glTexCoord2f(0,1);
      glVertex3f(-2.0, 4.999, 0.0);    // Bottom Left
      glEnd();
+     glDisable(GL_BLEND);
 
      glPolygonMode(GL_FRONT,GL_LINE);  // fill the front of the polygons
      glPolygonMode(GL_BACK,GL_FILL);   // only lines for back (better seeing on zooming)
