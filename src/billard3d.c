@@ -7108,7 +7108,11 @@ static void Init( void )
       glFogi (GL_FOG_MODE, GL_LINEAR);
       glHint (GL_FOG_HINT, GL_FASTEST);
       glFogf (GL_FOG_START, 0.0);
-      glFogf (GL_FOG_END, 12.5);
+      if(options_deco){
+        glFogf (GL_FOG_END, 16.0);
+      } else {
+        glFogf (GL_FOG_END, 12.5);
+      }
       glFogfv (GL_FOG_COLOR, fogColor);
 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -7150,6 +7154,7 @@ static void Init( void )
    glEnable(GL_TEXTURE_2D);
    glEnable(GL_TEXTURE_GEN_S);
    glEnable(GL_TEXTURE_GEN_T);
+
 }
 
 /***********************************************************************

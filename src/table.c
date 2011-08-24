@@ -1045,6 +1045,14 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
     static BumpRefType bumpref;
     static BumpRefType bumponly;
     static int table_obj=-1;
+    static GLuint corr1texbind=-1;
+    static GLuint corr2texbind=-1;
+    static GLuint graffity1texbind=-1;
+    static GLuint graffity2texbind=-1;
+    static GLuint closewindowtexbind=-1;
+    static GLuint doortexbind=-1;
+    static GLuint boardtexbind=-1;
+    static GLuint ceilingtexbind=-1;
     static GLuint frametexbind=-1;
     static GLuint floortexbind=-1;
     static GLuint tabletexbind=-1;
@@ -1119,6 +1127,114 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
         tab_col_diff[2]=0.533;
         grayen_color(dia_col_diff);
     }
+
+    if( corr1texbind > 0 ) glDeleteTextures( 1, &corr1texbind );
+    glGenTextures(1,&corr1texbind);
+    load_png("corr1.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,corr1texbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+    if( corr2texbind > 0 ) glDeleteTextures( 1, &corr2texbind );
+    glGenTextures(1,&corr2texbind);
+    load_png("corr2.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,corr2texbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+    if( graffity1texbind > 0 ) glDeleteTextures( 1, &graffity1texbind );
+    glGenTextures(1,&graffity1texbind);
+    load_png("graffity1.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,graffity1texbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGBA, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+    if( graffity2texbind > 0 ) glDeleteTextures( 1, &graffity2texbind );
+    glGenTextures(1,&graffity2texbind);
+    load_png("graffity2.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,graffity2texbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGBA, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+    if( closewindowtexbind > 0 ) glDeleteTextures( 1, &closewindowtexbind );
+    glGenTextures(1,&closewindowtexbind);
+    load_png("closewindow.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,closewindowtexbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+    if( doortexbind > 0 ) glDeleteTextures( 1, &doortexbind );
+    glGenTextures(1,&doortexbind);
+    load_png("door.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,doortexbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+    if( boardtexbind > 0 ) glDeleteTextures( 1, &boardtexbind );
+    glGenTextures(1,&boardtexbind);
+    load_png("board.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,boardtexbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+    if( ceilingtexbind > 0 ) glDeleteTextures( 1, &ceilingtexbind );
+    glGenTextures(1,&ceilingtexbind);
+    load_png("ceiling.png",&frametexw,&frametexh,&depth,&frametexdata);
+    glBindTexture(GL_TEXTURE_2D,ceilingtexbind);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, frametexw, frametexh, GL_RGB, GL_UNSIGNED_BYTE, frametexdata);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    if(options_anisotrop && options_value_anisotrop > 0.0) {
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+    }
+    free( frametexdata );
+
+
     if( frametexbind > 0 ) glDeleteTextures( 1, &frametexbind );
     glGenTextures(1,&frametexbind);
     load_png("table-frame.png",&frametexw,&frametexh,&depth,&frametexdata);
@@ -2071,22 +2187,144 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
    glVertex2f(0,0);
    glTexCoord2f(1,1);
    glVertex2f(-5,0);
+   glEnd();
 
    // room walls
+   if(options_deco) {
+     glBlendFunc(GL_ONE,GL_ONE);
+     glBindTexture(GL_TEXTURE_2D,corr1texbind);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-5.0, 5.0, 2.5);   // Top Left
+     glTexCoord2f(4,0);
+     glVertex3f( 5.0, 5.0, 2.5);   // Top Right
+     glTexCoord2f(4,2);
+     glVertex3f( 5.0, 5.0, 0.0);    // Bottom Right
+     glTexCoord2f(0,2);
+     glVertex3f(-5.0, 5.0, 0.0);    // Bottom Left
+     glEnd();
 
-/*   glTexCoord2f(0,1);
-   glVertex2f(-5,5);
-   glTexCoord2f(0,0);
-   glVertex2f(0,5);
-   glTexCoord2f(1,0);
-   glVertex2f(0,0);
-   glTexCoord2f(1,1);
-   glVertex2f(-5,0); */
+     glBindTexture(GL_TEXTURE_2D,graffity2texbind);
+     glEnable(GL_BLEND);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(0.5, 4.999, 2.3);   // Top Left
+     glTexCoord2f(1,0);
+     glVertex3f( 4.0, 4.999, 2.3);   // Top Right
+     glTexCoord2f(1,1);
+     glVertex3f( 4.0, 4.999, 0.5);    // Bottom Right
+     glTexCoord2f(0,1);
+     glVertex3f(0.5, 4.999, 0.5);    // Bottom Left
+     glEnd();
+     glDisable(GL_BLEND);
 
+     glRotatef(90,0,0,1);
+     glBindTexture(GL_TEXTURE_2D,corr1texbind);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-5.0, 5.0, 2.5);   // Top Left
+     glTexCoord2f(4,0);
+     glVertex3f( 5.0, 5.0, 2.5);   // Top Right
+     glTexCoord2f(4,2);
+     glVertex3f( 5.0, 5.0, 0.0);    // Bottom Right
+     glTexCoord2f(0,2);
+     glVertex3f(-5.0, 5.0, 0.0);    // Bottom Left
+     glEnd();
 
+     glBindTexture(GL_TEXTURE_2D,graffity1texbind);
+     glEnable(GL_BLEND);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-4.0, 4.999, 2.5);   // Top Left
+     glTexCoord2f(1,0);
+     glVertex3f( 4.0, 4.999, 2.5);   // Top Right
+     glTexCoord2f(1,1);
+     glVertex3f( 4.0, 4.999, 0.0);    // Bottom Right
+     glTexCoord2f(0,1);
+     glVertex3f(-4.0, 4.999, 0.0);    // Bottom Left
+     glEnd();
+     glDisable(GL_BLEND);
 
+     glRotatef(90,0,0,1);
+     glBindTexture(GL_TEXTURE_2D,corr2texbind);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-5.0, 5.0, 2.5);   // Top Left
+     glTexCoord2f(12,0);
+     glVertex3f( 5.0, 5.0, 2.5);   // Top Right
+     glTexCoord2f(12,6);
+     glVertex3f( 5.0, 5.0, 0.0);    // Bottom Right
+     glTexCoord2f(0,6);
+     glVertex3f(-5.0, 5.0, 0.0);    // Bottom Left
+     glEnd();
 
-   glEnd();
+     glBindTexture(GL_TEXTURE_2D,boardtexbind);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-2.0, 4.999, 2.0);   // Top Left
+     glTexCoord2f(1,0);
+     glVertex3f( 0.0, 4.999, 2.0);   // Top Right
+     glTexCoord2f(1,1);
+     glVertex3f( 0.0, 4.999, 0.7);    // Bottom Right
+     glTexCoord2f(0,1);
+     glVertex3f(-2.0, 4.999, 0.7);    // Bottom Left
+     glEnd();
+
+     glRotatef(90,0,0,1);
+     glBindTexture(GL_TEXTURE_2D,corr1texbind);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-5.0, 5.0, 2.5);   // Top Left
+     glTexCoord2f(4,0);
+     glVertex3f( 5.0, 5.0, 2.5);   // Top Right
+     glTexCoord2f(4,2);
+     glVertex3f( 5.0, 5.0, 0.0);    // Bottom Right
+     glTexCoord2f(0,2);
+     glVertex3f(-5.0, 5.0, 0.0);    // Bottom Left
+     glEnd();
+
+     glBindTexture(GL_TEXTURE_2D,closewindowtexbind);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(0.0, 4.999, 2.3);   // Top Left
+     glTexCoord2f(1,0);
+     glVertex3f( 3.0, 4.999, 2.3);   // Top Right
+     glTexCoord2f(1,1);
+     glVertex3f( 3.0, 4.999, 0.7);    // Bottom Right
+     glTexCoord2f(0,1);
+     glVertex3f(0.0, 4.999, 0.7);    // Bottom Left
+     glEnd();
+
+     glBindTexture(GL_TEXTURE_2D,doortexbind);
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-2.0, 4.999, 2.3);   // Top Left
+     glTexCoord2f(1,0);
+     glVertex3f( -1.0, 4.999, 2.3);   // Top Right
+     glTexCoord2f(1,1);
+     glVertex3f( -1.0, 4.999, 0.0);    // Bottom Right
+     glTexCoord2f(0,1);
+     glVertex3f(-2.0, 4.999, 0.0);    // Bottom Left
+     glEnd();
+
+     glPolygonMode(GL_FRONT,GL_LINE);  // fill the front of the polygons
+     glPolygonMode(GL_BACK,GL_FILL);   // only lines for back (better seeing on zooming)
+     glBindTexture(GL_TEXTURE_2D,ceilingtexbind);
+
+     glBegin(GL_QUADS);
+     glTexCoord2f(0,0);
+     glVertex3f(-5,5,2.5);
+     glTexCoord2f(0,8);
+     glVertex3f(5,5,2.5);
+     glTexCoord2f(8,8);
+     glVertex3f(5,-5,2.5);
+     glTexCoord2f(8,0);
+     glVertex3f(-5,-5,2.5);
+     glEnd();
+     glPolygonMode(GL_FRONT,GL_FILL);  // fill the front of the polygons
+     glPolygonMode(GL_BACK,GL_LINE);   // only lines for back (better seeing on zooming)
+   }
+
    glPopMatrix();
 
   // for debugging only
