@@ -57,6 +57,10 @@ rm -rf %{buildroot}
 make 
 
 %changelog
+* Fri Aug 26 2011 Holger Schaekel
+- textures for room and walls
+- routines for displaying walls
+- more optimizations in table.c 
 
 * Thu Jul 26 2011 Holger Schaekel
 - Tron like game playfield (a little bit like the movie ;-)
