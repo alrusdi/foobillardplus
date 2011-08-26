@@ -53,7 +53,7 @@ rm -rf %{buildroot}
 /opt/%{name}/TODO
 
 %build
-./configure --prefix=$RPM_BUILD_ROOT/opt
+./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special
 make 
 
 %changelog
