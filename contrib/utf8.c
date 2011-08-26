@@ -34,28 +34,28 @@ for ( n = 0; versuch[n]!=0; n++ ) {
   if (( lb & 0x80 ) == 0 ) {         // lead bit is zero, must be a single ascii
     printf( "1 octet\n" );
   } else if (( lb & 0xE0 ) == 0xC0 ) { // 110x xxxx
-    printf( "2 octets\n" );
+    fprintf(stderr,"2 octets\n" );
     if(versuch[n+1] == 0) {
       printf("Error in 1 Octet. End of String reached\n");
     } else {
       n++;
     }
   } else if (( lb & 0xF0 ) == 0xE0 ) { // 1110 xxxx
-    printf( "3 octets\n" );
+    fprintf(stderr,"3 octets\n" );
     if(versuch[n+1] == 0 || versuch[n+2] == 0) {
       printf("Error in 2 Octet. End of String reached\n");
     } else {
       n+=2;
     }
   } else if (( lb & 0xF8 ) == 0xF0 ) { // 1111 0xxx
-    printf( "4 octets\n" );
+    fprintf(stderr,"4 octets\n" );
     if(versuch[n+1] == 0 || versuch[n+2] == 0 || versuch[n+3] == 0) {
       printf("Error in 3 Octet. End of String reached\n");
     } else {
       n+=3;
     }
   } else {
-    printf( "Unrecognized lead byte (%02x)\n", lb );
+    fprintf(stderr,"Unrecognized lead byte (%02x)\n", lb );
   }
 }
 
