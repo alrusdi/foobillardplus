@@ -2859,7 +2859,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y,int 
 
         //fprintf(stderr,"x,y=%d,%d\n",x,y);
         menu_select_by_coord( g_act_menu, x-win_width/2, -y+win_height/2 );
-#ifndef WETAB
+#ifndef TOUCH
         if ( button==MOUSE_LEFT_BUTTON && state==MOUSE_DOWN && menu_choose_by_coord(g_act_menu, x-win_width/2, -y+win_height/2 )) {
 #else
         if ( button==MOUSE_LEFT_BUTTON && state==MOUSE_UP && menu_choose_by_coord(g_act_menu, x-win_width/2, -y+win_height/2 )) {
@@ -3089,7 +3089,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y,int 
                 button_anim = 0.7;
                 step = 0.03; // Keys Accelerator back to start
                 freeview_step = 0.03; // Keys Accelerator back to start
-#ifndef WETAB
+#ifndef TOUCH
                 if(control__english) control_unset(&control__english);
                 if(control__place_cue_ball) control_unset(&control__place_cue_ball);
                 if(control__cue_butt_updown) control_unset(&control__cue_butt_updown);
@@ -3929,7 +3929,7 @@ void DisplayFunc( void )
 
   VMfloat th,ph,cam_dist0;
   VMfloat znear=0.03;
-  VMfloat zfar=14.0;
+  VMfloat zfar=15.0;
   VMfloat eye_offs, zeye;        //for stereo view
   VMfloat eye_offs0, eye_offs1;  //for stereo view
 
@@ -4362,27 +4362,31 @@ void DisplayFunc( void )
    glCallList(floor_obj); // draw floor
    if(options_deco) {     // draw room if option on
      Zrot_wall = Zrot+Zrot_offs;
-     // ### TODO ### don't draw a wall behind the player
-//     fprintf(stderr,"zrot: %f zrot_offs %f\n",Zrot,Zrot_offs);
-//     if(Zrot_wall<70 || Zrot_wall>280) {
+     //fprintf(stderr,"zrot: %f zrot_offs %f\n",Zrot,Zrot_offs);
+     //fprintf(stderr,"xrot: %f xrot_offs %f\n",Xrot,Xrot_offs);
+     if(Zrot_wall<110.0 || Zrot_wall>250.0) {
        glCallList(wall1_obj);  // front wall
        //fprintf(stderr,"display front wall\n");
-//     }
-     glRotatef(90,0,0,1);
-//     if() {
+     }
+     glRotatef(90.0,0.0,0.0,1.1);
+     if(Zrot_wall<10.0 || (Zrot_wall<360.0 && Zrot_wall>170.0)) {
        glCallList(wall2_obj);  // left wall
-//     }
-     glRotatef(90,0,0,1);
-//     if(Zrot_wall>94 && Zrot_wall<264) {
+       //fprintf(stderr,"display left wall\n");
+     }
+     glRotatef(90.0,0.0,0.0,1.0);
+     if(Zrot_wall>70.0 && Zrot_wall<290.0) {
        glCallList(wall3_obj);  // wall behind
        //fprintf(stderr,"display wall behind\n");
-//     }
-     glRotatef(90,0,0,1);
-//     if(Zrot_wall>69 && Zrot_wall<98) {
+     }
+     glRotatef(90.0,0.0,0.0,1.0);
+     if(Zrot_wall>350.0 || (Zrot_wall>0 && Zrot_wall<190.0)) {
        glCallList(wall4_obj);  // right wall
-//       fprintf(stderr,"display right wall\n");
-//     }
-     glCallList(ceiling_obj);  // the ceiling
+       //fprintf(stderr,"display right wall\n");
+     }
+     if(Xrot+Xrot_offs<-74.0) {
+       glCallList(ceiling_obj);  // the ceiling
+       //fprintf(stderr,"display ceiling\n");
+     }
    }
    glPopMatrix();
 
@@ -5871,7 +5875,7 @@ void Key( int key, int modifiers ) {
           if(modifiers == 0){
             enter_mousemiddle();
           }
-#ifndef WETAB
+#ifndef TOUCH
           if(modifiers & KEY_MODIFIER_ALT){
             sys_toggle_fullscreen();
           }
@@ -6726,7 +6730,7 @@ void menu_cb( int id, void * arg , VMfloat value)
         table_obj = create_table( spheretexbind, &walls, gametype==GAME_CARAMBOL );
         reassign_and_gen_cuberef_tex();
         break;
-#ifndef WETAB
+#ifndef TOUCH
     case MENU_ID_FULLSCREEN_ON:
         sys_fullscreen( 1 );
         break;
