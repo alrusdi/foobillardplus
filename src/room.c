@@ -233,6 +233,7 @@ void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall3_obj,in
     glBindTexture(GL_TEXTURE_2D,corr1texbind);
     my_rect_wall();
 
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D,pricetexbind);
     glEnable(GL_BLEND);
     glBegin(GL_QUADS);

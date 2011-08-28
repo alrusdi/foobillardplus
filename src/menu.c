@@ -1041,7 +1041,7 @@ void init_menu(void)
     //< back
     menu_add_exit (jump_shot_menu, localeText[63],localeText[266]);
 
-#ifndef WETAB
+#ifndef TOUCH
     /*
      keypressed_menu come from Game Menu
     */
@@ -1535,7 +1535,7 @@ void init_menu(void)
     menu_add_submenu(game_menu, localeText[233], mshoot_menu, 1, localeText[235-options_mouseshoot],localeText[367]);
     //Auto free move view
     menu_add_submenu(game_menu, localeText[236], freemove_menu, 1, localeText[65-options_auto_freemove],localeText[368]);
-#ifndef WETAB
+#ifndef TOUCH
     //keypressed behaviour for special keys (MENU_ID_CONTROL_KIND_ON/MENU_ID_CONTROL_KIND_OFF)
     menu_add_submenu(game_menu, localeText[226], keypressed_menu, 1, localeText[65-options_control_kind],localeText[369]);
 #endif

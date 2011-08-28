@@ -50,7 +50,7 @@ SDL_Surface * vid_surface = NULL;
  *                          on some devices                            *
  ***********************************************************************/
 
-#ifdef WETAB
+#ifdef TOUCH
   static Uint8 cursorMask[16] = { 0 };
   static Uint8 cursorData[16] = { 0 };
   static SDL_Cursor* cursor;
@@ -232,7 +232,7 @@ void sys_create_display(int *argc, char **argv, int width,int height)
   }
 #endif
   SDL_WM_SetCaption("Foobillardplus","Foobillardplus");
-#ifdef WETAB
+#ifdef TOUCH
   cursor = SDL_CreateCursor(cursorData, cursorMask, 16, 16, 0, 0);
   SDL_SetCursor (cursor);
   sys_fullscreen(1);
@@ -261,20 +261,11 @@ void sys_fullscreen( int fullscr )
 
     fullscreen = fullscr;
     screen = SDL_GetVideoSurface();
-//#ifdef WETAB
-    // show Mousecursor
-//    SDL_ShowCursor(SDL_ENABLE);
-//#endif
     if ( fullscreen!=0 && (screen->flags & SDL_FULLSCREEN)==0 ){
         SDL_WM_ToggleFullScreen(screen);
     } else if( fullscreen==0 && (screen->flags & SDL_FULLSCREEN)!=0 ){
         SDL_WM_ToggleFullScreen(screen);
     }
-//#ifdef WETAB
-    // hide Mousecursor
-//    SDL_Delay(20);
-//    SDL_ShowCursor(SDL_DISABLE);
-//#endif
 }
 
 /***********************************************************************

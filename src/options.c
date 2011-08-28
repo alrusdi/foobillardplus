@@ -130,7 +130,7 @@ int    options_gamemode  = 0;  /* 0=options_gamemode_match */
 int    options_avatar_on = 0;
 VMfloat options_tourfast = 30.0;
 
-#ifdef WETAB
+#ifdef TOUCH
   int   options_control_kind = 1;  // behaviour of some Controlkeys 0 = toggle, 1 = set if pressed and unset if unpressed
 #else
   int   options_control_kind = 0;  // behaviour of some Controlkeys 0 = toggle, 1 = set if pressed and unset if unpressed
