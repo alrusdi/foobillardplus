@@ -715,6 +715,7 @@ void init_menu(void)
     static menuType * lensflare_menu;
     static menuType * balldetail_menu;
     static menuType * tabletheme_menu;
+    static menuType * roomtexture_menu;
     static menuType * tablesize_menu;
     static menuType * helpline_menu;
     static menuType * birdview_ai_menu;
@@ -1006,6 +1007,17 @@ void init_menu(void)
     menu_add_entry(tabletheme_menu, localeText[237], MENU_ID_TABLETHEME_TRON,localeText[315]);
     //< back
     menu_add_exit (tabletheme_menu, localeText[63],localeText[266]);
+
+    /*
+     roomtexture come from View Options
+    */
+    roomtexture_menu = menu_new( menu_cb );
+    //on
+    menu_add_entry(roomtexture_menu, localeText[64], MENU_ID_ROOM_ON,localeText[316]);
+    //off
+    menu_add_entry(roomtexture_menu, localeText[65], MENU_ID_ROOM_OFF,localeText[317]);
+    //< back
+    menu_add_exit (roomtexture_menu, localeText[63],localeText[266]);
 
     /*
      Controls come from Game Menu
@@ -1592,6 +1604,8 @@ void init_menu(void)
         neuwert = 88;
       }
     menu_add_submenu(view_menu, localeText[108], tabletheme_menu, 1, localeText[neuwert],localeText[375]);
+    //room textures on/off
+    menu_add_submenu(view_menu, localeText[417], roomtexture_menu, 1, localeText[65-options_deco],localeText[418]);
     //help line
     menu_add_submenu(view_menu, localeText[98], helpline_menu, 1, localeText[65-vline_on],localeText[376]);
     //ball traces

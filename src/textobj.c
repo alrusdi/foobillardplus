@@ -59,9 +59,9 @@ int create_string_quad( char * str, char * fontname, int h, int * quad_id, int *
     glBindTexture(GL_TEXTURE_2D,texbind);
     glBegin(GL_QUADS);
 
-    glNormal3f(0,0,1);
+    glNormal3s(0,0,1);
 
-    glTexCoord2f(0,0);
+    glTexCoord2s(0,0);
     glVertex3f(0,1.0*fact,0);
 
     glTexCoord2f((VMfloat)width/(VMfloat)texw,0);
@@ -71,7 +71,7 @@ int create_string_quad( char * str, char * fontname, int h, int * quad_id, int *
     glVertex3f((VMfloat)width/(VMfloat)height*fact,0,0);
 
     glTexCoord2f(0,(VMfloat)height/(VMfloat)texh);
-    glVertex3f(0,0,0);
+    glVertex3s(0,0,0);
 
     glEnd();
     glEndList();

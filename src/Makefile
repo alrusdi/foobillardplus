@@ -55,7 +55,8 @@ am_foobillardplus_OBJECTS = billard3d.$(OBJEXT) language.$(OBJEXT) \
 	queue.$(OBJEXT) aiplayer.$(OBJEXT) options.$(OBJEXT) \
 	evaluate_move.$(OBJEXT) helpscreen.$(OBJEXT) textobj.$(OBJEXT) \
 	font.$(OBJEXT) sys_stuff.$(OBJEXT) net_socket.$(OBJEXT) \
-	sound_stuff.$(OBJEXT) menu.$(OBJEXT) bumpref.$(OBJEXT)
+	sound_stuff.$(OBJEXT) menu.$(OBJEXT) bumpref.$(OBJEXT) \
+	room.$(OBJEXT)
 foobillardplus_OBJECTS = $(am_foobillardplus_OBJECTS)
 foobillardplus_LDADD = $(LDADD)
 foobillardplus_DEPENDENCIES =
@@ -107,7 +108,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = -lSDL_net -lSDL -lSDL -lpng 
+LIBS = -lm -lSDL_net -lSDL -lSDL -lpng 
 LOCALEDIR = /opt/foobillardplus/data/locale
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/holger/projekte/foobillardplus/missing --run makeinfo
@@ -117,16 +118,16 @@ OPTIMIZATION_CFLAGS =
 PACKAGE = foobillardplus
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = foobillardplus
-PACKAGE_STRING = foobillardplus 3.3beta
+PACKAGE_STRING = foobillardplus 3.4beta
 PACKAGE_TARNAME = foobillardplus
 PACKAGE_URL = 
-PACKAGE_VERSION = 3.3beta
+PACKAGE_VERSION = 3.4beta
 PATH_SEPARATOR = :
 PREFIX = /opt/foobillardplus
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = 
-VERSION = 3.3beta
+VERSION = 3.4beta
 XMKMF = 
 X_CFLAGS = 
 X_EXTRA_LIBS = 
@@ -227,7 +228,9 @@ foobillardplus_SOURCES = \
    menu.h \
    player.h \
    bumpref.c \
-   bumpref.h
+   bumpref.h \
+   room.c \
+   room.h
 
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS = `sdl-config --libs`
@@ -247,10 +250,10 @@ NVIDIA_CFLAGS = -DNO_NV_BUMPREF -DNO_NV_FRESNEL
 #SOUND_CFLAGS = 
 SOUND_CFLAGS = -DUSE_SOUND
 AM_CFLAGS = -Wall ${FREETYPE_CFLAGS} ${SDL_CFLAGS} ${NVIDIA_CFLAGS} ${SOUND_CFLAGS} ${DEBUG_CFLAGS} ${WETAB_CFLAGS} ${TOUCH_CFLAGS} ${NET_CFLAGS} ${MATH_CFLAGS} \
-            ${OPTIMIZATION_CFLAGS}
+            ${OPTIMIZATION_CFLAGS} -lm
 
 AM_LDFLAGS = ${all_libraries} ${FREETYPE_LIBS} ${SDL_LIBS}
-LDADD = -lGL -lGLU -lpng -lSDL_net
+LDADD = -lGL -lGLU -lpng -lSDL_net -lfreetype
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -365,6 +368,7 @@ include ./$(DEPDIR)/net_socket.Po
 include ./$(DEPDIR)/options.Po
 include ./$(DEPDIR)/png_loader.Po
 include ./$(DEPDIR)/queue.Po
+include ./$(DEPDIR)/room.Po
 include ./$(DEPDIR)/sound_stuff.Po
 include ./$(DEPDIR)/sys_stuff.Po
 include ./$(DEPDIR)/table.Po

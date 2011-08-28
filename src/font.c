@@ -367,7 +367,7 @@ void my_Vertex_cb(void * data)
     GLdouble * d;
     d=(GLdouble *)data;
 
-    glNormal3f(0,0,-1);
+    glNormal3s(0,0,-1);
     glVertex3f(d[0],d[1],d[2]);
 }
 

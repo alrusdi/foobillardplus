@@ -162,7 +162,6 @@ void sys_create_display(int *argc, char **argv, int width,int height)
   SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
   SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-  //SDL_GL_SetAttribute( SDL_GL_STEREO, 1 );  //Test for Stereo inside the OpenGL Driver
 
 #ifndef WETAB
   if(options_fsaa_value) {
@@ -180,8 +179,7 @@ void sys_create_display(int *argc, char **argv, int width,int height)
   SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
   /* key repeat caused problem when toggling fullscreen !!! */
 
-  //vidmode_flags = SDL_OPENGL;
-  vidmode_flags = SDL_OPENGL | SDL_DOUBLEBUF;
+  vidmode_flags = SDL_OPENGL;
 
   if ( info->hw_available ) {
     vidmode_flags |= SDL_HWSURFACE;
@@ -591,7 +589,7 @@ void sys_main_loop(void)
     //  T0 = t;
     //  Frames = 0;
     //}
-    /* End claculate fps */
+    /* End calculate fps */
     SDL_Delay(15); //### TODO ### make this delay better with other code
   }
 

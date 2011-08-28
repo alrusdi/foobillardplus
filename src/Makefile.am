@@ -40,7 +40,9 @@ foobillardplus_SOURCES = \
    menu.h \
    player.h \
    bumpref.c \
-   bumpref.h
+   bumpref.h \
+   room.c \
+   room.h
 
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS   = `sdl-config --libs`

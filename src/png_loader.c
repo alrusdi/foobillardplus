@@ -35,10 +35,14 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include "options.h"
 #include "sys_stuff.h"
 
-/***********************************************************************/
+/***********************************************************************
+ *                 Loads a png Graphics file into mem                  *
+ ***********************************************************************/
 
 int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
 {
@@ -138,4 +142,27 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
     *depth = 0;
     return 1;
 #endif
+}
+
+/***********************************************************************
+ *           Create the texbinds for Graphics for the room             *
+ ***********************************************************************/
+
+void create_png_texbind(char *file_name, GLuint *texbind, GLuint component, GLuint format)
+{
+
+ int depth,spheretexw,spheretexh;
+ char *spheretexdata;
+
+ glGenTextures(1,texbind);
+ load_png(file_name,&spheretexw,&spheretexh,&depth,&spheretexdata);
+ glBindTexture(GL_TEXTURE_2D,*texbind);
+ gluBuild2DMipmaps(GL_TEXTURE_2D, component, spheretexw, spheretexh, format, GL_UNSIGNED_BYTE, spheretexdata);
+ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
+ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
+ if(options_anisotrop && options_value_anisotrop > 0.0) {
+   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
+ }
+ glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+ free(spheretexdata);
 }

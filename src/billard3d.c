@@ -69,6 +69,7 @@
 #endif
 #include "sound_stuff.h"
 #include "menu.h"
+#include "room.h"
 
 #define LIT 1
 #define TEXTURED 2
@@ -132,7 +133,7 @@ static int frametime_ms_max = 200;
 static int frametime_ms = 40;
 
 static GLuint table_obj = 0;
-static GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0;
+static GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0, Zrot_wall;
 static GLfloat Xque = -83.0, Zque = 0.0;
 static GLfloat Xrot_offs=0.0, Yrot_offs=0.0, Zrot_offs=0.0;
 
@@ -390,6 +391,7 @@ static struct option long_options[] = {
     {"mouseshoot",   required_argument, (int *)localeText[17], OPT_MSHOOT},
     {"auto_freemove",required_argument, (int *)localeText[17], OPT_FREEMOVE1},
     {"fsaa",         required_argument, (int *)localeText[17], OPT_FSAA},
+    {"roomtexture",  required_argument, (int *)localeText[17], OPT_ROOM},
 #ifdef NETWORKING
     {"netspeed",     required_argument, (int *)localeText[239], OPT_NET_SPEED},
     {"netcompatible",required_argument, (int *)localeText[17], OPT_NET_COMPATIBLE},
@@ -399,10 +401,16 @@ static struct option long_options[] = {
 };
 
 #ifdef USE_SOUND
-  static int playonce = 0;  //to check for applause only play once
+  static int playonce = 0;  // to check for applause only play once
 #endif
 
-static int introtexture = 0; //show the introtexture until keystroke
+static int introtexture = 0; // show the introtexture until keystroke
+static int floor_obj = -1;   // for the room the floor obj
+static int wall1_obj = -1;   // for the room the walls obj
+static int wall2_obj = -1;
+static int wall3_obj = -1;
+static int wall4_obj = -1;
+static int ceiling_obj = -1; // for the room the ceiling obj
 
 /***********************************************************************/
 
@@ -1604,6 +1612,16 @@ void process_option(enum optionType act_option)
                 break;
           }
           break;
+       case OPT_ROOM:
+          switch(optarg[1]){
+             case 'f': /* off */
+                options_deco=0;
+                break;
+             case 'n': /* on  */
+                options_deco=1;
+                break;
+          }
+          break;
        case OPT_FREEMOVE1:
           switch(optarg[1]){
              case 'f': /* off */
@@ -2029,6 +2047,9 @@ void save_config(void)
        case OPT_VALUE_ANISOTROP:
              sprintf(str,"%f",options_value_anisotrop);
              write_rc(f,opt,str);
+          break;
+       case OPT_ROOM:
+          write_rc(f,opt, options_deco?"on":"off");
           break;
        }
     }
@@ -3294,7 +3315,7 @@ void MouseMotion(int x, int y, int key_modifiers)
             if( Xrot+Xoffs < -90.0  ) Xoffs=-90.0-Xrot;
             if( Xrot+Xoffs >   0.0  ) Xoffs=  0.0-Xrot;
             Xrot += Xoffs;
-            Zrot += Zoffs;
+            Zrot = angle_pm360(Zrot+Zoffs);
             Xrot_offs -= Xoffs;
             Zrot_offs -= Zoffs;
             if( queue_view ){
@@ -4336,7 +4357,34 @@ void DisplayFunc( void )
      glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
    } // End Tron Mode
 
-   glCallList(table_obj); /* draw table */
+   glCallList(table_obj); // draw table
+   glPushMatrix();
+   glCallList(floor_obj); // draw floor
+   if(options_deco) {     // draw room if option on
+     Zrot_wall = Zrot+Zrot_offs;
+     // ### TODO ### don't draw a wall behind the player
+//     fprintf(stderr,"zrot: %f zrot_offs %f\n",Zrot,Zrot_offs);
+//     if(Zrot_wall<70 || Zrot_wall>280) {
+       glCallList(wall1_obj);  // front wall
+       //fprintf(stderr,"display front wall\n");
+//     }
+     glRotatef(90,0,0,1);
+//     if() {
+       glCallList(wall2_obj);  // left wall
+//     }
+     glRotatef(90,0,0,1);
+//     if(Zrot_wall>94 && Zrot_wall<264) {
+       glCallList(wall3_obj);  // wall behind
+       //fprintf(stderr,"display wall behind\n");
+//     }
+     glRotatef(90,0,0,1);
+//     if(Zrot_wall>69 && Zrot_wall<98) {
+       glCallList(wall4_obj);  // right wall
+//       fprintf(stderr,"display right wall\n");
+//     }
+     glCallList(ceiling_obj);  // the ceiling
+   }
+   glPopMatrix();
 
    if(options_tronmode) { //switch Tron Gamemode off
      glDisable (GL_LINE_SMOOTH);
@@ -5666,11 +5714,11 @@ void Key( int key, int modifiers ) {
             break;
             }
             if(!FREE_VIEW) {
-              Zrot += step;
+              Zrot = angle_pm360(Zrot+step);
               step += STEP1;
               if (step > STEPMAX) step = STEPMAX;
             } else {
-              Zrot -= freeview_step;
+              Zrot = angle_pm360(Zrot-freeview_step);
               Zque += freeview_step;
               freeview_step += FREEVIEW_STEP1;
               if(freeview_step > FREEVIEW_STEPMAX) freeview_step = FREEVIEW_STEPMAX;
@@ -5688,11 +5736,11 @@ void Key( int key, int modifiers ) {
          break;
          }
          if(!FREE_VIEW){
-             Zrot -= step;
+             Zrot = angle_pm360(Zrot-step);
              step += STEP1;
              if (step > STEPMAX) step = STEPMAX;
          } else {
-             Zrot += freeview_step;
+             Zrot = angle_pm360(Zrot+freeview_step);
              Zque -= freeview_step;
              freeview_step += FREEVIEW_STEP1;
              if(freeview_step > FREEVIEW_STEPMAX) freeview_step = FREEVIEW_STEPMAX;
@@ -6565,6 +6613,22 @@ void menu_cb( int id, void * arg , VMfloat value)
     case MENU_ID_TABLETHEME_TRON:
         options_tronmode  = (options_tronmode==0)?1:0;
         break;
+    case MENU_ID_ROOM_ON:
+        options_deco=1;
+        if(options_deco){
+          glFogf (GL_FOG_END, 16.0);
+        } else {
+          glFogf (GL_FOG_END, 12.5);
+        }
+        break;
+    case MENU_ID_ROOM_OFF:
+        options_deco=0;
+        if(options_deco){
+          glFogf (GL_FOG_END, 16.0);
+        } else {
+          glFogf (GL_FOG_END, 12.5);
+        }
+        break;
     case MENU_ID_HELPLINE_ON:
         vline_on=1;
         break;
@@ -7011,29 +7075,6 @@ void parse_gl_extensions_string( void )
 }
 
 /***********************************************************************
- *           Create the texbinds for Graphics on playfield             *
- ***********************************************************************/
-
-void create_png_texbind(char *file_name, GLuint *texbind, GLuint component, GLuint format)
-{
-
- int depth,spheretexw,spheretexh;
- char *spheretexdata;
-
- glGenTextures(1,texbind);
- load_png(file_name,&spheretexw,&spheretexh,&depth,&spheretexdata);
- glBindTexture(GL_TEXTURE_2D,*texbind);
- gluBuild2DMipmaps(GL_TEXTURE_2D, component, spheretexw, spheretexh, format, GL_UNSIGNED_BYTE, spheretexdata);
- glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
- glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
- if(options_anisotrop && options_value_anisotrop > 0.0) {
-   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop);
- }
- glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
- free(spheretexdata);
-}
-
-/***********************************************************************
  *        The Init function for the whole game (called once)           *
  ***********************************************************************/
 
@@ -7132,6 +7173,7 @@ static void Init( void )
 #endif
 
     table_obj = create_table(spheretexbind, &walls, gametype==GAME_CARAMBOL);
+    create_room(&floor_obj,&wall1_obj,&wall2_obj,&wall3_obj,&wall4_obj,&ceiling_obj);
 
     /* lighting */
     glEnable(GL_LIGHTING);

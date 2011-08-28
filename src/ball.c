@@ -1152,14 +1152,14 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
  	    light_id = glGenLists(1);
  	    glNewList(light_id, GL_COMPILE);
         glBegin(GL_QUADS);
-        glNormal3f( 0.0,0.0,1.0 );
-        glTexCoord2f(0.0,1.0);
+        glNormal3s( 0,0,1 );
+        glTexCoord2s(0,1);
         glVertex3f( -SH_SZ, +SH_SZ, 0.0 );
-        glTexCoord2f(1.0,1.0);
+        glTexCoord2s(1,1);
         glVertex3f( +SH_SZ, +SH_SZ, 0.0 );
-        glTexCoord2f(1.0,0.0);
+        glTexCoord2s(1,0);
         glVertex3f( +SH_SZ, -SH_SZ, 0.0 );
-        glTexCoord2f(0.0,0.0);
+        glTexCoord2s(0,0);
         glVertex3f( -SH_SZ, -SH_SZ, 0.0 );
         glEnd();
         glPopMatrix();
@@ -1389,7 +1389,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         col_shad[2]=col_shad[0];
         //col_shad[3] is always the same and at the function start declared
         glMaterialfv(GL_FRONT, GL_DIFFUSE, col_shad);
-        glColor3f(0.0,0.0,0.0);   /* against shadow flicker bug */
+        glColor3i(0,0,0);   /* against shadow flicker bug */
         if( v.x==0.0 && v.y==0.0 && v.z==0.0 ){
             v=vec_xyz(1,0,0);
         } else {

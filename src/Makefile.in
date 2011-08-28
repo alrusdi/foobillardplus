@@ -55,7 +55,8 @@ am_foobillardplus_OBJECTS = billard3d.$(OBJEXT) language.$(OBJEXT) \
 	queue.$(OBJEXT) aiplayer.$(OBJEXT) options.$(OBJEXT) \
 	evaluate_move.$(OBJEXT) helpscreen.$(OBJEXT) textobj.$(OBJEXT) \
 	font.$(OBJEXT) sys_stuff.$(OBJEXT) net_socket.$(OBJEXT) \
-	sound_stuff.$(OBJEXT) menu.$(OBJEXT) bumpref.$(OBJEXT)
+	sound_stuff.$(OBJEXT) menu.$(OBJEXT) bumpref.$(OBJEXT) \
+	room.$(OBJEXT)
 foobillardplus_OBJECTS = $(am_foobillardplus_OBJECTS)
 foobillardplus_LDADD = $(LDADD)
 foobillardplus_DEPENDENCIES =
@@ -227,7 +228,9 @@ foobillardplus_SOURCES = \
    menu.h \
    player.h \
    bumpref.c \
-   bumpref.h
+   bumpref.h \
+   room.c \
+   room.h
 
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS = `sdl-config --libs`
@@ -247,10 +250,10 @@ FREETYPE_LIBS = `freetype-config --libs`
 @USE_SOUND_FALSE@SOUND_CFLAGS = 
 @USE_SOUND_TRUE@SOUND_CFLAGS = -DUSE_SOUND
 AM_CFLAGS = -Wall ${FREETYPE_CFLAGS} ${SDL_CFLAGS} ${NVIDIA_CFLAGS} ${SOUND_CFLAGS} ${DEBUG_CFLAGS} ${WETAB_CFLAGS} ${TOUCH_CFLAGS} ${NET_CFLAGS} ${MATH_CFLAGS} \
-            ${OPTIMIZATION_CFLAGS}
+            ${OPTIMIZATION_CFLAGS} -lm
 
 AM_LDFLAGS = ${all_libraries} ${FREETYPE_LIBS} ${SDL_LIBS}
-LDADD = -lGL -lGLU -lpng -lSDL_net
+LDADD = -lGL -lGLU -lpng -lSDL_net -lfreetype
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -365,6 +368,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/png_loader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/room.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sound_stuff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sys_stuff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/table.Po@am__quote@

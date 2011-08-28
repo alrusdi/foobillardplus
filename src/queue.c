@@ -99,8 +99,8 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
    }
 
    glBegin(GL_TRIANGLE_FAN);
-   glNormal3f( 0.0,  0.0, -1.0  );
-   glVertex3f( 0.0,  0.0,  0.0  );
+   glNormal3s( 0, 0,-1  );
+   glVertex3s( 0, 0, 0  );
    for(i=0;i<sidenr+1;i++){
        ph=2.0*M_PI/(VMfloat)sidenr*i;
        v2.x = QUEUE_D2/2.0*cos(ph);
@@ -112,8 +112,8 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
    glEnd();
 
    glBegin(GL_TRIANGLE_FAN);
-   glNormal3f( 0.0,  0.0,  1.0  );
-   glVertex3f( 0.0,  0.0,  QUEUE_L );
+   glNormal3s( 0, 0, 1 );
+   glVertex3f( 0.0, 0.0, QUEUE_L );
    for(i=0;i<sidenr+1;i++){
        ph=2.0*M_PI-2.0*M_PI/(VMfloat)sidenr*i;
        v1.x = QUEUE_D1/2.0*cos(ph);
@@ -276,20 +276,20 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glBindTexture(GL_TEXTURE_2D,queueshadowbind);
         glBegin(GL_QUADS);
 
-        glNormal3f(0.0,0.0,1.0);
-        glTexCoord2f(0.0,0.0);
+        glNormal3s(0,0,1);
+        glTexCoord2s(0,0);
         glVertex3f(p1.x-vn.x*cue_shad_w2,p1.y-vn.y*cue_shad_w2,p1.z);
 
-        glNormal3f(0.0,0.0,1.0);
-        glTexCoord2f(1.0,0.0);
+        glNormal3s(0,0,1);
+        glTexCoord2s(1,0);
         glVertex3f(p1.x+vn.x*cue_shad_w2,p1.y+vn.y*cue_shad_w2,p1.z);
 
-        glNormal3f(0.0,0.0,1.0);
-        glTexCoord2f(1.0,1.0);
+        glNormal3s(0,0,1);
+        glTexCoord2s(1,1);
         glVertex3f(p2.x+vn.x*cue_shad_w2,p2.y+vn.y*cue_shad_w2,p2.z);
 
-        glNormal3f(0.0,0.0,1.0);
-        glTexCoord2f(0.0,1.0);
+        glNormal3s(0,0,1);
+        glTexCoord2s(0,1);
         glVertex3f(p2.x-vn.x*cue_shad_w2,p2.y-vn.y*cue_shad_w2,p2.z);
 
         glEnd();
@@ -331,7 +331,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
 
-        glColor3f(1.0,1.0,1.0);
+        glColor3s(1,1,1);
 #ifdef WETAB_ALIASING
         if(options_antialiasing) {
           glEnable(GL_BLEND);
