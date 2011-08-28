@@ -415,3 +415,5 @@ Derzeit ist die Funktion nicht zulässig
 Ballspuren sind jetzt aktiv
 Ballspuren sind nicht mehr aktiv
 Computer Schussvorschlag durch Auslösung bestätigen
+Raumtexturen : 
+Raumtexturen an oder ausschalten

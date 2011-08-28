@@ -415,3 +415,5 @@ The function is currently not allowed
 Ball marks are now active
 Ball marks are no longer active
 Computer-shot proposal confirmed by shot
+Room-textures : 
+turn room-textures on or off
