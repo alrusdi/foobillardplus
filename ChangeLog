@@ -1,6 +1,7 @@
 new in 3.4 beta
 ===============
 
+- desktop icon
 - textures for room and walls
 - routines for displaying walls
 - more optimizations in table.c 

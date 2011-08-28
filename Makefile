@@ -138,7 +138,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = -lSDL_net -lSDL -lSDL -lpng 
+LIBS = -lm -lSDL_net -lSDL -lSDL -lpng 
 LOCALEDIR = /opt/foobillardplus/data/locale
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/holger/projekte/foobillardplus/missing --run makeinfo
@@ -148,16 +148,16 @@ OPTIMIZATION_CFLAGS =
 PACKAGE = foobillardplus
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = foobillardplus
-PACKAGE_STRING = foobillardplus 3.3beta
+PACKAGE_STRING = foobillardplus 3.4beta
 PACKAGE_TARNAME = foobillardplus
 PACKAGE_URL = 
-PACKAGE_VERSION = 3.3beta
+PACKAGE_VERSION = 3.4beta
 PATH_SEPARATOR = :
 PREFIX = /opt/foobillardplus
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = 
-VERSION = 3.3beta
+VERSION = 3.4beta
 XMKMF = 
 X_CFLAGS = 
 X_EXTRA_LIBS = 
@@ -703,7 +703,7 @@ rpm: dist
 srpm: dist
 	mkdir -p build
 	PWD=`pwd` rpmbuild --define "_sourcedir $$PWD" --define "_builddir $$PWD/build" \
-	    --define "_rpmdir $$PWD/build" --define "_srcrpmdir $$PWD" -bs foobillardplus.spec 
+	  --define "_rpmdir $$PWD/build" --define "_srcrpmdir $$PWD" -bs foobillardplus.spec 
 
 dist-hook:
 	mkdir -p $(distdir)/data
@@ -714,6 +714,9 @@ dist-hook:
 	cp -p $(srcdir)/README $(distdir)
 	cp -p $(srcdir)/ChangeLog $(distdir)
 	cp -p $(srcdir)/TODO $(distdir)
+	cp -p $(srcdir)/foobillardplus.desktop $(distdir)
+	cp -p $(srcdir)/foobillardplus.png $(distdir)
+	cp -p $(srcdir)/foobillardplus.xbm $(distdir)
 
 install-data-hook:
 	mkdir -p $(datadir)
@@ -724,6 +727,9 @@ install-data-hook:
 	cp -p $(srcdir)/README $(prefix)
 	cp -p $(srcdir)/ChangeLog $(prefix)
 	cp -p $(srcdir)/TODO $(prefix)
+	cp -p $(srcdir)/foobillardplus.desktop $(distdir)
+	cp -p $(srcdir)/foobillardplus.png $(distdir)
+	cp -p $(srcdir)/foobillardplus.xbm $(distdir)
 
 uninstall-hook:
 	rm $(prefix) -R

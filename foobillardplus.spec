@@ -1,9 +1,9 @@
 Name:           foobillardplus
-Version:        3.3beta
+Version:        3.4beta
 Release:        1.0.0
 
 Group:          Amusements/Games/3D/Other
-Summary:        A free OpenGL 3D billard game.
+Summary:        A free OpenGL 3D billard game
 
 Vendor:         Holger Schaekel (foobillardplus@go4more.de)
 Packager:       Holger Schaekel (foobillardplus@go4more.de)
@@ -51,12 +51,20 @@ rm -rf %{buildroot}
 /opt/%{name}/INSTALL
 /opt/%{name}/README
 /opt/%{name}/TODO
+/opt/%{name}/foobillardplus.desktop
+/opt/%{name}/foobillardplus.png
+/opt/%{name}/foobillardplus.xbm
 
 %build
-./configure --prefix=$RPM_BUILD_ROOT/opt
+./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special
 make 
 
 %changelog
+* Fri Aug 26 2011 Holger Schaekel
+- desktop icon
+- textures for room and walls
+- routines for displaying walls
+- more optimizations in table.c 
 
 * Thu Jul 26 2011 Holger Schaekel
 - Tron like game playfield (a little bit like the movie ;-)
