@@ -48,7 +48,7 @@ void my_rect_wall(void)
  *           Create the room itself (and the gllist)                   *
  ***********************************************************************/
 
-void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall3_obj,int *wall4_obj,int *ceiling_obj)
+void create_room(int *floor_obj, int *wall_obj)
 {
 
   static GLuint corr1texbind=-1;
@@ -153,9 +153,11 @@ void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall3_obj,in
     glEnd();
   glEndList();
 
-  if(*wall1_obj != -1 ) glDeleteLists( *wall1_obj, 1 );
-  *wall1_obj = glGenLists(1);
-  glNewList(*wall1_obj, GL_COMPILE);
+  if(*wall_obj != -1 ) glDeleteLists( *wall_obj, 1 );
+  *wall_obj = glGenLists(1);
+  glNewList(*wall_obj, GL_COMPILE);
+    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
     glBlendFunc(GL_ONE,GL_ONE);
     glBindTexture(GL_TEXTURE_2D,corr1texbind);
     my_rect_wall();
@@ -173,11 +175,8 @@ void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall3_obj,in
     glVertex3f(0.5, 4.999, 0.5);    // Bottom Left
     glEnd();
     glDisable(GL_BLEND);
-  glEndList();
-
-  if(*wall2_obj != -1 ) glDeleteLists( *wall2_obj, 1 );
-  *wall2_obj = glGenLists(1);
-  glNewList(*wall2_obj, GL_COMPILE);
+    // wall 2
+    glRotatef(90.0,0.0,0.0,1.1);
     glBindTexture(GL_TEXTURE_2D,corr1texbind);
     my_rect_wall();
 
@@ -194,11 +193,8 @@ void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall3_obj,in
     glVertex3f(-4.0, 4.999, 0.0);    // Bottom Left
     glEnd();
     glDisable(GL_BLEND);
-  glEndList();
-
-  if(*wall3_obj != -1 ) glDeleteLists( *wall3_obj, 1 );
-  *wall3_obj = glGenLists(1);
-  glNewList(*wall3_obj, GL_COMPILE);
+    // wall 3
+    glRotatef(90.0,0.0,0.0,1.1);
     glBindTexture(GL_TEXTURE_2D,corr2texbind);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
@@ -225,11 +221,8 @@ void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall3_obj,in
     glVertex3f(-2.0, 4.999, 0.7);    // Bottom Left
     glEnd();
     glDisable(GL_BLEND);
-   glEndList();
-
-   if(*wall4_obj != -1 ) glDeleteLists( *wall4_obj, 1 );
-   *wall4_obj = glGenLists(1);
-   glNewList(*wall4_obj, GL_COMPILE);
+    // wall 4
+    glRotatef(90.0,0.0,0.0,1.1);
     glBindTexture(GL_TEXTURE_2D,corr1texbind);
     my_rect_wall();
 
@@ -271,26 +264,18 @@ void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall3_obj,in
     glVertex3f(-2.0, 4.999, 0.0);    // Bottom Left
     glEnd();
     glDisable(GL_BLEND);
-   glEndList();
-
-   if(*ceiling_obj != -1 ) glDeleteLists( *ceiling_obj, 1 );
-   *ceiling_obj = glGenLists(1);
-   glNewList(*ceiling_obj, GL_COMPILE);
-    glPolygonMode(GL_FRONT,GL_LINE);  // fill the front of the polygons
-    glPolygonMode(GL_BACK,GL_FILL);   // only lines for back (better seeing on zooming)
+    // ceiling
     glBindTexture(GL_TEXTURE_2D,ceilingtexbind);
-
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(-5,5,2.5);
-    glTexCoord2s(0,8);
-    glVertex3f(5,5,2.5);
-    glTexCoord2s(8,8);
-    glVertex3f(5,-5,2.5);
-    glTexCoord2s(8,0);
     glVertex3f(-5,-5,2.5);
+    glTexCoord2s(8,0);
+    glVertex3f(5,-5,2.5);
+    glTexCoord2s(8,8);
+    glVertex3f(5,5,2.5);
+    glTexCoord2s(0,8);
+    glVertex3f(-5,5,2.5);
     glEnd();
-    glPolygonMode(GL_FRONT,GL_FILL);  // fill the front of the polygons
-    glPolygonMode(GL_BACK,GL_LINE);   // only lines for back (better seeing on zooming)
+    glDisable(GL_CULL_FACE);
    glEndList();
 }

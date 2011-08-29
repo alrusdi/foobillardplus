@@ -133,7 +133,7 @@ static int frametime_ms_max = 200;
 static int frametime_ms = 40;
 
 static GLuint table_obj = 0;
-static GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0, Zrot_wall;
+static GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0;
 static GLfloat Xque = -83.0, Zque = 0.0;
 static GLfloat Xrot_offs=0.0, Yrot_offs=0.0, Zrot_offs=0.0;
 
@@ -406,11 +406,7 @@ static struct option long_options[] = {
 
 static int introtexture = 0; // show the introtexture until keystroke
 static int floor_obj = -1;   // for the room the floor obj
-static int wall1_obj = -1;   // for the room the walls obj
-static int wall2_obj = -1;
-static int wall3_obj = -1;
-static int wall4_obj = -1;
-static int ceiling_obj = -1; // for the room the ceiling obj
+static int wall_obj = -1;   // for the room the walls obj
 
 /***********************************************************************/
 
@@ -4361,32 +4357,7 @@ void DisplayFunc( void )
    glPushMatrix();
    glCallList(floor_obj); // draw floor
    if(options_deco) {     // draw room if option on
-     Zrot_wall = Zrot+Zrot_offs;
-     //fprintf(stderr,"zrot: %f zrot_offs %f\n",Zrot,Zrot_offs);
-     //fprintf(stderr,"xrot: %f xrot_offs %f\n",Xrot,Xrot_offs);
-     if(Zrot_wall<110.0 || Zrot_wall>250.0) {
-       glCallList(wall1_obj);  // front wall
-       //fprintf(stderr,"display front wall\n");
-     }
-     glRotatef(90.0,0.0,0.0,1.1);
-     if(Zrot_wall<10.0 || (Zrot_wall<360.0 && Zrot_wall>170.0)) {
-       glCallList(wall2_obj);  // left wall
-       //fprintf(stderr,"display left wall\n");
-     }
-     glRotatef(90.0,0.0,0.0,1.0);
-     if(Zrot_wall>70.0 && Zrot_wall<290.0) {
-       glCallList(wall3_obj);  // wall behind
-       //fprintf(stderr,"display wall behind\n");
-     }
-     glRotatef(90.0,0.0,0.0,1.0);
-     if(Zrot_wall>350.0 || (Zrot_wall>0 && Zrot_wall<190.0)) {
-       glCallList(wall4_obj);  // right wall
-       //fprintf(stderr,"display right wall\n");
-     }
-     if(Xrot+Xrot_offs<-74.0) {
-       glCallList(ceiling_obj);  // the ceiling
-       //fprintf(stderr,"display ceiling\n");
-     }
+     glCallList(wall_obj);  // room
    }
    glPopMatrix();
 
@@ -6619,19 +6590,11 @@ void menu_cb( int id, void * arg , VMfloat value)
         break;
     case MENU_ID_ROOM_ON:
         options_deco=1;
-        if(options_deco){
-          glFogf (GL_FOG_END, 16.0);
-        } else {
-          glFogf (GL_FOG_END, 12.5);
-        }
+        glFogf (GL_FOG_END, 16.0);
         break;
     case MENU_ID_ROOM_OFF:
         options_deco=0;
-        if(options_deco){
-          glFogf (GL_FOG_END, 16.0);
-        } else {
-          glFogf (GL_FOG_END, 12.5);
-        }
+        glFogf (GL_FOG_END, 12.5);
         break;
     case MENU_ID_HELPLINE_ON:
         vline_on=1;
@@ -7177,7 +7140,7 @@ static void Init( void )
 #endif
 
     table_obj = create_table(spheretexbind, &walls, gametype==GAME_CARAMBOL);
-    create_room(&floor_obj,&wall1_obj,&wall2_obj,&wall3_obj,&wall4_obj,&ceiling_obj);
+    create_room(&floor_obj,&wall_obj);
 
     /* lighting */
     glEnable(GL_LIGHTING);

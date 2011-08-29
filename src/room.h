@@ -23,6 +23,6 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-void create_room(int *floor_obj, int *wall1_obj,int *wall2_obj,int *wall31_obj,int *wall4_obj,int *ceiling_obj);
+void create_room(int *floor_obj, int *wall_obj);
 
 #endif  /* ROOM_H */
