@@ -7149,9 +7149,6 @@ static void Init( void )
 
    //fprintf(stderr,"enabling depth test\n");
    glEnable(GL_DEPTH_TEST);
-   glFrontFace(GL_CW);
-   glCullFace(GL_FRONT);
-   //glEnable(GL_CULL_FACE); //Tron Gamemode 2 (not so good) for debugging ;-)
    glDepthMask(GL_TRUE);
    glDepthFunc( GL_LEQUAL );
 
