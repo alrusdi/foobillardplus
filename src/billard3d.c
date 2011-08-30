@@ -4417,9 +4417,6 @@ void DisplayFunc( void )
      glDisable(GL_LIGHTING);
 #ifdef WETAB_ALIASING
      if(options_antialiasing) {
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-      glDepthMask(GL_FALSE);
       glLineWidth(1.5);
       glEnable(GL_LINE_SMOOTH);
       glHint(GL_LINE_SMOOTH_HINT,GL_DONT_CARE);
@@ -4430,7 +4427,6 @@ void DisplayFunc( void )
      }
 #ifdef WETAB_ALIASING
     if(options_antialiasing) {
-      glDepthMask(GL_TRUE);
       glDisable(GL_LINE_SMOOTH);
       glDisable(GL_BLEND);
     }

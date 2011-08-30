@@ -182,7 +182,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
     pos = vec_add(pos,vec_scale(dir,zoffs));
 
     for(i=0;i<3;i++) queue_col_amb[i]=queue_col_diff[i]*0.5;
-
+    glDisable(GL_CULL_FACE);
     if(!init){
         create_queue_texbind();
         glGenTextures(1,&queueshadowbind);
@@ -331,12 +331,9 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
 
-        glColor3s(1,1,1);
+        glColor3f(1.0,1.0,1.0);
 #ifdef WETAB_ALIASING
         if(options_antialiasing) {
-          glEnable(GL_BLEND);
-          glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-          glDepthMask(GL_FALSE);
           glLineWidth(1.5);
           glEnable(GL_LINE_SMOOTH);
           glHint(GL_LINE_SMOOTH_HINT,GL_DONT_CARE);
@@ -351,13 +348,13 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glEnd();
 #ifdef WETAB_ALIASING
         if(options_antialiasing) {
-          glDepthMask(GL_TRUE);
           glDisable(GL_LINE_SMOOTH);
           glDisable(GL_BLEND);
         }
 #endif
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
+        glEnable(GL_CULL_FACE);
     }
 
 }
