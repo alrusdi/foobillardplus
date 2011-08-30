@@ -240,6 +240,8 @@ void sys_create_display(int *argc, char **argv, int width,int height)
 
   glPolygonMode(GL_FRONT,GL_FILL);  // fill the front of the polygons
   glPolygonMode(GL_BACK,GL_LINE);   // only lines for back (better seeing on zooming)
+  glCullFace(GL_BACK);              // Standards for rendering only front of textures
+  glEnable(GL_CULL_FACE);
 }
 
 /***********************************************************************

@@ -47,7 +47,6 @@ int    options_diamond_color = 0xFFD566;
 int    options_frame_color   = 0x401405;
 VMfloat options_table_size    = 2.1336;  /* 7 ft (smallest normed) */
 int    options_lensflare     = 0;
-int    options_ball_reflections_blended=1;
 #ifndef WETAB
     int options_max_ball_detail = 7;
     VMfloat options_ball_detail_nearmax = 0.4;

@@ -34,13 +34,13 @@ void my_rect_wall(void)
 {
   glBegin(GL_QUADS);
   glTexCoord2s(0,0);
-  glVertex3f(-5.0, 5.0, 2.5);   // Top Left
+  glVertex3f(-5.0, 5.0, 2.5);
   glTexCoord2s(4,0);
-  glVertex3f( 5.0, 5.0, 2.5);   // Top Right
+  glVertex3f( 5.0, 5.0, 2.5);
   glTexCoord2s(4,2);
-  glVertex3s( 5, 5, 0);    // Bottom Right
+  glVertex3s( 5, 5, 0);
   glTexCoord2s(0,2);
-  glVertex3s(-5, 5, 0);    // Bottom Left
+  glVertex3s(-5, 5, 0);
   glEnd();
 }
 
@@ -156,8 +156,6 @@ void create_room(int *floor_obj, int *wall_obj)
   if(*wall_obj != -1 ) glDeleteLists( *wall_obj, 1 );
   *wall_obj = glGenLists(1);
   glNewList(*wall_obj, GL_COMPILE);
-    glCullFace(GL_BACK);
-    glEnable(GL_CULL_FACE);
     glBlendFunc(GL_ONE,GL_ONE);
     glBindTexture(GL_TEXTURE_2D,corr1texbind);
     my_rect_wall();
@@ -166,13 +164,13 @@ void create_room(int *floor_obj, int *wall_obj)
     glEnable(GL_BLEND);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(0.5, 4.999, 2.3);   // Top Left
+    glVertex3f(0.5, 4.999, 2.3);
     glTexCoord2s(1,0);
-    glVertex3f( 4.0, 4.999, 2.3);   // Top Right
+    glVertex3f( 4.0, 4.999, 2.3);
     glTexCoord2s(1,1);
-    glVertex3f( 4.0, 4.999, 0.5);    // Bottom Right
+    glVertex3f( 4.0, 4.999, 0.5);
     glTexCoord2s(0,1);
-    glVertex3f(0.5, 4.999, 0.5);    // Bottom Left
+    glVertex3f(0.5, 4.999, 0.5);
     glEnd();
     glDisable(GL_BLEND);
     // wall 2
@@ -184,13 +182,13 @@ void create_room(int *floor_obj, int *wall_obj)
     glEnable(GL_BLEND);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(-4.0, 4.999, 2.5);   // Top Left
+    glVertex3f(-4.0, 4.999, 2.5);
     glTexCoord2s(1,0);
-    glVertex3f( 4.0, 4.999, 2.5);   // Top Right
+    glVertex3f( 4.0, 4.999, 2.5);
     glTexCoord2s(1,1);
-    glVertex3f( 4.0, 4.999, 0.0);    // Bottom Right
+    glVertex3f( 4.0, 4.999, 0.0);
     glTexCoord2s(0,1);
-    glVertex3f(-4.0, 4.999, 0.0);    // Bottom Left
+    glVertex3f(-4.0, 4.999, 0.0);
     glEnd();
     glDisable(GL_BLEND);
     // wall 3
@@ -198,13 +196,13 @@ void create_room(int *floor_obj, int *wall_obj)
     glBindTexture(GL_TEXTURE_2D,corr2texbind);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(-5.0, 5.0, 2.5);   // Top Left
+    glVertex3f(-5.0, 5.0, 2.5);
     glTexCoord2s(12,0);
-    glVertex3f( 5.0, 5.0, 2.5);   // Top Right
+    glVertex3f( 5.0, 5.0, 2.5);
     glTexCoord2s(12,6);
-    glVertex3s( 5, 5, 0);    // Bottom Right
+    glVertex3s( 5, 5, 0);
     glTexCoord2s(0,6);
-    glVertex3s(-5, 5, 0);    // Bottom Left
+    glVertex3s(-5, 5, 0);
     glEnd();
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -212,13 +210,13 @@ void create_room(int *floor_obj, int *wall_obj)
     glBindTexture(GL_TEXTURE_2D,boardtexbind);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(-2.0, 4.999, 2.0);   // Top Left
+    glVertex3f(-2.0, 4.999, 2.0);
     glTexCoord2s(1,0);
-    glVertex3f( 0.0, 4.999, 2.0);   // Top Right
+    glVertex3f( 0.0, 4.999, 2.0);
     glTexCoord2s(1,1);
-    glVertex3f( 0.0, 4.999, 0.7);    // Bottom Right
+    glVertex3f( 0.0, 4.999, 0.7);
     glTexCoord2s(0,1);
-    glVertex3f(-2.0, 4.999, 0.7);    // Bottom Left
+    glVertex3f(-2.0, 4.999, 0.7);
     glEnd();
     glDisable(GL_BLEND);
     // wall 4
@@ -231,37 +229,37 @@ void create_room(int *floor_obj, int *wall_obj)
     glEnable(GL_BLEND);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(3.0, 4.999, 2.3);   // Top Left
+    glVertex3f(3.0, 4.999, 2.3);
     glTexCoord2s(1,0);
-    glVertex3f( 4.0, 4.999, 2.3);   // Top Right
+    glVertex3f( 4.0, 4.999, 2.3);
     glTexCoord2s(1,1);
-    glVertex3f( 4.0, 4.999, 0.7);    // Bottom Right
+    glVertex3f( 4.0, 4.999, 0.7);
     glTexCoord2s(0,1);
-    glVertex3f(3.0, 4.999, 0.7);    // Bottom Left
+    glVertex3f(3.0, 4.999, 0.7);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,closewindowtexbind);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(0.0, 4.999, 2.3);   // Top Left
+    glVertex3f(0.0, 4.999, 2.3);
     glTexCoord2s(1,0);
-    glVertex3f( 3.0, 4.999, 2.3);   // Top Right
+    glVertex3f( 3.0, 4.999, 2.3);
     glTexCoord2s(1,1);
-    glVertex3f( 3.0, 4.999, 0.7);    // Bottom Right
+    glVertex3f( 3.0, 4.999, 0.7);
     glTexCoord2s(0,1);
-    glVertex3f(0.0, 4.999, 0.7);    // Bottom Left
+    glVertex3f(0.0, 4.999, 0.7);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,doortexbind);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);
-    glVertex3f(-2.0, 4.999, 2.3);   // Top Left
+    glVertex3f(-2.0, 4.999, 2.3);
     glTexCoord2s(1,0);
-    glVertex3f( -1.0, 4.999, 2.3);   // Top Right
+    glVertex3f( -1.0, 4.999, 2.3);
     glTexCoord2s(1,1);
-    glVertex3f( -1.0, 4.999, 0.0);    // Bottom Right
+    glVertex3f( -1.0, 4.999, 0.0);
     glTexCoord2s(0,1);
-    glVertex3f(-2.0, 4.999, 0.0);    // Bottom Left
+    glVertex3f(-2.0, 4.999, 0.0);
     glEnd();
     glDisable(GL_BLEND);
     // ceiling
@@ -276,6 +274,5 @@ void create_room(int *floor_obj, int *wall_obj)
     glTexCoord2s(0,8);
     glVertex3f(-5,5,2.5);
     glEnd();
-    glDisable(GL_CULL_FACE);
    glEndList();
 }

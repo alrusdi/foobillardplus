@@ -43,12 +43,6 @@
    #undef USE_VERTEX_ARRAYS
 #endif
 
-#ifdef GL_ARB_multitexture
-   #define MULTITEX_ENABLED
-#else
-   #undef MULTITEX_ENABLED
-#endif
-
 #define USE_TRISTRIPS   //only remark this on a very slow embedded devices like PowerVR
 //#undef USE_VERTEX_ARRAYS
 
@@ -62,15 +56,11 @@ static int    depth;
 
 static GLfloat col_null [4] = {0.0, 0.0, 0.0, 0.0}; /* Tron Game Mode */
 static GLfloat col_spec [4] = {0.0, 0.0, 0.0, 1.0}; /* dont need any specular because of reflections */
-static GLfloat col_spec2[4] = {1.0, 1.0, 1.0, 1.0}; /* dont need any specular because of reflections */
-//static GLfloat col_refl [4] = {1.0, 1.0, 1.0, 0.28};
 static GLfloat col_refl [4] = {1.0, 1.0, 1.0, 0.28};
 static GLfloat col_refl3[4] = {1.0, 1.0, 1.0, 0.60};   /* for rendered cubemap */
 static GLfloat col_diff [4] = {0.7, 0.7, 0.7, 1.0};
-static GLfloat col_diff2[4] = {0.75, 0.75, 0.75, 1.0};
 static GLfloat col_diff3[4] = {0.69, 0.69, 0.69, 1.0};
 static GLfloat col_amb  [4] = {0.2, 0.2, 0.2, 1.0};
-static GLfloat col_amb2 [4] = {0.45, 0.45, 0.45, 1.0}; /* for simple reflections */
 static GLfloat col_amb3 [4] = {0.31, 0.31, 0.31, 1.0}; /* for simple reflections */
 static GLfloat col_shad [4] = {0.5, 0.0, 0.0, 0.0};
 
@@ -1091,7 +1081,6 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
     static int shadow_id = -1;            // shadow glcompile-id
     static int cuberef1_id = -1;          // cuberef1 glcompile-id
     static int blended_id = -1;           // blended glcompile-id
-    static int drawball_id = -1;          // draw ball glcompile-id
     static int drawball1_id = -1;         // draw ball glcompile-id
     static int drawball2_id = -1;         // draw ball glcompile-id
 
@@ -1110,7 +1099,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
     stretch_matrix[15]=57.15E-3/BALL_D; //dto. 1.0f if macro BALL_D is unchanged
 
     col_shad[3]=1.0; //every time the same for shadow color [3]
-
+    glDisable(GL_CULL_FACE);
     if( !init ){
         glGenTextures(1,&shadowtexbind);
         load_png("shadow2.png",&shadowtexw,&shadowtexh,&depth,&shadowtexdata);
@@ -1197,17 +1186,6 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         glEnable( GL_POLYGON_OFFSET_FILL );
         glEndList();
 
- 	    drawball_id = glGenLists(1);
- 	    glNewList(drawball_id, GL_COMPILE);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE,   col_diff2);
-        glMaterialfv(GL_FRONT, GL_AMBIENT,   col_amb2 );
-        glMaterialfv(GL_FRONT, GL_SPECULAR,  col_spec2);
-        glMaterialf (GL_FRONT, GL_SHININESS, 20.0     );
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        glDisable(GL_TEXTURE_GEN_S);
-        glDisable(GL_TEXTURE_GEN_T);
-        glEndList();
-
  	    drawball1_id = glGenLists(1);
  	    glNewList(drawball1_id, GL_COMPILE);
         glMaterialfv(GL_FRONT, GL_DIFFUSE,   col_diff3);
@@ -1282,18 +1260,8 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
 
     glEnable(GL_TEXTURE_2D);
 
-#ifdef MULTITEX_ENABLED
-    if( !options_ball_reflections_blended ) {
-        //fprintf(stderr,"sphere_id %i\n",sphere_id);
-        glCallList(sphere_id);
-    }
-#endif
-
     /* draw balls */
-    if( !options_ball_reflections_blended ) {
-        //fprintf(stderr,"drawball_id %i\n",drawball_id);
-        glCallList(drawball_id);
-    } else if( options_cuberef ) {
+    if( options_cuberef ) {
         //fprintf(stderr,"drawball1_id %i\n",drawball1_id);
         glCallList(drawball1_id);
     } else {
@@ -1309,15 +1277,8 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
           }
         }
 
-#ifdef MULTITEX_ENABLED
-    if(!options_ball_reflections_blended ) {
-        //fprintf(stderr,"sphere2_id %i\n",sphere2_id);
-        glCallList(sphere2_id);
-    }
-#endif
-
     /* draw extra blended ball-reflections */
-    if( options_ball_reflections_blended && !(options_cuberef && cuberef_binds==0) ){
+    if(!(options_cuberef && cuberef_binds==0) ){
         //fprintf(stderr,"blended_id %i\n",blended_id);
         glCallList(blended_id);
         if(options_cuberef){
@@ -1417,6 +1378,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
     }
     glDisable(GL_BLEND);
     glDepthMask (GL_TRUE);
+    glEnable(GL_CULL_FACE);
 #undef SH_SZ
 
 }
