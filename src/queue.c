@@ -354,7 +354,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
 #endif
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
-        glEnable(GL_CULL_FACE);
     }
+    glEnable(GL_CULL_FACE);
 
 }

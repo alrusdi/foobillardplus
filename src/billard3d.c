@@ -406,7 +406,9 @@ static struct option long_options[] = {
 
 static int introtexture = 0; // show the introtexture until keystroke
 static int floor_obj = -1;   // for the room the floor obj
-static int wall_obj = -1;   // for the room the walls obj
+static int wall1_2_obj = -1; // for the room the walls 1 + 2 obj
+static int wall3_obj = -1;   // for the wall 3 obj (the problem with big window
+static int wall4_c_obj = -1; // for wall 4 and ceiling obj
 
 /***********************************************************************/
 
@@ -4357,7 +4359,14 @@ void DisplayFunc( void )
    glPushMatrix();
    glCallList(floor_obj); // draw floor
    if(options_deco) {     // draw room if option on
-     glCallList(wall_obj);  // room
+     glCallList(wall1_2_obj);  // room
+     glRotatef(90.0,0.0,0.0,1.1);
+     if(Zrot>50 && Zrot<320) {
+       //fprintf(stderr,"Zrot: %f\n",Zrot);
+       // draw the window with the skyline behind, problem......
+       glCallList(wall3_obj);
+     }
+     glCallList(wall4_c_obj);
    }
    glPopMatrix();
 
@@ -7136,7 +7145,7 @@ static void Init( void )
 #endif
 
     table_obj = create_table(spheretexbind, &walls, gametype==GAME_CARAMBOL);
-    create_room(&floor_obj,&wall_obj);
+    create_room(&floor_obj,&wall1_2_obj,&wall3_obj,&wall4_c_obj);
 
     /* lighting */
     glEnable(GL_LIGHTING);
