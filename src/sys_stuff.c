@@ -558,32 +558,25 @@ sysResolution *sys_list_modes( void )
 
 void sys_main_loop(void)
 {
-  /* These are to calculate our fps */
-  //static GLint T0 = 0;
-  //static GLint Frames = 0;
-  //GLint t;
-  //GLfloat seconds, fps;
-  /* End of calculate fps */
+  // we want a good smooth scrolling ###TODO ###
+  GLint old_t, t;
+  GLint sleeptime, lastsleep = 0;
 
+  old_t = SDL_GetTicks();
   while(1) {
     process_events();
     DisplayFunc();
+    SDL_GL_SwapBuffers();
     // the following two lines only on problems with old SDL-Versions on some machines
     //glFlush();
     //glFinish();
-    SDL_GL_SwapBuffers();
-    /* Calculate fps */
-    //Frames++;
-    //t = SDL_GetTicks ();
-    //if ( t - T0 >= 5000 ) {
-    //  seconds = ( t - T0 ) / 1000.0;
-    //  fps = Frames / seconds;
-    //  fprintf ( stderr,"%d frames in %g seconds = %g FPS\n", Frames, seconds, fps );
-    //  T0 = t;
-    //  Frames = 0;
-    //}
-    /* End calculate fps */
-    SDL_Delay(15); //### TODO ### make this delay better with other code
+    t = SDL_GetTicks();
+    sleeptime = 15-(t-old_t); //wish sleeptime is 15 milliseconds
+    old_t = t;
+    if(sleeptime > 0) {
+       SDL_Delay(sleeptime); //### TODO ### make this delay better with other code
+       //fprintf(stderr,"%i\n",sleeptime);
+    }
   }
 
 }
