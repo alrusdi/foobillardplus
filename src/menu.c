@@ -716,6 +716,7 @@ void init_menu(void)
     static menuType * balldetail_menu;
     static menuType * tabletheme_menu;
     static menuType * roomtexture_menu;
+    static menuType * furnituretex_menu;
     static menuType * tablesize_menu;
     static menuType * helpline_menu;
     static menuType * birdview_ai_menu;
@@ -1018,6 +1019,17 @@ void init_menu(void)
     menu_add_entry(roomtexture_menu, localeText[65], MENU_ID_ROOM_OFF,localeText[317]);
     //< back
     menu_add_exit (roomtexture_menu, localeText[63],localeText[266]);
+
+    /*
+     furnituretexture come from View Options
+    */
+    furnituretex_menu = menu_new( menu_cb );
+    //on
+    menu_add_entry(furnituretex_menu, localeText[64], MENU_ID_FURNITURE_ON,localeText[316]);
+    //off
+    menu_add_entry(furnituretex_menu, localeText[65], MENU_ID_FURNITURE_OFF,localeText[317]);
+    //< back
+    menu_add_exit (furnituretex_menu, localeText[63],localeText[266]);
 
     /*
      Controls come from Game Menu
@@ -1606,6 +1618,8 @@ void init_menu(void)
     menu_add_submenu(view_menu, localeText[108], tabletheme_menu, 1, localeText[neuwert],localeText[375]);
     //room textures on/off
     menu_add_submenu(view_menu, localeText[417], roomtexture_menu, 1, localeText[65-options_deco],localeText[418]);
+    //furniture textures on/off
+    menu_add_submenu(view_menu, localeText[419], furnituretex_menu, 1, localeText[65-options_furniture],localeText[420]);
     //help line
     menu_add_submenu(view_menu, localeText[98], helpline_menu, 1, localeText[65-vline_on],localeText[376]);
     //ball traces

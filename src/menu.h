@@ -176,6 +176,8 @@ enum menu_ID {
 
     MENU_ID_ROOM_ON,
     MENU_ID_ROOM_OFF,
+    MENU_ID_FURNITURE_ON,
+    MENU_ID_FURNITURE_OFF,
 
     MENU_ID_HELPLINE_ON,
     MENU_ID_HELPLINE_OFF,
@@ -293,6 +295,7 @@ enum optionType {
     OPT_FREEMOVE1,
     OPT_FSAA,
     OPT_ROOM,
+    OPT_FURNITURE,
     OPT_DUMMY
 };
 

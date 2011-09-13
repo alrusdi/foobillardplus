@@ -32,9 +32,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = x86_64-suse-linux-gnu
-host_triplet = x86_64-suse-linux-gnu
-target_triplet = x86_64-suse-linux-gnu
+build_triplet = x86_64-unknown-linux-gnu
+host_triplet = x86_64-unknown-linux-gnu
+target_triplet = x86_64-unknown-linux-gnu
 bin_PROGRAMS = foobillardplus$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
@@ -56,7 +56,7 @@ am_foobillardplus_OBJECTS = billard3d.$(OBJEXT) language.$(OBJEXT) \
 	evaluate_move.$(OBJEXT) helpscreen.$(OBJEXT) textobj.$(OBJEXT) \
 	font.$(OBJEXT) sys_stuff.$(OBJEXT) net_socket.$(OBJEXT) \
 	sound_stuff.$(OBJEXT) menu.$(OBJEXT) bumpref.$(OBJEXT) \
-	room.$(OBJEXT)
+	room.$(OBJEXT) mesh.$(OBJEXT)
 foobillardplus_OBJECTS = $(am_foobillardplus_OBJECTS)
 foobillardplus_LDADD = $(LDADD)
 foobillardplus_DEPENDENCIES =
@@ -78,7 +78,7 @@ AMTAR = ${SHELL} /home/holger/projekte/foobillardplus/missing --run tar
 AUTOCONF = ${SHELL} /home/holger/projekte/foobillardplus/missing --run autoconf
 AUTOHEADER = ${SHELL} /home/holger/projekte/foobillardplus/missing --run autoheader
 AUTOMAKE = ${SHELL} /home/holger/projekte/foobillardplus/missing --run automake-1.11
-AWK = gawk
+AWK = mawk
 BINDIR = /opt/foobillardplus/bin
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -97,10 +97,10 @@ DOCDIR = /opt/foobillardplus/data/locale
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
-EGREP = /usr/bin/grep -E
+EGREP = /bin/grep -E
 EXECPREFIX = /opt/foobillardplus
 EXEEXT = 
-GREP = /usr/bin/grep
+GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -125,7 +125,7 @@ PACKAGE_VERSION = 3.4beta
 PATH_SEPARATOR = :
 PREFIX = /opt/foobillardplus
 SET_MAKE = 
-SHELL = /bin/sh
+SHELL = /bin/bash
 STRIP = 
 VERSION = 3.4beta
 XMKMF = 
@@ -145,22 +145,22 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = /opt/foobillardplus/bin
-build = x86_64-suse-linux-gnu
+build = x86_64-unknown-linux-gnu
 build_alias = 
 build_cpu = x86_64
 build_os = linux-gnu
-build_vendor = suse
+build_vendor = unknown
 builddir = .
 datadir = /opt/foobillardplus/data
 datarootdir = /opt/foobillardplus/data
 docdir = /opt/foobillardplus/data/locale
 dvidir = ${docdir}
 exec_prefix = /opt/foobillardplus
-host = x86_64-suse-linux-gnu
+host = x86_64-unknown-linux-gnu
 host_alias = 
 host_cpu = x86_64
 host_os = linux-gnu
-host_vendor = suse
+host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
@@ -180,11 +180,11 @@ sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
-target = x86_64-suse-linux-gnu
+target = x86_64-unknown-linux-gnu
 target_alias = 
 target_cpu = x86_64
 target_os = linux-gnu
-target_vendor = suse
+target_vendor = unknown
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
@@ -230,7 +230,9 @@ foobillardplus_SOURCES = \
    bumpref.c \
    bumpref.h \
    room.c \
-   room.h
+   room.h \
+   mesh.h \
+   mesh.c
 
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS = `sdl-config --libs`
@@ -364,6 +366,7 @@ include ./$(DEPDIR)/font.Po
 include ./$(DEPDIR)/helpscreen.Po
 include ./$(DEPDIR)/language.Po
 include ./$(DEPDIR)/menu.Po
+include ./$(DEPDIR)/mesh.Po
 include ./$(DEPDIR)/net_socket.Po
 include ./$(DEPDIR)/options.Po
 include ./$(DEPDIR)/png_loader.Po

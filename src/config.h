@@ -19,6 +19,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
+/* Define to 1 if you have the `m' library (-lm). */
+#define HAVE_LIBM 1
+
 /* Define to 1 if you have the `png' library (-lpng). */
 #define HAVE_LIBPNG 1
 
@@ -83,7 +86,7 @@
 #define PACKAGE_NAME "foobillardplus"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "foobillardplus 3.3beta"
+#define PACKAGE_STRING "foobillardplus 3.4beta"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "foobillardplus"
@@ -92,13 +95,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.3beta"
+#define PACKAGE_VERSION "3.4beta"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "3.3beta"
+#define VERSION "3.4beta"
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */

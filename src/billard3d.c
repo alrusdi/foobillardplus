@@ -70,6 +70,7 @@
 #include "sound_stuff.h"
 #include "menu.h"
 #include "room.h"
+#include "mesh.h"
 
 #define LIT 1
 #define TEXTURED 2
@@ -392,6 +393,7 @@ static struct option long_options[] = {
     {"auto_freemove",required_argument, (int *)localeText[17], OPT_FREEMOVE1},
     {"fsaa",         required_argument, (int *)localeText[17], OPT_FSAA},
     {"roomtexture",  required_argument, (int *)localeText[17], OPT_ROOM},
+    {"furnituretex", required_argument, (int *)localeText[17], OPT_FURNITURE},
 #ifdef NETWORKING
     {"netspeed",     required_argument, (int *)localeText[239], OPT_NET_SPEED},
     {"netcompatible",required_argument, (int *)localeText[17], OPT_NET_COMPATIBLE},
@@ -1620,6 +1622,16 @@ void process_option(enum optionType act_option)
                 break;
           }
           break;
+       case OPT_FURNITURE:
+             switch(optarg[1]){
+                case 'f': /* off */
+                   options_furniture=0;
+                   break;
+                case 'n': /* on  */
+                   options_furniture=1;
+                   break;
+             }
+             break;
        case OPT_FREEMOVE1:
           switch(optarg[1]){
              case 'f': /* off */
@@ -2048,6 +2060,9 @@ void save_config(void)
           break;
        case OPT_ROOM:
           write_rc(f,opt, options_deco?"on":"off");
+          break;
+       case OPT_FURNITURE:
+          write_rc(f,opt, options_furniture?"on":"off");
           break;
        }
     }
@@ -4245,7 +4260,7 @@ void DisplayFunc( void )
        light1_position[3]=0.0;
    }
 
-   if(!options_deco){ //fog only without decorations like chairs and so on
+   if(!options_deco){ //fog only without walls and so on
      if(!FREE_VIEW){
        glFogf (GL_FOG_START, (cam_dist/2.0>cam_dist-1.0) ? cam_dist/2.0 : cam_dist-1.0 );
        glFogf (GL_FOG_END, cam_dist+6.0);
@@ -4356,6 +4371,7 @@ void DisplayFunc( void )
    } // End Tron Mode
 
    glCallList(table_obj); // draw table
+
    glPushMatrix();
    glCallList(floor_obj); // draw floor
    if(options_deco) {     // draw room if option on
@@ -4367,13 +4383,67 @@ void DisplayFunc( void )
        glCallList(wall3_obj);
      }
      glCallList(wall4_c_obj);
+   } else {
+   	 glRotatef(-90.0,0.0,0.0,1.1);
    }
-   glPopMatrix();
 
    if(options_tronmode) { //switch Tron Gamemode off
      glDisable (GL_LINE_SMOOTH);
      glPolygonMode(GL_FRONT,GL_FILL);
-   }
+   } //end tron-mode off
+
+   // draw some meshes (furniture & people)
+   if(options_furniture) {
+     glTranslatef(1.0,-4.0,0.65);
+     glRotatef(180.0,0.0,0.0,1.0);
+     glScalef(1.2,1.2,1.2);
+     glCullFace(GL_FRONT);  // This is a must for blender export models
+     glPolygonMode(GL_BACK,GL_FILL); // fill the back of the polygons
+     if(Zrot>180.0) {
+       glCallList(sofa_id); //sofa 1
+     }
+     glTranslatef(2.5,0.0,0.0);
+     if(Zrot>180.0) {
+   	   glCallList(sofa_id); //sofa 2
+     }
+     glTranslatef(-5.0,-6.0,0.2);
+     glScalef(0.7,0.7,0.7);
+     if(Zrot<190.0) {
+   	   glCallList(chair_id); //chair 1
+     }
+     glRotatef(65.0,0.0,0.0,1.0);
+     glTranslatef(1.0,-3.0,0.0);
+     if(Zrot<190.0) {
+   	   glCallList(chair_id); //chair 2
+     }
+     glRotatef(115.0,0.0,0.0,1.0);
+     glTranslatef(1.5,0.0,0.0);
+     glScalef(1.1,1.1,1.7);
+     if(Zrot<190.0) {
+   	   glCallList(bartable_id); //bar table
+     }
+     glTranslatef(-5.5,0.6,-0.1);
+     glScalef(1.0,1.3,1.0);
+     if(Zrot<190.0 || Zrot>320.0) {
+   	   glCallList(sofa_id); //sofa 3
+     }
+     glRotatef(90.0,0.0,0.0,1.0);
+     glTranslatef(-4.0,2.0,-0.4);
+     glScalef(0.6,0.4,0.45);
+     if(Zrot<90.0 || Zrot>280.0) {
+   	   glCallList(camin_id); //Camin
+     }
+     if(!options_birdview_on) {
+       glPopMatrix();
+       glPushMatrix();
+       glScalef(0.1,0.7,0.05);
+       glTranslatef(0.0,0.0,20.0);
+       glCallList(lamp_id);
+     }
+     glCullFace(GL_BACK);   // This is a must for blender export models
+     glPolygonMode(GL_BACK,GL_LINE);  // fill the back of the polygons
+   } // end furniture
+   glPopMatrix();
 
    /* draw balls with reflections and shadows */
 #ifdef TIME_INTERPOLATE
@@ -6601,6 +6671,12 @@ void menu_cb( int id, void * arg , VMfloat value)
         options_deco=0;
         glFogf (GL_FOG_END, 12.5);
         break;
+    case MENU_ID_FURNITURE_ON:
+        options_furniture=1;
+        break;
+    case MENU_ID_FURNITURE_OFF:
+        options_furniture=0;
+        break;
     case MENU_ID_HELPLINE_ON:
         vline_on=1;
         break;
@@ -7277,7 +7353,7 @@ int main( int argc, char *argv[] )
 #ifdef USE_SOUND
       Playwavdata(cvt_intro.buf,cvt_intro.len_cvt,options_snd_volume);
 #endif
-
+   InitMesh();
    sys_main_loop();
 
    return 0;

@@ -1,10 +1,11 @@
 net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
- /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h \
- /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h \
+ /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
+ /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+ /usr/include/gnu/stubs-64.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdarg.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdarg.h \
  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
  /usr/include/bits/waitstatus.h /usr/include/endian.h \
@@ -18,13 +19,15 @@ net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
  /usr/include/bits/confname.h /usr/include/getopt.h \
  /usr/include/sys/socket.h /usr/include/sys/uio.h /usr/include/bits/uio.h \
  /usr/include/bits/socket.h /usr/include/bits/sockaddr.h \
- /usr/include/asm/socket.h /usr/include/asm-generic/socket.h \
- /usr/include/asm/sockios.h /usr/include/asm-generic/sockios.h \
- /usr/include/arpa/inet.h /usr/include/netinet/in.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/asm/socket.h \
+ /usr/include/asm-generic/socket.h \
+ /usr/include/x86_64-linux-gnu/asm/sockios.h \
+ /usr/include/asm-generic/sockios.h /usr/include/arpa/inet.h \
+ /usr/include/netinet/in.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h /usr/include/bits/in.h \
  /usr/include/net/if.h /usr/include/errno.h /usr/include/bits/errno.h \
- /usr/include/linux/errno.h /usr/include/asm/errno.h \
+ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/ifaddrs.h /usr/include/string.h /usr/include/SDL/SDL.h \
  /usr/include/SDL/SDL_main.h /usr/include/SDL/SDL_stdinc.h \
@@ -49,6 +52,8 @@ net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
 
 /usr/include/features.h:
 
+/usr/include/bits/predefs.h:
+
 /usr/include/sys/cdefs.h:
 
 /usr/include/bits/wordsize.h:
@@ -57,7 +62,7 @@ net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
 
 /usr/include/gnu/stubs-64.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h:
 
 /usr/include/bits/types.h:
 
@@ -69,7 +74,7 @@ net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
 
 /usr/include/wchar.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdarg.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdarg.h:
 
 /usr/include/bits/stdio_lim.h:
 
@@ -127,11 +132,11 @@ net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
 
 /usr/include/bits/sockaddr.h:
 
-/usr/include/asm/socket.h:
+/usr/include/x86_64-linux-gnu/asm/socket.h:
 
 /usr/include/asm-generic/socket.h:
 
-/usr/include/asm/sockios.h:
+/usr/include/x86_64-linux-gnu/asm/sockios.h:
 
 /usr/include/asm-generic/sockios.h:
 
@@ -139,7 +144,7 @@ net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
 
 /usr/include/netinet/in.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -155,7 +160,7 @@ net_socket.o: net_socket.c /usr/include/stdio.h /usr/include/features.h \
 
 /usr/include/linux/errno.h:
 
-/usr/include/asm/errno.h:
+/usr/include/x86_64-linux-gnu/asm/errno.h:
 
 /usr/include/asm-generic/errno.h:
 

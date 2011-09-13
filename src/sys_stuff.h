@@ -78,13 +78,14 @@ typedef struct{
 int time_us(void);
 VMfloat time_s(void);
 
-// variables and functions in main.c to be called by the system
+// variables and functions in billard3d.c to be called by the system
 void Key( int key, int modifiers ) ;
 void KeyUp( int key, int modifiers ) ;
 void MouseEvent(MouseButtonEnum button,MouseButtonState  state, int x, int y,int key_modifiers) ;
 void MouseMotion(int x, int y,int key_modifiers) ;
 void DisplayFunc(void);
-void ResizeWindow(int w,int h) ;
+void ResizeWindow(int w,int h);
+void save_config(void);
 
 // system functions 
 

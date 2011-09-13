@@ -417,3 +417,5 @@ Ballspuren sind nicht mehr aktiv
 WeTab Schussvorschlag durch Auslösung bestätigen
 Raumtexturen : 
 Raumtexturen an oder ausschalten
+Möbeltexturen : 
+Möbeltexturen an oder ausschalten

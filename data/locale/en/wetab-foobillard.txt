@@ -417,3 +417,5 @@ Ball marks are no longer active
 Computer-shot proposal confirmed by shot
 Room-textures : 
 turn room-textures on or off
+Furniture-textures : 
+turn furniture-textures on or off

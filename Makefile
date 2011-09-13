@@ -31,9 +31,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = x86_64-suse-linux-gnu
-host_triplet = x86_64-suse-linux-gnu
-target_triplet = x86_64-suse-linux-gnu
+build_triplet = x86_64-unknown-linux-gnu
+host_triplet = x86_64-unknown-linux-gnu
+target_triplet = x86_64-unknown-linux-gnu
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/foobillardplus.spec.in \
@@ -108,7 +108,7 @@ AMTAR = ${SHELL} /home/holger/projekte/foobillardplus/missing --run tar
 AUTOCONF = ${SHELL} /home/holger/projekte/foobillardplus/missing --run autoconf
 AUTOHEADER = ${SHELL} /home/holger/projekte/foobillardplus/missing --run autoheader
 AUTOMAKE = ${SHELL} /home/holger/projekte/foobillardplus/missing --run automake-1.11
-AWK = gawk
+AWK = mawk
 BINDIR = /opt/foobillardplus/bin
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -127,10 +127,10 @@ DOCDIR = /opt/foobillardplus/data/locale
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
-EGREP = /usr/bin/grep -E
+EGREP = /bin/grep -E
 EXECPREFIX = /opt/foobillardplus
 EXEEXT = 
-GREP = /usr/bin/grep
+GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -155,7 +155,7 @@ PACKAGE_VERSION = 3.4beta
 PATH_SEPARATOR = :
 PREFIX = /opt/foobillardplus
 SET_MAKE = 
-SHELL = /bin/sh
+SHELL = /bin/bash
 STRIP = 
 VERSION = 3.4beta
 XMKMF = 
@@ -175,22 +175,22 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = /opt/foobillardplus/bin
-build = x86_64-suse-linux-gnu
+build = x86_64-unknown-linux-gnu
 build_alias = 
 build_cpu = x86_64
 build_os = linux-gnu
-build_vendor = suse
+build_vendor = unknown
 builddir = .
 datadir = /opt/foobillardplus/data
 datarootdir = /opt/foobillardplus/data
 docdir = /opt/foobillardplus/data/locale
 dvidir = ${docdir}
 exec_prefix = /opt/foobillardplus
-host = x86_64-suse-linux-gnu
+host = x86_64-unknown-linux-gnu
 host_alias = 
 host_cpu = x86_64
 host_os = linux-gnu
-host_vendor = suse
+host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
@@ -210,11 +210,11 @@ sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
-target = x86_64-suse-linux-gnu
+target = x86_64-unknown-linux-gnu
 target_alias = 
 target_cpu = x86_64
 target_os = linux-gnu
-target_vendor = suse
+target_vendor = unknown
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
@@ -727,9 +727,9 @@ install-data-hook:
 	cp -p $(srcdir)/README $(prefix)
 	cp -p $(srcdir)/ChangeLog $(prefix)
 	cp -p $(srcdir)/TODO $(prefix)
-	cp -p $(srcdir)/foobillardplus.desktop $(distdir)
-	cp -p $(srcdir)/foobillardplus.png $(distdir)
-	cp -p $(srcdir)/foobillardplus.xbm $(distdir)
+	cp -p $(srcdir)/foobillardplus.desktop $(prefix)
+	cp -p $(srcdir)/foobillardplus.png $(prefix)
+	cp -p $(srcdir)/foobillardplus.xbm $(prefix)
 
 uninstall-hook:
 	rm $(prefix) -R

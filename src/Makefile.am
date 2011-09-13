@@ -42,7 +42,9 @@ foobillardplus_SOURCES = \
    bumpref.c \
    bumpref.h \
    room.c \
-   room.h
+   room.h \
+   mesh.h \
+   mesh.c
 
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS   = `sdl-config --libs`

@@ -140,9 +140,10 @@ extern int     options_auto_freemove;   // after shoot switch back to freeview (
 extern int     options_anisotrop;       // Anisotropic Filter 0 = no, 1 = yes
 extern int     options_tronmode;        // the special tron game mode
 extern int     options_glassballs;      // play with glass balls or other to implement ball types
-extern int     options_deco;            // special for showing deco on walls, chairs and so on (1 = on, 0 = off)
+extern int     options_deco;            // special for showing deco on walls and so on (1 = on, 0 = off)
+extern int     options_furniture;       // special for showing furniture, chairs and so on (1 = on, 0 = off)
 extern GLfloat   options_maxanisotrop;    // max. of anistropic filters
-extern VMfloat   options_value_anisotrop; // the vaule for aisotropic filtering if supported and < maxanisotrop
+extern VMfloat   options_value_anisotrop; // the vaule for anisotropic filtering if supported and < maxanisotrop
 
 extern char    options_browser[20];     // the variable to hold the standard Browser for the Manual
 

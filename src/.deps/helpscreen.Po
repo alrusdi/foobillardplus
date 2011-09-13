@@ -1,10 +1,11 @@
 helpscreen.o: helpscreen.c font.h /usr/include/GL/gl.h \
  /usr/include/GL/glext.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h \
- /usr/include/inttypes.h /usr/include/features.h /usr/include/sys/cdefs.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h \
+ /usr/include/inttypes.h /usr/include/features.h \
+ /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-64.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h vmath.h textobj.h \
  options.h /usr/include/stdlib.h /usr/include/bits/waitflags.h \
  /usr/include/bits/waitstatus.h /usr/include/endian.h \
@@ -22,11 +23,13 @@ font.h:
 
 /usr/include/GL/glext.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h:
 
 /usr/include/inttypes.h:
 
 /usr/include/features.h:
+
+/usr/include/bits/predefs.h:
 
 /usr/include/sys/cdefs.h:
 
@@ -36,7 +39,7 @@ font.h:
 
 /usr/include/gnu/stubs-64.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h:
 
 /usr/include/stdint.h:
 

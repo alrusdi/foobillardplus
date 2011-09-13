@@ -233,7 +233,6 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
    *wall3_obj = glGenLists(1);
    glNewList(*wall3_obj, GL_COMPILE);
     // wall 3
-    //glRotatef(90.0,0.0,0.0,1.1);
     glBindTexture(GL_TEXTURE_2D,corr2texbind);
     glBegin(GL_QUADS);
     glTexCoord2s(0,0);

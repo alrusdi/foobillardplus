@@ -1,10 +1,11 @@
 billmove.o: billmove.c options.h /usr/include/GL/gl.h \
  /usr/include/GL/glext.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h \
- /usr/include/inttypes.h /usr/include/features.h /usr/include/sys/cdefs.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h \
+ /usr/include/inttypes.h /usr/include/features.h \
+ /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-64.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h vmath.h billmove.h \
  player.h textobj.h /usr/include/math.h /usr/include/bits/huge_val.h \
  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
@@ -20,7 +21,7 @@ billmove.o: billmove.c options.h /usr/include/GL/gl.h \
  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
  /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h \
  /usr/include/_G_config.h /usr/include/wchar.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdarg.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdarg.h \
  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
  /usr/include/string.h /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
  /usr/include/SDL/SDL_stdinc.h /usr/include/SDL/SDL_config.h \
@@ -44,11 +45,13 @@ options.h:
 
 /usr/include/GL/glext.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h:
 
 /usr/include/inttypes.h:
 
 /usr/include/features.h:
+
+/usr/include/bits/predefs.h:
 
 /usr/include/sys/cdefs.h:
 
@@ -58,7 +61,7 @@ options.h:
 
 /usr/include/gnu/stubs-64.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -132,7 +135,7 @@ textobj.h:
 
 /usr/include/wchar.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdarg.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdarg.h:
 
 /usr/include/bits/stdio_lim.h:
 

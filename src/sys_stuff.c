@@ -97,7 +97,7 @@ void sys_exit( int code )
      * mode and restore the previous video settings,
      * etc.
      */
-      Key(KSYM_QUIT, 0); //save config and so on
+   save_config(); //save the config (must!!!)
 #ifdef NETWORKING
       SDLNet_Quit();  //in case of open Netgame
 #endif
@@ -560,7 +560,7 @@ void sys_main_loop(void)
 {
   // we want a good smooth scrolling ###TODO ###
   GLint old_t, t;
-  GLint sleeptime, lastsleep = 0;
+  GLint sleeptime;
 
   old_t = SDL_GetTicks();
   while(1) {

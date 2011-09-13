@@ -35,9 +35,9 @@ install-data-hook:
 	cp -p $(srcdir)/README $(prefix)
 	cp -p $(srcdir)/ChangeLog $(prefix)
 	cp -p $(srcdir)/TODO $(prefix)
-	cp -p $(srcdir)/foobillardplus.desktop $(distdir)
-	cp -p $(srcdir)/foobillardplus.png $(distdir)
-	cp -p $(srcdir)/foobillardplus.xbm $(distdir)
+	cp -p $(srcdir)/foobillardplus.desktop $(prefix)
+	cp -p $(srcdir)/foobillardplus.png $(prefix)
+	cp -p $(srcdir)/foobillardplus.xbm $(prefix)
 
 uninstall-hook:
 	rm $(prefix) -R

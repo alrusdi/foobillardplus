@@ -1,14 +1,15 @@
 menu.o: menu.c menu.h textobj.h vmath.h /usr/include/GL/gl.h \
  /usr/include/GL/glext.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h \
- /usr/include/inttypes.h /usr/include/features.h /usr/include/sys/cdefs.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h \
+ /usr/include/inttypes.h /usr/include/features.h \
+ /usr/include/bits/predefs.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-64.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/wchar.h /usr/include/stdio.h \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
- /usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdarg.h \
+ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdarg.h \
  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
  /usr/include/bits/waitstatus.h /usr/include/endian.h \
@@ -49,11 +50,13 @@ vmath.h:
 
 /usr/include/GL/glext.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stddef.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stddef.h:
 
 /usr/include/inttypes.h:
 
 /usr/include/features.h:
+
+/usr/include/bits/predefs.h:
 
 /usr/include/sys/cdefs.h:
 
@@ -63,7 +66,7 @@ vmath.h:
 
 /usr/include/gnu/stubs-64.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdint.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -81,7 +84,7 @@ vmath.h:
 
 /usr/include/wchar.h:
 
-/usr/lib64/gcc/x86_64-suse-linux/4.5/include/stdarg.h:
+/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/include/stdarg.h:
 
 /usr/include/bits/stdio_lim.h:
 
