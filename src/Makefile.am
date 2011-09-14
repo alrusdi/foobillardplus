@@ -44,7 +44,12 @@ foobillardplus_SOURCES = \
    room.c \
    room.h \
    mesh.h \
-   mesh.c
+   mesh.c \
+   Ceiling_light.h \
+   barchair.h \
+   bartable.h \
+   burlap_sofa.h \
+   fireplace.h
 
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS   = `sdl-config --libs`
