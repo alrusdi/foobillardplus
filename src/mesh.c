@@ -173,25 +173,36 @@ void MakeLamp()
    if(lamp_id == -1) {
      lamp_id = glGenLists(1);
      glNewList(lamp_id, GL_COMPILE);
-	    glDisable(GL_TEXTURE_2D);
-	    glDepthMask (GL_FALSE);
+	   glDisable(GL_TEXTURE_2D);
+	   glDepthMask (GL_FALSE);
 
 #ifdef USE_BINDBUFFER
-	    DrawMesh(vbo4, vinx4, FACES4_COUNT);
+	   DrawMesh(vbo4, vinx4, FACES4_COUNT);
 #else
-	    DrawMesh(FACES4_COUNT, (char *)&vertexs4, (char *)&indexes4);
+	   DrawMesh(FACES4_COUNT, (char *)&vertexs4, (char *)&indexes4);
 #endif
-     glColor3f(0.3,0.3,0.3);
-     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-     glBegin( GL_QUADS );
-       glVertex3f( 0.0, 1.00, 0.5);
-       glVertex3f( 0.0, 0.08, 0.5);
-       glVertex3f( 0.5, 1.00, 0.5);
-       glVertex3f( 0.5, 0.08, 0.5);
-     glEnd();
-     glDisable(GL_LINE);
-	    glDepthMask (GL_TRUE);
-	    glEnable(GL_TEXTURE_2D);
+       glColor3f(1.0,1.0,1.0);
+	   glDisable(GL_CULL_FACE);
+       glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+       glRotatef(90.0,1.0,0.0,0.0);
+       glTranslatef(-1.0,0.7,0.7);
+       glBegin( GL_QUADS );
+         glVertex3s(0,0,0);
+         glVertex3s(0,12,0);
+         glVertex3s(2,12,0);
+         glVertex3s(2,0,0);
+       glEnd();
+       glTranslatef(0.0,0.0,-1.4);
+       glBegin( GL_QUADS );
+         glVertex3s(0,0,0);
+         glVertex3s(0,12,0);
+         glVertex3s(2,12,0);
+         glVertex3s(2,0,0);
+       glEnd();
+       glPolygonMode(GL_FRONT,GL_FILL);
+       glDepthMask (GL_TRUE);
+       glEnable(GL_CULL_FACE);
+       glEnable(GL_TEXTURE_2D);
      glEndList();
    }
 }
