@@ -60,8 +60,15 @@ rm -rf %{buildroot}
 make 
 
 %changelog
+* Wed Sep 14 2011 Holger Schaekel
+- textures for furniture
+- textures for fireplace
+- new routines for blender exported meshes
+- routines for display (OpenGL 1.4 - for WeTab compatibility)
+- bugfixing for antialiasing for some Linux-Versions
+- example foobillardplus.desktop file
+
 * Fri Aug 26 2011 Holger Schaekel
-- desktop icon
 - textures for room and walls
 - routines for displaying walls
 - more optimizations in table.c 
