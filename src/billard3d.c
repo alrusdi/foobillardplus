@@ -408,6 +408,7 @@ static struct option long_options[] = {
 
 static int introtexture = 0; // show the introtexture until keystroke
 static int floor_obj = -1;   // for the room the floor obj
+static int carpet_obj = -1;  // for the room the carpet obj
 static int wall1_2_obj = -1; // for the room the walls 1 + 2 obj
 static int wall3_obj = -1;   // for the wall 3 obj (the problem with big window
 static int wall4_c_obj = -1; // for wall 4 and ceiling obj
@@ -4394,6 +4395,7 @@ void DisplayFunc( void )
 
    // draw some meshes (furniture & people)
    if(options_furniture) {
+   	 glCallList(carpet_obj); // first must draw the carpet
      glTranslatef(1.0,-4.0,0.65);
      glRotatef(180.0,0.0,0.0,1.0);
      glScalef(1.2,1.2,1.2);
@@ -7221,7 +7223,7 @@ static void Init( void )
 #endif
 
     table_obj = create_table(spheretexbind, &walls, gametype==GAME_CARAMBOL);
-    create_room(&floor_obj,&wall1_2_obj,&wall3_obj,&wall4_c_obj);
+    create_room(&floor_obj,&wall1_2_obj,&wall3_obj,&wall4_c_obj,&carpet_obj);
 
     /* lighting */
     glEnable(GL_LIGHTING);

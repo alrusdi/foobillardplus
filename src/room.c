@@ -81,7 +81,7 @@ void my_rect_most(GLfloat a, GLfloat b, GLfloat c, GLfloat d, GLfloat e, GLfloat
  *           Create the room itself (and the gllist)                   *
  ***********************************************************************/
 
-void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_obj)
+void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_obj, int *carpet_obj)
 {
 
   static GLuint corr1texbind=-1;
@@ -100,11 +100,14 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
   static GLuint stoneframetexbind=-1;
   static GLuint winbig1texbind =-1;
   static GLuint winbacktexbind =-1;
+  static GLuint carpettexbind =-1;
   VMfloat balld  = BALL_D;
   VMfloat tableh = TABLE_H;
 
   if( floortexbind > 0 ) glDeleteTextures( 1, &floortexbind );
   create_png_texbind("floor.png", &floortexbind, 3, GL_RGB);
+  if( carpettexbind > 0 ) glDeleteTextures( 1, &carpettexbind );
+  create_png_texbind("carpet.png", &carpettexbind, 4, GL_RGBA);
 
   if( corr1texbind > 0 ) glDeleteTextures( 1, &corr1texbind );
   create_png_texbind("corr1.png", &corr1texbind, 3, GL_RGB);
@@ -175,6 +178,33 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     my_rect_floor(0,1,-5,5,0,0,0,5,1,0,0,0,1,1,-5,0);
     glEnd();
   glEndList();
+
+  if(*carpet_obj != -1 ) glDeleteLists( *carpet_obj, 1 );
+  *carpet_obj = glGenLists(1);
+  glNewList(*carpet_obj, GL_COMPILE);
+    glPushMatrix();
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D,carpettexbind);
+    glTranslatef(-1.0,-3.0,0.0);
+    glBegin(GL_QUADS);
+    glTexCoord2s(0,0);
+    glVertex3f(-1.35,1.25,0.001);
+
+    glTexCoord2s(0,1);
+    glVertex3f(4.0,1.25,0.001);
+
+    glTexCoord2s(1,1);
+    glVertex3f(4.0,-1.9,0.001);
+
+    glTexCoord2s(1,0);
+    glVertex3f(-1.35,-1.9,0.001);
+
+    glEnd();
+    glDisable(GL_BLEND);
+    glPopMatrix();
+  glEndList();
+
 
   if(*wall1_2_obj != -1 ) glDeleteLists( *wall1_2_obj, 1 );
   *wall1_2_obj = glGenLists(1);
@@ -270,18 +300,8 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     glVertex3s( 5, 5, 0);
     glTexCoord2s(0,6);
     glVertex3s(4, 5, 0);
-
-    // ### TODO ### WeTab check !!!!
-    /*    glTexCoord2s(0,0);
-    glVertex3f(-5.0, 5.0, 2.5);
-    glTexCoord2s(12,0);
-    glVertex3f( 5.0, 5.0, 2.5);
-    glTexCoord2s(12,6);
-    glVertex3s( 5, 5, 0);
-    glTexCoord2s(0,6);
-    glVertex3s(-5, 5, 0); */
     glEnd();
-    // wood-frame across the stone to the big window
+    // frame around the stone off the big window
     glBindTexture(GL_TEXTURE_2D,stoneframetexbind);
     //upper frame
     glBegin(GL_QUADS);
