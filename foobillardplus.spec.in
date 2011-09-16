@@ -60,7 +60,7 @@ rm -rf %{buildroot}
 make 
 
 %changelog
-* Wed Sept 14 2011 Holger Schaekel
+* Wed Sep 14 2011 Holger Schaekel
 - textures for furniture
 - textures for fireplace
 - new routines for blender exported meshes
