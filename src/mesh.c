@@ -32,8 +32,8 @@
 //#define USE_BINDBUFFER
 
 #ifdef USE_BINDBUFFER
-  GLuint vbo,vbo1,vbo2,vbo3,vbo4;      // the vertex obj for sofa, chair, table, camin
-  GLuint vinx,vinx1,vinx2,vinx3,vinx4;  // the texture ob for sofa, chair, table, camin
+  GLuint vbo,vbo1,vbo2,vbo2a,vbo3,vbo4;      // the vertex obj for sofa, chair, table, camin
+  GLuint vinx,vinx1,vinx2,vinx2a,vinx3,vinx4;  // the texture ob for sofa, chair, table, camin
 #endif
   GLuint sofatexbind,chairtexbind,camintexbind;
 
@@ -139,15 +139,32 @@ void MakeChair()
 
 void MakeTable()
 {
+	  static GLfloat ambient_torus[3] = {0.19, 0.19, 0.19};		// Torus
+	  static GLfloat diffuse_torus[3] = {0.51, 0.51, 0.51};
+	  static GLfloat specular_torus[3]= {0.51, 0.51, 0.51};
+
    if(bartable_id == -1) {
      bartable_id = glGenLists(1);
      glNewList(bartable_id, GL_COMPILE);
      glDisable(GL_TEXTURE_2D);
+  			glMaterialfv(GL_FRONT,GL_AMBIENT, ambient_torus);
+  			glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse_torus);
+  			glMaterialfv(GL_FRONT,GL_SPECULAR, specular_torus);
+  			glMaterialf (GL_FRONT, GL_SHININESS, 51);
+
 #ifdef USE_BINDBUFFER
 	    DrawMesh(vbo2, vinx2, FACES2_COUNT);
 #else
 	    DrawMesh(FACES2_COUNT, (char *)&vertexs2, (char *)&indexes2);
 #endif
+     glEnable (GL_BLEND);
+     glBlendFunc (GL_ONE, GL_ONE_MINUS_SRC_COLOR); // upper glass)
+#ifdef USE_BINDBUFFER
+	    DrawMesh(vbo2a, vinx2a, FACES2a_COUNT);
+#else
+	    DrawMesh(FACES2a_COUNT, (char *)&vertexs2a, (char *)&indexes2a);
+#endif
+     glDisable (GL_BLEND);
      glEnable(GL_TEXTURE_2D);
      glEndList();
    }
@@ -170,19 +187,29 @@ void MakeCamin()
 
 void MakeLamp()
 {
-   if(lamp_id == -1) {
+//   static GLfloat ambient_torus[3] = {0.25, 0.25, 0.25};		// Torus
+//   static GLfloat diffuse_torus[3] = {0.4, 0.4, 0.4};
+//   static GLfloat specular_torus[3]= {0.774597, 0.774597, 0.774597};
+   static GLfloat ambient_torus[3] = {	0.2125, 	0.1275, 	0.054};		// Torus
+   static GLfloat diffuse_torus[3] = {0.714, 0.4284, 	0.18144};
+   static GLfloat specular_torus[3]= {	0.393548, 	0.271906, 0.166721};
+	  if(lamp_id == -1) {
      lamp_id = glGenLists(1);
      glNewList(lamp_id, GL_COMPILE);
-	   glDisable(GL_TEXTURE_2D);
-	   glDepthMask (GL_FALSE);
+	      glDisable(GL_TEXTURE_2D);
+	      glDepthMask (GL_FALSE);
+	   			glMaterialfv(GL_FRONT,GL_AMBIENT, ambient_torus);
+	   			glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse_torus);
+	   			glMaterialfv(GL_FRONT,GL_SPECULAR, specular_torus);
+	   			glMaterialf (GL_FRONT, GL_SHININESS, 76.8);
 
 #ifdef USE_BINDBUFFER
-	   DrawMesh(vbo4, vinx4, FACES4_COUNT);
+	      DrawMesh(vbo4, vinx4, FACES4_COUNT);
 #else
-	   DrawMesh(FACES4_COUNT, (char *)&vertexs4, (char *)&indexes4);
+	      DrawMesh(FACES4_COUNT, (char *)&vertexs4, (char *)&indexes4);
 #endif
        glColor3f(1.0,1.0,1.0);
-	   glDisable(GL_CULL_FACE);
+	      glDisable(GL_CULL_FACE);
        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
        glRotatef(90.0,1.0,0.0,0.0);
        glTranslatef(-1.0,0.7,0.7);
@@ -208,7 +235,7 @@ void MakeLamp()
 }
 
 /***********************************************************************
- *                    Initialisation for the meshes                    *
+ *                    Initialization for the meshes                    *
  ***********************************************************************/
 
 void InitMesh() {
@@ -248,6 +275,16 @@ void InitMesh() {
   glGenBuffers(1, &vinx2);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vinx2);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof (indexes2[0]) * FACES2_COUNT * 3, indexes2, GL_STATIC_DRAW);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+  glGenBuffers(1, &vbo2a);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo2a);
+  glBufferData(GL_ARRAY_BUFFER, sizeof (struct vertex_struct) * VERTEX2a_COUNT, vertexs2a, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  glGenBuffers(1, &vinx2a);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vinx2a);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof (indexes2a[0]) * FACES2a_COUNT * 3, indexes2a, GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 #endif
   //camin

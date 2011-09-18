@@ -406,6 +406,12 @@ static struct option long_options[] = {
   static int playonce = 0;  // to check for applause only play once
 #endif
 
+// for tron mode
+static GLfloat ambient_torus[3] = {0.19, 0.19, 0.19};		// Torus
+static GLfloat diffuse_torus[3] = {0.51, 0.51, 0.51};
+static GLfloat specular_torus[3]= {0.51, 0.51, 0.51};
+
+// some for display-lists and the intro animation
 static int introtexture = 0; // show the introtexture until keystroke
 static int floor_obj = -1;   // for the room the floor obj
 static int carpet_obj = -1;  // for the room the carpet obj
@@ -4393,14 +4399,31 @@ void DisplayFunc( void )
      glPolygonMode(GL_FRONT,GL_FILL);
    } //end tron-mode off
 
-   // draw some meshes (furniture & people)
+   // draw some meshes (furniture)
    if(options_furniture) {
-   	 glCallList(carpet_obj); // first must draw the carpet
-     glTranslatef(1.0,-4.0,0.65);
+   	 if(!options_tronmode) {
+   	   glCallList(carpet_obj); // first must draw the carpet
+     } else {
+ 			   glMaterialfv(GL_FRONT,GL_AMBIENT, ambient_torus);
+ 			   glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse_torus);
+ 			   glMaterialfv(GL_FRONT,GL_SPECULAR, specular_torus);
+ 			   glMaterialf (GL_FRONT, GL_SHININESS, 51);
+     }
+     glTranslatef(3.5,-4.0,0.65);
      glRotatef(180.0,0.0,0.0,1.0);
      glScalef(1.2,1.2,1.2);
      glCullFace(GL_FRONT);  // This is a must for blender export models
      glPolygonMode(GL_BACK,GL_FILL); // fill the back of the polygons
+     if(Zrot>180.0) {
+     	 glPushMatrix();
+       glScalef(0.5,1.0,0.7);
+       glCallList(bartable_id); //table window
+       glPopMatrix();
+     }
+   	 if(options_tronmode) {
+       glDisable(GL_TEXTURE_2D);
+   	 }
+     glTranslatef(2.0,0.0,0.0);
      if(Zrot>180.0) {
        glCallList(sofa_id); //sofa 1
      }
@@ -4408,7 +4431,15 @@ void DisplayFunc( void )
      if(Zrot>180.0) {
    	   glCallList(sofa_id); //sofa 2
      }
-     glTranslatef(-5.0,-6.0,0.2);
+     glTranslatef(1.0,0.0,0.0);
+     if(Zrot>180.0) {
+     	 glPushMatrix();
+       glScalef(0.5,1.0,0.7);
+       glCallList(bartable_id); //table sofa 2
+       glPopMatrix();
+     }
+
+     glTranslatef(-6.0,-6.0,0.2);
      glScalef(0.7,0.7,0.7);
      if(Zrot<190.0) {
    	   glCallList(chair_id); //chair 1
@@ -4419,20 +4450,27 @@ void DisplayFunc( void )
    	   glCallList(chair_id); //chair 2
      }
      glRotatef(115.0,0.0,0.0,1.0);
-     glTranslatef(1.5,0.0,0.0);
+     glTranslatef(1.5,0.0,0.2);
      glScalef(1.1,1.1,1.7);
      if(Zrot<190.0) {
    	   glCallList(bartable_id); //bar table
      }
-     glTranslatef(-5.5,0.6,-0.1);
+     glTranslatef(-5.5,0.6,-0.2);
      glScalef(1.0,1.3,1.0);
      if(Zrot<190.0 || Zrot>320.0) {
+    	  if(options_tronmode) {
+        glDisable(GL_TEXTURE_2D);
+    	  }
    	   glCallList(sofa_id); //sofa 3
      }
      glRotatef(90.0,0.0,0.0,1.0);
      glTranslatef(-4.0,2.0,-0.4);
      glScalef(0.6,0.4,0.45);
+
      if(Zrot<90.0 || Zrot>280.0) {
+    	 if(options_tronmode) {
+    	  glDisable(GL_TEXTURE_2D);
+    	 }
    	   glCallList(camin_id); //Camin
      }
      if(!options_birdview_on) {
