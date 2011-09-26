@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
+#include <GL/glext.h>
 #include "billard.h"
 #include "queue.h"
 #include "png_loader.h"

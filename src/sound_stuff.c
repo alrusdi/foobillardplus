@@ -313,9 +313,10 @@ int init_sound(void)
     SDL_ConvertAudio(&cvt_ooh);
     SDL_FreeWAV(ooh_data);
 
+#ifndef __MINGW32__ //HS
 #if __BYTE_ORDER == __BIG_ENDIAN
        {
-          char *snd=ball_ball_snd.data;
+          char *snd=(char *)ball_ball_snd.data;
           for(i=0;i<ball_ball_snd.len;i+=2)
           {
              char t=snd[i];
@@ -323,6 +324,7 @@ int init_sound(void)
              snd[i+1]=t;
           }
        }
+#endif
 #endif
        for(i=0;i<ball_ball_snd.len/2/2-SOUND_NULLOFFS;i++){
            ball_ball_snd.data[(i+SOUND_NULLOFFS)*2+0]*=/*0.5*/1.0*exp(-(VMfloat)i/(VMfloat)((ball_ball_snd.len-SOUND_NULLOFFS*2*2)/2/4));

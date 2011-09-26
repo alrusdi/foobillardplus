@@ -27,11 +27,16 @@
 #include <stdio.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
+#include <GL/glext.h>
 #include "billard.h"
 #include "table.h"
 #include "options.h"
 #include "png_loader.h"
 #include "bumpref.h"
+
+#ifdef __MINGW32__
+	extern void ( APIENTRY * glActiveTextureARB)( GLenum );
+#endif
 
 /***********************************************************************/
 

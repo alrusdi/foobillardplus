@@ -22,10 +22,10 @@
 **
 */
 
+#include <stdlib.h>
 #include "font.h"
 #include "textobj.h"
 #include "options.h"
-#include "stdlib.h"
 #include "config.h"
 #include "language.h"
 

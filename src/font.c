@@ -362,7 +362,11 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
 
 /***********************************************************************/
 
-void my_Vertex_cb(void * data)
+#ifdef __MINGW32__	//RB
+  void APIENTRY my_Vertex_cb(void * data)
+#else
+  void my_Vertex_cb(void * data)
+#endif
 {
     GLdouble * d;
     d=(GLdouble *)data;

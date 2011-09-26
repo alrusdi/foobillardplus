@@ -32,10 +32,14 @@
 #include <string.h>
 #include <math.h>
 #include <unistd.h>
-#include <endian.h>
+#ifdef	HAVE_ENDIAN_H
+	#include <endian.h>
+#endif	// HAVE_ENDIAN_H
+#include <getopt.h>
 
 #include <GL/glu.h>
 #include <GL/gl.h>
+#include <GL/glext.h>
 
 #include <SDL.h>
 #include <SDL_audio.h>
@@ -43,13 +47,14 @@
   #include <SDL_net.h>
 #endif
 
-#ifndef _WIN32
-   #include <sys/time.h>    // us time measure
-   #include <getopt.h>
-#else
-   #include <sys/timeb.h>   // us time measure
+#ifdef __MINGW32__ //RB
+   void ( APIENTRY * glActiveTextureARB)( GLenum );
 #endif
-
+#ifdef _MSC_VER
+   #include <sys/timeb.h>   // us time measure
+#else
+   #include <sys/time.h>    // us time measure
+#endif
 #include "language.h"
 #include "billard.h"
 #include "ball.h"
@@ -1755,8 +1760,12 @@ int load_config( char *** confv, int * confc, char ** argv, int argc )
     *confc=1;
     str=allstr;
 
+#ifdef __MINGW32__ //HS
+    sprintf(filename,"%s\\.foobillardrc",getenv("USERPROFILE"));
+#else
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
-
+#endif
+    fprintf(stderr,"%s\n",filename);
     if( (f=fopen(filename,"rb")) != NULL ){
         do{
             str[0]='-'; str[1]='-';
@@ -1826,7 +1835,11 @@ void save_config(void)
     char filename[512];
     char str[256];
 
+#ifdef __MINGW32__ //HS
+    sprintf(filename,"%s\\.foobillardrc",getenv("USERPROFILE"));
+#else
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
+#endif
     if((f=fopen(filename,"wb"))==NULL){
         //can't write to %s - check rights\n
         fprintf(stderr,localeText[54],filename);
@@ -2386,9 +2399,15 @@ void init_player_roster(struct PlayerRoster * roster)
     strcpy(roster->player[1].name,player_names[1]);
     strcpy(player[0].name,player_names[0]);
     strcpy(player[1].name,player_names[1]);
+#ifdef __MINGW32__
+    if(getenv("USERNAME"))
+        strcpy(roster->player[0].name,getenv("USERNAME"));
+        strcpy(player[0].name,getenv("USERNAME"));
+#else
     if(getenv("USER"))
         strcpy(roster->player[0].name,getenv("USER"));
         strcpy(player[0].name,getenv("USER"));
+#endif
     roster->player[0].err=(VMfloat)0/10.0;
     roster->player[1].err=(VMfloat)0.30; //now medium
     roster->player[0].text = 0;
@@ -7304,6 +7323,9 @@ int main( int argc, char *argv[] )
    net_send_data = net_send_data_hard;
    net_get_data = net_get_data_hard;
 #endif
+#ifdef __MINGW32__	//RB
+	  glActiveTextureARB = 0;
+#endif
 
    /* initialize hostname with a default address */
    strcpy(options_net_hostname,"192.168.1.1");
@@ -7317,7 +7339,8 @@ int main( int argc, char *argv[] )
    /* Initialize all player variables for two players */
    init_player_roster(&human_player_roster);
 
-#ifndef _WIN32
+#ifdef _MSC_VER //RB For only Windows-MSVC
+#else
    print_help(long_options,appname_str);
 #endif
 
@@ -7333,7 +7356,9 @@ int main( int argc, char *argv[] )
    initLanguage(0);
 #endif
    sys_create_display( &argc, argv, win_width, win_height);
-
+#ifdef __MINGW32__	//RB
+	  glActiveTextureARB = (void *) SDL_GL_GetProcAddress("glActiveTextureARB");
+#endif
 #ifndef WETAB
    if( fullscreen ) sys_fullscreen( 1 );
 #endif

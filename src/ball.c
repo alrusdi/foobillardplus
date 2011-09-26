@@ -43,6 +43,10 @@
    #undef USE_VERTEX_ARRAYS
 #endif
 
+#ifdef __MINGW32__
+	extern void ( APIENTRY * glActiveTextureARB)( GLenum );
+#endif
+
 #define USE_TRISTRIPS   //only remark this on a very slow embedded devices like PowerVR
 //#undef USE_VERTEX_ARRAYS
 

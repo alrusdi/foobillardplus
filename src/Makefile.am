@@ -94,8 +94,16 @@ else
 SOUND_CFLAGS =
 endif
 
+if USE_WIN
+USEWIN_CFLAGS = -DUSE_WIN
+LDADD_FLAGS = -lpng -lz -lfreetype -lglu32 -lopengl32
+else
+USEWIN_CFLAGS =
+LDADD_FLAGS = -lGL -lGLU -lpng -lSDL_net -lfreetype
+endif
+
 AM_CFLAGS = -Wall ${FREETYPE_CFLAGS} ${SDL_CFLAGS} ${NVIDIA_CFLAGS} ${SOUND_CFLAGS} ${DEBUG_CFLAGS} ${WETAB_CFLAGS} ${TOUCH_CFLAGS} ${NET_CFLAGS} ${MATH_CFLAGS} \
-            ${OPTIMIZATION_CFLAGS} -lm
+            ${OPTIMIZATION_CFLAGS} ${USEWIN_CFLAGS} -lm
 
 AM_LDFLAGS = ${all_libraries} ${FREETYPE_LIBS} ${SDL_LIBS}
-LDADD = -lGL -lGLU -lpng -lSDL_net -lfreetype
+LDADD = ${LDADD_FLAGS}

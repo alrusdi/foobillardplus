@@ -22,7 +22,7 @@
 **
 */
 
-#ifndef _WIN32
+#ifndef  _MSC_VER  //RB For only Windows-MSVC
 #define COMPILE_PNG_CODE 1
 #else
 #define COMPILE_PNG_CODE 0
@@ -37,6 +37,9 @@
 #include <stdlib.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
+#ifdef __MINGW32__	//RB
+	#include <GL/glext.h>
+#endif
 #include "options.h"
 #include "sys_stuff.h"
 

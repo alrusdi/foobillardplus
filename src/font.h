@@ -25,7 +25,7 @@
 #ifndef FONT_H
 #define FONT_H
 
-#include<GL/gl.h>
+#include <GL/gl.h>
 #include "vmath.h"
 
 void my_draw_bitmap      (char * src, int w1, int h1, int x0, int y0, char * dst , int w, int h );

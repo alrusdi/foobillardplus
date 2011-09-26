@@ -1,4 +1,4 @@
-﻿/* language.c
+/* language.c
 **
 **    code for Language / Localisation
 **    Copyright (C) 2010/2011  Holger Schaekel
@@ -30,6 +30,25 @@ unsigned int manualthere = 0; //later quicker check for manual
 char foomanual[512]; //for the way to the manual
 char localeText[450][200];
 
+#ifdef __MINGW32__ //HS
+
+/***************************************************
+ *    replace a string (max. 100 Bytes long)       *
+ ***************************************************/
+
+char *replace(char *st, char *orig, char *repl) {
+  static char buffer[100];
+  char *ch;
+  if (!(ch = strstr(st, orig)))
+   return st;
+  strncpy(buffer, st, ch-st);
+  buffer[ch-st] = 0;
+  sprintf(buffer+(ch-st), "%s%s", repl, ch+strlen(orig));
+  return buffer;
+  }
+
+#endif
+
 /***************************************************
  *               Initialize language               *
  *               doing = 1 = all                   *
@@ -54,7 +73,11 @@ void initLanguage(int doing) {
   if(!strcmp(options_browser,"browser")) {
     strcpy(options_browser,"./browser.sh");
   }
+#ifdef __MINGW32__ //HS
+  strcpy(foomanual1,"start ");
+#else
   sprintf(foomanual1,"%s file://",options_browser);
+#endif
 #endif
 
   /* ### TODO ### Get the working directory of the program
@@ -67,6 +90,7 @@ void initLanguage(int doing) {
    */
 
 if(doing) {
+#ifndef __MINGW32__ //RB
   sprintf(szTmp, "/proc/%d/exe", getpid()); //for Linux at this time only
   readlink(szTmp, program, 512);
   if((cp = strrchr(program,'/'))) { //extract the program name from path
@@ -78,13 +102,15 @@ if(doing) {
     cp[0] = 0;
   }
   strcat(program,"/data");
+#else
+  strcpy(program,"data");
+#endif
   //fprintf(stderr,"%d %s\n",strlen(program),program);
   if(chdir(program) ){
       fprintf(stderr,"Foobillard++ seems not to be correctly installed\n");
       fprintf(stderr,"cannot find valid data directory\n");
       fprintf(stderr,"(assuming the current directory contains the data)\n");
   }
-
   setlocale(LC_ALL,"");
   //fprintf(stderr,"Lokale: %s\n",setlocale(LC_ALL,NULL));
   sprintf(buffer,"%s",setlocale(LC_ALL,NULL));
@@ -93,18 +119,32 @@ if(doing) {
   if(strlen(charlang) != 2) strcpy(charlang,"en");
   charlang[0] = tolower(charlang[0]);
   charlang[1] = tolower(charlang[1]);
+#ifdef __MINGW32__ //HS
+  strcpy(charlang,replace(charlang, "ge", "de")); //windows have other locales than Linux/Unix
+#endif
   strcat(langfile,charlang);
 }
-#ifndef WETAB
-  sprintf(foomanual,"%s/locale/%s/index_a.html",program,charlang);
-  sprintf(foomanualdefault,"%s/locale/en/index_a.html",program);
+#define OTHER_OS
+#ifdef  __MINGW32__ //HS
+#undef OTHER_OS
+  sprintf(foomanual,"locale/%s/index_a.html",charlang);
+  strcpy(foomanualdefault,"locale/en/index_a.html");
   strcat(langfile,"/foobillard.txt");
   strcat(langfiledefault,"/foobillard.txt");
-#else
+#endif
+#ifdef WETAB
+#undef OTHER_OS
   sprintf(foomanual,"%s/locale/%s/index.html",program,charlang);
   sprintf(foomanualdefault,"%s/locale/en/index.html",program);
   strcat(langfile,"/wetab-foobillard.txt");
   strcat(langfiledefault,"/wetab-foobillard.txt");
+#endif
+#ifdef OTHER_OS
+#undef OTHER_OS
+  sprintf(foomanual,"%s/locale/%s/index_a.html",program,charlang);
+  sprintf(foomanualdefault,"%s/locale/en/index_a.html",program);
+  strcat(langfile,"/foobillard.txt");
+  strcat(langfiledefault,"/foobillard.txt");
 #endif
   //fprintf(stderr,"%s\n%s\n",langfile,foomanual);
 
@@ -123,7 +163,7 @@ if(doing) {
        fprintf(stderr,"No manual found.\n");
      }
 }
-
+ //fprintf(stderr,"Manual: %s\n",foomanual);
  if(doing) {
   if((fp = fopen(langfile, "r")) == NULL) {
     if((fp = fopen(langfiledefault, "r")) == NULL) {

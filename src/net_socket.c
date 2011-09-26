@@ -25,21 +25,25 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <net/if.h>
 #include <errno.h>
-#include <ifaddrs.h>
-#include <netinet/in.h>
 #include <string.h>
 
 #include <SDL.h>
 #include <SDL_net.h>
 
-#ifndef _WIN32
-   #include <sys/time.h>    // us time measure
+#ifdef __MINGW32__ //RB
+   #include <winsock2.h>
 #else
+	  #include <sys/socket.h>
+  	#include <arpa/inet.h>
+  	#include <net/if.h>
+  	#include <ifaddrs.h>
+  	#include <netinet/in.h>
+#endif
+#ifdef _MSC_VER //RB For only Windows-MSVC
    #include <sys/timeb.h>   // us time measure
+#else
+   #include <sys/time.h>    // us time measure
 #endif
 #include "options.h"
 #include "sys_stuff.h"
@@ -87,6 +91,8 @@ void net_close_listener(TCPsocket socket)
   }
   SDLNet_TCP_Close(socket);
 }
+
+#ifndef __MINGW32__	// RB
 
 /***********************************************************************
  *     resolve one ip-address of the host                              *
@@ -169,6 +175,8 @@ char* get_ip_address(void)
 
    return(ip_adresses);
 }
+
+#endif
 
 /***********************************************************************
  *     resolve the local hostname                                      *

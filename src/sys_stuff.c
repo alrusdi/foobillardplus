@@ -24,7 +24,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>    // us time measure
+#ifdef _MSC_VER
+   #include <sys/timeb.h>   // us time measure
+#else
+   #include <sys/time.h>    // us time measure
+#endif
 #include <getopt.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
@@ -33,6 +37,7 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glext.h>
 #include "sys_stuff.h"
 #include "options.h"
 
@@ -62,16 +67,16 @@ SDL_Surface * vid_surface = NULL;
 
 int time_us()
 {
-#ifndef _WIN32
+#ifdef _MSC_VER //RB For only Windows-MSVC
+    struct timeb t;
+    return( t.time*1000000+t.millitm*1000 );
+#else
     struct timeval tv;
     struct timezone tz;
     tz.tz_minuteswest = 0;
     tz.tz_dsttime     = 0;
     gettimeofday(&tv,&tz);
     return ( tv.tv_sec*1000000+tv.tv_usec );
-#else
-    struct timeb t;
-    return( t.time*1000000+t.millitm*1000 );
 #endif
 }
 
@@ -574,7 +579,7 @@ void sys_main_loop(void)
     sleeptime = 15-(t-old_t); //wish sleeptime is 15 milliseconds
     old_t = t;
     if(sleeptime > 0) {
-       SDL_Delay(sleeptime); //### TODO ### make this delay better with other code
+      SDL_Delay(sleeptime); //### TODO ### make this delay better with other code
        //fprintf(stderr,"%i\n",sleeptime);
     }
   }
