@@ -114,7 +114,9 @@ What is FooBillard++ ?
     
    config file (.foobillardrc):
    ----------------------------
-    You can place a config file named ".foobillardrc" in your home directroy.
+    You can place a config file named ".foobillardrc" in your home directory.
+    Windows hold the file in hte directory associated with the content of the 
+    environment variable USERPROFILE. 
     This file can contain all possible commandline arguments (without the 
     preceeding "-" and one line for each argument).
     Commandline parameters are parsed afterwards, so they override the
@@ -184,6 +186,12 @@ What is FooBillard++ ?
    --enable-sound=ARG
    
    enable sound (default=yes). With no as argument sound support is not compiled.
+   
+   --enable-win
+   
+   if set the source is compiling for ms-windows (32 and 64 Bit). You have to use
+   as runtime environment MinGW/Msys under MS-Windows.
+   http://sourceforge.net/projects/mingw 
    
    Optimization problem of the gcc-suite (don't use with WeTab compiling!)
    -----------------------------------------------------------------------
