@@ -1736,7 +1736,7 @@ void print_help(struct option * opt, char *appname)
     int i;
 
     fprintf(stderr,localeText[51],appname);
-    fprintf(stderr,localeText[52]);
+    fprintf(stderr,"%s",localeText[52]);
     for(i=0;opt[i].name!=0;i++){
         fprintf(stderr,"--%s %s\n",opt[i].name,opt[i].has_arg?"<arg>":"");
         fprintf(stderr,"     %s\n",(char *)(opt[i].flag));
