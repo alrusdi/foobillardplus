@@ -40,11 +40,6 @@
   	#include <ifaddrs.h>
   	#include <netinet/in.h>
 #endif
-#ifdef _MSC_VER //RB For only Windows-MSVC
-   #include <sys/timeb.h>   // us time measure
-#else
-   #include <sys/time.h>    // us time measure
-#endif
 #include "options.h"
 #include "sys_stuff.h"
 #include "language.h"

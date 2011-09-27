@@ -75,9 +75,6 @@ typedef struct{
 } sysResolution;
 
 
-int time_us(void);
-VMfloat time_s(void);
-
 // variables and functions in billard3d.c to be called by the system
 void Key( int key, int modifiers ) ;
 void KeyUp( int key, int modifiers ) ;
@@ -89,6 +86,8 @@ void save_config(void);
 
 // system functions 
 
+void set_checkkey(void);
+int checkkey(void);
 void sys_create_display(int *argc, char **argv, int width,int height) ;
 int  sys_get_fullscreen(void);
 void sys_fullscreen( int fullscr);

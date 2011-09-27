@@ -50,11 +50,6 @@
 #ifdef __MINGW32__ //RB
    void ( APIENTRY * glActiveTextureARB)( GLenum );
 #endif
-#ifdef _MSC_VER
-   #include <sys/timeb.h>   // us time measure
-#else
-   #include <sys/time.h>    // us time measure
-#endif
 #include "language.h"
 #include "billard.h"
 #include "ball.h"
@@ -3471,8 +3466,8 @@ void draw_3D_winner_tourn_text(void)
     VMfloat t;
     VMfloat dt;
 
-    t=time_us();
-    dt=(t-tprev)/1000000.0;
+    t=SDL_GetTicks();
+    dt=(t-tprev)/1000.0;
     tprev=t;
     if (options_birdview_on && old_birdview_ai) {
        old_birdview_ai = queue_view;
@@ -3533,8 +3528,8 @@ void draw_3D_winner_text(void)
        queue_view=old_birdview_ai;
        old_birdview_ai = 0;
     }
-    t=time_us();
-    dt=(t-tprev)/1000000.0;
+    t=SDL_GetTicks();
+    dt=(t-tprev)/1000.0;
     tprev=t;
 #ifdef USE_SOUND
     if(!playonce && options_gamemode!=options_gamemode_tournament) {
@@ -4002,14 +3997,14 @@ void DisplayFunc( void )
 #endif
 
   count++;
-  t_act = time_us();
+  t_act=SDL_GetTicks();
   if (t_prev==-1) t_prev=t_act;
   dt += t_act-t_prev;
-  dt_s_rest += (VMfloat)(t_act-t_prev)/1000000.0;
+  dt_s_rest += (t_act-t_prev)/1000.0;
   t_prev = t_act;
   if(count==1){
     count=0;
-    frametime_ms=(int)((VMfloat)dt/1000.0);
+    frametime_ms=dt;
     if( frametime_ms<1 ) frametime_ms=1;
     if( frametime_ms>frametime_ms_max ) frametime_ms=frametime_ms_max;
     dt=0;
@@ -6641,8 +6636,9 @@ void menu_cb( int id, void * arg , VMfloat value)
           system(foomanual);
 #ifndef WETAB
           if(fullscreen) {
-          //wait for mouseclick to transform the window back to fullscreen
-          //while(!b1_hold) { SDL_Delay(20); }
+          set_checkkey();
+          //wait for sdl_event to transform the window back to fullscreen
+          while(checkkey()) { SDL_Delay(100); }
 #endif
           sys_fullscreen(1);
           SDL_Delay(20);
@@ -7331,7 +7327,7 @@ int main( int argc, char *argv[] )
    strcpy(options_net_hostname,"192.168.1.1");
 
    /* initialize random seed */
-   srand(time_us());
+   srand(SDL_GetTicks());
 
    /* Initialize Language and folders */
    initLanguage(1);

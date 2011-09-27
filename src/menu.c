@@ -1629,9 +1629,11 @@ void init_menu(void)
     //Avatar
     menu_add_submenu(view_menu, localeText[215], avatar_menu, 1, localeText[65-options_avatar_on],localeText[379]);
 #ifndef WETAB
-    //Default Browser for Manual:
+#ifndef USE_WIN
+    //Default Browser for Manual (only Linux)
     sprintf(str,localeText[19],options_browser);
     menu_add_textfield( view_menu, str, MENU_ID_BROWSER, utf8count(localeText[19])-2,KEY_TYPE_MIXED,1,0,15,localeText[380]);
+#endif
 #endif
     //< back
     menu_add_exit (view_menu, localeText[63],localeText[266]);

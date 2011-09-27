@@ -24,11 +24,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef _MSC_VER
-   #include <sys/timeb.h>   // us time measure
-#else
-   #include <sys/time.h>    // us time measure
-#endif
 #include <getopt.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
@@ -47,6 +42,7 @@ static int fullscreen = 0;
 static int keymodif =0;
 static int vidmode_bpp=0;
 static int sdl_on = 0;
+static check_SDL;           // check for mousebutton for manual from fullscreen
 SDL_Surface * vid_surface = NULL;
 
 /***********************************************************************
@@ -60,35 +56,6 @@ SDL_Surface * vid_surface = NULL;
   static Uint8 cursorData[16] = { 0 };
   static SDL_Cursor* cursor;
 #endif
-
-/***********************************************************************
- *                 gives back time in microseconds                     *
- ***********************************************************************/
-
-int time_us()
-{
-#ifdef _MSC_VER //RB For only Windows-MSVC
-    struct timeb t;
-    return( t.time*1000000+t.millitm*1000 );
-#else
-    struct timeval tv;
-    struct timezone tz;
-    tz.tz_minuteswest = 0;
-    tz.tz_dsttime     = 0;
-    gettimeofday(&tv,&tz);
-    return ( tv.tv_sec*1000000+tv.tv_usec );
-#endif
-}
-
-/***********************************************************************
- *                     gives back time in seconds                      *
- ***********************************************************************/
-
-VMfloat time_s()
-
-{
-    return (((VMfloat)time_us())*1E-6);
-}
 
 /***********************************************************************
  *                      Exit with SDL-Support                          *
@@ -522,6 +489,7 @@ static void  process_events( void )
       case SDL_MOUSEBUTTONDOWN:
       case SDL_MOUSEBUTTONUP:
 	       handle_button_event(&(event.button)) ;
+	       check_SDL = 0;
         break ;
       case SDL_VIDEORESIZE:
         handle_reshape_event(event.resize.w,event.resize.h);
@@ -531,6 +499,19 @@ static void  process_events( void )
         break;
     }
    }
+}
+
+/***********************************************************************
+ *   set and return SDL_Event status for manual from fullscreen        *
+ ***********************************************************************/
+
+void set_checkkey(void) {
+    check_SDL = 1;
+}
+
+int checkkey(void) {
+	   process_events();
+    return(check_SDL);
 }
 
 /***********************************************************************
@@ -563,7 +544,7 @@ sysResolution *sys_list_modes( void )
 
 void sys_main_loop(void)
 {
-  // we want a good smooth scrolling ###TODO ###
+  // we want a good smooth scrolling
   GLint old_t, t;
   GLint sleeptime;
 
@@ -572,15 +553,12 @@ void sys_main_loop(void)
     process_events();
     DisplayFunc();
     SDL_GL_SwapBuffers();
-    // the following two lines only on problems with old SDL-Versions on some machines
-    //glFlush();
-    //glFinish();
     t = SDL_GetTicks();
     sleeptime = 15-(t-old_t); //wish sleeptime is 15 milliseconds
     old_t = t;
     if(sleeptime > 0) {
-      SDL_Delay(sleeptime); //### TODO ### make this delay better with other code
-       //fprintf(stderr,"%i\n",sleeptime);
+      SDL_Delay(sleeptime);
+      //fprintf(stderr,"%i\n",sleeptime);
     }
   }
 
