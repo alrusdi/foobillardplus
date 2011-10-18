@@ -112,8 +112,8 @@ if(doing) {
       fprintf(stderr,"(assuming the current directory contains the data)\n");
   }
   setlocale(LC_ALL,"");
-  //fprintf(stderr,"Lokale: %s\n",setlocale(LC_ALL,NULL));
-  sprintf(buffer,"%s",setlocale(LC_ALL,NULL));
+  //fprintf(stderr,"Lokale: %s\n",setlocale(LC_MESSAGES,NULL));
+  sprintf(buffer,"%s",setlocale(LC_MESSAGES,NULL));
   buffer[2] = 0;
   strncpy(charlang,buffer,3);
   if(strlen(charlang) != 2) strcpy(charlang,"en");
