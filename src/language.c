@@ -64,7 +64,12 @@ void initLanguage(int doing) {
   static char charlang[5];
   char *cp;
   char langfiledefault[300] = "locale/en/";
+#ifdef LC_MESSAGES
   char buffer[50];
+#else
+  char buffer[2048];
+  char *ptr;
+#endif
   char foomanualdefault[512];
 #ifdef WETAB
   char foomanual1[512] = "tiitoo-browser-bin -t file://";
@@ -112,10 +117,20 @@ if(doing) {
       fprintf(stderr,"(assuming the current directory contains the data)\n");
   }
   setlocale(LC_ALL,"");
-  //fprintf(stderr,"Lokale: %s\n",setlocale(LC_MESSAGES,NULL));
+  //fprintf(stderr,"Lokale: %s\n",setlocale(LC_ALL,NULL));
+#ifdef LC_MESSAGES
   sprintf(buffer,"%s",setlocale(LC_MESSAGES,NULL));
   buffer[2] = 0;
   strncpy(charlang,buffer,3);
+#else
+  sprintf(buffer,"%s",setlocale(LC_ALL,NULL));
+  if((ptr=strstr(buffer, "LC_MESSAGES")!=NULL) {
+  	  // LC_MESSAGES outside the string
+     strcpy(buffer,ptr+12);
+  }
+  buffer[2] = 0;
+  strncpy(charlang,buffer,3);
+#endif
   if(strlen(charlang) != 2) strcpy(charlang,"en");
   charlang[0] = tolower(charlang[0]);
   charlang[1] = tolower(charlang[1]);
