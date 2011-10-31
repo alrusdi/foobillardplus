@@ -4498,7 +4498,7 @@ void DisplayFunc( void )
    	   glCallList(sofa_id); //sofa 3
      }
      glRotatef(90.0,0.0,0.0,1.0);
-     glTranslatef(-4.0,2.4,-0.4);
+     glTranslatef(-4.0,2.4,-0.43);
      glScalef(0.6,0.4,0.45);
 
      if(Zrot<90.0 || Zrot>280.0) {
