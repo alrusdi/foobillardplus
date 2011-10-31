@@ -3231,9 +3231,11 @@ void MouseMotion(int x, int y, int key_modifiers)
     static VMfloat acc;
     int place_cue_ball=0;
     int cue_ball = CUE_BALL_IND;
+    int move_ok = 1;
+    int i;
     VMfloat dx, dy, abspos;
     VMfloat Xoffs,Zoffs;
-    VMvect xv, yv;
+    VMvect whitepos, xv, yv;
 
     if (control__updated) {
         //fprintf(stderr,"updated\n");
@@ -3261,7 +3263,16 @@ void MouseMotion(int x, int y, int key_modifiers)
                 dy=dy*0.0001+fabs(dy)*dy*0.0002;
                 xv=vec_xyz(+dx*cos(Zrot/180.0*M_PI),-dx*sin(Zrot/180.0*M_PI),0.0);
                 yv=vec_xyz(-dy*sin(Zrot/180.0*M_PI),-dy*cos(Zrot/180.0*M_PI),0.0);
-                setcueball(&balls.ball[cue_ball].r, xv.x+yv.x, xv.y+yv.y, cue_ball);
+                whitepos=balls.ball[cue_ball].r;
+                ball_displace_clip( &(balls.ball[cue_ball].r), vec_add(xv,yv));
+                for(i=0;i<balls.nr;i++){
+                  if(i!=cue_ball){
+                     move_ok = move_ok &&
+                               ( vec_abs(vec_diff(balls.ball[cue_ball].r,balls.ball[i].r))>(balls.ball[cue_ball].d+balls.ball[i].d)/2.0 ||
+                               (!balls.ball[i].in_game) );
+                     }
+                  }
+                if(!move_ok) balls.ball[cue_ball].r=whitepos;
             }
         } else if ( control__mouse_shoot ){
             if( (!queue_view) && (!balls_moving) && !player[act_player].is_AI && !player[act_player].is_net ) {  /* dynamic cue shot */
@@ -3376,7 +3387,16 @@ void MouseMotion(int x, int y, int key_modifiers)
             dy=dy*0.0001+fabs(dy)*dy*0.0002;
             xv=vec_xyz(+dx*cos(Zrot/180.0*M_PI),-dx*sin(Zrot/180.0*M_PI),0.0);
             yv=vec_xyz(-dy*sin(Zrot/180.0*M_PI),-dy*cos(Zrot/180.0*M_PI),0.0);
-            setcueball(&balls.ball[cue_ball].r, xv.x+yv.x, xv.y+yv.y, cue_ball);
+            whitepos=balls.ball[cue_ball].r;
+            ball_displace_clip( &(balls.ball[cue_ball].r), vec_add(xv,yv));
+            for(i=0;i<balls.nr;i++){
+              if(i!=cue_ball){
+                 move_ok = move_ok &&
+                           ( vec_abs(vec_diff(balls.ball[cue_ball].r,balls.ball[i].r))>(balls.ball[cue_ball].d+balls.ball[i].d)/2.0 ||
+                           (!balls.ball[i].in_game) );
+                 }
+              }
+            if(!move_ok) balls.ball[cue_ball].r=whitepos;
         }
         start_x = x;
         start_y = y;
@@ -4478,7 +4498,7 @@ void DisplayFunc( void )
    	   glCallList(sofa_id); //sofa 3
      }
      glRotatef(90.0,0.0,0.0,1.0);
-     glTranslatef(-4.0,2.0,-0.4);
+     glTranslatef(-4.0,2.4,-0.4);
      glScalef(0.6,0.4,0.45);
 
      if(Zrot<90.0 || Zrot>280.0) {
