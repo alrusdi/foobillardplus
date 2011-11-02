@@ -1,3 +1,64 @@
+if USE_WIN
+.rc.o:
+	windres $^ -o $@
+%.o : %.rc
+	windres $^ -o $@
+
+bin_PROGRAMS = foobillardplus
+
+foobillardplus_SOURCES = \
+   foobillardplus.rc \
+   billard3d.c \
+   language.c \
+   language.h \
+   billmove.c \
+   billmove.h \
+   billard.c \
+   billard.h \
+   vmath.c \
+   vmath.h \
+   ball.c \
+   ball.h \
+   png_loader.c \
+   png_loader.h \
+   table.c \
+   table.h \
+   queue.c \
+   queue.h \
+   aiplayer.c \
+   aiplayer.h \
+   options.c \
+   options.h \
+   evaluate_move.c \
+   evaluate_move.h \
+   helpscreen.c \
+   helpscreen.h \
+   textobj.c \
+   textobj.h \
+   font.c \
+   font.h \
+   sys_stuff.c \
+   sys_stuff.h \
+   net_socket.c \
+   net_socket.h \
+   sound_stuff.c \
+   sound_stuff.h \
+   menu.c \
+   menu.h \
+   player.h \
+   bumpref.c \
+   bumpref.h \
+   room.c \
+   room.h \
+   mesh.h \
+   mesh.c \
+   Ceiling_light.h \
+   barchair.h \
+   bartable.h \
+   burlap_sofa.h \
+   fireplace.h
+else
+
 bin_PROGRAMS = foobillardplus
 
 foobillardplus_SOURCES = \
@@ -50,6 +111,7 @@ foobillardplus_SOURCES = \
    bartable.h \
    burlap_sofa.h \
    fireplace.h
+endif
 
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS   = `sdl-config --libs`
