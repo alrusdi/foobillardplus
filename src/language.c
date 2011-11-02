@@ -124,7 +124,7 @@ if(doing) {
   strncpy(charlang,buffer,3);
 #else
   sprintf(buffer,"%s",setlocale(LC_ALL,NULL));
-  if((ptr=strstr(buffer, "LC_MESSAGES")!=NULL) {
+  if((ptr=strstr(buffer, "LC_MESSAGES"))!=NULL) {
   	  // LC_MESSAGES outside the string
      strcpy(buffer,ptr+12);
   }
