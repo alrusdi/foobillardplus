@@ -60,6 +60,10 @@ rm -rf %{buildroot}
 make 
 
 %changelog
+* Wed Nov 01 2011 Holger Schaekel
+- Bugfixes with language handling
+- res files for windows
+
 * Sun Sep 26 2011 Robert Brandl, Holger Schaekel
 - Port for MS-Windows
 - Make 3.4 Source compatible for both worlds (Win/Linux)
