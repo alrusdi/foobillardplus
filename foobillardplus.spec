@@ -3,7 +3,7 @@ Version:        3.4beta
 Release:        1.0.0
 
 Group:          Amusements/Games/3D/Other
-Summary:        A free OpenGL 3D billard game
+Summary:        A free OpenGL 3D billiard game
 
 Vendor:         Holger Schaekel (foobillardplus@go4more.de)
 Packager:       Holger Schaekel (foobillardplus@go4more.de)
@@ -60,6 +60,14 @@ rm -rf %{buildroot}
 make 
 
 %changelog
+* Wed Nov 01 2011 Holger Schaekel
+- Bugfixes with language handling
+- res files for windows
+
+* Sun Sep 26 2011 Robert Brandl, Holger Schaekel
+- Port for MS-Windows
+- Make 3.4 Source compatible for both worlds (Win/Linux)
+
 * Wed Sep 14 2011 Holger Schaekel
 - textures for furniture
 - textures for fireplace
