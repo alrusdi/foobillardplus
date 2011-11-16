@@ -156,7 +156,7 @@ void bump2normal(int w, int h, char * data, VMfloat strength)
 /* data has to be rgb */
 {
     int xi, yi, i, xi_n, yi_n;
-    VMfloat sd, sd_xn, sd_yn, sd_xyn, dzx, dzy, dx, dy;
+    VMfloat sd, sd_xn, sd_yn, dzx, dzy, dx, dy;
     unsigned char * udata;
     VMfloat * ddata;
     VMvect n;
@@ -179,7 +179,6 @@ void bump2normal(int w, int h, char * data, VMfloat strength)
             sd     = ddata[yi*w+xi];
             sd_xn  = ddata[yi*w+xi_n];
             sd_yn  = ddata[yi_n*w+xi];
-            sd_xyn = ddata[yi_n*w+xi_n];
 
             dzx = (sd_xn-sd)*strength;
             dzy = (sd_yn-sd)*strength;

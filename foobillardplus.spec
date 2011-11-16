@@ -1,5 +1,5 @@
 Name:           foobillardplus
-Version:        3.4beta
+Version:        3.41beta
 Release:        1.0.0
 
 Group:          Amusements/Games/3D/Other

@@ -238,8 +238,7 @@ void my_Edge( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*r2)(VMfloat), int or
 {
     int i;
     VMfloat phi1,phi2,dphi1,dphi2;
-    VMvect n00,n10,n20,n30,n40,n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,v0,v1,v2,v3,v4,v5,v6,v7,v8,v9, v8_2,v8_3, v4_2,v4_3;
-    n00 = vec_xyz(-1,0,0);
+    VMvect n10,n20,n30,n40,n1,n2,n3,n4,n5,n6,n7,n8,v1,v2,v3,v4,v5,v6,v7,v8, v8_2,v8_3, v4_2,v4_3;
     n10 = vec_xyz(0,0,1);
     n20 = vec_unit(vec_xyz(FRAME_DH,0,FRAME_D-BANDE_D-FRAME_PHASE));
     n30 = vec_unit(vec_xyz(FRAME_H-FRAME_PHASE,0,-FRAME_PHASE));
@@ -249,8 +248,6 @@ void my_Edge( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*r2)(VMfloat), int or
         phi2 = M_PI/2.0*(VMfloat)(i+1)/(VMfloat)segnr;
         dphi1 = atan((r2(phi1-0.01)-r2(phi1+0.01))/r2(phi1)/0.02);
         dphi2 = atan((r2(phi2-0.01)-r2(phi2+0.01))/r2(phi2)/0.02);
-        n0 = vec_rotate(n00,vec_xyz(0,0,phi1+dphi1));
-        v0 = vec_xyz(r1(phi1)*cos(phi1),r1(phi1)*sin(phi1),FRAME_DH-0.006);
         n1 = vec_rotate(n10,vec_xyz(0,0,phi1+dphi1));
         v1 = vec_xyz(r1(phi1)*cos(phi1),r1(phi1)*sin(phi1),FRAME_DH);
         n2 = vec_rotate(n20,vec_xyz(0,0,phi1+dphi1));
@@ -271,8 +268,6 @@ void my_Edge( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*r2)(VMfloat), int or
         v8 = vec_xyz((r2(phi2)-FRAME_PHASE)*cos(phi2),(r2(phi2)-FRAME_PHASE)*sin(phi2),-FRAME_H);
         v8_2 = vec_xyz((r2(phi2)-FRAME_PHASE-FRAME_DW)*cos(phi2),(r2(phi2)-FRAME_PHASE-FRAME_DW)*sin(phi2),-FRAME_H);
         v8_3 = vec_xyz((r2(phi2)-FRAME_PHASE-2.0*FRAME_DW)*cos(phi2),(r2(phi2)-FRAME_PHASE-2.0*FRAME_DW)*sin(phi2),-FRAME_H2);
-        n9 = vec_rotate(n00,vec_xyz(0,0,phi2+dphi2));
-        v9 = vec_xyz(r1(phi2)*cos(phi2),r1(phi2)*sin(phi2),FRAME_DH-0.006);
         if(!order){
 #define FACT 8.0
             glBegin(GL_QUAD_STRIP);
@@ -467,6 +462,10 @@ void my_EdgeBumper( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*sc)(VMfloat), 
 /***********************************************************************/
 
 VMfloat r1coverfunc_zero( VMfloat y )
+// y not used here, but in use for r1coverfunc
+// function is used sometimes as a pointer to it.
+// my_cover or my_cover2func use it
+// Don't optimize this
 {
     return( 0.0 );
 }
@@ -999,8 +998,9 @@ void grayen_color( GLfloat * col )
 
 /***********************************************************************/
 
-int create_table( int reflect_bind, BordersType *borders, int carambol )
-{
+int create_table( int reflect_bind, BordersType *borders, int carambol ) {
+	   // parameter borders only used for debugging at the end of the function
+	   // no error and not much time to work with it. Don't optimize this
     static int bumpref_init = 0;
     static int bump_init = 0;
     static BumpRefType bumpref;
@@ -1679,14 +1679,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol )
    glMaterialfv(GL_FRONT, GL_AMBIENT,   wood_col_amb);
    glMaterialfv(GL_FRONT, GL_SPECULAR,  wood_col_spec_null);
    glMaterialf (GL_FRONT, GL_SHININESS, wood_col_shin);
-
-   /* ### FIXME ### what is the function calls here - for OLD NV bumpmapping ??? */
-   /*glActiveTextureARB(GL_TEXTURE1_ARB);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-   glActiveTextureARB(GL_TEXTURE0_ARB);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); */
 
    glEnable(GL_TEXTURE_2D);
    glMaterialfv(GL_FRONT, GL_DIFFUSE,   wood_col_diff2);

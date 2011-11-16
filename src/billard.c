@@ -642,7 +642,7 @@ void create_8ball_scene( BallsType * balls )
     int i,j;
     myvec dball1, dball2, vdummy;
     VMfloat poserr=0.007;
-    VMfloat ang, ampl;
+    VMfloat ang;
     myvec verr;
 
     balls->gametype=GAME_8BALL;
@@ -695,8 +695,6 @@ void create_8ball_scene( BallsType * balls )
     for( i=1 ; i<balls->nr ; i++ ){
         ang  = (VMfloat)rand()/(VMfloat)RAND_MAX*2.0*M_PI;
         //fprintf(stderr,"ball_placemet_err:   angle=%f    ",ang);
-        ampl = (VMfloat)rand()/(VMfloat)RAND_MAX*(poserr*0.95)*BALL_D;
-        //fprintf(stderr,"amplitude=%f\n",ampl);
         verr = vec_scale( vec_xyz(cos(ang),sin(ang),0.0), (poserr*0.95)*BALL_D );
         balls->ball[i].r = vec_add( balls->ball[i].r, verr );
     }

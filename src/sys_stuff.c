@@ -42,7 +42,7 @@ static int fullscreen = 0;
 static int keymodif =0;
 static int vidmode_bpp=0;
 static int sdl_on = 0;
-static check_SDL;           // check for mousebutton for manual from fullscreen
+static int check_SDL;           // check for mousebutton for manual from fullscreen
 SDL_Surface * vid_surface = NULL;
 
 /***********************************************************************
@@ -84,7 +84,7 @@ void sys_exit( int code )
  *      Initialize SDL and make a SDL-Window / Fullscreen              *
  ***********************************************************************/
 
-void sys_create_display(int *argc, char **argv, int width,int height)
+void sys_create_display(int width,int height)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo* info = NULL;
@@ -307,7 +307,7 @@ static void handle_button_event(SDL_MouseButtonEvent *e)
   if(e->state==SDL_PRESSED)  s=MOUSE_DOWN;
   if(e->state==SDL_RELEASED) s=MOUSE_UP;
   
-  MouseEvent(b,s,e->x,e->y,keymodif) ; 
+  MouseEvent(b,s,e->x,e->y) ;
 }
 
 /***********************************************************************
@@ -420,7 +420,7 @@ static void handle_key_up(SDL_KeyboardEvent* e)
   update_key_modifiers();
   keysym = translate_key(e);
   if(keysym!=-1){
-      KeyUp(keysym, keymodif);
+      KeyUp(keysym);
   }
 }
 
@@ -456,7 +456,7 @@ static void handle_reshape_event( int width, int height )
 void handle_motion_event(SDL_MouseMotionEvent *e) 
 {
   update_key_modifiers();
-  MouseMotion(e->x,e->y,keymodif);
+  MouseMotion(e->x,e->y);
 }
 
 /***********************************************************************

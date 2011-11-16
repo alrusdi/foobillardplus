@@ -714,7 +714,7 @@ static int ball_in_hole(BallType *ball, BordersType *borders)
 
 /***********************************************************************/
 
-void remove_balls_from_game( BallsType *balls, BordersType *borders, struct Player * player)
+void remove_balls_from_game( BallsType *balls, struct Player * player)
 {
     int i;
     for(i=0;i<balls->nr;i++){
@@ -745,7 +745,7 @@ void remove_balls_from_game( BallsType *balls, BordersType *borders, struct Play
 
 /***********************************************************************/
 
-static void proceed_dt_only(BallsType *balls, BordersType *borders, VMfloat dt)
+static void proceed_dt_only(BallsType *balls, VMfloat dt)
 {
     myvec dx;
     VMfloat dphi;
@@ -819,7 +819,7 @@ void proceed_dt_euler(BallsType *balls, BordersType *borders, VMfloat dt, int de
     }
 
     /* move all balls */
-    proceed_dt_only(balls,borders,dt);
+    proceed_dt_only(balls,dt);
 
     /* checks */
     for(i=0;i<balls->nr;i++) if(balls->ball[i].in_game){ /* check for one collision */
@@ -847,14 +847,14 @@ void proceed_dt_euler(BallsType *balls, BordersType *borders, VMfloat dt, int de
       case COLLTYPE_WALL:
         record_move_log_event( BALL_wall, collnr, balls->ball[collnr2].nr, balls, logtime+dtmin );
         logtime+=dtmin;
-        proceed_dt_only(balls,borders,dtmin);
+        proceed_dt_only(balls,dtmin);
         ball_wall_interaction(&balls->ball[collnr2],&borders->border[collnr]);
         proceed_dt_euler(balls,borders,-dtmin,depth+1);
         break;
       case COLLTYPE_BALL:
         record_move_log_event( BALL_ball, balls->ball[collnr].nr, balls->ball[collnr2].nr, balls, logtime+dtmin );
         logtime+=dtmin;
-        proceed_dt_only(balls,borders,dtmin);
+        proceed_dt_only(balls,dtmin);
         ball_ball_interaction(&balls->ball[collnr],&balls->ball[collnr2]);
         proceed_dt_euler(balls,borders,-dtmin,depth+1);
         break;
@@ -982,7 +982,7 @@ int proceed_dt(BallsType *balls, BordersType *borders, VMfloat dt, struct Player
        }
     }
 
-    remove_balls_from_game( balls, borders, player );
+    remove_balls_from_game( balls, player );
 
     for(i=0;i<balls->nr;i++){
         if( (j=ball_in_hole(&balls->ball[i], borders))!=0 ){

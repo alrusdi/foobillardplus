@@ -427,7 +427,7 @@ void menu_choose(menuType ** menu)
               case KEY_TYPE_MIXED:
                 //nothing to do?
                 //to short
-                if(utf8count((*menu)->entry[(*menu)->select_index].text_obj->str) < ((*menu)->entry[(*menu)->select_index].minvalue+(*menu)->entry[(*menu)->select_index].fixedlen)) {
+                if(utf8count((*menu)->entry[(*menu)->select_index].text_obj->str) < (size_t)((*menu)->entry[(*menu)->select_index].minvalue+(*menu)->entry[(*menu)->select_index].fixedlen)) {
 #ifdef USE_SOUND
                 Playwavdata(cvt_bomb.buf,cvt_bomb.len_cvt,options_snd_volume);
 #endif
@@ -512,7 +512,7 @@ void menu_text_keystroke( menuType * menu, int key )
     if(menu->textedit_mode){
         switch(key){
         case 8:
-            if(utf8count(menu->entry[menu->select_index].text_obj->str) > menu->entry[menu->select_index].fixedlen)
+            if(utf8count(menu->entry[menu->select_index].text_obj->str) > (size_t)menu->entry[menu->select_index].fixedlen)
                 textObj_delete_last( menu->entry[menu->select_index].text_obj );
             break;
         default:
@@ -522,25 +522,25 @@ void menu_text_keystroke( menuType * menu, int key )
                   textObj_append_char( menu->entry[menu->select_index].text_obj, key );
                 break;
               case KEY_TYPE_NUM:
-                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
+                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (size_t)(menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
                   if (isprint(key) && key >='0' && key<='9')
                     textObj_append_char( menu->entry[menu->select_index].text_obj, key );
                 }
                 break;
               case KEY_TYPE_TEXT:
-                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
+                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (size_t)(menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
                   if (isprint(key) && ((key >='a' && key<='z') || (key >='A' && key<='Z')))
                     textObj_append_char( menu->entry[menu->select_index].text_obj, key );
                 }
                 break;
               case KEY_TYPE_MIXED:
-                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
+                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (size_t)(menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
                   if (isprint(key) && ((key >='a' && key<='z') || (key >='A' && key<='Z') || (key >='0' && key<='9')))
                     textObj_append_char( menu->entry[menu->select_index].text_obj, key );
                 }
                 break;
               case KEY_TYPE_NETADDRESS:
-                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
+                if(utf8count(menu->entry[menu->select_index].text_obj->str) < (size_t)(menu->entry[menu->select_index].maxfield+menu->entry[menu->select_index].fixedlen)) {
                 if (isprint(key) && ((key >='0' && key<='9') || (key =='.')))
                   textObj_append_char( menu->entry[menu->select_index].text_obj, key );
                 }

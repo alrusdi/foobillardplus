@@ -199,7 +199,7 @@ char* get_hostname(void)
 int socket_read(TCPsocket socket, char *buffer, int nbytes)
 {
   int count;
-  if(socket <0 || !buffer || !nbytes) {
+  if(socket == NULL || !buffer || !nbytes) {
      return(0);
   }
   count = SDLNet_TCP_Recv (socket, buffer, nbytes);
@@ -214,7 +214,7 @@ int socket_read(TCPsocket socket, char *buffer, int nbytes)
 int socket_write(TCPsocket socket, char *buffer, int nbytes)
 {
   int count;
-  if(socket <0 || !buffer || !nbytes) {
+  if(socket == NULL || !buffer || !nbytes) {
      return(0);
   }
   count = SDLNet_TCP_Send (socket, buffer, nbytes);

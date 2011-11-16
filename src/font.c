@@ -249,15 +249,13 @@ return (FT_ULong)0;
 
 /***********************************************************************/
 
-void my_draw_bitmap( char * src, int w1, int h1, int x0, int y0, char * dst , int w, int h )
+void my_draw_bitmap( char * src, int w1, int h1, int x0, int y0, char * dst , int w )
 {
     int x,y;
-//    fprintf(stderr,"my_draw_bitmap: \n");
-    for(y=0;y<h1;y++){
-//        fprintf(stderr,"my_draw_bitmap: y=%d\n",y);
-        for(x=0;x<w1;x++){
-            dst[(y+y0)*w+x+x0]+=src[y*w1+x];
-        }
+    for(y=0;y<h1;y++) {
+      for(x=0;x<w1;x++) {
+          dst[(y+y0)*w+x+x0]+=src[y*w1+x];
+      }
     }
 }
 
@@ -337,7 +335,7 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
 //                                pen_x, pen_y,
                                 pen_x + face->glyph->bitmap_left,
                                 pen_y + font_height*face->ascender/(face->ascender-face->descender) - face->glyph->bitmap_top,
-                                *data , w, h);
+                                *data , w);
                 pen_x += (face->glyph->advance.x >> 6);
             } else {
 //                fprintf(stderr,"getStringPixmapFT: w=%d h=%d\n",w,h);
@@ -455,7 +453,7 @@ VMvect conic_spline_point( VMvect vi, VMvect vf, VMvect vc, VMfloat t )
 
 /***********************************************************************/
 
-VMvect cubic_spline_point( VMvect vi, VMvect vf, VMvect vc1, VMvect vc2, VMfloat t )
+VMvect cubic_spline_point( VMvect vi, VMvect vc1, VMvect vc2, VMfloat t )
 {
     VMvect v1, v2, v3, v4, v5, v;
     v1=vec_add(vi, vec_scale(vec_diff(vc1,vi ),t));
@@ -494,19 +492,18 @@ int cb_tess_conic_to( FT_Vector * ctrl, FT_Vector * to, void * user )
 
 int cb_tess_cubic_to( FT_Vector * ctrl1, FT_Vector * ctrl2, FT_Vector * to, void * user )
 {
-    VMvect vi,vf, vc1,vc2, v;
+    VMvect vi,vc1,vc2, v;
     VMfloat t, dt;
     struct TessData * data = (struct TessData *) user;
 
     dt=1.0/data->points_per_spline;
 
     vi=vec_xyz( data->from.x, data->from.y, 0.0 );
-    vf=vec_xyz( to->x, to->y, 0.0 );
     vc1=vec_xyz( ctrl1->x, ctrl1->y, 0.0 );
     vc2=vec_xyz( ctrl2->x, ctrl2->y, 0.0 );
 
     for(t=0.0;t<1.0+dt/2.0;t+=dt){
-        v=cubic_spline_point(vi, vf, vc1, vc2, t);
+        v=cubic_spline_point(vi, vc1, vc2, t);
         tess_add_point(v, data, 0);
     }
 
@@ -525,14 +522,14 @@ void makeGLGeometryFT(FT_GlyphSlot glyph, VMfloat depth)
     struct TessDataVec * tdv_p = NULL;
     struct TessDataVec * tdv_n = NULL;
     struct TessDataVec * tdv_s = NULL;
-    VMvect n1,n2,n,d1,d2;
+    VMvect n2,d2;
 
     outline=&(glyph->outline);
 
     gluTessNormal(tessdata->tobj, 0.0, 0.0, -1.0 );
-    gluTessCallback(tessdata->tobj, GLU_TESS_BEGIN, glBegin);
-    gluTessCallback(tessdata->tobj, GLU_TESS_VERTEX, my_Vertex_cb);
-    gluTessCallback(tessdata->tobj, GLU_TESS_END, glEnd);
+    gluTessCallback(tessdata->tobj, GLU_TESS_BEGIN, (_GLUfuncptr)glBegin);
+    gluTessCallback(tessdata->tobj, GLU_TESS_VERTEX, (_GLUfuncptr)my_Vertex_cb);
+    gluTessCallback(tessdata->tobj, GLU_TESS_END, (_GLUfuncptr)glEnd);
 
     funcs.move_to  = (FT_Outline_MoveToFunc)cb_tess_move_to;
     funcs.line_to  = (FT_Outline_LineToFunc)cb_tess_line_to;
@@ -567,13 +564,9 @@ void makeGLGeometryFT(FT_GlyphSlot glyph, VMfloat depth)
         while( tdv_p->next!=NULL && tdv_p->next->is_start==0 ){ tdv_p=tdv_p->next; }
           glBegin(GL_QUADS);
            do {
-             d1.x = tdv_p->d[0]-tdv->d[0];
-             d1.y = tdv_p->d[1]-tdv->d[1];
              d2.x = tdv_n->d[0]-tdv->d[0];
              d2.y = tdv_n->d[1]-tdv->d[1];
-             n1=vec_unit( vec_xyz( d1.y, -d1.x, 0.0) );
              n2=vec_unit( vec_xyz(-d2.y,  d2.x, 0.0) );
-             n =vec_unit( vec_add(n2, n1) );
              glNormal3f( n2.x, n2.y, n2.z );
              glVertex3f( tdv->d[0], tdv->d[1], 0.0 );
              glNormal3f( n2.x, n2.y, n2.z );

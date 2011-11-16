@@ -28,7 +28,6 @@
 #include <GL/gl.h>
 #include "vmath.h"
 
-void my_draw_bitmap      (char * src, int w1, int h1, int x0, int y0, char * dst , int w, int h );
 void getStringPixmapFT   (char *str, char * fontname, int font_height, char ** data, int * dwidth, int * dheight, int * width, int * height);
 GLuint getStringGLListFT (char *str, char * fontname, VMfloat font_height, float depth, VMfloat * width, VMfloat * height);
 size_t utf8count( const char *string );  // Count the "real" chars in an utf8string

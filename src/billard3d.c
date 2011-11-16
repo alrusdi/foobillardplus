@@ -475,7 +475,7 @@ int net_get_data_soft(void)
      close_listener();
      return(0);
     }
-    if((netorder<0 || netorder >2) || (data_len<0 || data_len>sizeof(net_data))) {
+    if((netorder<0 || netorder >2) || (data_len<0 || data_len>(int)sizeof(net_data))) {
      // *totally* Network error - terminating
      displaystring (localeText[246]);
      close_listener();
@@ -676,7 +676,7 @@ int net_get_data_hard(void)
      close_listener();
      return(0);
     }
-    if((netorder<0 || netorder >2) || (data_len<0 || data_len>sizeof(net_data))) {
+    if((netorder<0 || netorder >2) || (data_len<0 || data_len>(int)sizeof(net_data))) {
      // *totally* Network error - terminating
      displaystring (localeText[246]);
      close_listener();
@@ -1143,8 +1143,8 @@ int net_send_data_hard(void)
  *                      Network get data timer                         *
  ***********************************************************************/
 
-Uint32 net_get_timer(Uint32 intervall, void *param)
-{
+Uint32 net_get_timer(Uint32 intervall, void *param) {
+    // param not used, but a must have for SDL_AddTimer
     get_data++;
     return (intervall);
 }
@@ -1153,8 +1153,8 @@ Uint32 net_get_timer(Uint32 intervall, void *param)
  *                      Network send data timer                        *
  ***********************************************************************/
 
-Uint32 net_send_timer(Uint32 intervall, void *param)
-{
+Uint32 net_send_timer(Uint32 intervall, void *param) {
+    // param not used, but a must have for SDL_AddTimer
     send_data++;
     return(intervall);
 }
@@ -1164,7 +1164,7 @@ Uint32 net_send_timer(Uint32 intervall, void *param)
  ***********************************************************************/
 
 Uint32 wait_for_connect(Uint32 intervall,void *param) {
-
+	 // param not used, but a must have for SDL_AddTimer
   wait_server = 1;
   if(--wait_seconds < 0) { //count the seconds down
     wait_seconds = 0;
@@ -1177,7 +1177,7 @@ Uint32 wait_for_connect(Uint32 intervall,void *param) {
  ***********************************************************************/
 
 Uint32 wait_for_server_connect(Uint32 intervall,void *param) {
-
+	 // param not used, but a must have for SDL_AddTimer
   wait_client = 1;
   if(--wait_seconds < 0) { //count the seconds down
     wait_seconds = 0;
@@ -1292,6 +1292,7 @@ static void no_network(void) {
  ***********************************************************************/
 
 Uint32 notshow_disc(Uint32 intervall,void *param) {
+	 // intervall and param not used, but a must have for SDL_AddTimer
   show_disc = 0;
   return 0;
 }
@@ -2880,7 +2881,7 @@ void Key1( int key )
  *                     Event for the mousebuttons                      *
  ***********************************************************************/
 
-void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y,int key_modifiers)
+void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
 {
 
     GLdouble newy;
@@ -3225,7 +3226,7 @@ void ball_displace_clip( VMvect * cue_pos, VMvect offs )
  *                 Event for the motion of the mouse                   *
  ***********************************************************************/
 
-void MouseMotion(int x, int y, int key_modifiers)
+void MouseMotion(int x, int y)
 {
 
     static VMfloat acc;
@@ -3589,7 +3590,7 @@ void draw_3D_winner_text(void)
  *                 called from create_cuberef_map                      *
  ***********************************************************************/
 
-void DisplayFunc_cubemap( int ballnr, int side, VMvect cam_pos, int cube_res )
+void DisplayFunc_cubemap( int side )
 {
 
    GLfloat light_position[] = { 0.0, 0.0, 0.7, 0.0 };  //the [3] is 0.0 for better performance
@@ -3779,7 +3780,7 @@ void create_cuberef_map(int ballnr, int texbind, VMvect cam_pos)
             case 5: target=GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB;
                     break;
             }
-            DisplayFunc_cubemap( ballnr , target, cam_pos, w );
+            DisplayFunc_cubemap( target);
             glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_BASE_LEVEL, level);
             glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAX_LEVEL, level);
             glCopyTexSubImage2D(target, level, 0, 0, xpos, ypos, w, w );
@@ -3962,7 +3963,6 @@ void DisplayFunc( void )
   int i,j,k,m;                      // some loop variables
   int minballnr;                    // next ball for 9ball
   static int balls_were_moving=0;   // balls were moved just one step before
-  static int first_time=1;
   int t_act,in_game = 0;
   static int dt;
   static int t_prev=-1;
@@ -3987,7 +3987,6 @@ void DisplayFunc( void )
   VMfloat eye_offs, zeye;        //for stereo view
   VMfloat eye_offs0, eye_offs1;  //for stereo view
 
-  GLfloat light_position[] = { 0.0, 0.0, 0.7, 1.0 };  // all the postions of the lights
   GLfloat light0_position[] = { 0.0, 0.7, 0.7, 1.0 };
   GLfloat light0_diff[]     = { 0.6, 0.6, 0.6, 1.0 };
   GLfloat light0_amb[]      = { 0.35, 0.35, 0.35, 1.0 };
@@ -4043,7 +4042,6 @@ void DisplayFunc( void )
   while(dt_s_rest>0.0) {
          //fprintf(stderr,"dtsrest\n");
          /* assure constant time flow */
-         first_time=0; /* to get into loop when balls not moving */
  #ifdef TIME_INTERPOLATE
          copy_balls(&balls,&g_lastballs);
  #endif
@@ -4296,7 +4294,6 @@ void DisplayFunc( void )
 
    if(!options_positional_light){
    // only set if direct light. for postional light is the init on top of the function
-       light_position[3]=0.0;
        light0_position[3]=0.0;
        light1_position[3]=0.0;
    }
@@ -6091,7 +6088,7 @@ void Key( int key, int modifiers ) {
  *             Keyboard key up function for s b e m f                  *
  ***********************************************************************/
 
-void KeyUp( int key, int modifiers )
+void KeyUp(int key)
 {
     if( g_act_menu == (menuType *)0 && !options_control_kind){
         switch (key) {
@@ -7371,7 +7368,7 @@ int main( int argc, char *argv[] )
 #ifndef WETAB
    initLanguage(0);
 #endif
-   sys_create_display( &argc, argv, win_width, win_height);
+   sys_create_display(win_width, win_height);
 #ifdef __MINGW32__	//RB
 	  glActiveTextureARB = (void *) SDL_GL_GetProcAddress("glActiveTextureARB");
 #endif

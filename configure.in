@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([foobillardplus], [3.4beta])
+AC_INIT([foobillardplus], [3.42beta])
 AC_CONFIG_SRCDIR([src/billard3d.c])
 
 AC_CONFIG_HEADERS([src/config.h])
@@ -202,6 +202,7 @@ else
 -falign-jumps \
 -falign-labels \
 -falign-loops \
+-Wextra \
 "
   CXXFLAGS=""
 fi

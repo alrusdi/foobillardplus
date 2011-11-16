@@ -406,13 +406,11 @@ void evaluate_last_move_carambol( struct Player * player, int * pact_player, Bal
 #define CUE_BALL_IND (player[act_player].cue_ball)
     int nextplayer=1;
     int bhit1, bhit2, i;
-    int other_player;
     int foul = 0;
     char statusstr[200];  // make a better statusline
 
     emptyworkstring();
 
-    other_player=(act_player==1)?0:1;
     bhit1=BM_get_nth_ball_hit_by_ind(CUE_BALL_IND,1);
 
     for( i=2 ; (bhit2=BM_get_nth_ball_hit_by_ind(CUE_BALL_IND,i))!=-1 && bhit2==bhit1 ; i++ );
@@ -490,8 +488,6 @@ void evaluate_last_move_carambol( struct Player * player, int * pact_player, Bal
 
     if(nextplayer){
         player[act_player].queue_view=*pqueue_view;
-        //fprintf(stderr, "score of %s: %d\n", player[act_player].name,   player[act_player].score   );
-        //fprintf(stderr, "score of %s: %d\n", player[other_player].name, player[other_player].score );
         act_player = (act_player==1) ? 0 : 1 ;
         *pXque=player[act_player].Xque;
         *pqueue_view=player[act_player].queue_view;

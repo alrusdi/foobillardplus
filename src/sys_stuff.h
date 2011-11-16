@@ -77,9 +77,9 @@ typedef struct{
 
 // variables and functions in billard3d.c to be called by the system
 void Key( int key, int modifiers ) ;
-void KeyUp( int key, int modifiers ) ;
-void MouseEvent(MouseButtonEnum button,MouseButtonState  state, int x, int y,int key_modifiers) ;
-void MouseMotion(int x, int y,int key_modifiers) ;
+void KeyUp( int key ) ;
+void MouseEvent(MouseButtonEnum button,MouseButtonState  state, int x, int y) ;
+void MouseMotion(int x, int y) ;
 void DisplayFunc(void);
 void ResizeWindow(int w,int h);
 void save_config(void);
@@ -88,7 +88,7 @@ void save_config(void);
 
 void set_checkkey(void);
 int checkkey(void);
-void sys_create_display(int *argc, char **argv, int width,int height) ;
+void sys_create_display(int width,int height) ;
 int  sys_get_fullscreen(void);
 void sys_fullscreen( int fullscr);
 void sys_toggle_fullscreen( void );

@@ -48,7 +48,6 @@
 #endif
 
 #define USE_TRISTRIPS   //only remark this on a very slow embedded devices like PowerVR
-//#undef USE_VERTEX_ARRAYS
 
 static char * balltexdata[22];
 static GLuint balltexbind[22];
@@ -569,7 +568,7 @@ void free_elem_array( ElemArray * array )
 void draw_ball( BallType * ball, myvec cam_pos, GLfloat cam_FOV, int win_width)
 /* expects to be on table center */
 {
-    float cnear, cfar, geomfact;
+    float cnear, geomfact;
     static int glballlist[]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
     static float ballmatr[]={
         0.0, 0.0, 0.0, 0.0,
@@ -626,7 +625,6 @@ void draw_ball( BallType * ball, myvec cam_pos, GLfloat cam_FOV, int win_width)
 
     geomfact=40.0/cam_FOV*(VMfloat)win_width/800;
     cnear = options_ball_detail_nearmax*geomfact;
-    cfar  = options_ball_detail_farmin*geomfact;
 
     /* 1.0 instead of 2.0 because angles get smaller when smaller detail */
     detail=maxdetail-1.0*log(vec_abs(vec_diff(cam_pos,ball->r))/cnear)/0.693147f; //quicker then log(2.0)
@@ -658,7 +656,7 @@ void draw_ball( BallType * ball, myvec cam_pos, GLfloat cam_FOV, int win_width)
 
 /***********************************************************************/
 
-void my_copy_area_1_3( char * src, int w1, int h1, int wc, int hc, int x0, int y0, char * dst , int w, int h )
+void my_copy_area_1_3( char * src, int w1, int wc, int hc, int x0, int y0, char * dst , int w)
 {
     int x,y,i;
     for(y=0;y<hc;y++){
@@ -778,9 +776,8 @@ void create_balltex( int nr, int * w, int * h, int * depth, char ** data)
         sy2=(VMfloat)(ymin+ymax)/2.0;
         sx=(sx+sx2)/2.0;
         sy=(sy+sy2)/2.0;
-//        fprintf(stderr,"sx=%f, sy=%f\n");
-        my_copy_area_1_3( nrdata, dw, dh, width, height,
-                          (*w)/2-(sx+0.5), (*h)/2-(sy+0.5), *data, *w, *h );
+        //fprintf(stderr,"sx=%f, sy=%f\n");
+        my_copy_area_1_3( nrdata, dw, width, height, (*w)/2-(sx+0.5), (*h)/2-(sy+0.5), *data, *w);
     }
 
     if( options_rgstereo_on ){

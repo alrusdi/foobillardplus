@@ -99,15 +99,15 @@ void create_expsin( VMfloat period_samps, VMfloat tau_samps, short int ** data, 
 
 /***********************************************************************/
 
-static void mixaudio(void *userdata, Uint8 *stream, int len)
-{
+static void mixaudio(void *userdata, Uint8 *stream, int len) {
+	   // userdata not used here, but necessary for the callback-function
     int i;
     Uint32 amount;
 
     for ( i=0; i<NUM_SOUNDS; ++i ) {
         amount = (sounds[i].dlen-sounds[i].dpos);
-        if ( amount > len ) {
-            amount = len;
+        if ( amount > (Uint32)len ) {
+            amount = (Uint32)len;
         }
 /*        SDL_MixAudio(stream, &sounds[i].data[sounds[i].dpos], amount, SDL_MIX_MAXVOLUME);*/
         SDL_MixAudio(stream, &sounds[i].data[sounds[i].dpos], amount, sounds[i].vol);

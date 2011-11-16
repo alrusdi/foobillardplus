@@ -19,8 +19,20 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
+/* Define to 1 if you have the `gl' library (-lgl). */
+/* #undef HAVE_LIBGL */
+
+/* Define to 1 if you have the `glu' library (-lglu). */
+/* #undef HAVE_LIBGLU */
+
+/* Define to 1 if you have the `glu32' library (-lglu32). */
+/* #undef HAVE_LIBGLU32 */
+
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
+
+/* Define to 1 if you have the `opengl32' library (-lopengl32). */
+/* #undef HAVE_LIBOPENGL32 */
 
 /* Define to 1 if you have the `png' library (-lpng). */
 #define HAVE_LIBPNG 1
@@ -30,6 +42,9 @@
 
 /* Define to 1 if you have the `SDL_net' library (-lSDL_net). */
 #define HAVE_LIBSDL_NET 1
+
+/* Define to 1 if you have the `wsock32' library (-lwsock32). */
+/* #undef HAVE_LIBWSOCK32 */
 
 /* Define to 1 if you have the <limits.h> header file. */
 #define HAVE_LIMITS_H 1
@@ -86,7 +101,7 @@
 #define PACKAGE_NAME "foobillardplus"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "foobillardplus 3.4beta"
+#define PACKAGE_STRING "foobillardplus 3.41beta"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "foobillardplus"
@@ -95,13 +110,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.4beta"
+#define PACKAGE_VERSION "3.41beta"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "3.4beta"
+#define VERSION "3.41beta"
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */
