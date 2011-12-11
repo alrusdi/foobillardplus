@@ -88,22 +88,23 @@ void create_cue_sound(short int ** data, int * len, int length, VMfloat randmul,
 void create_wall_sound(short int ** data, int * len );
 
 /***********************************************************************
- *           Check the given string ogg extension mp3 or ogg           *
+ *              Check the given string extension mp3 or ogg            *
  ***********************************************************************/
 
 int strsound ( char s1[] )
 {
    int i = 0;
-   char s[1024];
-   strcpy(s,s1);
-   while (s[i])  /* While not at the end of the string yet (marked by 0).  */
-   {
-      s[i] = toupper( s[i] );
-      ++i;
+   char s[10];
+   if(strlen(s1) > 4) {
+      strcpy(s,&s[strlen(s)-4]);
+      while (s[i]) {
+         s[i] = toupper(s[i]);
+         ++i;
+      }
+ 	    if(strcmp(s,".MP3") || strcmp(s,".OGG")) {
+         return(1);
+ 	    }
    }
- 	 if(strstr(s,".MP3") || strstr(s,".OGG")) {
-      return(1);
- 	 }
    return(0);
 }
 
@@ -271,7 +272,7 @@ void init_sound(void)
           	}
           } else {
           	songs = i;
-          	if(i > 500) {
+          	if(i > 499) {
           		  fprintf(stderr,"Max. 500 Songs are playable. Only the first 500 Songs are considered.\n");
           		  songs = 500;
           	}

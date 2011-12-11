@@ -1633,12 +1633,12 @@ void process_option(enum optionType act_option)
        case OPT_VOL_MUSIC:
            sscanf(optarg,"%d",&options_mus_volume);
            if(options_mus_volume < 0) options_mus_volume = 0;
-           if(options_mus_volume > 128) options_mus_volume = 128;
+           if(options_mus_volume > MIX_MAX_VOLUME) options_mus_volume = MIX_MAX_VOLUME;
           break;
        case OPT_VOL_SOUND:
            sscanf(optarg,"%d",&options_snd_volume);
            if(options_snd_volume < 0) options_snd_volume = 0;
-           if(options_snd_volume > 128) options_snd_volume = 128;
+           if(options_snd_volume > MIX_MAX_VOLUME) options_snd_volume = MIX_MAX_VOLUME;
           break;
 #endif
        case OPT_ROOM:
