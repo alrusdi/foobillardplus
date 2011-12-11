@@ -1,8 +1,16 @@
+3.42 beta
+=========
+
+- reorg of sourcecode
+- new sound engine inside
+- change SDL_Audio to SDL_MIXER
+- integration of backgroundmusic (ogg and mp3 support)
+- include songs from "Zentriert ins Antlitz"
+
 3.41 beta
 =========
 
 - Bugfix release
-
 
 new in 3.4 beta
 ===============

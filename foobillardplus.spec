@@ -1,5 +1,5 @@
 Name:           foobillardplus
-Version:        3.41beta
+Version:        3.42beta
 Release:        1.0.0
 
 Group:          Amusements/Games/3D/Other
@@ -60,6 +60,14 @@ rm -rf %{buildroot}
 make 
 
 %changelog
+
+* Sun Dec 10 2011 Holger Schaekel
+- reorg of sourcecode
+- new sound engine inside
+- change SDL_Audio to SDL_MIXER
+- integration of backgroundmusic (ogg and mp3 support)
+- include songs from "Zentriert ins Antlitz"
+
 * Wed Nov 01 2011 Holger Schaekel
 - Bugfixes with language handling
 - res files for windows

@@ -125,6 +125,7 @@ int    options_bumpref   = 0;  /* bump reflection of chrome edges */
 int    options_bumpwood  = 0;  /* bump maps on wood frame */
 int    options_balltrace = 0;
 int    options_use_sound = 1;
+int    options_use_music = 1;
 int    options_gamemode  = 0;  /* 0=options_gamemode_match */
 int    options_avatar_on = 0;
 VMfloat options_tourfast = 30.0;
@@ -150,7 +151,15 @@ int    options_anisotrop = 0;      // Anisotropic Filter 0 = no, 1 = yes
 int    options_tronmode = 0;       // the special tron game mode
 int    options_glassballs = 0;     // play with glass balls or other to implement ball types
 int    options_deco = 1;           // special for showing deco on walls and so on (1 = on, 0 = off)
-int    options_furniture = 1;      // special for showing furniture, chairs and so on (1 = on, 0 = off)
+int    options_mus_volume = 10;
+#ifdef WETAB
+  int    options_furniture = 0;      // special for showing furniture, chairs and so on (1 = on, 0 = off)
+  int    options_snd_volume = 100;
+#else
+  int    options_furniture = 1;      // special for showing furniture, chairs and so on (1 = on, 0 = off)
+  int    options_snd_volume = 90;
+#endif
+
 GLfloat  options_maxanisotrop = 0.0;   // max. of anistropic filters
 VMfloat  options_value_anisotrop = 0.0;    // the vaule for anisotropic filtering if supported and < maxanisotrop (default 0.0)
 

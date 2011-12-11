@@ -40,6 +40,9 @@
 /* Define to 1 if you have the `SDL' library (-lSDL). */
 #define HAVE_LIBSDL 1
 
+/* Define to 1 if you have the `SDL_mixer' library (-lSDL_mixer). */
+#define HAVE_LIBSDL_MIXER 1
+
 /* Define to 1 if you have the `SDL_net' library (-lSDL_net). */
 #define HAVE_LIBSDL_NET 1
 
@@ -101,7 +104,7 @@
 #define PACKAGE_NAME "foobillardplus"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "foobillardplus 3.41beta"
+#define PACKAGE_STRING "foobillardplus 3.42beta"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "foobillardplus"
@@ -110,13 +113,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.41beta"
+#define PACKAGE_VERSION "3.42beta"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "3.41beta"
+#define VERSION "3.42beta"
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */

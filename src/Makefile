@@ -36,6 +36,7 @@ build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
 target_triplet = x86_64-unknown-linux-gnu
 bin_PROGRAMS = foobillardplus$(EXEEXT)
+#bin_PROGRAMS = foobillardplus$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in
@@ -49,17 +50,46 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_foobillardplus_OBJECTS = billard3d.$(OBJEXT) language.$(OBJEXT) \
-	billmove.$(OBJEXT) billard.$(OBJEXT) vmath.$(OBJEXT) \
-	ball.$(OBJEXT) png_loader.$(OBJEXT) table.$(OBJEXT) \
-	queue.$(OBJEXT) aiplayer.$(OBJEXT) options.$(OBJEXT) \
-	evaluate_move.$(OBJEXT) helpscreen.$(OBJEXT) textobj.$(OBJEXT) \
-	font.$(OBJEXT) sys_stuff.$(OBJEXT) net_socket.$(OBJEXT) \
-	sound_stuff.$(OBJEXT) menu.$(OBJEXT) bumpref.$(OBJEXT) \
-	room.$(OBJEXT) mesh.$(OBJEXT)
+am__foobillardplus_SOURCES_DIST = billard3d.c language.c language.h \
+	billmove.c billmove.h billard.c billard.h vmath.c vmath.h \
+	ball.c ball.h png_loader.c png_loader.h table.c table.h \
+	queue.c queue.h aiplayer.c aiplayer.h options.c options.h \
+	evaluate_move.c evaluate_move.h helpscreen.c helpscreen.h \
+	textobj.c textobj.h font.c font.h sys_stuff.c sys_stuff.h \
+	net_socket.c net_socket.h sound_stuff.c sound_stuff.h menu.c \
+	menu.h player.h bumpref.c bumpref.h room.c room.h mesh.h \
+	mesh.c Ceiling_light.h barchair.h bartable.h burlap_sofa.h \
+	fireplace.h foobillardplus.rc
+am_foobillardplus_OBJECTS = billard3d.$(OBJEXT) \
+	language.$(OBJEXT) billmove.$(OBJEXT) \
+	billard.$(OBJEXT) vmath.$(OBJEXT) \
+	ball.$(OBJEXT) png_loader.$(OBJEXT) \
+	table.$(OBJEXT) queue.$(OBJEXT) \
+	aiplayer.$(OBJEXT) options.$(OBJEXT) \
+	evaluate_move.$(OBJEXT) helpscreen.$(OBJEXT) \
+	textobj.$(OBJEXT) font.$(OBJEXT) \
+	sys_stuff.$(OBJEXT) net_socket.$(OBJEXT) \
+	sound_stuff.$(OBJEXT) menu.$(OBJEXT) \
+	bumpref.$(OBJEXT) room.$(OBJEXT) mesh.$(OBJEXT)
+#am_foobillardplus_OBJECTS = foobillardplus.$(OBJEXT) \
+#	billard3d.$(OBJEXT) language.$(OBJEXT) \
+#	billmove.$(OBJEXT) billard.$(OBJEXT) \
+#	vmath.$(OBJEXT) ball.$(OBJEXT) \
+#	png_loader.$(OBJEXT) table.$(OBJEXT) \
+#	queue.$(OBJEXT) aiplayer.$(OBJEXT) \
+#	options.$(OBJEXT) evaluate_move.$(OBJEXT) \
+#	helpscreen.$(OBJEXT) textobj.$(OBJEXT) \
+#	font.$(OBJEXT) sys_stuff.$(OBJEXT) \
+#	net_socket.$(OBJEXT) sound_stuff.$(OBJEXT) \
+#	menu.$(OBJEXT) bumpref.$(OBJEXT) room.$(OBJEXT) \
+#	mesh.$(OBJEXT)
 foobillardplus_OBJECTS = $(am_foobillardplus_OBJECTS)
 foobillardplus_LDADD = $(LDADD)
-foobillardplus_DEPENDENCIES =
+am__DEPENDENCIES_1 =
+am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+#am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
+foobillardplus_DEPENDENCIES = $(am__DEPENDENCIES_2)
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -69,7 +99,7 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(foobillardplus_SOURCES)
-DIST_SOURCES = $(foobillardplus_SOURCES)
+DIST_SOURCES = $(am__foobillardplus_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -82,7 +112,7 @@ AWK = mawk
 BINDIR = /opt/foobillardplus/bin
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -falign-functions -falign-jumps -falign-labels -falign-loops 
+CFLAGS = -falign-functions -falign-jumps -falign-labels -falign-loops -Wextra 
 CPP = gcc -E
 CPPFLAGS = 
 CXX = g++
@@ -108,7 +138,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = -lm -lSDL_net -lSDL -lSDL -lpng 
+LIBS = -lm -lSDL_mixer -lSDL_net -lSDL -lSDL -lpng 
 LOCALEDIR = /opt/foobillardplus/data/locale
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/holger/projekte/foobillardplus/missing --run makeinfo
@@ -118,16 +148,16 @@ OPTIMIZATION_CFLAGS =
 PACKAGE = foobillardplus
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = foobillardplus
-PACKAGE_STRING = foobillardplus 3.4beta
+PACKAGE_STRING = foobillardplus 3.42beta
 PACKAGE_TARNAME = foobillardplus
 PACKAGE_URL = 
-PACKAGE_VERSION = 3.4beta
+PACKAGE_VERSION = 3.42beta
 PATH_SEPARATOR = :
 PREFIX = /opt/foobillardplus
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 3.4beta
+VERSION = 3.42beta
 XMKMF = 
 X_CFLAGS = 
 X_EXTRA_LIBS = 
@@ -239,12 +269,66 @@ foobillardplus_SOURCES = \
    burlap_sofa.h \
    fireplace.h
 
+#foobillardplus_SOURCES = \
+#   foobillardplus.rc \
+#   billard3d.c \
+#   language.c \
+#   language.h \
+#   billmove.c \
+#   billmove.h \
+#   billard.c \
+#   billard.h \
+#   vmath.c \
+#   vmath.h \
+#   ball.c \
+#   ball.h \
+#   png_loader.c \
+#   png_loader.h \
+#   table.c \
+#   table.h \
+#   queue.c \
+#   queue.h \
+#   aiplayer.c \
+#   aiplayer.h \
+#   options.c \
+#   options.h \
+#   evaluate_move.c \
+#   evaluate_move.h \
+#   helpscreen.c \
+#   helpscreen.h \
+#   textobj.c \
+#   textobj.h \
+#   font.c \
+#   font.h \
+#   sys_stuff.c \
+#   sys_stuff.h \
+#   net_socket.c \
+#   net_socket.h \
+#   sound_stuff.c \
+#   sound_stuff.h \
+#   menu.c \
+#   menu.h \
+#   player.h \
+#   bumpref.c \
+#   bumpref.h \
+#   room.c \
+#   room.h \
+#   mesh.h \
+#   mesh.c \
+#   Ceiling_light.h \
+#   barchair.h \
+#   bartable.h \
+#   burlap_sofa.h \
+#   fireplace.h
+
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS = `sdl-config --libs`
 FREETYPE_CFLAGS = `freetype-config --cflags`
 FREETYPE_LIBS = `freetype-config --libs`
 #MATH_CFLAGS = 
 MATH_CFLAGS = -DVMATH_SINGLE_PRECISION
+#NET_LIB = 
+NET_LIB = -lSDL_net
 #NET_CFLAGS = 
 NET_CFLAGS = -DNETWORKING
 TOUCH_CFLAGS = 
@@ -254,18 +338,24 @@ WETAB_CFLAGS =
 #WETAB_CFLAGS = -DWETAB
 NVIDIA_CFLAGS = -DNO_NV_BUMPREF -DNO_NV_FRESNEL
 #NVIDIA_CFLAGS = 
+#SOUND_MIXER = 
+SOUND_MIXER = -lSDL_mixer
 #SOUND_CFLAGS = 
 SOUND_CFLAGS = -DUSE_SOUND
+USEWIN_CFLAGS = 
+#USEWIN_CFLAGS = -DUSE_WIN
+LDADD_FLAGS = -lGL -lGLU -lpng -lfreetype ${NET_LIB} ${SOUND_MIXER}
+#LDADD_FLAGS = -lpng -lz -lfreetype -lglu32 -lopengl32 ${SOUND_MIXER}
 AM_CFLAGS = -Wall ${FREETYPE_CFLAGS} ${SDL_CFLAGS} ${NVIDIA_CFLAGS} ${SOUND_CFLAGS} ${DEBUG_CFLAGS} ${WETAB_CFLAGS} ${TOUCH_CFLAGS} ${NET_CFLAGS} ${MATH_CFLAGS} \
-            ${OPTIMIZATION_CFLAGS} -lm
+            ${OPTIMIZATION_CFLAGS} ${USEWIN_CFLAGS} -lm
 
 AM_LDFLAGS = ${all_libraries} ${FREETYPE_LIBS} ${SDL_LIBS}
-LDADD = -lGL -lGLU -lpng -lSDL_net -lfreetype
+LDADD = ${LDADD_FLAGS}
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
+.SUFFIXES: .c .o .obj .rc
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -595,6 +685,10 @@ uninstall-am: uninstall-binPROGRAMS
 	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
 	tags uninstall uninstall-am uninstall-binPROGRAMS
 
+#.rc.o:
+#	windres $^ -o $@
+#%.o : %.rc
+#	windres $^ -o $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

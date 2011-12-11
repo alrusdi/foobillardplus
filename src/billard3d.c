@@ -32,9 +32,6 @@
 #include <string.h>
 #include <math.h>
 #include <unistd.h>
-#ifdef	HAVE_ENDIAN_H
-	#include <endian.h>
-#endif	// HAVE_ENDIAN_H
 #include <getopt.h>
 
 #include <GL/glu.h>
@@ -42,7 +39,6 @@
 #include <GL/glext.h>
 
 #include <SDL.h>
-#include <SDL_audio.h>
 #ifdef NETWORKING
   #include <SDL_net.h>
 #endif
@@ -72,9 +68,6 @@
 #include "room.h"
 #include "mesh.h"
 
-#define LIT 1
-#define TEXTURED 2
-#define REFLECT 3
 #define CUE_BALL_IND (player[act_player].cue_ball)
 #define CUE_BALL_POS (balls.ball[CUE_BALL_IND].r)
 #define CUE_BALL_XYPOS (vec_xyz(CUE_BALL_POS.x,CUE_BALL_POS.y,0.0))
@@ -384,7 +377,12 @@ static struct option long_options[] = {
     {"jumpshots",    required_argument, (int *)localeText[17], OPT_JUMP_SHOTS},
     {"aliasing",     required_argument, (int *)localeText[17], OPT_ANTIALIASING},
     {"statustext",   required_argument, (int *)localeText[17], OPT_STATUSTEXT},
+#ifdef USE_SOUND
     {"usesound",     required_argument, (int *)localeText[17], OPT_USE_SOUND},
+    {"usemusic",     required_argument, (int *)localeText[17], OPT_USE_MUSIC},
+    {"musicvol",     required_argument, (int *)localeText[421], OPT_VOL_MUSIC},
+    {"soundvol",     required_argument, (int *)localeText[421], OPT_VOL_SOUND},
+#endif
     {"pcarambol",    required_argument, (int *)localeText[18], OPT_MAXP_CARAMBOL},
     {"controlkind",  required_argument, (int *)localeText[17], OPT_CONTROL_KIND},
     {"aibirdview",   required_argument, (int *)localeText[17], OPT_AI_BIRDVIEW},
@@ -403,7 +401,8 @@ static struct option long_options[] = {
 };
 
 #ifdef USE_SOUND
-  static int playonce = 0;  // to check for applause only play once
+  static int playonce = 0;   // to check for applause only play once
+  static char st_string[70]; // output Volume on statusline
 #endif
 
 // for tron mode
@@ -1610,6 +1609,7 @@ void process_option(enum optionType act_option)
                 break;
           }
           break;
+#ifdef USE_SOUND
        case OPT_USE_SOUND:
           switch(optarg[1]){
              case 'f': /* off */
@@ -1620,6 +1620,27 @@ void process_option(enum optionType act_option)
                 break;
           }
           break;
+          case OPT_USE_MUSIC:
+             switch(optarg[1]){
+                case 'f': /* off */
+                   options_use_music=0;
+                   break;
+                case 'n': /* on  */
+                   options_use_music=1;
+                   break;
+          }
+          break;
+       case OPT_VOL_MUSIC:
+           sscanf(optarg,"%d",&options_mus_volume);
+           if(options_mus_volume < 0) options_mus_volume = 0;
+           if(options_mus_volume > 128) options_mus_volume = 128;
+          break;
+       case OPT_VOL_SOUND:
+           sscanf(optarg,"%d",&options_snd_volume);
+           if(options_snd_volume < 0) options_snd_volume = 0;
+           if(options_snd_volume > 128) options_snd_volume = 128;
+          break;
+#endif
        case OPT_ROOM:
           switch(optarg[1]){
              case 'f': /* off */
@@ -2044,9 +2065,22 @@ void save_config(void)
        case OPT_STATUSTEXT:
              write_rc(f,opt, options_status_text?"on":"off");
              break;
+#ifdef USE_SOUND
        case OPT_USE_SOUND:
              write_rc(f,opt, options_use_sound?"on":"off");
              break;
+       case OPT_USE_MUSIC:
+             write_rc(f,opt, options_use_music?"on":"off");
+             break;
+       case OPT_VOL_SOUND:
+             sprintf(str,"%d", options_snd_volume);
+             write_rc(f,opt,str);
+             break;
+       case OPT_VOL_MUSIC:
+             sprintf(str,"%d", options_mus_volume);
+             write_rc(f,opt,str);
+             break;
+#endif
        case OPT_MAXP_CARAMBOL:
              sprintf(str,"%d", options_maxp_carambol);
              write_rc(f,opt,str);
@@ -2631,7 +2665,7 @@ void queue_shot(void)
         if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
           //nosound
         } else {
-          PlaySound(&ball_cue_snd,options_snd_volume*queue_strength/2.0);
+        	 PlaySound(cue_sound,(int)options_snd_volume*queue_strength);
         }
 #endif
 
@@ -2872,7 +2906,7 @@ void Key1( int key )
   b1_hold=0;
 #ifdef USE_SOUND
   if(key !=13) {
-       PlaySound(&ball_cue_snd,options_snd_volume);
+  	  PlaySound(cue_sound,options_snd_volume);
   }
 #endif
 }
@@ -2900,9 +2934,9 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
         if ( button==MOUSE_LEFT_BUTTON && state==MOUSE_UP && menu_choose_by_coord(g_act_menu, x-win_width/2, -y+win_height/2 )) {
 #endif
 #ifdef USE_SOUND
-              PlaySound(&ball_cue_snd,options_snd_volume);
+        	  PlaySound(cue_sound,options_snd_volume);
 #endif
-          menu_choose(&g_act_menu);
+           menu_choose(&g_act_menu);
          }
     } else {
 
@@ -2925,7 +2959,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                  if(x > win_width-60 && x < win_width-14 && newy_int > win_height-53 && newy_int < win_height-14) {
                   if(server!=NULL) {
 #ifdef USE_SOUND
-                    PlaySound(&ball_cue_snd,options_snd_volume);
+                  	 PlaySound(cue_sound,options_snd_volume);
 #endif
                     displaystring(localeText[262]);
                     close_listener(); // end network game
@@ -2941,7 +2975,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                      //((xMausklick-XBeginn) * ((XEnde-XAnfang)/100))*0.01
                      queue_strength = strength01((((GLdouble)x-x_strengthbar) / ((x_strengthbar_end-x_strengthbar)/100.0))*0.01 ); // set strenghtbar value direct
 #ifdef USE_SOUND
-                     PlaySound(&ball_cue_snd,options_snd_volume);
+                     PlaySound(cue_sound,options_snd_volume);
 #endif
                 }
                   if(options_show_buttons) { // only, if the control buttons are shown
@@ -2949,7 +2983,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                      // zoom-
                      hudbuttonpressed = 1;
 #ifdef USE_SOUND
-                     PlaySound(&ball_cue_snd,options_snd_volume);
+                     PlaySound(cue_sound,options_snd_volume);
 #endif
 
                    }
@@ -2957,7 +2991,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                      // zoom+
                      hudbuttonpressed = 2;
 #ifdef USE_SOUND
-                     PlaySound(&ball_cue_snd,options_snd_volume);
+                     PlaySound(cue_sound,options_snd_volume);
 
 #endif
                    }
@@ -2965,14 +2999,14 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                      // strength down
                      hudbuttonpressed = 3;
 #ifdef USE_SOUND
-                     PlaySound(&ball_cue_snd,options_snd_volume);
+                     PlaySound(cue_sound,options_snd_volume);
 #endif
                    }
                    if((GLdouble)x-10 > x_nextbutton && (GLdouble)x < (x_nextbutton+40.0) && newy-10.0 > y_nextbutton && newy < (y_nextbutton + 40.0)) {
                      // strength up
                      hudbuttonpressed = 4;
 #ifdef USE_SOUND
-                     PlaySound(&ball_cue_snd,options_snd_volume);
+                     PlaySound(cue_sound,options_snd_volume);
 #endif
                    }
                    if((GLdouble)x-10 > x_shootbutton && (GLdouble)x < (x_shootbutton+40.0) && newy-10.0 > y_shootbutton && newy < (y_shootbutton + 40.0)) {
@@ -3057,13 +3091,13 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                                 //fprintf(stderr,"cursor down\n");
                                 hudbuttonpressed = 5;
 #ifdef USE_SOUND
-                                PlaySound(&ball_cue_snd,options_snd_volume);
+                                PlaySound(cue_sound,options_snd_volume);
 #endif
                                } else if(newy_int > 653) { // cursor up
                                 //fprintf(stderr,"cursor up\n");
                                 hudbuttonpressed = 6;
 #ifdef USE_SOUND
-                                PlaySound(&ball_cue_snd,options_snd_volume);
+                                PlaySound(cue_sound,options_snd_volume);
 #endif
                                }
                               } else if(newy_int > 601 && newy_int < 641) { //cursor left right
@@ -3071,13 +3105,13 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                                  //fprintf(stderr,"cursor right\n");
                                  hudbuttonpressed = 7;
 #ifdef USE_SOUND
-                                 PlaySound(&ball_cue_snd,options_snd_volume);
+                                 PlaySound(cue_sound,options_snd_volume);
 #endif
                                 } else if(newx_int > 120) { // cursor left
                                  //fprintf(stderr,"cursor left\n");
                                  hudbuttonpressed = 8;
 #ifdef USE_SOUND
-                                 PlaySound(&ball_cue_snd,options_snd_volume);
+                                 PlaySound(cue_sound,options_snd_volume);
 #endif
                                 }
                               }
@@ -3089,13 +3123,13 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                                //fprintf(stderr,"button down\n");
                                hudbuttonpressed = 1;
 #ifdef USE_SOUND
-                               PlaySound(&ball_cue_snd,options_snd_volume);
+                               PlaySound(cue_sound,options_snd_volume);
 #endif
                               } else if(newy_int < 491 && newy_int > 452) { //button up
                                //fprintf(stderr,"button up\n");
                                hudbuttonpressed = 2;
 #ifdef USE_SOUND
-                               PlaySound(&ball_cue_snd,options_snd_volume);
+                               PlaySound(cue_sound,options_snd_volume);
 #endif
                               }
                              } else if(newy_int < 216) { //button left/right
@@ -3103,13 +3137,13 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                                //fprintf(stderr,"button right\n");
                                hudbuttonpressed = 4;
 #ifdef USE_SOUND
-                               PlaySound(&ball_cue_snd,options_snd_volume);
+                               PlaySound(cue_sound,options_snd_volume);
 #endif
                               } else if (newx_int > 97) { //button left
                                //fprintf(stderr,"button left\n");
                                hudbuttonpressed = 3;
 #ifdef USE_SOUND
-                               PlaySound(&ball_cue_snd,options_snd_volume);
+                               PlaySound(cue_sound,options_snd_volume);
 #endif
                               }
                              }
@@ -3500,9 +3534,9 @@ void draw_3D_winner_tourn_text(void)
 #ifdef USE_SOUND
     if(!playonce) {
       if(!(player[player[0].winner?0:1].is_AI || player[player[0].winner?0:1].is_net)) {
-        Playwavdata(cvt_applause.buf,cvt_applause.len_cvt,options_snd_volume);
+        PlaySound(wave_applause,options_snd_volume);
       } else {
-        Playwavdata(cvt_ooh.buf,cvt_ooh.len_cvt,options_snd_volume);
+      	 PlaySound(wave_ooh,options_snd_volume);
       }
       playonce++;
     }
@@ -3555,9 +3589,9 @@ void draw_3D_winner_text(void)
 #ifdef USE_SOUND
     if(!playonce && options_gamemode!=options_gamemode_tournament) {
       if(!(player[player[0].winner?0:1].is_AI || player[player[0].winner?0:1].is_net)) {
-        Playwavdata(cvt_applause.buf,cvt_applause.len_cvt,options_snd_volume);
+      	 PlaySound(wave_applause,options_snd_volume);
       } else {
-        Playwavdata(cvt_ooh.buf,cvt_ooh.len_cvt,options_snd_volume);
+      	 PlaySound(wave_ooh,options_snd_volume);
       }
       playonce++;
     }
@@ -4063,13 +4097,12 @@ void DisplayFunc( void )
              if( toffs>TIMESTEP || toffs<0.0 ){
                 fprintf(stderr,"Error: toffs>TIMESTEP || toffs<0.0\n");
                 sys_exit(0);
-             } /* else{
-                fprintf(stderr,"toffs/TIMESTEP=%f\n",toffs/TIMESTEP);
-             } */
+             }
              if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
                //nosound
              } else {
-               PlaySound_offs(&ball_ball_snd,options_snd_volume*((bhitstrength>1.0)?1.0:bhitstrength), SOUND_NULLOFFS-(TIMESTEP-toffs)*22050);
+             	 //fprintf(stderr,"%i\n",(int)(options_snd_volume*((bhitstrength>1)?1:bhitstrength*3)));
+             	 PlaySound(ball_sound,(int)(options_snd_volume*((bhitstrength>1)?1:bhitstrength*3)));
              }
            }
          } while(bhitstrength!=0.0);
@@ -4081,14 +4114,12 @@ void DisplayFunc( void )
              if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
               //nosound
              } else {
- #ifndef WETAB
-              PlaySound_offs(&ball_wall_snd,options_snd_volume*((whitstrength>1.0)?1.0:whitstrength), SOUND_NULLOFFS-(TIMESTEP-toffs)*22050);
- #else
-              PlaySound_offs(&ball_wall_snd,(options_snd_volume+1.0)*((whitstrength>1.0)?1.0:whitstrength), SOUND_NULLOFFS-(TIMESTEP-toffs)*22050);
- #endif
+             	//fprintf(stderr,"%i\n",(int)(options_snd_volume*((whitstrength>1)?1:whitstrength)));
+             	PlaySound(wall_sound,(int)(options_snd_volume*((whitstrength>1)?1:whitstrength)));
              }
            }
          } while(whitstrength!=0.0);
+         PlayNextSong(); //check for new Background music to play
  #endif
      if (!balls_moving) break;
      }
@@ -5400,7 +5431,9 @@ void restart_game_common(void)
        return;
     }
 #endif
+#ifdef USE_SOUND
     playonce = 0;         //applause allowed for one time
+#endif
     player[0].half_full=BALL_ANY;
     player[1].half_full=BALL_ANY;
     player[0].place_cue_ball=0;
@@ -5419,7 +5452,7 @@ void restart_game_common(void)
         if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
           //nosound
         } else {
-          Playwavdata(cvt_shuffle.buf,cvt_shuffle.len_cvt,options_snd_volume);
+        	 PlaySound(wave_shuffle,options_snd_volume);
         }
 #endif
     if(gametype==GAME_CARAMBOL) {
@@ -5676,7 +5709,7 @@ void Key( int key, int modifiers ) {
            break;
        case 13:
 #ifdef USE_SOUND
-             PlaySound(&ball_cue_snd,options_snd_volume);
+       	   PlaySound(cue_sound,options_snd_volume);
 #endif
            menu_choose( &g_act_menu );
            break;
@@ -5987,6 +6020,68 @@ void Key( int key, int modifiers ) {
           //zooming out
           zoom_in_out(+20);
          break;
+#ifdef USE_SOUND
+      case '3':
+          //toggle Sound on off
+      	   if((options_use_sound  = (options_use_sound==0)?1:0) == 1) {
+      	   	displaystring(localeText[423]);
+          } else {
+          	displaystring(localeText[424]);
+          }
+         break;
+      case '4':
+          //toggle Music on off
+      	   if (options_use_music == 1) {
+       	   	displaystring(localeText[426]);
+      	   	 options_use_music = 0;
+      	     if(Mix_PlayingMusic()) {
+      	     	Mix_PauseMusic();
+      	     }
+      	   } else {
+      	   	 options_use_music = 1;
+       	   	displaystring(localeText[425]);
+      	     if(Mix_PausedMusic()) {
+      	     	Mix_ResumeMusic();
+      	     } else {
+      	     	PlayNextSong();
+      	     }
+      	   }
+         break;
+      case '5':
+          //Sound-Volume minus
+      	   if(--options_snd_volume <0) {
+      	   	options_snd_volume = 0;
+      	   }
+      	   sprintf(st_string,localeText[428],options_snd_volume);
+      	   displaystring(st_string);
+         break;
+      case '6':
+          //Sound-Volume plus
+      	   if(++options_snd_volume >MIX_MAX_VOLUME) {
+      	   	options_snd_volume = MIX_MAX_VOLUME;
+      	   }
+      	   sprintf(st_string,localeText[428],options_snd_volume);
+      	   displaystring(st_string);
+         break;
+      case '7':
+          //Music-Volume minus
+      	   if(--options_mus_volume <0) {
+      	    	options_mus_volume = 0;
+      	   }
+      	   Mix_VolumeMusic(options_mus_volume);
+      	   sprintf(st_string,localeText[427],options_mus_volume);
+      	   displaystring(st_string);
+         break;
+      case '8':
+          //Music-Volume plus
+      	   if(++options_mus_volume >MIX_MAX_VOLUME) {
+      	   	 options_mus_volume = MIX_MAX_VOLUME;
+      	   }
+      	   Mix_VolumeMusic(options_mus_volume);
+      	   sprintf(st_string,localeText[427],options_mus_volume);
+      	   displaystring(st_string);
+         break;
+#endif
       case ' ':
       case 13:
           if(modifiers == 0){
@@ -6625,6 +6720,20 @@ void menu_cb( int id, void * arg , VMfloat value)
         break;
     case MENU_ID_SOUND_OFF:
         options_use_sound = 0;
+        break;
+    case MENU_ID_MUSIC_ON:
+ 	   	  options_use_music = 1;
+ 	      if(Mix_PausedMusic()) {
+ 	     	  Mix_ResumeMusic();
+ 	      } else {
+ 	     	  PlayNextSong();
+ 	      }
+        break;
+    case MENU_ID_MUSIC_OFF:
+ 	   	  options_use_music = 0;
+ 	      if(Mix_PlayingMusic()) {
+ 	     	  Mix_PauseMusic();
+ 	      }
         break;
 #endif
     case MENU_ID_BIRDVIEW_AI_ON:
@@ -7343,9 +7452,6 @@ int main( int argc, char *argv[] )
    /* initialize hostname with a default address */
    strcpy(options_net_hostname,"192.168.1.1");
 
-   /* initialize random seed */
-   srand(SDL_GetTicks());
-
    /* Initialize Language and folders */
    initLanguage(1);
 
@@ -7369,6 +7475,8 @@ int main( int argc, char *argv[] )
    initLanguage(0);
 #endif
    sys_create_display(win_width, win_height);
+   /* initialize random seed */
+   srand(SDL_GetTicks());
 #ifdef __MINGW32__	//RB
 	  glActiveTextureARB = (void *) SDL_GL_GetProcAddress("glActiveTextureARB");
 #endif
@@ -7401,9 +7509,6 @@ int main( int argc, char *argv[] )
    init_sound();
 #endif
 
-
-   //mixaudio(); //checkit!!!! there is a lot ###TODO###
-
    if(!options_3D_winnertext){
        //wins
        winner_text_obj = textObj_new(localeText[144], options_winner_fontname, 60);
@@ -7429,7 +7534,7 @@ int main( int argc, char *argv[] )
 
    // Things for the Intro
 #ifdef USE_SOUND
-      Playwavdata(cvt_intro.buf,cvt_intro.len_cvt,options_snd_volume);
+    PlaySound(wave_intro,options_snd_volume);
 #endif
    InitMesh();
    sys_main_loop();

@@ -32,7 +32,6 @@
 #include <stdio.h>
 #include <string.h> /* memcpy */
 #include <SDL.h>
-#include <SDL_audio.h>
 #include "sound_stuff.h"
 #include "sys_stuff.h"
 #define MAX_EVENT_NR 1000
@@ -726,7 +725,7 @@ void remove_balls_from_game( BallsType *balls, struct Player * player)
                if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
                   //nosound
                } else {
-                  Playwavdata(cvt_outball.buf,cvt_outball.len_cvt,options_snd_volume-0.7);
+               	  PlaySound(wave_outball,options_snd_volume-10);
                }
             }
 #endif
@@ -997,10 +996,10 @@ int proceed_dt(BallsType *balls, BordersType *borders, VMfloat dt, struct Player
                if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
                   //nosound
                } else {
-                  Playwavdata(cvt_ballinhole.buf,cvt_ballinhole.len_cvt,options_snd_volume-0.5);
+                  PlaySound(ball_hole,options_snd_volume-5);
                   balls->ball[i].soundplayed = 1;
                   if(balls->ball[i].nr == 0) { //white ball
-                    Playwavdata(cvt_smack.buf,cvt_smack.len_cvt,options_snd_volume-0.7);
+                  	 PlaySound(wave_smack,options_snd_volume-10);
                     balls->ball[i].soundplayed = 1;
                   }
                }

@@ -126,8 +126,10 @@ MATH_CFLAGS =
 endif
 
 if USE_NETWORK
+NET_LIB = -lSDL_net
 NET_CFLAGS = -DNETWORKING
 else
+NET_LIB =
 NET_CFLAGS =
 endif
 
@@ -151,17 +153,19 @@ NVIDIA_CFLAGS = -DNO_NV_BUMPREF -DNO_NV_FRESNEL
 endif
 
 if USE_SOUND
+SOUND_MIXER = -lSDL_mixer
 SOUND_CFLAGS = -DUSE_SOUND
 else
+SOUND_MIXER = 
 SOUND_CFLAGS =
 endif
 
 if USE_WIN
 USEWIN_CFLAGS = -DUSE_WIN
-LDADD_FLAGS = -lpng -lz -lfreetype -lglu32 -lopengl32
+LDADD_FLAGS = -lpng -lz -lfreetype -lglu32 -lopengl32 ${SOUND_MIXER}
 else
 USEWIN_CFLAGS =
-LDADD_FLAGS = -lGL -lGLU -lpng -lSDL_net -lfreetype
+LDADD_FLAGS = -lGL -lGLU -lpng -lfreetype ${NET_LIB} ${SOUND_MIXER}
 endif
 
 AM_CFLAGS = -Wall ${FREETYPE_CFLAGS} ${SDL_CFLAGS} ${NVIDIA_CFLAGS} ${SOUND_CFLAGS} ${DEBUG_CFLAGS} ${WETAB_CFLAGS} ${TOUCH_CFLAGS} ${NET_CFLAGS} ${MATH_CFLAGS} \

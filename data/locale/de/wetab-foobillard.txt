@@ -419,3 +419,11 @@ Raumtexturen :
 Raumtexturen an oder ausschalten
 Möbeltexturen : 
 Möbeltexturen an oder ausschalten
+Lautstärke 0-128
+Musik
+Ton eingeschaltet
+Ton ausgeschaltet
+Musik eingeschaltet
+Musik ausgeschaltet
+Musik Lautstärke %i
+Ton Lautstärke %i

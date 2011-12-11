@@ -429,7 +429,7 @@ void menu_choose(menuType ** menu)
                 //to short
                 if(utf8count((*menu)->entry[(*menu)->select_index].text_obj->str) < (size_t)((*menu)->entry[(*menu)->select_index].minvalue+(*menu)->entry[(*menu)->select_index].fixedlen)) {
 #ifdef USE_SOUND
-                Playwavdata(cvt_bomb.buf,cvt_bomb.len_cvt,options_snd_volume);
+                PlaySound(wave_bomb,options_snd_volume);
 #endif
                 return;
                 }
@@ -439,7 +439,7 @@ void menu_choose(menuType ** menu)
                (*menu)->entry[(*menu)->select_index].arg = (void *)&((*menu)->entry[(*menu)->select_index].text_obj->str[(*menu)->entry[(*menu)->select_index].fixedlen]);
                 if( atoi((*menu)->entry[(*menu)->select_index].arg) < (*menu)->entry[(*menu)->select_index].minvalue || atoi((*menu)->entry[(*menu)->select_index].arg) > (*menu)->entry[(*menu)->select_index].maxvalue) {
 #ifdef USE_SOUND
-                Playwavdata(cvt_bomb.buf,cvt_bomb.len_cvt,options_snd_volume);
+                PlaySound(wave_bomb,options_snd_volume);
 #endif
                 return;
                 }
@@ -449,7 +449,7 @@ void menu_choose(menuType ** menu)
                (*menu)->entry[(*menu)->select_index].arg = (void *)&((*menu)->entry[(*menu)->select_index].text_obj->str[(*menu)->entry[(*menu)->select_index].fixedlen]);
                 if(!is_valid_ip((*menu)->entry[(*menu)->select_index].arg)) {
 #ifdef USE_SOUND
-                Playwavdata(cvt_bomb.buf,cvt_bomb.len_cvt,options_snd_volume);
+                PlaySound(wave_bomb,options_snd_volume);
 #endif
                 return;
                 }
@@ -697,7 +697,10 @@ void init_menu(void)
 #endif
     static menuType  *g_options_menu;
     static menuType * quit_menu;
+#ifdef USE_SOUND
     static menuType * sound_menu;
+    static menuType * music_menu;
+#endif
     static menuType * antialias_menu;
     static menuType * fullscreen_menu;
     static menuType * reflection_menu;
@@ -1677,7 +1680,7 @@ void init_menu(void)
     menu_add_submenu(g_options_menu, localeText[219], light_menu, 1, localeText[211-options_positional_light],localeText[386]);
     //Back
     menu_add_exit(g_options_menu, localeText[63],localeText[266]);
-
+#ifdef USE_SOUND
     /********************************************************/
     /*
       Soundmenu come from Main Menu
@@ -1689,8 +1692,18 @@ void init_menu(void)
     menu_add_entry(sound_menu, localeText[65], MENU_ID_SOUND_OFF,localeText[388]);
     //Back
     menu_add_exit(sound_menu, localeText[63],localeText[266]);
-
-
+    /********************************************************/
+    /*
+      Musicmenu come from Main Menu
+    */
+    music_menu = menu_new( menu_cb );
+    //Sound on
+    menu_add_entry(music_menu, localeText[64] , MENU_ID_MUSIC_ON,localeText[387]);
+    //Sound Off
+    menu_add_entry(music_menu, localeText[65], MENU_ID_MUSIC_OFF,localeText[388]);
+    //Back
+    menu_add_exit(music_menu, localeText[63],localeText[266]);
+#endif
     /*
       P1 Skill come from Player1
     */
@@ -1850,6 +1863,8 @@ void init_menu(void)
 #ifdef USE_SOUND
     //Sound
     menu_add_submenu(g_main_menu, localeText[223], sound_menu, 1, localeText[65-options_use_sound],localeText[407]);
+    //Music
+    menu_add_submenu(g_main_menu, localeText[422], music_menu, 1, localeText[65-options_use_music],localeText[407]);
 #endif
     //Help
     menu_add_entry(g_main_menu, localeText[142], MENU_ID_MAIN_HELP,localeText[408]);

@@ -30,6 +30,7 @@
 #ifdef NETWORKING
   #include <SDL/SDL_net.h>
 #endif
+#include "sound_stuff.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glext.h>
@@ -70,6 +71,9 @@ void sys_exit( int code )
      * etc.
      */
    save_config(); //save the config (must!!!)
+#ifdef USE_SOUND
+   exit_sound();
+#endif
 #ifdef NETWORKING
       SDLNet_Quit();  //in case of open Netgame
 #endif
@@ -91,8 +95,13 @@ void sys_create_display(int width,int height)
   int vidmode_flags=0, samplingerror = 0;
 
   /* First, initialize SDL's video subsystem. */
+#ifdef USE_SOUND
+  if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0 ) {
+    fprintf( stderr, "Video or Audio initialization failed: %s\n",
+#else
   if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 ) {
     fprintf( stderr, "Video initialization failed: %s\n",
+#endif
     SDL_GetError( ) );
     sys_exit(1);
   }

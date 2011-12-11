@@ -23,7 +23,7 @@
 */
 
 #ifndef OPTIONS_H
-  #define OPTIONS_H
+#define OPTIONS_H
 
 #include <GL/gl.h>
 #include "vmath.h"
@@ -81,18 +81,14 @@
 #define options_roster_fontname    "DejaVuSans.ttf"
 #define options_status_fontname    "DejaVuSans.ttf"
 
-#ifdef WETAB
-  #define options_snd_volume 2.0
-#else
-  #define options_snd_volume 1.0
-#endif
-
 #define options_3D_winnertext 1
 
 #define options_gamemode_match      0
 #define options_gamemode_training   1
 #define options_gamemode_tournament 2
 
+extern int     options_snd_volume;
+extern int     options_mus_volume;
 extern int     options_positional_light;
 extern int     options_diamond_color;
 extern int     options_table_color;
@@ -122,9 +118,10 @@ extern int     options_bumpref;  /* bump reflection of chrome edges */
 extern int     options_bumpwood; /* bumpmaps on wood frame */
 extern int     options_balltrace;
 extern int     options_use_sound;   /* for taking care of non-sound systems */
+extern int     options_use_music;
 extern int     options_gamemode;
 extern int     options_avatar_on;
-extern VMfloat  options_tourfast;
+extern VMfloat options_tourfast;
 extern int     options_control_kind;    // behaviour of some Controlkeys 0 = toggle, 1 = set if pressed and unset if unpressed
 extern int     options_ai_birdview;     // changes to birdview if player ist AI, Standard 0=off, 1=on
 extern int     options_status_text;     // Show the statusline ? != 0

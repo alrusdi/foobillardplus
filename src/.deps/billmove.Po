@@ -49,7 +49,8 @@ billmove.o: billmove.c options.h /usr/include/GL/gl.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
- /usr/include/SDL/SDL_audio.h sound_stuff.h sys_stuff.h
+ sound_stuff.h /usr/include/SDL/SDL_mixer.h /usr/include/SDL/SDL_types.h \
+ sys_stuff.h
 
 options.h:
 
@@ -213,8 +214,10 @@ textobj.h:
 
 /usr/include/SDL/SDL_version.h:
 
-/usr/include/SDL/SDL_audio.h:
-
 sound_stuff.h:
+
+/usr/include/SDL/SDL_mixer.h:
+
+/usr/include/SDL/SDL_types.h:
 
 sys_stuff.h:
