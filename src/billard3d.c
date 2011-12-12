@@ -151,6 +151,7 @@ static int english_id= -1;           // english move glcompile-id
 static int mleft_id= -1;             // left menu bar glcompile-id (training)
 static int mleftnormal_id= -1;       // left menu bar glcompile-id (normal)
 static int mright_id= -1;            // right menu bar glcompile-id
+static int mupper_id= -1;            // upper menu bar glcompile-id
 static int english1_id= -1;          // english move glcompile-id
 static int shoot_id= -1;             // mouse-shoot glcompile-id
 static int cuebutt_id= -1;           // cue butt up/down glcompile-id
@@ -170,8 +171,11 @@ static int old_birdview_ai=0;        // if options_ai_birdview is on this holds 
 
 static int leftmenu = 0;             // left Slider menu is closed on startup
 static int rightmenu = 0;            // right slider menu is closed on startup
+static int uppermenu = 0;            // upper slider menu is closed on startup
 static int leftcount = 0;            // the left counter for left menu for sliding
 static int rightcount = 0;           // the right counter for left menu for sliding
+static int uppercount = 0;           // the upper counter for upper menu for sliding
+
 #define MENUCOUNT 177                // how much to count for sliding in/out left/right menu
 
 int vline_on=1;                      // helpline is on on start
@@ -216,6 +220,7 @@ static GLuint kreuzbind;
 static GLuint mleftbind;
 static GLuint mleftnormalbind;
 static GLuint mrightbind;
+static GLuint volumebind;
 static GLuint networkbind;
 static GLuint sbind;
 static GLuint bbind;
@@ -3018,6 +3023,20 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                     start_x = x;
                     start_y = y;
                     if(!player[act_player].is_net && !balls_moving) {
+#ifdef USE_SOUND
+                    switch(uppermenu) {
+                         case 0:  // open upper menu
+                           if(x > win_width-412 && x < win_width-366 && newy_int > win_height-30 && newy_int < win_height) {
+                             Key1('v');
+                           }
+                         break;
+                         case 2:  // upper menu is open
+                           if(x > win_width-412 && x < win_width-366 && newy_int > win_height-205 && newy_int < win_height-180) {
+                             Key1('v'); // close upper menu
+                           }
+                         break;
+                    }
+#endif
                      switch(leftmenu) {
                          case 0:  // open left menu
                            if(x > 6 && x < 30 && newy_int > 475 && newy_int < 517) {
@@ -4835,7 +4854,7 @@ void DisplayFunc( void )
          glPopMatrix();
        }
 
-       // now, set the menu bar on left and right
+       // now, set the menu bar on left, right and upper one
        if(!player[act_player].is_net && !balls_moving) {
        glPushMatrix();
        glColor3f(1.0,1.0,1.0);
@@ -4899,7 +4918,6 @@ void DisplayFunc( void )
        glScalef(2.0/win_width,2.0/win_height,0.0);
        if(rightmenu == 1) { rightcount += MENUSTEP; }
        if(rightmenu == 3) { rightcount -= MENUSTEP; }
-#undef MENUSTEP
        if(rightcount <0) { rightcount = 0; rightmenu = 0; }
        if(rightcount > MENUCOUNT) { rightcount = MENUCOUNT; rightmenu = 2; }
        glTranslatef((VMfloat)win_width/2-35-rightcount,-(VMfloat)win_height/2+170,0.0);
@@ -4924,8 +4942,38 @@ void DisplayFunc( void )
        } else {
          glCallList(mright_id);
        }
-       } //End Menu bar left and right
-
+#ifdef USE_SOUND
+       glPushMatrix();
+       glScalef(2.0/win_width,2.0/win_height,0.0);
+       if(uppermenu == 1) { uppercount += MENUSTEP; }
+       if(uppermenu == 3) { uppercount -= MENUSTEP; }
+       if(uppercount <0) { uppercount = 0; uppermenu = 0; }
+       if(uppercount > MENUCOUNT) { uppercount = MENUCOUNT; uppermenu = 2; }
+       glTranslatef((VMfloat)win_width/2-600,(VMfloat)win_height/2-32-uppercount,0.0);
+       if(mupper_id == -1) {
+         mupper_id = glGenLists(1);
+         glNewList(mupper_id, GL_COMPILE_AND_EXECUTE);
+         glEnable(GL_TEXTURE_2D);
+         glEnable(GL_BLEND);
+         glBindTexture(GL_TEXTURE_2D,volumebind); // upper menu bar
+         glBegin(GL_QUADS);
+           glTexCoord2f(0,1);
+           glVertex3f(0,0,0);
+           glTexCoord2f(0,0);
+           glVertex3f(0,209,0);
+           glTexCoord2f(1,0);
+           glVertex3f(416,209,0);
+           glTexCoord2f(1,1);
+           glVertex3f(416,0,0);
+         glEnd();
+         glPopMatrix();
+         glEndList();
+       } else {
+         glCallList(mupper_id);
+       }
+#endif
+       } //End Menu bar left, right and upper one
+#undef MENUSTEP
        glDisable(GL_LIGHTING);
        glDisable(GL_TEXTURE_2D);
        glEnable(GL_BLEND);
@@ -6175,6 +6223,15 @@ void Key( int key, int modifiers ) {
            rightmenu = 3;
          }
          break;
+#ifdef USE_SOUND
+      case'v':  /* sliding upper menu */
+         if(!uppermenu) {
+           uppermenu = 1;
+         } else if(uppermenu == 2) {
+           uppermenu = 3;
+         }
+         break;
+#endif
       }
    }  /* no menu active */
 }
@@ -7364,11 +7421,12 @@ static void Init( void )
     create_png_texbind("f.png", &freeviewbind, 3, GL_RGBA);
     create_png_texbind("disc.png", &discbind, 3, GL_RGBA);
 
-    // Graphics for menubar left and right
+    // Graphics for menubar left, right and upper one
 
     create_png_texbind("mleft.png", &mleftbind, 3, GL_RGBA);
     create_png_texbind("mleftnormal.png", &mleftnormalbind, 3, GL_RGBA);
     create_png_texbind("network.png", &networkbind, 3, GL_RGBA);
+    create_png_texbind("volume.png", &volumebind, 3, GL_RGBA);
 #ifdef WETAB
     create_png_texbind("mright-wetab.png", &mrightbind, 3, GL_RGBA);
 #else
