@@ -427,3 +427,4 @@ Music turned on
 Music turned off
 Music volume %i
 Sound volume %i
+Screenshot created

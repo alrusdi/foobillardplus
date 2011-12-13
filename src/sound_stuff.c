@@ -118,6 +118,21 @@ void musicFinished()
 }
 
 /***********************************************************************
+ *           Skip a playing song, so the next one can play             *
+ ***********************************************************************/
+
+void SkipSong (void) {
+	   if(options_use_music) {
+	   	 if (!music_to_play || music_finished) {
+	   		  return;
+	   	 }
+	   	 if(Mix_PlayingMusic()) {
+	   	   Mix_FadeOutMusic(2000);
+	   	 }
+	   }
+}
+
+/***********************************************************************
  *              Play the next song if no music is playing              *
  ***********************************************************************/
 

@@ -6085,6 +6085,7 @@ void Key( int key, int modifiers ) {
       case '0':
           //Make a screenshot
       	   Snapshot(win_width,win_height);
+      	   displaystring(localeText[429]);
          break;
       case '1':
           //zooming in
@@ -6154,6 +6155,10 @@ void Key( int key, int modifiers ) {
       	   Mix_VolumeMusic(options_mus_volume);
       	   sprintf(st_string,localeText[427],options_mus_volume);
       	   displaystring(st_string);
+         break;
+      case '9':
+          //Skip Music
+      	   SkipSong();
          break;
 #endif
       case ' ':

@@ -427,3 +427,4 @@ Musik eingeschaltet
 Musik ausgeschaltet
 Musik Lautstärke %i
 Ton Lautstärke %i
+Bildschirmabdruck erstellt

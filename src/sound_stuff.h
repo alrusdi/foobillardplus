@@ -62,6 +62,7 @@ extern Mix_Chunk *ball_sound;
 void init_sound(void);
 void exit_sound(void);
 void PlaySound(Mix_Chunk *chunkdata, int volume);
+void SkipSong (void);
 void PlayNextSong(void);
 
 #endif /* #ifdef USE_SOUND */
