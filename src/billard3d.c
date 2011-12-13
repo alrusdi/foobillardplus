@@ -3016,20 +3016,44 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                     start_x = x;
                     start_y = y;
                     // Take a Screenshot ?
-                    if(x > win_width-356 && x < win_width-356+48 && newy_int > win_height-30 && newy_int < win_height) {
+                    if(newx_int > 309 && newx_int < 355 && y > 0 && y < 28) {
                       Key1('0'); // yes, please
                     }
                     if(!player[act_player].is_net && !balls_moving) {
 #ifdef USE_SOUND
                     switch(uppermenu) {
                          case 0:  // open upper menu
-                           if(x > win_width-412 && x < win_width-366 && newy_int > win_height-30 && newy_int < win_height) {
+                           if(newx_int > 370 && newx_int < 411 && y > 0 && y < 28) {
                              Key1('v');
                            }
                          break;
                          case 2:  // upper menu is open
-                           if(x > win_width-412 && x < win_width-366 && newy_int > win_height-205 && newy_int < win_height-180) {
+                           if(newx_int > 370 && newx_int < 411 && y > 180 && y < 203) {
                              Key1('v'); // close upper menu
+                           }
+                           if(newx_int >202 && newx_int < 584) {
+                             if(y > 40 && y < 83) { //obere Reihe
+                          	   if(newx_int < 269) {
+                          	   	displaystring(localeText[431]);
+                          	   } else if (newx_int > 283 && newx_int < 354){
+                           	   	   Key1('6'); //increase sound volume
+                           	   } else if (newx_int > 429 && newx_int < 498) {
+                         	   	     Key1('9'); //Skip music track
+                         	     } else if (newx_int > 514) {
+                         	   	     Key1('8'); //increase music volume
+                         	     }
+                             }
+                             if(y > 121 && y < 163) { //untere Reihe
+                           	   if(newx_int < 269) {
+                           	   	  Key1('3'); //Sound on/off
+                           	   } else if (newx_int > 283 && newx_int < 354){
+                           	   	  Key1('5'); // decrease sound volume
+                           	   } else if (newx_int > 429 && newx_int < 498) {
+                           	   	  Key1('4'); //Music on/off
+                           	   } else if (newx_int > 514) {
+                           	   	  Key1('7'); //decrease music volume
+                           	   }
+                             }
                            }
                          break;
                     }
@@ -3048,7 +3072,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                              //left button side
                              if(newy_int > 656 && newy_int < 693) {
                                 Key1(KSYM_F1); //F1
-                             } else  if(newy_int > 601 && newy_int < 632) {
+                             } else if(newy_int > 601 && newy_int < 632) {
                                 Key1(KSYM_F3); //F3
                              } else if(newy_int > 542 && newy_int < 574) {
                                 Key1(KSYM_F5); //F5
@@ -6159,6 +6183,7 @@ void Key( int key, int modifiers ) {
       case '9':
           //Skip Music
       	   SkipSong();
+      	   displaystring(localeText[430]);
          break;
 #endif
       case ' ':

@@ -70,9 +70,9 @@ void sys_exit( int code )
      * mode and restore the previous video settings,
      * etc.
      */
-   save_config(); //save the config (must!!!)
+     save_config(); //save the config (must!!!)
 #ifdef USE_SOUND
-   exit_sound();
+     exit_sound();
 #endif
 #ifdef NETWORKING
       SDLNet_Quit();  //in case of open Netgame
@@ -105,7 +105,6 @@ void sys_create_display(int width,int height)
     SDL_GetError( ) );
     sys_exit(1);
   }
-  atexit(SDL_Quit);
 
   sdl_on = 1 ; 
 

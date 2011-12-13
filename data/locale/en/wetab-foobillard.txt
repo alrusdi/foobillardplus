@@ -428,3 +428,5 @@ Music turned off
 Music volume %i
 Sound volume %i
 Screenshot created
+Skip music track
+I do nothing ;-)

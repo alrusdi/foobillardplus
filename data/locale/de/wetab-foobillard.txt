@@ -428,3 +428,5 @@ Musik ausgeschaltet
 Musik Lautstärke %i
 Ton Lautstärke %i
 Bildschirmabdruck erstellt
+Überspringe Musiktitel
+Ich tu mal nix ;-)
