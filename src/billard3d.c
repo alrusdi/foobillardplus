@@ -152,6 +152,7 @@ static int mleft_id= -1;             // left menu bar glcompile-id (training)
 static int mleftnormal_id= -1;       // left menu bar glcompile-id (normal)
 static int mright_id= -1;            // right menu bar glcompile-id
 static int mupper_id= -1;            // upper menu bar glcompile-id
+static int mscreen_id= -1;           // screenshot button glcompile-id
 static int english1_id= -1;          // english move glcompile-id
 static int shoot_id= -1;             // mouse-shoot glcompile-id
 static int cuebutt_id= -1;           // cue butt up/down glcompile-id
@@ -221,6 +222,7 @@ static GLuint mleftbind;
 static GLuint mleftnormalbind;
 static GLuint mrightbind;
 static GLuint volumebind;
+static GLuint screenbind;
 static GLuint networkbind;
 static GLuint sbind;
 static GLuint bbind;
@@ -2546,15 +2548,6 @@ void tournament_state_setup_next_round( struct TournamentState_ * ts )
             ts->game[ts->round_ind][i].roster_player1=players[2*i];
             ts->game[ts->round_ind][i].roster_player2=players[2*i+1];
             ts->game[ts->round_ind][i].winner = -1;
-            /* fprintf(stderr,"%d vs. %d\n",
-                   ts->game[ts->round_ind][i].roster_player1,
-                   ts->game[ts->round_ind][i].roster_player2
-                  );
-            fprintf(stderr,"%s vs. %s\n",
-                   ts->roster.player[ts->game[ts->round_ind][i].roster_player1].name,
-                   ts->roster.player[ts->game[ts->round_ind][i].roster_player2].name
-                  ); */
-
         }
     }
 }
@@ -2735,15 +2728,15 @@ VMfloat queue_offs_func( VMfloat t )
     rval=0.0;
     tx6=t*4.5;
     if ( tx6 >= 0.0 && tx6 < 1.0  ){
-        rval = 1.0*queue_offs_func1(tx6);
+        rval = queue_offs_func1(tx6);
     } else if( tx6 >= 1.0 && tx6 < 1.4  ){
         rval = 0.0;
     } else if( tx6 >= 1.4 && tx6 < 2.4  ){
-        rval = 1.0*queue_offs_func1((tx6-1.4)/1.0);
+        rval = queue_offs_func1(tx6-1.4);
     } else if( tx6 >= 2.4 && tx6 < 2.8  ){
         rval = 0.0;
     } else if( tx6 >= 2.8 && tx6 < 3.8  ){
-        rval = 1.3*queue_offs_func1((tx6-2.8)/1.0);
+        rval = 1.3*queue_offs_func1(tx6-2.8);
     } else if( tx6 >= 3.8 && tx6 < 4.5  ){
         rval = 6.0*queue_offs_func2((tx6-3.8)/0.7*1.06);
     }
@@ -3022,6 +3015,10 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                     b1_hold = 1;
                     start_x = x;
                     start_y = y;
+                    // Take a Screenshot ?
+                    if(x > win_width-356 && x < win_width-356+48 && newy_int > win_height-30 && newy_int < win_height) {
+                      Key1('0'); // yes, please
+                    }
                     if(!player[act_player].is_net && !balls_moving) {
 #ifdef USE_SOUND
                     switch(uppermenu) {
@@ -4973,6 +4970,31 @@ void DisplayFunc( void )
        }
 #endif
        } //End Menu bar left, right and upper one
+       glPushMatrix();
+       glColor3f(1.0,1.0,1.0);
+       glScalef(2.0/win_width,2.0/win_height,0.0);
+       glTranslatef((VMfloat)win_width/2-358,(VMfloat)win_height/2-32,0.0);
+       if(mscreen_id == -1) {
+         mscreen_id = glGenLists(1);
+         glNewList(mscreen_id, GL_COMPILE_AND_EXECUTE);
+         glEnable(GL_TEXTURE_2D);
+         glEnable(GL_BLEND);
+         glBindTexture(GL_TEXTURE_2D,screenbind); // screenshot button
+         glBegin(GL_QUADS);
+           glTexCoord2f(0,1);
+           glVertex3f(0,0,0);
+           glTexCoord2f(0,0);
+           glVertex3f(0,32,0);
+           glTexCoord2f(1,0);
+           glVertex3f(52,32,0);
+           glTexCoord2f(1,1);
+           glVertex3f(52,0,0);
+         glEnd();
+         glPopMatrix();
+         glEndList();
+       } else {
+         glCallList(mscreen_id);
+       }
 #undef MENUSTEP
        glDisable(GL_LIGHTING);
        glDisable(GL_TEXTURE_2D);
@@ -6059,6 +6081,10 @@ void Key( int key, int modifiers ) {
             close_listener();
           }
 #endif
+         break;
+      case '0':
+          //Make a screenshot
+      	   Snapshot(win_width,win_height);
          break;
       case '1':
           //zooming in
@@ -7427,6 +7453,7 @@ static void Init( void )
     create_png_texbind("mleftnormal.png", &mleftnormalbind, 3, GL_RGBA);
     create_png_texbind("network.png", &networkbind, 3, GL_RGBA);
     create_png_texbind("volume.png", &volumebind, 3, GL_RGBA);
+    create_png_texbind("screenshot.png", &screenbind, 3, GL_RGBA);
 #ifdef WETAB
     create_png_texbind("mright-wetab.png", &mrightbind, 3, GL_RGBA);
 #else

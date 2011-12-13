@@ -582,10 +582,6 @@ static void ball_wall_interaction( BallType * ball, BorderType * wall )
         break;
     }
 
-// the follwing lines are old code. This couldn't be right because nothing happens
-// if wall->pnr != 3,2 or 1 like the ifs. The first if is ever true, so I pack it
-// without the ifs
-
     if (wall->pnr==3 || wall->pnr==2 || wall->pnr==1){
 
         vn = vec_proj(ball->v, hit_normal);
@@ -615,19 +611,7 @@ static void ball_wall_interaction( BallType * ball, BorderType * wall )
         /* maybe some angular momentum loss has to be implemented here */
         /* ... */
 
-    } /* Stuff Error. This couldn't happen with the if before
-      else if(wall->pnr==2){
-        dr      = vec_diff( wall->r2, wall->r1 );
-        n       = vec_diff( ball->r, wall->r1 );
-        n       = vec_unit( vec_diff( n, vec_proj(n,dr) ) );
-        dv      = vec_scale(n,vec_mul(n,ball->v)*2.0);
-        ball->v = vec_diff(ball->v,dv);
-        ball->w = vec_xyz(0.0,0.0,0.0);
-    } else if(wall->pnr==1){
-        n       = vec_unit( vec_diff( ball->r, wall->r1 ) );
-        dv      = vec_scale(n,vec_mul(n,ball->v)*2.0);
-        ball->v = vec_diff(ball->v,dv);
-    } */
+    }
 
 #undef CUSHION_LOSS
 #undef CUSHION_LOSS_O1
@@ -636,7 +620,6 @@ static void ball_wall_interaction( BallType * ball, BorderType * wall )
 
 /***********************************************************************/
 
-// not used ? #define MU_OMEGA             0.1      /* transmitted ang. mom. ratio (at hit) */
 #define MU_BALL              0.1      /* friction const between ball and ball */
 
 static void ball_ball_interaction( BallType * b1, BallType * b2 )
@@ -695,8 +678,6 @@ static void ball_ball_interaction( BallType * b1, BallType * b2 )
 
 /***********************************************************************/
 
-// not used ? #define  D_MIN               1.0E-5      /* 1E-5 = 1/100 mm */
-// not used ? #define  V_MIN               1.0E-2      /* 1E-3 = 1 mm/s */
 #define  SLIDE_THRESH_SPEED  1.0E-2      /* 1E-2 = 1 cm/s */
 
 static int ball_in_hole(BallType *ball, BordersType *borders)
@@ -764,7 +745,7 @@ static void proceed_dt_only(BallsType *balls, VMfloat dt)
 /***********************************************************************/
 
 static int wall_dv_pos( BallType * ball, BorderType * wall, VMfloat dt )
-/* returns 1 if border and ball strobe away fromeach other, 0 else (at time dt) */
+/* returns 1 if border and ball strobe away from each other, 0 else (at time dt) */
 {
     static VMvect ballpos;
     switch(wall->pnr) {
@@ -786,7 +767,7 @@ static int wall_dv_pos( BallType * ball, BorderType * wall, VMfloat dt )
 /***********************************************************************/
 
 static int ball_dv_pos( BallType * b1, BallType * b2, VMfloat dt )
-/* returns 1 if balls strobe away fromeach other, 0 else (at time dt) */
+/* returns 1 if balls strobe away from each other, 0 else (at time dt) */
 {
     static VMvect b1pos, b2pos;
     b1pos = vec_add(b1->r,vec_scale(b1->v,dt));

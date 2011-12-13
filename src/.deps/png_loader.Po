@@ -40,7 +40,8 @@ png_loader.o: png_loader.c /usr/include/png.h /usr/include/zlib.h \
  /usr/include/inttypes.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.6.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/x86_64-linux-gnu/bits/wchar.h \
- options.h vmath.h sys_stuff.h
+ /usr/include/x86_64-linux-gnu/sys/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/stat.h options.h vmath.h sys_stuff.h
 
 /usr/include/png.h:
 
@@ -161,6 +162,10 @@ png_loader.o: png_loader.c /usr/include/png.h /usr/include/zlib.h \
 /usr/include/stdint.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/sys/stat.h:
+
+/usr/include/x86_64-linux-gnu/bits/stat.h:
 
 options.h:
 

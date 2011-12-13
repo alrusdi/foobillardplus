@@ -35,11 +35,14 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
 #ifdef __MINGW32__	//RB
 	#include <GL/glext.h>
 #endif
+#include <string.h>
+#include <sys/stat.h>
 #include "options.h"
 #include "sys_stuff.h"
 
@@ -144,6 +147,115 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
     *h     = 0;
     *depth = 0;
     return 1;
+#endif
+}
+
+/***********************************************************************
+ *                   write Screenshot to disc as png                   *
+ ***********************************************************************/
+
+void Snapshot(int width, int height)
+{
+#if COMPILE_PNG_CODE
+    FILE *fp;
+    int i;
+    png_structp png_ptr;
+    png_infop info_ptr;
+    png_colorp palette;
+    png_byte *image;
+    png_bytep *row_pointers;
+
+	   char file_name[1024];
+	   char randomname[200];
+
+    /* create file */
+#ifdef __MINGW32__ //HS
+    strcpy(file_name,getenv("USERPROFILE"));
+    strcat(file_name,"/Desktop/foobillardplus-screenshot");
+#else
+    strcpy(file_name,getenv("HOME"));
+    strcat(file_name,"/foobillardplus-screenshot");
+#endif
+    mkdir(file_name,0777);  // every time is not a problem
+    sprintf(randomname,"/screen-%i.png",rand());
+    strcat(file_name,randomname);
+
+    fp = fopen(file_name, "wb");
+    if (!fp) {
+       fprintf(stderr,"[write_png_file] File %s could not be opened for writing\n", file_name);
+       return;
+    }
+
+    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+
+    if (png_ptr == NULL) {
+        fclose(fp);
+        remove(file_name);
+        return;
+    }
+
+    info_ptr = png_create_info_struct(png_ptr);
+    if (info_ptr == NULL) {
+        fclose(fp);
+        remove(file_name);
+        png_destroy_write_struct(&png_ptr, png_infopp_NULL);
+        return;
+    }
+
+    if (setjmp(png_jmpbuf(png_ptr))) {
+        fclose(fp);
+        remove(file_name);
+        png_destroy_write_struct(&png_ptr, &info_ptr);
+        return;
+    }
+
+    png_init_io(png_ptr, fp);
+
+    png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB,
+        PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+
+    palette = (png_colorp)png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH * sizeof (png_color));
+    png_set_PLTE(png_ptr, info_ptr, palette, PNG_MAX_PALETTE_LENGTH);
+
+    png_write_info(png_ptr, info_ptr);
+
+    png_set_packing(png_ptr);
+
+    image = (png_byte *)malloc(width * height * 3 * sizeof(png_byte));
+    if(image == NULL) {
+        fclose(fp);
+        remove(file_name);
+        png_destroy_write_struct(&png_ptr, &info_ptr);
+        return;
+    }
+
+    row_pointers = (png_bytep *)malloc(height * sizeof(png_bytep));
+    if(row_pointers == NULL) {
+        fclose(fp);
+        remove(file_name);
+        png_destroy_write_struct(&png_ptr, &info_ptr);
+        free(image);
+        image = NULL;
+        return;
+    }
+
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid *)image);
+
+    for (i = 0; i < height; i++) {
+        row_pointers[i] = (png_bytep)image + (height - i) * width * 3;
+    }
+
+    png_write_image(png_ptr, row_pointers);
+    png_write_end(png_ptr, info_ptr);
+    png_free(png_ptr, palette);
+    png_destroy_write_struct(&png_ptr, &info_ptr);
+
+    free(row_pointers);
+    free(image);
+    fclose(fp);
+
+    return;
 #endif
 }
 

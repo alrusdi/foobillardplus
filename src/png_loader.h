@@ -29,5 +29,6 @@
 
 int load_png(char * file_name, int * w, int * h, int * depth, char ** data);
 void create_png_texbind(char *file_name, GLuint *texbind, GLuint component, GLuint format);
+void Snapshot(int width, int height);
 
 #endif  /* PNG_LOADER_H */
