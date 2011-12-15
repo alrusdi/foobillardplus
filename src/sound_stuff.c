@@ -235,7 +235,7 @@ void init_sound(void)
     	 // load support for the MP3, OGG music formats
     	 int flags=MIX_INIT_OGG|MIX_INIT_MP3;
     	 int initted=Mix_Init(flags);
-    	 if(initted&flags != flags) {
+    	 if((initted&flags) != flags) {
     	     fprintf(stderr,"Mix_Init: Failed to init required ogg and mp3 support!\n");
     	     fprintf(stderr,"Mix_Init: %s\n", Mix_GetError());
     	     options_use_music=0;
@@ -267,7 +267,7 @@ void init_sound(void)
 
    	  /* Actually loads up the music */
 #if SDL_MIXER_MAJOR_VERSION > 2 || (SDL_MIXER_MINOR_VERSION == 2 && SDL_MIXER_PATCHLEVEL > 9)
-    	 if(initted&flags == flags) {
+    	 if((initted&flags) == flags) {
 #endif
     	 if((d = opendir("music"))) {
     	 	 i = 0;

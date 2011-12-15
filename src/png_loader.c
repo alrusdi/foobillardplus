@@ -32,14 +32,15 @@
 	#include <png.h>
 #else
 #endif
-
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
-#ifdef __MINGW32__	//RB
+#ifdef USE_WIN //HS
 	#include <GL/glext.h>
+ #include <fcntl.h>
+ #include <SDL.h>
 #endif
 #include <string.h>
 #include <sys/stat.h>
@@ -151,11 +152,49 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
 }
 
 /***********************************************************************
- *                   write Screenshot to disc as png                   *
+ *             write Screenshot to disc as png or bmp                  *
+ *             OS dependent                                            *
  ***********************************************************************/
 
 void Snapshot(int width, int height)
 {
+#ifdef USE_WIN //on Windows we have to save a bmp-file (problems with png)
+
+    SDL_Surface *temp;
+    unsigned char *pixels;
+    int i;
+    char file_name[1024];
+    char randomname[200];
+
+    /* create file */
+
+    strcpy(file_name,getenv("USERPROFILE"));
+    strcat(file_name,"/Desktop/foobillardplus");
+    mkdir(file_name);  // every time is not a problem
+
+    sprintf(randomname,"/screen-%i.bmp",rand());
+    strcat(file_name,randomname);
+
+	   temp = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
+	   if (temp == NULL) return;
+
+	   pixels =(png_byte *)malloc(width * height * 3 * sizeof(png_byte));
+	   if (pixels == NULL) {
+	       SDL_FreeSurface(temp);
+	       return;
+	   }
+
+	   glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid *)pixels);
+
+	   for (i=0; i<height; i++)
+	        memcpy(((char *) temp->pixels) + temp->pitch * i, pixels + 3*width * (height-i-1), width*3);
+	   free(pixels);
+
+	   SDL_SaveBMP(temp, file_name);
+	   SDL_FreeSurface(temp);
+	   return;
+#else
 #if COMPILE_PNG_CODE
     FILE *fp;
     int i;
@@ -169,38 +208,35 @@ void Snapshot(int width, int height)
 	   char randomname[200];
 
     /* create file */
-#ifdef __MINGW32__ //HS
-    strcpy(file_name,getenv("USERPROFILE"));
-    strcat(file_name,"/Desktop/foobillardplus-screenshot");
-#else
     strcpy(file_name,getenv("HOME"));
-    strcat(file_name,"/foobillardplus-screenshot");
-#endif
+    strcat(file_name,"/foobillardplus");
     mkdir(file_name,0777);  // every time is not a problem
     sprintf(randomname,"/screen-%i.png",rand());
     strcat(file_name,randomname);
 
-    fp = fopen(file_name, "wb");
-    if (!fp) {
+    if(!(fp = fopen(file_name, "wb"))) {
        fprintf(stderr,"[write_png_file] File %s could not be opened for writing\n", file_name);
        return;
     }
 
-    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-
-    if (png_ptr == NULL) {
-        fclose(fp);
-        remove(file_name);
-        return;
+    if(!(png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL))) {
+       fprintf(stderr,"[write_png_file] png_create_write_struct failed\n");
+       fclose(fp);
+       remove(file_name);
+       return;
     }
 
-    info_ptr = png_create_info_struct(png_ptr);
-    if (info_ptr == NULL) {
+    if(!(info_ptr = png_create_info_struct(png_ptr))) {
+        fprintf(stderr,"[write_png_file] png_create_info_struct failed\n");
         fclose(fp);
         remove(file_name);
+    }
+
+#ifdef  png_infopp_NULL
         png_destroy_write_struct(&png_ptr, png_infopp_NULL);
-        return;
-    }
+#else
+        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+#endif
 
     if (setjmp(png_jmpbuf(png_ptr))) {
         fclose(fp);
@@ -256,7 +292,8 @@ void Snapshot(int width, int height)
     fclose(fp);
 
     return;
-#endif
+#endif // COMPILE_PNG_CODE
+#endif // USE_WIN
 }
 
 /***********************************************************************

@@ -14,7 +14,7 @@ BEGIN
       VALUE "LegalCopyright", "(c) 2011 Holger Schaekel\0"
       VALUE "OriginalFilename", "foobillardplus.exe\0"
       VALUE "ProductName", "Foobillard++\0"
-      VALUE "ProductVersion", "3.41beta\0"
+      VALUE "ProductVersion", "3.42beta\0"
     END
   END
     BLOCK "VarFileInfo"
