@@ -430,3 +430,16 @@ Ton Lautstärke %i
 Bildschirmabdruck erstellt
 Überspringe Musiktitel
 Ich tu mal nix ;-)
+eightball
+nineball
+caromball
+snookerball
+Historie der Einzelspiele
+Datum
+Gewinner
+Schläge
+Runden
+Einzelspielerhistorie im externen Browser anzeigen
+Turnierhistorie im externen Browser anzeigen
+Einzelhistorie
+Turnierhistorie

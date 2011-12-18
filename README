@@ -27,6 +27,12 @@
 Thank you very much
 -------------------
 
+Many thanks to the band "Zentriert ins Antlitz", specially Marc Friedrich,
+for the music in the game! Have a look on their great side at:
+
+http://www.zentriertinsantlitz.de
+
+
 The product is realized with the following amazing Open-Source Products:
 
 - OpenGL !!
@@ -85,7 +91,7 @@ What is FooBillard++ ?
     - commandline options
     - config file (~/.foobillardrc)
     - lightweight red/green stereo !!!!
-    - sound (using SDL)
+    - sound and music (using SDL)
     - statusline for info in gameplay
     - advanced hud
     - jump shots
@@ -126,6 +132,7 @@ What is FooBillard++ ?
    
     
    KNOWN BUGS:
+   -----------
    
    
    BUILDING:

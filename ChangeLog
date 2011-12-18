@@ -5,7 +5,10 @@
 - new sound engine inside
 - change SDL_Audio to SDL_MIXER
 - integration of backgroundmusic (ogg and mp3 support)
-- include songs from "Zentriert ins Antlitz"
+- include songs from "Zentriert ins Antlitz" (Marc Friedrich)
+- an extern history function
+- problems on toggle fullscreen solved
+- problems set windowed video mode solved
 
 3.41 beta
 =========

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Edited by FooBillard++ -->
+<!-- don't edit this file manually -->
+<?xml-stylesheet type="text/xsl" href="history.xsl" ?>
+<start>
+<title>Game History</title>
+<eighttitle>8 ball</eighttitle>
+<ninetitle>9 ball</ninetitle>
+<caromtitle>Carom</caromtitle>
+<snookertitle>Snooker</snookertitle>
+<column1>Date</column1>
+<column2>Player 1</column2>
+<column3>Player 2</column3>
+<column4>Winner</column4>
+<column5>Strokes</column5>
+<column6>Rounds</column6>
+
+</start>

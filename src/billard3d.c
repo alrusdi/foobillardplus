@@ -67,6 +67,7 @@
 #include "menu.h"
 #include "room.h"
 #include "mesh.h"
+#include "history.h"
 
 #define CUE_BALL_IND (player[act_player].cue_ball)
 #define CUE_BALL_POS (balls.ball[CUE_BALL_IND].r)
@@ -245,6 +246,8 @@ static char * player_names[]={localeText[0],localeText[1],localeText[2],localeTe
 // sprintf(str,"%s - %s",player[act_player].name,half_full_names
 // static char * half_full_names[]={localeText[4],localeText[5],localeText[6]}; /* "any","full","half" */
 static int  b1_b2_hold=0;
+static int  hitcounter = 0; // counts all hits in one play for history function(all players)
+static int  roundcounter=0; // count the rounds in a game for history function
 
 struct Player player[2];
 
@@ -2626,8 +2629,7 @@ void copy_balls( BallsType * balls1, BallsType * balls2 )
  *             The shoot with the cue (german: queue)                  *
  ***********************************************************************/
 
-void queue_shot(void)
-{
+void queue_shot(void) {
     VMvect dir, nx, ny, hitpoint;
     int i;
     int cue_ball = CUE_BALL_IND;
@@ -2675,6 +2677,7 @@ void queue_shot(void)
         /* reset offset parameters */
         queue_point_x=0.0;
         queue_point_y=0.0;
+        hitcounter++; //for the history count all shots
     }
 }
 
@@ -4220,18 +4223,17 @@ void DisplayFunc( void )
          g_shot_due=1;
          balls_were_moving=0;
          if(options_gamemode!=options_gamemode_training){
-#ifdef NETWORKING
-             old_actplayer = act_player; // save the state of the actual player for network game
-#endif
+             old_actplayer = act_player; // save the state of the actual player for network game and history function
              evaluate_last_move( player, &act_player, &balls, &queue_view, &Xque );
-#ifdef NETWORKING
              if(old_actplayer != act_player) {
+             	  roundcounter++;
+#ifdef NETWORKING
                 // change the network player
                 if(active_net_timer!=NULL) {
                    netorder = 1;
                 }
-             }
 #endif
+             }
              if(!tournament_state.wait_for_next_match && options_gamemode==options_gamemode_tournament && (player[0].winner || player[1].winner)) {
                tournament_evaluate_last_match( &tournament_state );
                tournament_state.wait_for_next_match=1;
@@ -4657,11 +4659,19 @@ void DisplayFunc( void )
    }
 
    if( (player[0].winner || player[1].winner) ) {
-       control_unset(&control__cue_butt_updown);
-       control_unset(&control__english);
-       control_unset(&control__place_cue_ball);
-       control_unset(&control__fov);
-       control_unset(&control__mouse_shoot);
+   	   if(!history_free()) { // only one time for update xml-data
+   	   	  history_set();
+          control_unset(&control__cue_butt_updown);
+          control_unset(&control__english);
+          control_unset(&control__place_cue_ball);
+          control_unset(&control__fov);
+          control_unset(&control__mouse_shoot);
+          if(player[0].winner) {
+             file_history(player[0].name, player[1].name, player[0].name, hitcounter, (roundcounter+1)/2, gametype);
+          } else {
+             file_history(player[0].name, player[1].name, player[1].name, hitcounter, (roundcounter+1)/2, gametype);
+          }
+   	   }
        if(options_3D_winnertext){
            if(options_gamemode==options_gamemode_tournament && tournament_state.overall_winner>=0) {
               draw_3D_winner_tourn_text();
@@ -5574,6 +5584,9 @@ void restart_game_common(void)
     if(options_birdview_on) { // ### FIXME ### not so good code here (ugly)
      birdview();
     }
+    history_clear(); //a game is free for history xml-file
+    hitcounter = 0;
+    roundcounter = 0;
 }
 
 /***********************************************************************
@@ -6886,6 +6899,56 @@ void menu_cb( int id, void * arg , VMfloat value)
 #endif
         }
         break;
+    case MENU_ID_HISTORY:
+    	     if(check_xml("history.xml")) {
+#ifndef WETAB
+          fullscreen = sys_get_fullscreen();
+          if(fullscreen) {
+#endif
+          sys_fullscreen(0);
+          SDL_Delay(20);
+#ifndef WETAB
+          }
+#endif
+          show_history("history.xml");
+#ifndef WETAB
+        if(fullscreen) {
+          set_checkkey();
+          //wait for sdl_event to transform the window back to fullscreen
+          while(checkkey()) { SDL_Delay(100); }
+#endif
+          sys_fullscreen(1);
+          SDL_Delay(20);
+#ifndef WETAB
+        }
+#endif
+    	   }
+        break;
+    case MENU_ID_TOURN_HISTORY:
+        if(check_xml("tournament.xml")) {
+#ifndef WETAB
+          fullscreen = sys_get_fullscreen();
+          if(fullscreen) {
+#endif
+            sys_fullscreen(0);
+            SDL_Delay(20);
+#ifndef WETAB
+          }
+#endif
+          show_history("tournament.xml");
+#ifndef WETAB
+          if(fullscreen) {
+            set_checkkey();
+            //wait for sdl_event to transform the window back to fullscreen
+            while(checkkey()) { SDL_Delay(100); }
+#endif
+            sys_fullscreen(1);
+            SDL_Delay(20);
+#ifndef WETAB
+          }
+#endif
+        }
+        break;
     case MENU_RES_REND_LOW:
         options_cuberef_res = 16;
         reassign_and_gen_cuberef_tex();
@@ -7228,7 +7291,7 @@ void menu_cb( int id, void * arg , VMfloat value)
         {
         sysResolution *mode;
         mode = (sysResolution *)arg;
-        sys_resize(mode->w, mode->h);
+        sys_resize(mode->w, mode->h ,1);
         }
         break;
     case MENU_ID_BROWSER:
@@ -7567,8 +7630,14 @@ int main( int argc, char *argv[] )
    /* initialize hostname with a default address */
    strcpy(options_net_hostname,"192.168.1.1");
 
+   /* Initialize browser to use */
+   init_browser();
+
    /* Initialize Language and folders */
    initLanguage(1);
+
+   /* Initialize history system */
+   init_history();
 
    /* Initialize all player variables for two players */
    init_player_roster(&human_player_roster);

@@ -25,29 +25,11 @@
 #include <ctype.h>
 #include <locale.h>
 #include "options.h"
+#include "sys_stuff.h"
 
 unsigned int manualthere = 0; //later quicker check for manual
 char foomanual[512]; //for the way to the manual
 char localeText[450][200];
-
-#ifdef __MINGW32__ //HS
-
-/***************************************************
- *    replace a string (max. 100 Bytes long)       *
- ***************************************************/
-
-char *replace(char *st, char *orig, char *repl) {
-  static char buffer[100];
-  char *ch;
-  if (!(ch = strstr(st, orig)))
-   return st;
-  strncpy(buffer, st, ch-st);
-  buffer[ch-st] = 0;
-  sprintf(buffer+(ch-st), "%s%s", repl, ch+strlen(orig));
-  return buffer;
-  }
-
-#endif
 
 /***************************************************
  *               Initialize language               *
@@ -71,19 +53,10 @@ void initLanguage(int doing) {
   char *ptr;
 #endif
   char foomanualdefault[512];
-#ifdef WETAB
-  char foomanual1[512] = "tiitoo-browser-bin -t file://";
-#else
   char foomanual1[512];
-  if(!strcmp(options_browser,"browser")) {
-    strcpy(options_browser,"./browser.sh");
-  }
-#ifdef __MINGW32__ //HS
-  strcpy(foomanual1,"start ");
-#else
-  sprintf(foomanual1,"%s file://",options_browser);
-#endif
-#endif
+
+  get_browser(foomanual1);
+
 
   /* ### TODO ### Get the working directory of the program
    * Mac OS X: _NSGetExecutablePath() (man 3 dyld)
@@ -200,5 +173,5 @@ if(doing) {
   }
  }
  return;
-  }
+}
 

@@ -33,6 +33,7 @@
 #include "sound_stuff.h"
 #include "font.h"
 #include "language.h"
+#include "history.h"
 #include "player.h"
 #include "evaluate_move.h"
 
@@ -1871,6 +1872,12 @@ void init_menu(void)
     //Manual
     if(manualthere) {
        menu_add_entry(g_main_menu, localeText[224], MENU_ID_MANUAL,localeText[409]);
+    }
+    if(check_xml("history.xml")) {
+       menu_add_entry(g_main_menu, localeText[443], MENU_ID_HISTORY,localeText[441]);
+    }
+    if(check_xml("tournament.xml")) {
+       menu_add_entry(g_main_menu, localeText[444], MENU_ID_TOURN_HISTORY,localeText[442]);
     }
     //Quit
     menu_add_submenu(g_main_menu,localeText[143], quit_menu, 0, NULL,localeText[410]);

@@ -233,14 +233,19 @@ void init_sound(void)
     	 // Extended Init for Version higher then SDL 1.2.10
 #if SDL_MIXER_MAJOR_VERSION > 2 || (SDL_MIXER_MINOR_VERSION == 2 && SDL_MIXER_PATCHLEVEL > 9)
     	 // load support for the MP3, OGG music formats
-    	 int flags=MIX_INIT_OGG|MIX_INIT_MP3;
+    	 int flags=MIX_INIT_OGG | MIX_INIT_MP3;
     	 int initted=Mix_Init(flags);
     	 if((initted&flags) != flags) {
-    	     fprintf(stderr,"Mix_Init: Failed to init required ogg and mp3 support!\n");
+    	     fprintf(stderr,"Mix_Init: Failed to init both ogg and mp3 support!\nCheck only for ogg.\n");
     	     fprintf(stderr,"Mix_Init: %s\n", Mix_GetError());
-    	     options_use_music=0;
+    	     flags=MIX_INIT_OGG; // check only for ogg
+    	     initted=Mix_Init(flags);
+    	     if((initted&flags) != flags) {
+     	       fprintf(stderr,"Mix_Init: Failed to init required ogg support!\n");
+     	       fprintf(stderr,"Mix_Init: %s\n", Mix_GetError());
+    	        options_use_music=0;
+    	     }
     	 }
-
 #endif
    	  /* Actually loads up the sounds */
     	 ball_hole = loadsound ("ballinhole.wav");
@@ -340,10 +345,12 @@ void PlaySound(Mix_Chunk *chunkdata, int volume)
  ***********************************************************************/
 void exit_sound(void)
 {
+    Mix_CloseAudio();
+/* ### TODO ### really needed, if mixer closes ??
 #if SDL_MIXER_MAJOR_VERSION > 2 || (SDL_MIXER_MINOR_VERSION == 2 && SDL_MIXER_PATCHLEVEL > 9)
 	   Mix_Quit();
 #endif
-	   Mix_CloseAudio();
+*/
 }
 
 /***********************************************************************

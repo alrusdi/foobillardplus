@@ -1,6 +1,6 @@
-Human Player
+Player 1
 4tiitoo
-Human Player 2
+Player 2
 4tiitoo
 Any
 Full
@@ -93,7 +93,7 @@ black-white
 black-beige
 8 ball
 9 ball
-Carambol
+Carom
 Snooker
 Table size
 Help line
@@ -430,3 +430,16 @@ Sound volume %i
 Screenshot created
 Skip music track
 I do nothing ;-)
+eightball
+nineball
+caromball
+snookerball
+Game History
+Date
+Winner
+Strokes
+Rounds
+Show game history in external browser
+Show tournament game history in external browser
+Game history
+Tournament history

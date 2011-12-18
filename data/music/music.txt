@@ -8,13 +8,15 @@ http://creativecommons.org/licenses/by-nc-nd/2.0/de/
 Zentriert ins Antlitz - www.zentriertinsantlitz.de <-- Have a look
 
 integrated in the standard game download:
+(sampled down to 112 kbps)
 
-    After All (creativity premix) 
-    E.M.I.T.R by Zentriert ins Antlitz - Feathered Spray
-    Plastic - Ever (ext version by Z.i.A)
+  Zentriert ins Antlitz - Der Zorn des Lammes
+  Zentriert ins Antlitz - Beyond the Reef
+  E.M.I.T.R - Neptunes Realm
 
 The used songs (separate download):
 You can download the game-music from http://sourceforge.net/projects/foobillardplus/files/gamemusic
+in high quality
 
 ### extracts from Diametral ###
 
@@ -29,20 +31,7 @@ You can download the game-music from http://sourceforge.net/projects/foobillardp
 
 ### extracts from E.M.I.T.R - Colours ###
 
-    Silicon Worlds
     Re-Entry"
     Subluminal
     Voltron
     Neptunes Realm
-    
-### extracts from E.M.I.T.R - Seaside Shells ###
-
-    Feathered Spray
-    Rising Phoenix
-    
-### extracts from Innovation Reality - Detected ###
-
-    Galaxy
-    Starstuff
-    Singularity
-    Effusion (Part I)

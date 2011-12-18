@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <string.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
 #ifdef NETWORKING
@@ -39,12 +40,98 @@
 
 /***********************************************************************/
 
+static char browser[256];
 static int fullscreen = 0;
 static int keymodif =0;
 static int vidmode_bpp=0;
 static int sdl_on = 0;
 static int check_SDL;           // check for mousebutton for manual from fullscreen
+static int ignore = 0;          // SDL bug set videomode calls reshape event twice SDL 1.2.8 and > ?
 SDL_Surface * vid_surface = NULL;
+
+/***************************************************
+ *    replace a string (max. 2048 Bytes long)       *
+ ***************************************************/
+
+char *replace(char *st, char *orig, char *repl) {
+  static char buffer[2048];
+  char *ch;
+  if (!(ch = strstr(st, orig)))
+   return st;
+  strncpy(buffer, st, ch-st);
+  buffer[ch-st] = 0;
+  sprintf(buffer+(ch-st), "%s%s", repl, ch+strlen(orig));
+  return buffer;
+  }
+
+/***********************************************************************
+ *                    copy binary a file                               *
+ ***********************************************************************/
+
+int filecopy(char *filefrom,char *fileto)
+{
+  FILE *from, *to;
+  char ch;
+
+  /* open source file */
+  if((from = fopen(filefrom, "rb"))==NULL) {
+  	 fprintf(stderr,"Error: open source file (%s) for copy\n",filefrom);
+    return(0);
+  }
+
+  /* open destination file */
+  if((to = fopen(fileto, "wb"))==NULL) {
+  	 fprintf(stderr,"Error: open destination file (%s) for copy\n",fileto);
+    return(0);
+  }
+
+  /* copy the file */
+  while(!feof(from)) {
+    ch = fgetc(from);
+    if(ferror(from)) {
+      return(0);
+    }
+    if(!feof(from)) fputc(ch, to);
+    if(ferror(to)) {
+      return(0);
+    }
+  }
+
+  fclose(from);
+
+  if(fclose(to)==EOF) {
+    return(0);
+  }
+  return(1);
+}
+
+/***********************************************************************
+ *                    init internetbrowser in string                   *
+ *                    get it from options or os                        *
+ ***********************************************************************/
+
+void init_browser(void) {
+#ifdef WETAB
+  strcpy(browser,"tiitoo-browser-bin -t file://");
+#else
+  if(!strcmp(options_browser,"browser")) {
+    strcpy(options_browser,"./browser.sh");
+  }
+#endif
+#ifdef __MINGW32__ //HS
+  strcpy(browser,"start \"Foobillardplus start\" /Min ");
+#else
+  sprintf(browser,"%s file://",options_browser);
+#endif
+}
+/***********************************************************************
+ *                    copy internetbrowser in string                   *
+ *                    string length minimum 256                        *
+ ***********************************************************************/
+
+void get_browser(char *strpointer) {
+	 strcpy(strpointer,browser);
+}
 
 /***********************************************************************
  *        New transparent mousecursor for touch-devices (WETAB)        *
@@ -233,20 +320,35 @@ int sys_get_fullscreen(void)
     return fullscreen;
 }
 
-/***********************************************************************
- *            Set a fullscreen(1) or window(0) window                  *
- ***********************************************************************/
+/**************************************************************************
+ *            Set a fullscreen(1) or window(0) window                     *
+ * SDL_WM_ToggleFullScreen(screen) works only on X11 and there not stable *
+ **************************************************************************/
 
 void sys_fullscreen( int fullscr )
 {
-    SDL_Surface * screen;
 
-    fullscreen = fullscr;
+    SDL_Surface * screen;
+    Uint32 flags;
+
     screen = SDL_GetVideoSurface();
-    if ( fullscreen!=0 && (screen->flags & SDL_FULLSCREEN)==0 ){
-        SDL_WM_ToggleFullScreen(screen);
-    } else if( fullscreen==0 && (screen->flags & SDL_FULLSCREEN)!=0 ){
-        SDL_WM_ToggleFullScreen(screen);
+    flags = screen->flags; /* Save the current flags in case toggling fails */
+    SDL_EnableKeyRepeat( 0, 0 );
+    if ( fullscr!=0 && (screen->flags & SDL_FULLSCREEN)==0 ){
+    	   screen = SDL_SetVideoMode( 0, 0, 0, screen->flags | SDL_FULLSCREEN );
+    } else if( fullscr==0 && (screen->flags & SDL_FULLSCREEN)!=0 ){
+    	   screen = SDL_SetVideoMode( 0, 0, 0, screen->flags & ~SDL_FULLSCREEN);
+    }
+
+    if(screen == NULL) {
+    	   screen = SDL_SetVideoMode(0, 0, 0, flags); /* If toggle FullScreen failed, then switch back */
+    } else {
+    	   fullscreen = fullscr;
+    }
+    SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
+    if(screen == NULL) {
+    	   fprintf(stderr,"Video-Error on set full-screen/windowed mode. Terminating\n");
+    	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
     }
 }
 
@@ -436,16 +538,31 @@ static void handle_key_up(SDL_KeyboardEvent* e)
  *                Resize the SDL Surface handle                        *
  ***********************************************************************/
 
-void sys_resize( int width, int height )
+void sys_resize( int width, int height, int callfrom )
 {
+
+    SDL_Surface * screen;
+    Uint32 flags;
+
     if(width < 958) width = 958;      // don't resize below this
     if(height < 750) height = 750;
-    SDL_Surface * screen;
+    ignore = callfrom;
     screen = SDL_GetVideoSurface();
+    flags = screen->flags; /* Save the current flags in case toggling fails */
     SDL_EnableKeyRepeat( 0, 0 );
-    SDL_SetVideoMode( width, height, screen->format->BitsPerPixel, screen->flags);
+    screen = SDL_SetVideoMode( width, height, screen->format->BitsPerPixel, screen->flags);
+    SDL_Delay(300);
+    //fprintf(stderr,"Called x: %i y: %i\n",width,height);
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
-    ResizeWindow(width,height) ;
+    if(screen == NULL) {
+    	   screen = SDL_SetVideoMode(0, 0, 0, flags); /* If failed, then switch back */
+    }
+    SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
+    if(screen == NULL) {
+    	   fprintf(stderr,"Video-Error on window resize. Terminating\n");
+    	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
+    }
+    ResizeWindow(width,height);
 }
 
 /***********************************************************************
@@ -454,7 +571,10 @@ void sys_resize( int width, int height )
 
 static void handle_reshape_event( int width, int height ) 
 {
-    sys_resize( width, height );
+	  if(!ignore) {
+     sys_resize( width, height, 0 );
+	  }
+	  ignore = 0;
 }
 
 /***********************************************************************

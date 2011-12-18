@@ -11,8 +11,8 @@ URL:            http://foobillardplus.sourceforge.net
 License:        GPL 2
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-root
-#Requires:       libSDL, SDL_net, freetype2
-#BuildRequires:  libSDL-devel, libSDL_net-devel, freetype2-devel
+#Requires:       libSDL, SDL_net, SDL_mixer, freetype2
+#BuildRequires:  libSDL-devel, libSDL_net-devel, libSDL_mixer-devel, freetype2-devel
 
 Prefix: /opt
 
@@ -61,12 +61,15 @@ make
 
 %changelog
 
-* Sun Dec 10 2011 Holger Schaekel
+* Sun Dec 18 2011 Holger Schaekel
 - reorg of sourcecode
 - new sound engine inside
 - change SDL_Audio to SDL_MIXER
 - integration of backgroundmusic (ogg and mp3 support)
-- include songs from "Zentriert ins Antlitz"
+- include songs from "Zentriert ins Antlitz" (Marc Friedrich)
+- an extern history function
+- problems on toggle fullscreen solved
+- problems set windowed video mode solved
 
 * Wed Nov 01 2011 Holger Schaekel
 - Bugfixes with language handling

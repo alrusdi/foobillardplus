@@ -93,10 +93,14 @@ int  sys_get_fullscreen(void);
 void sys_fullscreen( int fullscr);
 void sys_toggle_fullscreen( void );
 void sys_main_loop(void) ;
-void sys_resize( int width, int height );
+void sys_resize( int width, int height, int callfrom);
 void sys_redisplay(void) ;
 void sys_exit( int code ) ;
 void sys_fullscreen( int fullscr );
+void init_browser(void);
+void get_browser(char *strpointer);
+int filecopy(char *filefrom,char *fileto);
+char *replace(char *st, char *orig, char *repl);
 
 sysResolution * sys_list_modes(void);
 

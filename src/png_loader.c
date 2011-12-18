@@ -46,6 +46,7 @@
 #include <sys/stat.h>
 #include "options.h"
 #include "sys_stuff.h"
+#include "history.h"
 
 /***********************************************************************
  *                 Loads a png Graphics file into mem                  *
@@ -97,17 +98,6 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
 
     rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
-    /* printf("Name: %s\n",file_name);
-    printf("width=%ld\n",width);
-    printf("height=%ld\n",height);
-    printf("bit_depth=%d\n",bit_depth);
-    printf("color_type=%d\n",color_type);
-    printf("interlace_type=%d\n",interlace_type);
-    printf("compression_type=%d\n",compression_type);
-    printf("filter_type=%d\n",filter_type);
-    printf("channels=%d\n",channels);
-    printf("rowbytes=%d\n",rowbytes); */
-
     buff         = (char *)  malloc(height*rowbytes);
     row_pointers = (char **) malloc(height*sizeof(char *));
     for(i=0;i<height;i++){
@@ -158,18 +148,17 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
 
 void Snapshot(int width, int height)
 {
+    int i;
+    char file_name[1024];
+    char randomname[200];
 #ifdef USE_WIN //on Windows we have to save a bmp-file (problems with png)
 
     SDL_Surface *temp;
     unsigned char *pixels;
-    int i;
-    char file_name[1024];
-    char randomname[200];
 
     /* create file */
 
-    strcpy(file_name,getenv("USERPROFILE"));
-    strcat(file_name,"/Desktop/foobillardplus");
+    get_history(file_name);
     mkdir(file_name);  // every time is not a problem
 
     sprintf(randomname,"/screen-%i.bmp",rand());
@@ -197,46 +186,40 @@ void Snapshot(int width, int height)
 #else
 #if COMPILE_PNG_CODE
     FILE *fp;
-    int i;
     png_structp png_ptr;
     png_infop info_ptr;
     png_colorp palette;
     png_byte *image;
     png_bytep *row_pointers;
 
-	   char file_name[1024];
-	   char randomname[200];
-
     /* create file */
-    strcpy(file_name,getenv("HOME"));
-    strcat(file_name,"/foobillardplus");
+	   get_history(file_name);
     mkdir(file_name,0777);  // every time is not a problem
     sprintf(randomname,"/screen-%i.png",rand());
     strcat(file_name,randomname);
 
-    if(!(fp = fopen(file_name, "wb"))) {
+    if((fp = fopen(file_name, "wb"))==NULL) {
        fprintf(stderr,"[write_png_file] File %s could not be opened for writing\n", file_name);
        return;
     }
 
-    if(!(png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL))) {
+    if((png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL))==NULL) {
        fprintf(stderr,"[write_png_file] png_create_write_struct failed\n");
        fclose(fp);
        remove(file_name);
        return;
     }
 
-    if(!(info_ptr = png_create_info_struct(png_ptr))) {
+    if((info_ptr = png_create_info_struct(png_ptr))==NULL) {
         fprintf(stderr,"[write_png_file] png_create_info_struct failed\n");
         fclose(fp);
         remove(file_name);
-    }
-
 #ifdef  png_infopp_NULL
         png_destroy_write_struct(&png_ptr, png_infopp_NULL);
 #else
         png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
 #endif
+    }
 
     if (setjmp(png_jmpbuf(png_ptr))) {
         fclose(fp);
@@ -257,16 +240,14 @@ void Snapshot(int width, int height)
 
     png_set_packing(png_ptr);
 
-    image = (png_byte *)malloc(width * height * 3 * sizeof(png_byte));
-    if(image == NULL) {
+    if((image = (png_byte *)malloc(width * height * 3 * sizeof(png_byte)))==NULL) {
         fclose(fp);
         remove(file_name);
         png_destroy_write_struct(&png_ptr, &info_ptr);
         return;
     }
 
-    row_pointers = (png_bytep *)malloc(height * sizeof(png_bytep));
-    if(row_pointers == NULL) {
+    if((row_pointers = (png_bytep *)malloc(height * sizeof(png_bytep)))==NULL) {
         fclose(fp);
         remove(file_name);
         png_destroy_write_struct(&png_ptr, &info_ptr);
