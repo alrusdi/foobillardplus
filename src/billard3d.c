@@ -263,7 +263,6 @@ int   g_shot_due=1;        /* a shot to be due at the beginning */
 VMfloat g_motion_ratio=1.0;  /* a shot to be due at the beginning */
 
 #ifdef NETWORKING
-  static int old_actplayer=0; /* the same for network player change */
   static int init_netclient = 0;     // call a client net-game on 1
   static int wait_key = 0;           // set with every mouse-click and keystroke (for waiting purposes)
   static void (* network_game)(void);// holds the network function if a network game is set
@@ -294,6 +293,8 @@ VMfloat g_motion_ratio=1.0;  /* a shot to be due at the beginning */
   #endif
   static char *sub_string;           // for sprintf and sscanf inside network get or send data (slow compatibility mode)
 #endif
+
+  static int old_actplayer=0;        // is the player changed from last movement (save the old state)
 
 #ifdef TIME_INTERPOLATE
   int g_frametime_laststep;

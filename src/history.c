@@ -115,7 +115,7 @@ void file_history(char *player1, char *player2, char *winner, int hits, int roun
    char historyfile[1024];  // no file with directory should be longer
    char newfile[1024];      // no file with directory should be longer
    char checkstring[2048];  // no entry inside the history-file should be longer
-  	char datestring[15];
+  	char datestring[25];
    time_t rawtime;
    struct tm * timeinfo;
 
@@ -131,9 +131,10 @@ void file_history(char *player1, char *player2, char *winner, int hits, int roun
         if((wfp=fopen(newfile,"w+"))) {
 		   	    while(fgets(checkstring, sizeof(checkstring), fp) != NULL) {
 		   	  	    if(strstr(checkstring,"</start>")) {
-		   	  	  	  break;
+		   	  	  	   break;
+		   	  	    } else {
+		   	  	      fprintf(wfp,"%s",checkstring);
 		   	  	    }
-		   	  	    fprintf(wfp,"%s",checkstring);
 		        }
         fprintf(wfp,"<%s>\n<date>%s</date>\n<player1>%s</player1>\n<player2>%s</player2>\n<winner>%s</winner>\n<hits>%i</hits>\n<rounds>%i</rounds>\n</%s>\n</start>\n",
         		  localeText[432+gametype],datestring,player1,player2,winner,hits,rounds,localeText[432+gametype]);
@@ -194,11 +195,11 @@ void init_history(void) {
 
 #ifdef USE_WIN
    strcpy(file_name,getenv("USERPROFILE"));
-   strcat(file_name,"/Desktop/foobillardplus");
+   strcat(file_name,"/Desktop/foobillardplus-data");
    mkdir(file_name); //build directory every time is not a problem
 #else
    strcpy(file_name,getenv("HOME"));
-   strcat(file_name,"/foobillardplus");
+   strcat(file_name,"/foobillardplus-data");
    mkdir(file_name,0777); //build directory every time is not a problem
 #endif
    checktournament = check_xml("tournament.xml");

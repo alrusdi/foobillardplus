@@ -194,7 +194,11 @@ void Snapshot(int width, int height)
 
     /* create file */
 	   get_history(file_name);
+#ifdef USE_WIN
+    mkdir(file_name);  // every time is not a problem
+#else
     mkdir(file_name,0777);  // every time is not a problem
+#endif
     sprintf(randomname,"/screen-%i.png",rand());
     strcat(file_name,randomname);
 
