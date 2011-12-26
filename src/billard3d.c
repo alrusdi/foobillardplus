@@ -68,6 +68,7 @@
 #include "room.h"
 #include "mesh.h"
 #include "history.h"
+#include "vmath.h"
 
 #define CUE_BALL_IND (player[act_player].cue_ball)
 #define CUE_BALL_POS (balls.ball[CUE_BALL_IND].r)
@@ -127,10 +128,10 @@ static int hudbuttonpressed = 0;   // if mousebutton is pressed on hud-buttons, 
 static int frametime_ms_max = 200;
 static int frametime_ms = 40;
 
-static GLuint table_obj = 0;
-static GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0;
-static GLfloat Xque = -83.0, Zque = 0.0;
-static GLfloat Xrot_offs=0.0, Yrot_offs=0.0, Zrot_offs=0.0;
+static MATH_ALIGN16 GLuint table_obj = 0;
+static MATH_ALIGN16 GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0;
+static MATH_ALIGN16 GLfloat Xque = -83.0, Zque = 0.0;
+static MATH_ALIGN16 GLfloat Xrot_offs=0.0, Yrot_offs=0.0, Zrot_offs=0.0;
 
 int b1_hold = 0;
 int start_x, start_y;
@@ -139,9 +140,9 @@ int b2_hold = 0;
 int scaling_start, scaling_start2;
 int b2_b1_hold = 0;
 
-GLfloat cam_dist_aim = 2.5;
-GLfloat cam_dist;
-GLfloat cam_FOV=40.0;
+MATH_ALIGN16 GLfloat cam_dist_aim = 2.5;
+MATH_ALIGN16 GLfloat cam_dist;
+MATH_ALIGN16 GLfloat cam_FOV=40.0;
 
 VMvect  free_view_pos_aim;
 VMvect  free_view_pos;
@@ -187,15 +188,15 @@ int vline_on=1;                      // helpline is on on start
    the offset to this known
  */
 
-static GLdouble b_projection[16] = {0};
-static GLdouble b_modelview[16] = {0};
+static MATH_ALIGN16 GLdouble b_projection[16] = {0};
+static MATH_ALIGN16 GLdouble b_modelview[16] = {0};
 static GLint b_viewport[4];
-static GLdouble x_upbutton,y_upbutton,z_dummy;
-static GLdouble x_downbutton,y_downbutton;
-static GLdouble x_strengthbar,y_strengthbar,x_strengthbar_end,y_strengthbar_end;
-static GLdouble x_backbutton,y_backbutton;
-static GLdouble x_nextbutton,y_nextbutton;
-static GLdouble x_shootbutton,y_shootbutton;
+static MATH_ALIGN16 GLdouble x_upbutton,y_upbutton,z_dummy;
+static MATH_ALIGN16 GLdouble x_downbutton,y_downbutton;
+static MATH_ALIGN16 GLdouble x_strengthbar,y_strengthbar,x_strengthbar_end,y_strengthbar_end;
+static MATH_ALIGN16 GLdouble x_backbutton,y_backbutton;
+static MATH_ALIGN16 GLdouble x_nextbutton,y_nextbutton;
+static MATH_ALIGN16 GLdouble x_shootbutton,y_shootbutton;
 
 static VMfloat queue_anim=0.0;
 static VMfloat button_anim=0.0;
@@ -417,9 +418,9 @@ static struct option long_options[] = {
 #endif
 
 // for tron mode
-static GLfloat ambient_torus[3] = {0.19, 0.19, 0.19};		// Torus
-static GLfloat diffuse_torus[3] = {0.51, 0.51, 0.51};
-static GLfloat specular_torus[3]= {0.51, 0.51, 0.51};
+static MATH_ALIGN16 GLfloat ambient_torus[3] = {0.19, 0.19, 0.19};		// Torus
+static MATH_ALIGN16 GLfloat diffuse_torus[3] = {0.51, 0.51, 0.51};
+static MATH_ALIGN16 GLfloat specular_torus[3]= {0.51, 0.51, 0.51};
 
 // some for display-lists and the intro animation
 static int introtexture = 0; // show the introtexture until keystroke
@@ -1484,7 +1485,6 @@ void process_option(enum optionType act_option)
        case OPT_BROWSER:
 #ifndef WETAB
            strcpy(options_browser,optarg);
-           initLanguage(0);
 #endif
            break;
 #endif
@@ -2227,7 +2227,7 @@ void toggle_queue_view(void)
     } else {
         th=Xrot/180.0*M_PI;
         ph=Zrot/180.0*M_PI;
-        free_view_pos_aim = vec_scale(vec_xyz(sin(th)*sin(ph),sin(th)*cos(ph),cos(th)), cam_dist);
+        free_view_pos_aim = vec_scale(vec_xyz(MATH_SIN(th)*MATH_SIN(ph),MATH_SIN(th)*MATH_COS(ph),MATH_COS(th)), cam_dist);
         free_view_pos_aim = vec_add( free_view_pos_aim, CUE_BALL_XYPOS );
         free_view_pos = free_view_pos_aim ;
     }
@@ -2642,9 +2642,9 @@ void queue_shot(void) {
 #endif
         /* backup actual ball setup */
         copy_balls(&balls,&bakballs);
-        dir = vec_xyz(sin(Zque*M_PI/180.0)*sin(Xque*M_PI/180.0),
-                      cos(Zque*M_PI/180.0)*sin(Xque*M_PI/180.0),
-                      cos(Xque*M_PI/180.0));
+        dir = vec_xyz(MATH_SIN(Zque*M_PI/180.0)*MATH_SIN(Xque*M_PI/180.0),
+                      MATH_COS(Zque*M_PI/180.0)*MATH_SIN(Xque*M_PI/180.0),
+                      MATH_COS(Xque*M_PI/180.0));
         nx = vec_unit(vec_cross(vec_ez(),dir));  /* parallel to table */
         ny = vec_unit(vec_cross(nx,dir));        /* orthogonal to dir and nx */
         hitpoint = vec_add(vec_scale(nx,queue_point_x),vec_scale(ny,queue_point_y));
@@ -2666,7 +2666,7 @@ void queue_shot(void) {
         if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
           //nosound
         } else {
-        	 PlaySound(cue_sound,(int)options_snd_volume*queue_strength);
+          PLAY_NOISE(cue_sound,(int)options_snd_volume*queue_strength);
         }
 #endif
 
@@ -2697,7 +2697,7 @@ void do_computer_move( int doit )
 
     //fprintf(stderr,"do_computermove: end ai_get_strike_dir\n");
 
-    Zque = atan2(dir.x,dir.y)/M_PI*180.0;
+    Zque = atan2(dir.x,dir.y)/M_PI*180.0;  // don't change the atan2 here to fastmath
     if(doit){
         shoot( !queue_view );
     }
@@ -2710,7 +2710,7 @@ void do_computer_move( int doit )
 
 VMfloat queue_offs_func1( VMfloat t )
 {
-    return( 1.0-cos(t*2.0*M_PI) );
+    return( 1.0-MATH_COS(t*2.0*M_PI) );
 }
 
 /***********************************************************************
@@ -2719,7 +2719,7 @@ VMfloat queue_offs_func1( VMfloat t )
 
 VMfloat queue_offs_func2( VMfloat t )
 {
-    return( sin(t*M_PI) );
+    return( MATH_SIN(t*M_PI) );
 }
 
 /***********************************************************************
@@ -2832,8 +2832,8 @@ static void ball_free_place( int ind, BallsType * pballs )
         do{
             exitloop=1;
             r=floor(phi/2.0/M_PI)*0.01;
-            x=x0+r*cos(phi);
-            y=y0+r*sin(phi);
+            x=x0+r*MATH_COS(phi);
+            y=y0+r*MATH_SIN(phi);
             //fprintf(stderr,"phi=%f\n", phi);
             //fprintf(stderr,"ind=%d, CUE_BALL_IND=%d\n", ind, CUE_BALL_IND);
             if( ( ind==CUE_BALL_IND && in_cue_ball_region(vec_xyz(x,y,0)) && player[act_player].place_cue_ball ) || in_table_region(vec_xyz(x,y,0))) {
@@ -2908,7 +2908,7 @@ void Key1( int key )
   b1_hold=0;
 #ifdef USE_SOUND
   if(key !=13) {
-  	  PlaySound(cue_sound,options_snd_volume);
+      PLAY_NOISE(cue_sound,options_snd_volume);
   }
 #endif
 }
@@ -2935,9 +2935,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
 #else
         if ( button==MOUSE_LEFT_BUTTON && state==MOUSE_UP && menu_choose_by_coord(g_act_menu, x-win_width/2, -y+win_height/2 )) {
 #endif
-#ifdef USE_SOUND
-        	  PlaySound(cue_sound,options_snd_volume);
-#endif
+        	  PLAY_NOISE(cue_sound,options_snd_volume);
            menu_choose(&g_act_menu);
          }
     } else {
@@ -2960,9 +2958,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                  //fprintf(stderr,"x: %i newy: %i winx: %i winy: %i\n",x,newy_int,win_width,win_height);
                  if(x > win_width-60 && x < win_width-14 && newy_int > win_height-53 && newy_int < win_height-14) {
                   if(server!=NULL) {
-#ifdef USE_SOUND
-                  	 PlaySound(cue_sound,options_snd_volume);
-#endif
+                  	 PLAY_NOISE(cue_sound,options_snd_volume);
                     displaystring(localeText[262]);
                     close_listener(); // end network game
                   } else {
@@ -2976,40 +2972,28 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                    if((GLdouble)x > x_strengthbar && (GLdouble)x < x_strengthbar_end && newy > y_strengthbar && newy < y_strengthbar_end) {
                      //((xMausklick-XBeginn) * ((XEnde-XAnfang)/100))*0.01
                      queue_strength = strength01((((GLdouble)x-x_strengthbar) / ((x_strengthbar_end-x_strengthbar)/100.0))*0.01 ); // set strenghtbar value direct
-#ifdef USE_SOUND
-                     PlaySound(cue_sound,options_snd_volume);
-#endif
+                     PLAY_NOISE(cue_sound,options_snd_volume);
                 }
                   if(options_show_buttons) { // only, if the control buttons are shown
                    if((GLdouble)x-10 > x_downbutton && (GLdouble)x < (x_downbutton+40.0) && newy-10.0 > y_downbutton && newy < (y_downbutton + 40.0)) {
                      // zoom-
                      hudbuttonpressed = 1;
-#ifdef USE_SOUND
-                     PlaySound(cue_sound,options_snd_volume);
-#endif
-
+                     PLAY_NOISE(cue_sound,options_snd_volume);
                    }
                    if((GLdouble)x-10 > x_upbutton && (GLdouble)x < (x_upbutton+40.0) && newy-10.0 > y_upbutton && newy < (y_upbutton + 40.0)) {
                      // zoom+
                      hudbuttonpressed = 2;
-#ifdef USE_SOUND
-                     PlaySound(cue_sound,options_snd_volume);
-
-#endif
+                     PLAY_NOISE(cue_sound,options_snd_volume);
                    }
                    if((GLdouble)x-10 > x_backbutton && (GLdouble)x < (x_backbutton+40.0) && newy-10.0 > y_backbutton && newy < (y_backbutton + 40.0)) {
                      // strength down
                      hudbuttonpressed = 3;
-#ifdef USE_SOUND
-                     PlaySound(cue_sound,options_snd_volume);
-#endif
+                     PLAY_NOISE(cue_sound,options_snd_volume);
                    }
                    if((GLdouble)x-10 > x_nextbutton && (GLdouble)x < (x_nextbutton+40.0) && newy-10.0 > y_nextbutton && newy < (y_nextbutton + 40.0)) {
                      // strength up
                      hudbuttonpressed = 4;
-#ifdef USE_SOUND
-                     PlaySound(cue_sound,options_snd_volume);
-#endif
+                     PLAY_NOISE(cue_sound,options_snd_volume);
                    }
                    if((GLdouble)x-10 > x_shootbutton && (GLdouble)x < (x_shootbutton+40.0) && newy-10.0 > y_shootbutton && newy < (y_shootbutton + 40.0)) {
                      Key1(13); // make shoot over the key-routine
@@ -3134,29 +3118,21 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                                if(newy_int < 595) { // cursor down
                                 //fprintf(stderr,"cursor down\n");
                                 hudbuttonpressed = 5;
-#ifdef USE_SOUND
-                                PlaySound(cue_sound,options_snd_volume);
-#endif
+                                PLAY_NOISE(cue_sound,options_snd_volume);
                                } else if(newy_int > 653) { // cursor up
                                 //fprintf(stderr,"cursor up\n");
                                 hudbuttonpressed = 6;
-#ifdef USE_SOUND
-                                PlaySound(cue_sound,options_snd_volume);
-#endif
+                                PLAY_NOISE(cue_sound,options_snd_volume);
                                }
                               } else if(newy_int > 601 && newy_int < 641) { //cursor left right
                                 if(newx_int < 57) { // cursor right
                                  //fprintf(stderr,"cursor right\n");
                                  hudbuttonpressed = 7;
-#ifdef USE_SOUND
-                                 PlaySound(cue_sound,options_snd_volume);
-#endif
+                                 PLAY_NOISE(cue_sound,options_snd_volume);
                                 } else if(newx_int > 120) { // cursor left
                                  //fprintf(stderr,"cursor left\n");
                                  hudbuttonpressed = 8;
-#ifdef USE_SOUND
-                                 PlaySound(cue_sound,options_snd_volume);
-#endif
+                                 PLAY_NOISE(cue_sound,options_snd_volume);
                                 }
                               }
                              } else if(newy_int > 254 && newy_int < 492 && newx_int > 51 && newx_int < 129) { // shoot, button up/down
@@ -3166,29 +3142,21 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                               } else if(newy_int < 411 && newy_int > 371) { // button down
                                //fprintf(stderr,"button down\n");
                                hudbuttonpressed = 1;
-#ifdef USE_SOUND
-                               PlaySound(cue_sound,options_snd_volume);
-#endif
+                               PLAY_NOISE(cue_sound,options_snd_volume);
                               } else if(newy_int < 491 && newy_int > 452) { //button up
                                //fprintf(stderr,"button up\n");
                                hudbuttonpressed = 2;
-#ifdef USE_SOUND
-                               PlaySound(cue_sound,options_snd_volume);
-#endif
+                               PLAY_NOISE(cue_sound,options_snd_volume);
                               }
                              } else if(newy_int < 216) { //button left/right
                               if(newx_int < 78) { // button right
                                //fprintf(stderr,"button right\n");
                                hudbuttonpressed = 4;
-#ifdef USE_SOUND
-                               PlaySound(cue_sound,options_snd_volume);
-#endif
+                               PLAY_NOISE(cue_sound,options_snd_volume);
                               } else if (newx_int > 97) { //button left
                                //fprintf(stderr,"button left\n");
                                hudbuttonpressed = 3;
-#ifdef USE_SOUND
-                               PlaySound(cue_sound,options_snd_volume);
-#endif
+                               PLAY_NOISE(cue_sound,options_snd_volume);
                               }
                              }
                            }
@@ -3340,8 +3308,8 @@ void MouseMotion(int x, int y)
                 dx=dx*0.0001+fabs(dx)*dx*0.0002;
                 dy=(VMfloat)(y-start_y);
                 dy=dy*0.0001+fabs(dy)*dy*0.0002;
-                xv=vec_xyz(+dx*cos(Zrot/180.0*M_PI),-dx*sin(Zrot/180.0*M_PI),0.0);
-                yv=vec_xyz(-dy*sin(Zrot/180.0*M_PI),-dy*cos(Zrot/180.0*M_PI),0.0);
+                xv=vec_xyz(+dx*MATH_COS(Zrot/180.0*M_PI),-dx*MATH_SIN(Zrot/180.0*M_PI),0.0);
+                yv=vec_xyz(-dy*MATH_SIN(Zrot/180.0*M_PI),-dy*MATH_COS(Zrot/180.0*M_PI),0.0);
                 whitepos=balls.ball[cue_ball].r;
                 ball_displace_clip( &(balls.ball[cue_ball].r), vec_add(xv,yv));
                 for(i=0;i<balls.nr;i++){
@@ -3464,8 +3432,8 @@ void MouseMotion(int x, int y)
             dx=dx*0.0001+fabs(dx)*dx*0.0002;
             dy=(VMfloat)(y-start_y);
             dy=dy*0.0001+fabs(dy)*dy*0.0002;
-            xv=vec_xyz(+dx*cos(Zrot/180.0*M_PI),-dx*sin(Zrot/180.0*M_PI),0.0);
-            yv=vec_xyz(-dy*sin(Zrot/180.0*M_PI),-dy*cos(Zrot/180.0*M_PI),0.0);
+            xv=vec_xyz(+dx*MATH_COS(Zrot/180.0*M_PI),-dx*MATH_SIN(Zrot/180.0*M_PI),0.0);
+            yv=vec_xyz(-dy*MATH_SIN(Zrot/180.0*M_PI),-dy*MATH_COS(Zrot/180.0*M_PI),0.0);
             whitepos=balls.ball[cue_ball].r;
             ball_displace_clip( &(balls.ball[cue_ball].r), vec_add(xv,yv));
             for(i=0;i<balls.nr;i++){
@@ -3578,9 +3546,9 @@ void draw_3D_winner_tourn_text(void)
 #ifdef USE_SOUND
     if(!playonce) {
       if(!(player[player[0].winner?0:1].is_AI || player[player[0].winner?0:1].is_net)) {
-        PlaySound(wave_applause,options_snd_volume);
+      	 PLAY_NOISE(wave_applause,options_snd_volume);
       } else {
-      	 PlaySound(wave_ooh,options_snd_volume);
+       	PLAY_NOISE(wave_ooh,options_snd_volume);
       }
       playonce++;
     }
@@ -3633,9 +3601,9 @@ void draw_3D_winner_text(void)
 #ifdef USE_SOUND
     if(!playonce && options_gamemode!=options_gamemode_tournament) {
       if(!(player[player[0].winner?0:1].is_AI || player[player[0].winner?0:1].is_net)) {
-      	 PlaySound(wave_applause,options_snd_volume);
+      	 PLAY_NOISE(wave_applause,options_snd_volume);
       } else {
-      	 PlaySound(wave_ooh,options_snd_volume);
+       	PLAY_NOISE(wave_ooh,options_snd_volume);
       }
       playonce++;
     }
@@ -3664,172 +3632,53 @@ void draw_3D_winner_text(void)
 }
 
 /***********************************************************************
- *      Display the textures (cuberef reflections) for one ball        *
- *                 called from create_cuberef_map                      *
- ***********************************************************************/
-
-void DisplayFunc_cubemap( int side )
-{
-
-   GLfloat light_position[] = { 0.0, 0.0, 0.7, 0.0 };  //the [3] is 0.0 for better performance
-   GLfloat light_diff[]     = { 0.2, 0.2, 0.2, 1.0 };
-   GLfloat light_amb[]      = { 0.05, 0.05, 0.05, 1.0 };
-
-   GLfloat mv_matr[16] = {0.0f};
-   mv_matr[15]=1.0f;
-
-   switch( side ){
-// only change the values without 0.0. They are well defined at the beginning of the function
-   case GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB:  /* (s,t)=(-z,-y) */
-//     -y*ey    -z*ex
-       mv_matr[8] =-1.0;
-       mv_matr[5] =-1.0;
-       mv_matr[2] = -1.0;
-       break;
-   case GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB:  /* (s,t)=(+z,-y) */
-//     -y*ey    +z*ex
-       mv_matr[8] = 1.0;
-       mv_matr[5] =-1.0;
-       mv_matr[2] = 1.0;
-       break;
-   case GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB:  /* (s,t)=(+x,+z) */
-//     +x*ex    +z*ey
-       mv_matr[0] = 1.0;
-       mv_matr[9] = 1.0;
-       mv_matr[6] =-1.0;
-       break;
-   case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB:  /* (s,t)=(+x,-z) */
-//     +x*ex    -z*ey
-       mv_matr[0] = 1.0;
-       mv_matr[9] =-1.0;
-       mv_matr[6] = 1.0;
-       break;
-   case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:  /* (s,t)=(+x,-y) */
-//     +x*ex   -y*ey
-       mv_matr[0] = 1.0;
-       mv_matr[5] =-1.0;
-       mv_matr[10] =-1.0;
-       break;
-   case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:  /* (s,t)=(-x,-y) */
-//    -x*ex     -y*ey
-       mv_matr[0] =-1.0;
-       mv_matr[5] =-1.0;
-       mv_matr[10] = 1.0;
-       break;
-   }
-
-   if(cubemap1_id == -1) {
-     cubemap1_id = glGenLists(1);
-     glNewList(cubemap1_id, GL_COMPILE_AND_EXECUTE);
-     glDisable(GL_LIGHT1);
-     glMatrixMode( GL_PROJECTION );
-     glLoadIdentity();
-     glFrustum( -0.01f, +0.01f, -0.01f, +0.01f, +0.01f, +3.0f );
-     glMatrixMode( GL_MODELVIEW );
-     glLoadIdentity();
-     glEndList();
-   } else {
-     //fprintf(stderr,"cubemap1 %i\n",cubemap1_id);
-     glCallList(cubemap1_id);
-   }
-   glLoadMatrixf(mv_matr);
-
- if(cubemap_id == -1) {
-   cubemap_id = glGenLists(1);
-   glNewList(cubemap_id, GL_COMPILE_AND_EXECUTE);
-   glPushMatrix();
-
-   glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diff);
-   glLightfv(GL_LIGHT0, GL_AMBIENT,  light_amb);
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-   /* light rects */
-   glDisable(GL_LIGHTING);
-   glDisable(GL_TEXTURE_2D);
-
-   glColor4f(1.0,1.0,1.0,1.0);
-   glBegin( GL_QUADS );
-     glNormal3f( 0.0,0.0,-1.0 );
-     glVertex3f(  0.18, 0.15, 1.0 );
-     glVertex3f(  0.18, 0.76, 1.0 );
-     glVertex3f( -0.18, 0.76, 1.0 );
-     glVertex3f( -0.18, 0.15, 1.0 );
-     glVertex3f( -0.18, -0.15, 1.0 );
-     glVertex3f( -0.18, -0.76, 1.0 );
-     glVertex3f(  0.18, -0.76, 1.0 );
-     glVertex3f(  0.18, -0.15, 1.0 );
-   glEnd();
-
-   glColor4f(0.6,0.6,0.6,1.0);
-   glBegin( GL_QUADS );
-     glVertex3f(  0.20, 0.13, 1.001 );
-     glVertex3f(  0.20, 0.78, 1.001 );
-     glVertex3f( -0.20, 0.78, 1.001 );
-     glVertex3f( -0.20, 0.13, 1.001 );
-     glVertex3f( -0.20, -0.13, 1.001 );
-     glVertex3f( -0.20, -0.78, 1.001 );
-     glVertex3f(  0.20, -0.78, 1.001 );
-     glVertex3f(  0.20, -0.13, 1.001 );
-   glEnd();
-
-   glColor4f(0.3,0.3,0.3,1.0);
-   glBegin( GL_QUADS );
-     glVertex3f(  0.28,-0.86, 1.002 );
-     glVertex3f(  0.28, 0.86, 1.002 );
-     glVertex3f( -0.28, 0.86, 1.002 );
-     glVertex3f( -0.28,-0.86, 1.002 );
-   glEnd();
-
-   glColor4f(0.15,0.2,0.15,1.0);
-   glBegin( GL_QUADS );
-     glVertex3f(  0.38,-0.96, 1.004 );
-     glVertex3f(  0.38, 0.96, 1.004 );
-     glVertex3f( -0.38, 0.96, 1.004 );
-     glVertex3f( -0.38,-0.96, 1.004 );
-   glEnd();
-
-   glEnable(GL_LIGHTING);
-   glEnable(GL_TEXTURE_2D);
-
-   glPopMatrix();
-   glEndList();
- } else {
-   //fprintf(stderr,"cubemap %i\n",cubemap_id);
-   glCallList(cubemap_id);
- }
-}
-
-/***********************************************************************
  * Create cuberef maps for one ball (called from create_cuberef_maps)  *
+ *    and displays the textures (cuberef reflections) for one ball     *
  ***********************************************************************/
 
-void create_cuberef_map(int ballnr, int texbind, VMvect cam_pos)
+void create_cuberef_map_and_display(int ballnr, int texbind, VMvect cam_pos)
 {
-    int i, w, target = 0, level;
+    int i, w, /* target = 0, */ level;
     int xpos, ypos;
-    VMfloat d, ang, ang1, ang2;
-    VMfloat th, ph, cam_FOV2, cam_FOV3;
-    VMvect dvec, ballvec, right, up, cam_pos_;
+    static VMfloat d, ang1, ang2;
+    static VMfloat th, ph, cam_FOV2, cam_FOV3;
+    static VMvect dvec, ballvec, right, up, cam_pos_;
+    static const int target[6] = {GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB,
+    	                     	       GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
+                         		       GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
+                         		       GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
+                         		       GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
+                         		       GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB};
+
+ 	  static const MATH_ALIGN16 GLfloat light_position[] = { 0.0, 0.0, 0.7, 0.0 };  //the [3] is 0.0 for better performance
+    static const MATH_ALIGN16 GLfloat light_diff[]     = { 0.2, 0.2, 0.2, 1.0 };
+    static const MATH_ALIGN16 GLfloat light_amb[]      = { 0.05, 0.05, 0.05, 1.0 };
+
+    // the following definition is for more speed (Matrix of the reflexions)
+    static const MATH_ALIGN16 GLfloat mv_matr[6][16] = {{0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+      /*  static MATH_ALIGN16 GLfloat mv_matr_py[16] =*/ {1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+      /*  static MATH_ALIGN16 GLfloat mv_matr_pz[16] =*/ {1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+      /*  static MATH_ALIGN16 GLfloat mv_matr_nx[16] =*/  {0.0f,0.0f,1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+      /*  static MATH_ALIGN16 GLfloat mv_matr_ny[16] =*/ {1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+      /*  static MATH_ALIGN16 GLfloat mv_matr_nz[16] =*/ {-1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,1.0f}};
 
     glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, texbind);
 
     /* calc necessary detail level */
 
     cam_FOV3 = cam_FOV*M_PI/180.0/2.0;
-    cam_FOV2=(2.0*180.0/M_PI*atan(tan(cam_FOV3)/win_width*win_height))*M_PI/180.0/2.0;
+    cam_FOV2=(2.0*180.0/M_PI*MATH_ATAN(tan(cam_FOV3)/win_width*win_height))*M_PI/180.0/2.0;
 
     th=(Xrot+Xrot_offs)/180.0*M_PI;
     ph=(Zrot+Zrot_offs)/180.0*M_PI;
-    dvec  = vec_xyz(-sin(th)*sin(ph),-sin(th)*cos(ph),-cos(th));
-    cam_pos_ = vec_diff( cam_pos, vec_scale(dvec,balls.ball[ballnr].d/2.0/sin(cam_FOV3)));
+    dvec  = vec_xyz(-MATH_SIN(th)*MATH_SIN(ph),-MATH_SIN(th)*MATH_COS(ph),-MATH_COS(th));
+    cam_pos_ = vec_diff( cam_pos, vec_scale(dvec,balls.ball[ballnr].d/2.0/MATH_SIN(cam_FOV3)));
     right = vec_unit(vec_xyz(dvec.y,-dvec.x,0));
     up    = vec_cross(right,dvec);
     ballvec = vec_diff(balls.ball[ballnr].r,cam_pos_);
     d = vec_mul(ballvec,dvec);
-    ang1  = atan2( vec_mul(ballvec, right), d);
-    ang2  = atan2( vec_mul(ballvec, up), d);
-    ang = d/vec_abs(ballvec);
-    ang = (fabs(ang)<1.0)?acos(ang):0.0;
+    ang1  = MATH_ATAN2( vec_mul(ballvec, right), d);
+    ang2  = MATH_ATAN2( vec_mul(ballvec, up), d);
 
     if(fabs(ang1) < cam_FOV3 && fabs(ang2) < cam_FOV2) {
     //only draw, if the ball is in view and in quality only on near distance
@@ -3839,29 +3688,93 @@ void create_cuberef_map(int ballnr, int texbind, VMvect cam_pos)
         if (level>6) level=6;
         //fprintf(stderr,"%f %i\n",d,level);
         w=options_cuberef_res>>level;
-
+        //  from here displays the textures (cuberef reflections) for one ball
         for(i=0;i<6;i++){
             xpos = (i%3)*options_cuberef_res;
             ypos = (i/3)*options_cuberef_res;
             glViewport( xpos, ypos, w, w);
-            switch(i){
-            case 0: target=GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB;
-                    break;
-            case 1: target=GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB;
-                    break;
-            case 2: target=GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB;
-                    break;
-            case 3: target=GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB;
-                    break;
-            case 4: target=GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB;
-                    break;
-            case 5: target=GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB;
-                    break;
+            if(cubemap1_id == -1) {
+              cubemap1_id = glGenLists(1);
+              glNewList(cubemap1_id, GL_COMPILE_AND_EXECUTE);
+              glDisable(GL_LIGHT1);
+              glMatrixMode( GL_PROJECTION );
+              glLoadIdentity();
+              glFrustum( -0.01f, +0.01f, -0.01f, +0.01f, +0.01f, +3.0f );
+              glMatrixMode( GL_MODELVIEW );
+              glLoadIdentity();
+              glEndList();
+            } else {
+              //fprintf(stderr,"cubemap1 %i\n",cubemap1_id);
+              glCallList(cubemap1_id);
             }
-            DisplayFunc_cubemap( target);
+            glLoadMatrixf(mv_matr[i]);
+
+            if(cubemap_id == -1) {
+              cubemap_id = glGenLists(1);
+              glNewList(cubemap_id, GL_COMPILE_AND_EXECUTE);
+              glPushMatrix();
+
+              glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diff);
+              glLightfv(GL_LIGHT0, GL_AMBIENT,  light_amb);
+              glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+              /* light rects */
+              glDisable(GL_LIGHTING);
+              glDisable(GL_TEXTURE_2D);
+
+              glColor4f(1.0,1.0,1.0,1.0);
+              glBegin( GL_QUADS );
+                glNormal3f( 0.0,0.0,-1.0 );
+                glVertex3f(  0.18, 0.15, 1.0 );
+                glVertex3f(  0.18, 0.76, 1.0 );
+                glVertex3f( -0.18, 0.76, 1.0 );
+                glVertex3f( -0.18, 0.15, 1.0 );
+                glVertex3f( -0.18, -0.15, 1.0 );
+                glVertex3f( -0.18, -0.76, 1.0 );
+                glVertex3f(  0.18, -0.76, 1.0 );
+                glVertex3f(  0.18, -0.15, 1.0 );
+              glEnd();
+
+              glColor4f(0.6,0.6,0.6,1.0);
+              glBegin( GL_QUADS );
+                glVertex3f(  0.20, 0.13, 1.001 );
+                glVertex3f(  0.20, 0.78, 1.001 );
+                glVertex3f( -0.20, 0.78, 1.001 );
+                glVertex3f( -0.20, 0.13, 1.001 );
+                glVertex3f( -0.20, -0.13, 1.001 );
+                glVertex3f( -0.20, -0.78, 1.001 );
+                glVertex3f(  0.20, -0.78, 1.001 );
+                glVertex3f(  0.20, -0.13, 1.001 );
+              glEnd();
+
+              glColor4f(0.3,0.3,0.3,1.0);
+              glBegin( GL_QUADS );
+                glVertex3f(  0.28,-0.86, 1.002 );
+                glVertex3f(  0.28, 0.86, 1.002 );
+                glVertex3f( -0.28, 0.86, 1.002 );
+                glVertex3f( -0.28,-0.86, 1.002 );
+              glEnd();
+
+              glColor4f(0.15,0.2,0.15,1.0);
+              glBegin( GL_QUADS );
+                glVertex3f(  0.38,-0.96, 1.004 );
+                glVertex3f(  0.38, 0.96, 1.004 );
+                glVertex3f( -0.38, 0.96, 1.004 );
+                glVertex3f( -0.38,-0.96, 1.004 );
+              glEnd();
+
+              glEnable(GL_LIGHTING);
+              glEnable(GL_TEXTURE_2D);
+
+              glPopMatrix();
+              glEndList();
+            } else {
+              //fprintf(stderr,"cubemap %i\n",cubemap_id);
+              glCallList(cubemap_id);
+            }
             glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_BASE_LEVEL, level);
             glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAX_LEVEL, level);
-            glCopyTexSubImage2D(target, level, 0, 0, xpos, ypos, w, w );
+            glCopyTexSubImage2D(target[i], level, 0, 0, xpos, ypos, w, w );
         }
     }
 }
@@ -3878,7 +3791,7 @@ void create_cuberef_maps(VMvect cam_pos)
     for(i=0;i<balls.nr;i++) {
       if(balls.ball[i].in_game){
         //fprintf(stderr,"creating cubemaps for ball #%d\n",i);
-        create_cuberef_map(i,cuberef_allballs_texbind[i],cam_pos);
+        create_cuberef_map_and_display(i,cuberef_allballs_texbind[i],cam_pos);
       }
     }
 }
@@ -4146,7 +4059,7 @@ void DisplayFunc( void )
                //nosound
              } else {
              	 //fprintf(stderr,"%i\n",(int)(options_snd_volume*((bhitstrength>1)?1:bhitstrength*3)));
-             	 PlaySound(ball_sound,(int)(options_snd_volume*((bhitstrength>1)?1:bhitstrength*3)));
+             	 PLAY_NOISE(ball_sound,(int)(options_snd_volume*((bhitstrength>1)?1:bhitstrength*3)));
              }
            }
          } while(bhitstrength!=0.0);
@@ -4159,7 +4072,7 @@ void DisplayFunc( void )
               //nosound
              } else {
              	//fprintf(stderr,"%i\n",(int)(options_snd_volume*((whitstrength>1)?1:whitstrength)));
-             	PlaySound(wall_sound,(int)(options_snd_volume*((whitstrength>1)?1:whitstrength)));
+             	PLAY_NOISE(wall_sound,(int)(options_snd_volume*((whitstrength>1)?1:whitstrength)));
              }
            }
          } while(whitstrength!=0.0);
@@ -4339,7 +4252,7 @@ void DisplayFunc( void )
        /* set free_view_pos to actual view */
        th=Xrot/180.0*M_PI;
        ph=Zrot/180.0*M_PI;
-       free_view_pos_aim = vec_scale(vec_xyz(sin(th)*sin(ph),sin(th)*cos(ph),cos(th)), cam_dist);
+       free_view_pos_aim = vec_scale(vec_xyz(MATH_SIN(th)*MATH_SIN(ph),MATH_SIN(th)*MATH_COS(ph),MATH_COS(th)),cam_dist);
        free_view_pos_aim = vec_add( free_view_pos_aim, CUE_BALL_XYPOS );
        free_view_pos = free_view_pos_aim ;
    }
@@ -4348,7 +4261,7 @@ void DisplayFunc( void )
    if(!FREE_VIEW) {
        th=(Xrot+Xrot_offs)/180.0*M_PI;
        ph=(Zrot+Zrot_offs)/180.0*M_PI;
-       cam_pos=vec_scale(vec_xyz(sin(th)*sin(ph),sin(th)*cos(ph),cos(th)), real_dist);
+       cam_pos=vec_scale(vec_xyz(MATH_SIN(th)*MATH_SIN(ph),MATH_SIN(th)*MATH_COS(ph),MATH_COS(th)), real_dist);
        cam_pos=vec_add(cam_pos,balls.ball[cue_ball].r);
    } else {
        cam_pos=free_view_pos;
@@ -4667,10 +4580,21 @@ void DisplayFunc( void )
           control_unset(&control__place_cue_ball);
           control_unset(&control__fov);
           control_unset(&control__mouse_shoot);
-          if(player[0].winner) {
-             file_history(player[0].name, player[1].name, player[0].name, hitcounter, (roundcounter+1)/2, gametype);
+          if(options_gamemode==options_gamemode_tournament) {
+          	 if(tournament_state.overall_winner>=0) {
+              if(player[0].winner) {
+                 // history tournament player 1 ### TODO ###
+              } else {
+                 // history tournament player 2 ### TODO ###
+              }
+            }
           } else {
-             file_history(player[0].name, player[1].name, player[1].name, hitcounter, (roundcounter+1)/2, gametype);
+              if(player[0].winner) {
+                file_history(player[0].name, player[1].name, player[0].name, hitcounter, (roundcounter+1)/2, gametype);
+             } else {
+                file_history(player[0].name, player[1].name, player[1].name, hitcounter, (roundcounter+1)/2, gametype);
+             }
+
           }
    	   }
        if(options_3D_winnertext){
@@ -5316,30 +5240,36 @@ void DisplayFunc( void )
        }
        glDisable(GL_TEXTURE_2D);
        glDisable(GL_BLEND);
-    if(!options_3D_winnertext) {
-       if(options_gamemode==options_gamemode_tournament && tournament_state.overall_winner>=0 && g_act_menu==(menuType *)0) {
-           // here is nothing todo, only an else (need better statement for if)
-       } else {
-         if( (player[0].winner || player[1].winner) && g_act_menu==(menuType *)0 ){
-            glEnable(GL_TEXTURE_2D);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_ONE,GL_ONE);
-            if( !options_rgstereo_on ){
-                glColor3f(1.0,1.0,0.0);
+    if(!options_3D_winnertext && g_act_menu==(menuType *)0) {
+       if( (player[0].winner || player[1].winner) && options_gamemode!=options_gamemode_tournament ){
+          glEnable(GL_TEXTURE_2D);
+          glEnable(GL_BLEND);
+          glBlendFunc(GL_ONE,GL_ONE);
+          if( !options_rgstereo_on ){
+              glColor3f(1.0,1.0,0.0);
+          } else {
+              glColor3f(1.0,1.0,1.0);
+          }
+          glPushMatrix();
+          glTranslatef(0,0,-0.5);
+          glScalef(2.0/win_width,2.0/win_height,1.0);
+          glTranslatef( 0, 30,-0.5);
+          textObj_setText( winner_name_text_obj, player[player[0].winner?0:1].name );
+          textObj_draw_centered( winner_name_text_obj );
+          glTranslatef( 0,-60, 0.0);
+          textObj_draw_centered( winner_text_obj );
+          glPopMatrix();
+          glDisable(GL_BLEND);
+#ifdef USE_SOUND
+          if(!playonce) {
+            if(!(player[player[0].winner?0:1].is_AI || player[player[0].winner?0:1].is_net)) {
+            	 PLAY_NOISE(wave_applause,options_snd_volume);
             } else {
-                glColor3f(1.0,1.0,1.0);
+             	PLAY_NOISE(wave_ooh,options_snd_volume);
             }
-            glPushMatrix();
-            glTranslatef(0,0,-0.5);
-            glScalef(2.0/win_width,2.0/win_height,1.0);
-            glTranslatef( 0, 30,-0.5);
-            textObj_setText( winner_name_text_obj, player[player[0].winner?0:1].name );
-            textObj_draw_centered( winner_name_text_obj );
-            glTranslatef( 0,-60, 0.0);
-            textObj_draw_centered( winner_text_obj );
-            glPopMatrix();
-            glDisable(GL_BLEND);
-         }
+            playonce++;
+          }
+#endif
        }
     }
     if(helpscreen_on){
@@ -5557,7 +5487,7 @@ void restart_game_common(void)
         if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
           //nosound
         } else {
-        	 PlaySound(wave_shuffle,options_snd_volume);
+         	PLAY_NOISE(wave_shuffle,options_snd_volume);
         }
 #endif
     if(gametype==GAME_CARAMBOL) {
@@ -5716,7 +5646,7 @@ void zoom_in_out(int direction) {
     } else {
         th=Xrot/180.0*M_PI;
         ph=Zrot/180.0*M_PI;
-        dvec = vec_xyz(sin(th)*sin(ph),sin(th)*cos(ph),cos(th));
+        dvec = vec_xyz(MATH_SIN(th)*MATH_SIN(ph),MATH_SIN(th)*MATH_COS(ph),MATH_COS(th));
         dvec = vec_scale( dvec , direction*0.005 );
         free_view_pos_aim = vec_add( free_view_pos_aim, dvec );
         //fprintf(stderr,"x %f y %f z %f\n",free_view_pos_aim.x,free_view_pos_aim.y,free_view_pos_aim.z);
@@ -5816,9 +5746,7 @@ void Key( int key, int modifiers ) {
            menu_select_next(g_act_menu);
            break;
        case 13:
-#ifdef USE_SOUND
-       	   PlaySound(cue_sound,options_snd_volume);
-#endif
+       	   PLAY_NOISE(cue_sound,options_snd_volume);
            menu_choose( &g_act_menu );
            break;
        case 27:
@@ -6876,7 +6804,7 @@ void menu_cb( int id, void * arg , VMfloat value)
         }
         break;
     case MENU_ID_MANUAL:
-        if(manualthere) {
+        if(manual_available()) {
 #ifndef WETAB
           fullscreen = sys_get_fullscreen();
           if(fullscreen) {
@@ -6886,7 +6814,8 @@ void menu_cb( int id, void * arg , VMfloat value)
 #ifndef WETAB
           }
 #endif
-          system(foomanual);
+         launch_manual();
+
 #ifndef WETAB
           if(fullscreen) {
           set_checkkey();
@@ -7298,7 +7227,6 @@ void menu_cb( int id, void * arg , VMfloat value)
     case MENU_ID_BROWSER:
 #ifndef WETAB
         strcpy(options_browser,(char *)arg);
-        initLanguage(0);
 #endif
         break;
 #endif
@@ -7628,14 +7556,22 @@ int main( int argc, char *argv[] )
 	  glActiveTextureARB = 0;
 #endif
 
+#ifdef FAST_MATH
+   /* Initialize fastmath cos sin with lookup table */
+	  initlookup_cossin_table();
+#endif
+
    /* initialize hostname with a default address */
    strcpy(options_net_hostname,"192.168.1.1");
+
+   /* chdir into data directory */
+   enter_data_dir();
 
    /* Initialize browser to use */
    init_browser();
 
    /* Initialize Language and folders */
-   initLanguage(1);
+   init_language();
 
    /* Initialize history system */
    init_history();
@@ -7655,10 +7591,6 @@ int main( int argc, char *argv[] )
        process_option(act_option);
    }
 
-   /* Initialize Manual (not in function before. we use some from the conf-file) */
-#ifndef WETAB
-   initLanguage(0);
-#endif
    sys_create_display(win_width, win_height);
    /* initialize random seed */
    srand(SDL_GetTicks());
@@ -7690,9 +7622,8 @@ int main( int argc, char *argv[] )
 
    glEnable(GL_LIGHTING);
 
-#ifdef USE_SOUND
-   init_sound();
-#endif
+   // Initialize Sound-System if sound is enabled
+   INIT_SOUND();
 
    if(!options_3D_winnertext){
        //wins
@@ -7718,9 +7649,7 @@ int main( int argc, char *argv[] )
    init_menu();
 
    // Things for the Intro
-#ifdef USE_SOUND
-    PlaySound(wave_intro,options_snd_volume);
-#endif
+   PLAY_NOISE(wave_intro,options_snd_volume);
    InitMesh();
    sys_main_loop();
 

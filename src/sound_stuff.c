@@ -83,7 +83,7 @@ Mix_Chunk *ball_sound = NULL;
 void init_sound(void);
 void exit_sound(void);
 Mix_Chunk* loadsound (char *filename);
-void PlaySound(Mix_Chunk *chunkdata, int volume);
+void PlayNoise(Mix_Chunk *chunkdata, int volume);
 void create_cue_sound(short int ** data, int * len, int length, VMfloat randmul, VMfloat maxrand, VMfloat sinfloat, VMfloat expfloat );
 void create_wall_sound(short int ** data, int * len );
 
@@ -328,7 +328,7 @@ void init_sound(void)
 /***********************************************************************
  *                    plays sound with volume set                      *
  ***********************************************************************/
-void PlaySound(Mix_Chunk *chunkdata, int volume)
+void PlayNoise(Mix_Chunk *chunkdata, int volume)
 {
 	   if(options_use_sound) {
 	   	 if (chunkdata != NULL) {

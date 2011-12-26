@@ -26,152 +26,180 @@
 #include <locale.h>
 #include "options.h"
 #include "sys_stuff.h"
+#include "language.h"
+#ifdef USE_WIN
+  #include <windows.h>
+  #include <shellapi.h>
+#endif
 
-unsigned int manualthere = 0; //later quicker check for manual
-char foomanual[512]; //for the way to the manual
-char localeText[450][200];
+char localeText[MAX_TEXT_ENTRIES][MAX_TEXT_ENTRY_LEN];
 
-/***************************************************
- *               Initialize language               *
- *               doing = 1 = all                   *
- *             doing = 0 = only manual             *
- ***************************************************/
-void initLanguage(int doing) {
+static int saved_manual_available = 0;
+static char charlang[3]; // system locale code
 
-  FILE *fp;
-  int counter = 0;
-  static char langfile[300] = "locale/";
-  static char program[512] = { "\0" };
-  static char szTmp[32];
-  static char charlang[5];
-  char *cp;
-  char langfiledefault[300] = "locale/en/";
+/***********************************************************************
+ *          Find the systems locale and store it in charlang           *
+ ***********************************************************************/
+
+static void find_system_locale()
+{
+    char *locale_str;
+    char *locale_code_pos;
+
+    setlocale(LC_ALL,"");
 #ifdef LC_MESSAGES
-  char buffer[50];
+    locale_str = setlocale(LC_MESSAGES, NULL);
 #else
-  char buffer[2048];
-  char *ptr;
+    locale_str = setlocale(LC_ALL, NULL);
 #endif
-  char foomanualdefault[512];
-  char foomanual1[512];
 
-  get_browser(foomanual1);
+    locale_code_pos = strstr(locale_str, "LC_MESSAGES");
+    if (locale_code_pos) {
+        locale_code_pos += strlen("LC_MESSAGES") + 1;
+    } else {
+        locale_code_pos = locale_str;
+    }
 
+    if (locale_code_pos[0] && locale_code_pos[1]) {
+        snprintf(charlang, sizeof(charlang), "%c%c",
+            tolower(locale_code_pos[0]), tolower(locale_code_pos[1]));
+    } else {
+        strncpy(charlang, "en", sizeof(charlang));
+    }
 
-  /* ### TODO ### Get the working directory of the program
-   * Mac OS X: _NSGetExecutablePath() (man 3 dyld)
-   * Linux: readlink /proc/self/exe
-   * Solaris: getexecname()
-   * FreeBSD: sysctl CTL_KERN KERN_PROC KERN_PROC_PATHNAME -1
-   * BSD with procfs: readlink /proc/curproc/file
-   * Windows: GetModuleFileName() with hModule = NULL
-   */
-
-if(doing) {
-#ifndef __MINGW32__ //RB
-  sprintf(szTmp, "/proc/%d/exe", getpid()); //for Linux at this time only
-  readlink(szTmp, program, 512);
-  if((cp = strrchr(program,'/'))) { //extract the program name from path
-    cp[0] = 0;
-  }
-  chdir(program); //we need this for data = program-directory
-  //fprintf(stderr,"%d %s\n",strlen(program),program);
-  if((cp = strrchr(program,'/'))) { //extract the bin from path
-    cp[0] = 0;
-  }
-  strcat(program,"/data");
-#else
-  strcpy(program,"data");
-#endif
-  //fprintf(stderr,"%d %s\n",strlen(program),program);
-  if(chdir(program) ){
-      fprintf(stderr,"Foobillard++ seems not to be correctly installed\n");
-      fprintf(stderr,"cannot find valid data directory\n");
-      fprintf(stderr,"(assuming the current directory contains the data)\n");
-  }
-  setlocale(LC_ALL,"");
-  //fprintf(stderr,"Lokale: %s\n",setlocale(LC_ALL,NULL));
-#ifdef LC_MESSAGES
-  sprintf(buffer,"%s",setlocale(LC_MESSAGES,NULL));
-  buffer[2] = 0;
-  strncpy(charlang,buffer,3);
-#else
-  sprintf(buffer,"%s",setlocale(LC_ALL,NULL));
-  if((ptr=strstr(buffer, "LC_MESSAGES"))!=NULL) {
-  	  // LC_MESSAGES outside the string
-     strcpy(buffer,ptr+12);
-  }
-  buffer[2] = 0;
-  strncpy(charlang,buffer,3);
-#endif
-  if(strlen(charlang) != 2) strcpy(charlang,"en");
-  charlang[0] = tolower(charlang[0]);
-  charlang[1] = tolower(charlang[1]);
-#ifdef __MINGW32__ //HS
-  strcpy(charlang,replace(charlang, "ge", "de")); //windows have other locales than Linux/Unix
-#endif
-  strcat(langfile,charlang);
-}
-#define OTHER_OS
-#ifdef  __MINGW32__ //HS
-#undef OTHER_OS
-  sprintf(foomanual,"locale/%s/index_a.html",charlang);
-  strcpy(foomanualdefault,"locale/en/index_a.html");
-  strcat(langfile,"/foobillard.txt");
-  strcat(langfiledefault,"/foobillard.txt");
-#endif
-#ifdef WETAB
-#undef OTHER_OS
-  sprintf(foomanual,"%s/locale/%s/index.html",program,charlang);
-  sprintf(foomanualdefault,"%s/locale/en/index.html",program);
-  strcat(langfile,"/wetab-foobillard.txt");
-  strcat(langfiledefault,"/wetab-foobillard.txt");
-#endif
-#ifdef OTHER_OS
-#undef OTHER_OS
-  sprintf(foomanual,"%s/locale/%s/index_a.html",program,charlang);
-  sprintf(foomanualdefault,"%s/locale/en/index_a.html",program);
-  strcat(langfile,"/foobillard.txt");
-  strcat(langfiledefault,"/foobillard.txt");
-#endif
-  //fprintf(stderr,"%s\n%s\n",langfile,foomanual);
-
-  if((fp=fopen(foomanual,"r")) != NULL ) {
-     fclose(fp);
-     manualthere = 1;
-     strcat(foomanual1,foomanual);
-     strcpy(foomanual,foomanual1);
-  } else {
-     if((fp=fopen(foomanualdefault,"r")) != NULL ) {
-       fclose(fp);
-       manualthere = 1;
-       strcat(foomanual1,foomanualdefault);
-       strcpy(foomanual,foomanual1);
-     } else {
-       fprintf(stderr,"No manual found.\n");
-     }
-}
- //fprintf(stderr,"Manual: %s\n",foomanual);
- if(doing) {
-  if((fp = fopen(langfile, "r")) == NULL) {
-    if((fp = fopen(langfiledefault, "r")) == NULL) {
-      fprintf(stderr,"Cannot open language file - terminating.\n");
-      exit(1);
-      }
-  }
-
-  while(fgets(localeText[counter], 200, fp) != NULL) {
-      cp = strrchr(localeText[counter],'\r');
-      if(cp) *cp = '\0';
-      cp = strrchr(localeText[counter],'\n');
-      if(cp) *cp = '\0';
-      counter++;
-  }
-
-  if( fclose( fp )) {
-      fprintf(stderr,"Language file close error.\n");
-  }
- }
- return;
+    if ((arch == ARCH_WIN32 || arch == ARCH_WIN64) && !strcmp(charlang, "ge")) {
+        //windows have other locales than Linux/Unix
+        strncpy(charlang, "de", sizeof(charlang));
+    }
 }
 
+/***********************************************************************
+ *      Find the program's locale file and return the path to it       *
+ ***********************************************************************/
+
+static char *find_localized_file(const char *base_name)
+{
+    static char full_path[512];
+    char exe_path[512] = "locale/";
+
+#ifdef USE_WIN
+    char *cp;
+    GetModuleFileName(NULL,exe_path,sizeof(exe_path));
+    if((cp = strrchr(exe_path,'\\'))) { //extract the program name from path
+      cp[0] = 0;
+    }
+    strcat(exe_path,"\\data\\locale\\");
+#endif
+
+    snprintf(full_path, sizeof(full_path), "%s%s/%s",
+        exe_path,charlang, base_name);
+    if (file_exists(full_path)) return full_path;
+
+    snprintf(full_path, sizeof(full_path), "%sen/%s", exe_path, base_name);
+    if (file_exists(full_path)) return full_path;
+
+    fprintf(stderr,"Locale file not found: %s\n",full_path);
+
+    return NULL;
+}
+
+/***********************************************************************
+ *      load the entire localized file for the program output          *
+ ***********************************************************************/
+
+static void load_language_file()
+{
+    char *language_file = find_localized_file(
+        (arch == ARCH_WETAB) ? "wetab-foobillard.txt" : "foobillard.txt");
+    FILE *fp;
+    int index = 0;
+    char *cp;
+
+    if (language_file) fp = fopen(language_file, "r");
+    if (!language_file || !fp) {
+        fprintf(stderr, "Cannot open language file - terminating.\n");
+        exit(1);
+    }
+
+    while ((fgets(localeText[index], MAX_TEXT_ENTRY_LEN, fp) != NULL) &&
+           (index < MAX_TEXT_ENTRIES)) {
+        cp = strrchr(localeText[index], '\r');
+        if (cp) *cp = '\0';
+        cp = strrchr(localeText[index], '\n');
+        if (cp) *cp = '\0';
+
+        index++;
+    }
+
+    fclose(fp);
+}
+
+/***********************************************************************
+ *       return the manual file, if there is on, otherwise 0           *
+ ***********************************************************************/
+
+int manual_available()
+{
+    return saved_manual_available;
+}
+
+/***********************************************************************
+ *               Find the program's localized manual file              *
+ ***********************************************************************/
+
+static char *find_manual_file()
+{
+    return find_localized_file(
+    		(arch == ARCH_WETAB) ? "index.html" : "index_a.html");
+}
+
+/***********************************************************************
+ *               Launch the manual in the internet browser             *
+ ***********************************************************************/
+
+void launch_manual()
+{
+    char command[512];
+    char *manual_file = find_manual_file();
+
+    if (!manual_file) {
+        fprintf(stderr, "No manual found.\n");
+        return;
+    }
+
+    switch (arch) {
+        case ARCH_WETAB:
+            snprintf(command, sizeof(command),
+                "tiitoo-browser-bin -t file://%s/%s",
+                get_data_dir(), manual_file);
+            break;
+
+        case ARCH_WIN32:
+        case ARCH_WIN64:
+            snprintf(command, sizeof(command),
+                "%s", manual_file);
+            break;
+
+        default:
+            if (!strcmp(options_browser, "browser")) {
+                strcpy(options_browser, "./browser.sh");
+            }
+            snprintf(command, sizeof(command),
+                "%s file://%s/%s",
+                options_browser, get_data_dir(), manual_file);
+            break;
+    }
+
+    launch_command(command);
+}
+
+/***********************************************************************
+ *                   init the language locale system                   *
+ ***********************************************************************/
+
+void init_language()
+{
+    find_system_locale();
+    load_language_file();
+    saved_manual_available = (find_manual_file() != NULL);
+}

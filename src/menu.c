@@ -417,7 +417,7 @@ void menu_choose(menuType ** menu)
 #ifdef WETAB
             sys_fullscreen(0);
             SDL_Delay(20);
-            system("tiitoo-keyboard-toggle-daemon.sh on");
+            launch_command("tiitoo-keyboard-toggle-daemon.sh on");
 #endif
         } else {
             //fprintf(stderr,"menu_choose: ENTRY_TYPE_TEXTFIELD - textedit_mode\n");
@@ -429,9 +429,7 @@ void menu_choose(menuType ** menu)
                 //nothing to do?
                 //to short
                 if(utf8count((*menu)->entry[(*menu)->select_index].text_obj->str) < (size_t)((*menu)->entry[(*menu)->select_index].minvalue+(*menu)->entry[(*menu)->select_index].fixedlen)) {
-#ifdef USE_SOUND
-                PlaySound(wave_bomb,options_snd_volume);
-#endif
+                	  PLAY_NOISE(wave_bomb,options_snd_volume);
                 return;
                 }
                 break;
@@ -439,9 +437,7 @@ void menu_choose(menuType ** menu)
                 // to small or to big
                (*menu)->entry[(*menu)->select_index].arg = (void *)&((*menu)->entry[(*menu)->select_index].text_obj->str[(*menu)->entry[(*menu)->select_index].fixedlen]);
                 if( atoi((*menu)->entry[(*menu)->select_index].arg) < (*menu)->entry[(*menu)->select_index].minvalue || atoi((*menu)->entry[(*menu)->select_index].arg) > (*menu)->entry[(*menu)->select_index].maxvalue) {
-#ifdef USE_SOUND
-                PlaySound(wave_bomb,options_snd_volume);
-#endif
+                	  PLAY_NOISE(wave_bomb,options_snd_volume);
                 return;
                 }
                 break;
@@ -449,9 +445,7 @@ void menu_choose(menuType ** menu)
                 // correct netaddress format
                (*menu)->entry[(*menu)->select_index].arg = (void *)&((*menu)->entry[(*menu)->select_index].text_obj->str[(*menu)->entry[(*menu)->select_index].fixedlen]);
                 if(!is_valid_ip((*menu)->entry[(*menu)->select_index].arg)) {
-#ifdef USE_SOUND
-                PlaySound(wave_bomb,options_snd_volume);
-#endif
+                	  PLAY_NOISE(wave_bomb,options_snd_volume);
                 return;
                 }
                 break;
@@ -459,7 +453,7 @@ void menu_choose(menuType ** menu)
            // check end 
            (*menu)->textedit_mode=0;
 #ifdef WETAB
-            system("tiitoo-keyboard-toggle-daemon.sh off");
+           launch_command("tiitoo-keyboard-toggle-daemon.sh off");
             sys_fullscreen(1);
             SDL_Delay(20);
 #endif
@@ -497,7 +491,7 @@ void menu_exit(menuType ** menu)
         textObj_setText( (*menu)->entry[(*menu)->select_index].text_obj, (*menu)->entry[(*menu)->select_index].text );
         (*menu)->textedit_mode=0;
 #ifdef WETAB
-        system("tiitoo-keyboard-toggle-daemon.sh off");
+        launch_command("tiitoo-keyboard-toggle-daemon.sh off");
         sys_fullscreen(1);
         SDL_Delay(20);
 #endif
@@ -1870,7 +1864,7 @@ void init_menu(void)
     //Help
     menu_add_entry(g_main_menu, localeText[142], MENU_ID_MAIN_HELP,localeText[408]);
     //Manual
-    if(manualthere) {
+    if(manual_available()) {
        menu_add_entry(g_main_menu, localeText[224], MENU_ID_MANUAL,localeText[409]);
     }
     if(check_xml("history.xml")) {

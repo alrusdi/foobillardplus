@@ -443,3 +443,6 @@ Einzelspielerhistorie im externen Browser anzeigen
 Turnierhistorie im externen Browser anzeigen
 Einzelhistorie
 Turnierhistorie
+Spiel Nr.
+Turnierdatum
+Runde

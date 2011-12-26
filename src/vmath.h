@@ -26,18 +26,48 @@
 #define VMATH_H
 
 #include <GL/gl.h>
-
-#ifdef VMATH_SINGLE_PRECISION
-typedef float VMfloat;
-#else
-typedef double VMfloat;
+#ifdef USE_SSE
+#include <xmmintrin.h>
 #endif
 
-struct Vect{
-          VMfloat x,y,z;
-       };
+#ifdef _MSC_VER
+#define MATH_ALIGN16 __declspec(align(16))
+#ifdef VMATH_SINGLE_PRECISION
+typedef __declspec(align(16)) float VMfloat;
+#else
+typedef __declspec(align(16)) double VMfloat;
+#endif
+#else
+#ifdef VMATH_SINGLE_PRECISION
+#define MATH_ALIGN16 __attribute__ ((aligned (16)))
+typedef __attribute__ ((aligned (16))) float VMfloat;
+#else
+typedef __attribute__ ((aligned (16))) double VMfloat;
+#endif
+#endif
+
+// SSE specified stuff
+
+#ifdef USE_SSE
+
+struct Vect {
+    union {
+        __m128 v;
+        struct { float w, x, y, z; };
+    };
+};
 typedef struct Vect VMvect;
 
+#else // no use of SSE intrinsics
+
+struct Vect {
+ 	VMfloat x,y,z;
+ 	};
+ 	typedef struct Vect VMvect;
+
+#endif
+
+// normal stuff with or without SSE intrinsics
 
 struct Matrix4{
           GLfloat m[16];
@@ -88,9 +118,24 @@ struct PolyPoint{
 };
 typedef struct PolyPoint VMpolypoint;
 
+#define FAST_MATH
+#ifdef FAST_MATH
+  #define MATH_SIN(x) fastsin(x)
+  #define MATH_COS(x) fastcos(x)
+  #define MATH_ATAN2(x,y) fastatan2(x,y)
+  #define MATH_ATAN(x) fastatan(x)
+#else
+  #define MATH_SIN(x) sin(x)
+  #define MATH_COS(x) cos(x)
+  #define MATH_ATAN2(x,y) atan2(x,y)
+  #define MATH_ATAN(x) atan(x)
+#endif
 
-
-void         shape_trans ( struct Shape *s, struct Vect t );
+void initlookup_cossin_table(void);
+inline float fastcos(float n);
+inline float fastsin(float n);
+inline float fastatan2(float y, float x);
+inline float fastatan(float x);
 
 struct Vect  vec_cross ( struct Vect v1, struct Vect v2 );
 VMfloat      vec_mul   ( struct Vect v1, struct Vect v2 );
@@ -102,8 +147,6 @@ struct Vect  vec_rotate( struct Vect v1, struct Vect ang );
 VMfloat      vec_abs   ( struct Vect v );
 VMfloat      vec_abssq ( struct Vect v );
 struct Vect  vec_unit  ( struct Vect v );
-
-int          vec_nearly_equal ( struct Vect v1, struct Vect v2, VMfloat tolerance );
 
 struct Vect  vec_xyz( VMfloat x, VMfloat y, VMfloat z );
 struct Vect  vec_ez(void);

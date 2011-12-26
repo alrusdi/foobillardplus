@@ -27,6 +27,9 @@
 
 #ifdef USE_SOUND
 
+#define PLAY_NOISE(data,volume) PlayNoise(data,volume);
+#define INIT_SOUND() init_sound()
+
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include "vmath.h"
@@ -61,9 +64,14 @@ extern Mix_Chunk *ball_sound;
 
 void init_sound(void);
 void exit_sound(void);
-void PlaySound(Mix_Chunk *chunkdata, int volume);
+void PlayNoise(Mix_Chunk *chunkdata, int volume);
 void SkipSong (void);
 void PlayNextSong(void);
+
+#else
+
+#define PLAY_NOISE(data,volume)
+#define INIT_SOUND()
 
 #endif /* #ifdef USE_SOUND */
 

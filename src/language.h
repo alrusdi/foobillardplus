@@ -20,14 +20,15 @@
 */
 
 #ifndef LANGUAGE_H
-  #define LANGUAGE_H
+#define LANGUAGE_H
 
-#include "vmath.h"
-  
-extern unsigned int manualthere; //later quicker check for manual
-extern char foomanual[512]; //for the way to the manual
-extern char localeText[450][200];
+#define MAX_TEXT_ENTRIES 450
+#define MAX_TEXT_ENTRY_LEN 200
 
-void initLanguage(int);
+extern char localeText[MAX_TEXT_ENTRIES][MAX_TEXT_ENTRY_LEN];
 
-#endif // Language.h 
+void init_language();
+int manual_available();
+void launch_manual();
+
+#endif // language.h

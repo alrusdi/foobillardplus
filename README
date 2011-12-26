@@ -185,6 +185,12 @@ What is FooBillard++ ?
    compile math single precision (default=yes). if you use "no" it is compiled for
    math double precision. Clients with mixed single or double precision are not
    compatible in network games!!!
+
+   --enable-sse=ARG
+   
+   compile with intrinsics SSE commands and use. With enabled SSE, the use of
+   enable-mathsingle defaults to yes. Double precision are automatically disabled.
+
    
    --enable-network=ARG
    

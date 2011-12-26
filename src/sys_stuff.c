@@ -22,12 +22,21 @@
 **
 */
 
+#include "options.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <getopt.h>
 #include <string.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
+#ifdef USE_WIN
+  #include <windows.h>
+  #include <shellapi.h>
+#else
+  #include <sys/stat.h>
+#endif
+
 #ifdef NETWORKING
   #include <SDL/SDL_net.h>
 #endif
@@ -36,7 +45,6 @@
 #include <GL/glu.h>
 #include <GL/glext.h>
 #include "sys_stuff.h"
-#include "options.h"
 
 /***********************************************************************/
 
@@ -111,6 +119,14 @@ int filecopy(char *filefrom,char *fileto)
  ***********************************************************************/
 
 void init_browser(void) {
+#ifdef USE_WIN
+  char *cp;
+  GetModuleFileName(NULL,browser,sizeof(browser));
+  if((cp = strrchr(browser,'\\'))) { //extract the program name from path
+    cp[0] = 0;
+  }
+  strcat(browser,"\\data\\");
+#else
 #ifdef WETAB
   strcpy(browser,"tiitoo-browser-bin -t file://");
 #else
@@ -118,9 +134,6 @@ void init_browser(void) {
     strcpy(options_browser,"./browser.sh");
   }
 #endif
-#ifdef __MINGW32__ //HS
-  strcpy(browser,"start \"Foobillardplus start\" /Min ");
-#else
   sprintf(browser,"%s file://",options_browser);
 #endif
 }
@@ -134,7 +147,7 @@ void get_browser(char *strpointer) {
 }
 
 /***********************************************************************
- *        New transparent mousecursor for touch-devices (WETAB)        *
+ *          Transparent mousecursor for touch-devices (WETAB)          *
  *    We don't use SDL_Showcursor which is not really on function      *
  *                          on some devices                            *
  ***********************************************************************/
@@ -328,6 +341,20 @@ int sys_get_fullscreen(void)
 void sys_fullscreen( int fullscr )
 {
 
+#ifdef USE_WIN
+	   // MS-Windows and SDL 1.2 with OpenGL are not really friends
+	   // and at the time I don't want to rebuild the whole OpenGL context
+	   // so only a window resize to fullscreen and back is done
+	   SDL_SysWMinfo info;
+	   SDL_VERSION(&info.version);
+	   SDL_GetWMInfo(&info);
+	   if(fullscr) {
+	      ShowWindow(info.window, SW_MAXIMIZE);
+	   } else {
+       ShowWindow(info.window, SW_RESTORE);
+	   }
+	   fullscreen = fullscr;
+#else
     SDL_Surface * screen;
     Uint32 flags;
 
@@ -339,7 +366,6 @@ void sys_fullscreen( int fullscr )
     } else if( fullscr==0 && (screen->flags & SDL_FULLSCREEN)!=0 ){
     	   screen = SDL_SetVideoMode( 0, 0, 0, screen->flags & ~SDL_FULLSCREEN);
     }
-
     if(screen == NULL) {
     	   screen = SDL_SetVideoMode(0, 0, 0, flags); /* If toggle FullScreen failed, then switch back */
     } else {
@@ -350,6 +376,7 @@ void sys_fullscreen( int fullscr )
     	   fprintf(stderr,"Video-Error on set full-screen/windowed mode. Terminating\n");
     	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
     }
+#endif
 }
 
 /***********************************************************************
@@ -690,4 +717,110 @@ void sys_main_loop(void)
     }
   }
 
+}
+
+/***********************************************************************
+ *      Find the program's "data" directory and chdir into it          *
+ ***********************************************************************/
+
+static char data_dir[512];
+
+void enter_data_dir()
+{
+    int success = 1;
+
+#ifdef POSIX
+    char proc_exe[20];
+    char *slash_pos;
+#endif
+
+    do {
+        success = 0;
+
+#ifdef POSIX
+        snprintf(proc_exe, sizeof(proc_exe), "/proc/%d/exe", getpid());
+        if (readlink(proc_exe, data_dir, sizeof(data_dir)) < 0) {
+            perror("readlink failed");
+            break;
+        }
+
+        // Remove program name
+        slash_pos = strrchr(data_dir, '/');
+        if (!slash_pos) break;
+        *slash_pos = '\0';
+
+        // Go one dir up
+        slash_pos = strrchr(data_dir, '/');
+        if (!slash_pos) break;
+
+        // Add "/data"
+        strncpy(slash_pos, "/data", sizeof(data_dir) - (slash_pos - data_dir));
+#else
+        /* ### TODO ### Get the working directory of the program
+         * Mac OS X: _NSGetExecutablePath() (man 3 dyld)
+         * Solaris: getexecname()
+         * FreeBSD: sysctl CTL_KERN KERN_PROC KERN_PROC_PATHNAME -1
+         * BSD with procfs: readlink /proc/curproc/file
+         * Windows: GetModuleFileName() with hModule = NULL
+         */
+        strncpy(data_dir, "data", sizeof(data_dir));
+#endif
+
+        if (chdir(data_dir) < 0) {
+            break;
+        }
+
+        success = 1;
+    } while (0);
+
+    if (!success) {
+        fprintf(stderr,
+            "Foobillard++ seems not to be correctly installed\n"
+            "Cannot find valid data directory\n"
+            "(assuming the current directory contains the data)\n");
+    }
+}
+
+/***********************************************************************
+ *           returns the "data" directory and chdir into it            *
+ ***********************************************************************/
+
+const char *get_data_dir()
+{
+#ifdef POSIX
+    return data_dir;
+#else
+    return ".";
+#endif
+}
+
+/***********************************************************************
+ *      Check whether a given file exists                              *
+ ***********************************************************************/
+
+int file_exists(const char *path)
+{
+#ifdef POSIX
+    struct stat buf;
+    return stat(path, &buf) == 0;
+#else
+    FILE *fp = fopen(path, "r");
+    if (!fp) return 0;
+    fclose(fp);
+    return 1;
+#endif
+}
+
+/***********************************************************************
+ *      Launch an external command                                     *
+ ***********************************************************************/
+
+int launch_command(const char *command)
+{
+#ifdef USE_WIN
+	   ShellExecute(NULL,"open",command,NULL,NULL,SW_SHOWNORMAL);
+	   return (0);
+#else
+    return system(command);
+#endif
 }

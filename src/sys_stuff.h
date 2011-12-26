@@ -104,4 +104,10 @@ char *replace(char *st, char *orig, char *repl);
 
 sysResolution * sys_list_modes(void);
 
+void enter_data_dir();
+const char *get_data_dir();
+int file_exists(const char *path);
+
+int launch_command(const char *command);
+
 #endif  /* SYS_STUFF_H */

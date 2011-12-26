@@ -287,10 +287,10 @@ int snooker_ball_legal(int ball,struct Player *player)
 
 VMvect ai_get_stroke_dir_snooker( BallsType * balls, BordersType * walls, struct Player * pplayer )
 {
-    VMvect r_hit = {0.0,0.0,0.0};
-    VMvect hole_aim = {0.0,0.0,0.0};
-    VMvect hole_aim_def = {0.0,0.0,0.0};
-    VMvect min_r_hit = {0.0,0.0,0.0};
+    VMvect r_hit = vec_null();
+    VMvect hole_aim = vec_null();
+    VMvect hole_aim_def = vec_null();
+    VMvect min_r_hit = vec_null();
     VMfloat angle, hole_angle,weight,corner_acentrism, d;
     BallType *bhit, *bcue;
     HoleType *hole;

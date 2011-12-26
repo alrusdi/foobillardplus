@@ -443,3 +443,6 @@ Show game history in external browser
 Show tournament game history in external browser
 Game history
 Tournament history
+Game No.
+Tournament Date
+Round

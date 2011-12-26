@@ -197,7 +197,7 @@ void evaluate_last_move_8ball( struct Player * player, int * pact_player, BallsT
       if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
         //nosound
       } else {
-      	PlaySound(wave_oneball,options_snd_volume);
+      	 PLAY_NOISE(wave_oneball,options_snd_volume);
       }
 #endif
     }
@@ -344,7 +344,7 @@ void evaluate_last_move_9ball( struct Player * player, int * pact_player, BallsT
         if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
           //nosound
         } else {
-        	PlaySound(wave_oneball,options_snd_volume);
+        	 PLAY_NOISE(wave_oneball,options_snd_volume);
         }
 #endif
     }
@@ -433,7 +433,7 @@ void evaluate_last_move_carambol( struct Player * player, int * pact_player, Bal
       if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
         //nosound
       } else {
-      	PlaySound(wave_oneball,options_snd_volume);
+      	 PLAY_NOISE(wave_oneball,options_snd_volume);
       }
 #endif
       }
@@ -452,7 +452,7 @@ void evaluate_last_move_carambol( struct Player * player, int * pact_player, Bal
       if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
         //nosound
       } else {
-      	PlaySound(wave_oneball,options_snd_volume);
+      	 PLAY_NOISE(wave_oneball,options_snd_volume);
       }
 #endif
       }
@@ -471,7 +471,7 @@ void evaluate_last_move_carambol( struct Player * player, int * pact_player, Bal
       if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
         //nosound
       } else {
-      	PlaySound(wave_oneball,options_snd_volume);
+      	 PLAY_NOISE(wave_oneball,options_snd_volume);
       }
 #endif
       }
@@ -563,7 +563,7 @@ void evaluate_last_move_snooker( struct Player * player, int * pact_player, Ball
         if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
           //nosound
         } else {
-        	PlaySound(wave_oneball,options_snd_volume);
+         	PLAY_NOISE(wave_oneball,options_snd_volume);
         }
 #endif
     }
@@ -740,7 +740,7 @@ void evaluate_last_move_snooker( struct Player * player, int * pact_player, Ball
      if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
        //nosound
      } else {
-     	PlaySound(wave_oneball,options_snd_volume);
+     	 PLAY_NOISE(wave_oneball,options_snd_volume);
      }
     }
 #endif

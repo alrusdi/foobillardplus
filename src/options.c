@@ -40,6 +40,17 @@
 */
 
 #include "vmath.h"
+#include "options.h"
+
+#if defined(WETAB)
+enum archType arch = ARCH_WETAB;
+#elif defined(WIN32)
+enum archType arch = ARCH_WIN32;
+#elif defined(WIN64)
+enum archType arch = ARCH_WIN64;
+#else
+enum archType arch = ARCH_LINUX;
+#endif
 
 int    options_positional_light=1;
 int    options_table_color   = 0x0D6621;
@@ -111,7 +122,7 @@ int    options_col_ball_snooker[]={
                             0xFF0000,   /* red    balls */
                           };
 
-int    options_col_ball /*= options_col_ball_pool*/;
+int    *options_col_ball /*= options_col_ball_pool*/;
 char   options_net_hostname [1024];  // initialized in billard3d.c
 int    options_net_portnum = 56341;
 int    options_net_speed = 1;        // Speed for network gameplay (*5 = calls per second)

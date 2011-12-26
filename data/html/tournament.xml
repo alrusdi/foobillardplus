@@ -3,16 +3,175 @@
 <!-- don't edit this file manually -->
 <?xml-stylesheet type="text/xsl" href="tournament.xsl" ?>
 <start>
-<title>Tournament History (only test)</title>
+<title>Tournament History</title>
 <eighttitle>8 ball</eighttitle>
 <ninetitle>9 ball</ninetitle>
 <caromtitle>Carom</caromtitle>
 <snookertitle>Snooker</snookertitle>
-<column1>Date</column1>
+<column1>Game No.</column1>
 <column2>Player 1</column2>
 <column3>Player 2</column3>
 <column4>Winner</column4>
 <column5>Strokes</column5>
 <column6>Rounds</column6>
+<tdate>Tournament Date</tdate>
+<twin>Winner</twin>
+<tround>Round</tround>
+
+
+<eightball>
+<gameid>55555</gameid>
+<date>12.11.2012 01:01:01</date>
+<allwin>Bob Dylan</allwin>
+
+<g1>
+		<go>1</go>
+		<p1>Bob Dylan</p1>
+		<p2>Machete Caramba</p2>
+		<w>Bob Dylan</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>3</go>
+		<p1>Erster Eintrag</p1>
+		<p2>M. Ubuntu</p2>
+		<w>M. Ubuntu</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>2</go>
+		<p1>Dritter Eintrag</p1>
+		<p2>Machete Caramba</p2>
+		<w>Dritter Eintrag</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>5</go>
+		<p1>Dritter Eintrag</p1>
+		<p2>Machete Caramba</p2>
+		<w>Dritter Eintrag</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>4</go>
+		<p1>Dritter Eintrag</p1>
+		<p2>Machete Caramba</p2>
+		<w>Dritter Eintrag</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>6</go>
+		<p1>Dritter Eintrag</p1>
+		<p2>Machete Caramba</p2>
+		<w>Dritter Eintrag</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g2>
+		<go>1</go>
+		<p1>Dritter Eintrag</p1>
+		<p2>Machete Caramba</p2>
+		<w>Dritter Eintrag</w>
+		<h>20</h>
+		<r>5</r>
+</g2>
+</eightball>
+
+<eightball>
+<gameid>66666</gameid>
+<date>12.11.2012 01:01:01</date>
+<allwin>Machete Caramba</allwin>
+
+<g1>
+		<go>1</go>
+		<p1>Bob Dylan</p1>
+		<p2>Machete Caramba</p2>
+		<w>Bob Dylan</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>3</go>
+		<p1>Erster Eintrag</p1>
+		<p2>M. Ubuntu</p2>
+		<w>M. Ubuntu</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+</eightball>
+
+<nineball>
+<gameid>77</gameid>
+<date>12.11.2012 01:01:01</date>
+<allwin>Machete Caramba</allwin>
+
+<g1>
+		<go>1</go>
+		<p1>Bob Dylan</p1>
+		<p2>Machete Caramba</p2>
+		<w>Bob Dylan</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>3</go>
+		<p1>Erster Eintrag</p1>
+		<p2>M. Ubuntu</p2>
+		<w>M. Ubuntu</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+</nineball>
+
+<caromball>
+<gameid>88</gameid>
+<date>12.11.2012 01:01:01</date>
+<allwin>Machete Caramba</allwin>
+
+<g1>
+		<go>1</go>
+		<p1>Bob Dylan</p1>
+		<p2>Machete Caramba</p2>
+		<w>Bob Dylan</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>3</go>
+		<p1>Erster Eintrag</p1>
+		<p2>M. Ubuntu</p2>
+		<w>M. Ubuntu</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+</caromball>
+
+<snookerball>
+<gameid>99</gameid>
+<date>12.11.2012 01:01:01</date>
+<allwin>Machete Caramba</allwin>
+
+<g1>
+		<go>1</go>
+		<p1>Bob Dylan</p1>
+		<p2>Machete Caramba</p2>
+		<w>Bob Dylan</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+<g1>
+		<go>3</go>
+		<p1>Erster Eintrag</p1>
+		<p2>M. Ubuntu</p2>
+		<w>M. Ubuntu</w>
+		<h>20</h>
+		<r>5</r>
+</g1>
+</snookerball>
 
 </start>

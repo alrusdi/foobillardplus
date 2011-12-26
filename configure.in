@@ -242,6 +242,11 @@ AC_ARG_ENABLE(network,
               ],
               [export USE_NETWORK=yes])
 
+### SSE intrinsics compiling code, sets also math precision, default = no
+AC_ARG_ENABLE(sse,
+              [  --enable-sse          compile for SSE intrinsics],
+              [export USE_SSE=yes; export USE_MATHSINGLE=yes], [export USE_SSE=no])
+
 ### generic touch wanted. Also used with WeTab, default = no
 AC_ARG_ENABLE(touch,
               [  --enable-touch          compile for generic touch-devices],
@@ -312,6 +317,8 @@ AM_CONDITIONAL(USE_NVIDIA, test "x$USE_NVIDIA" = "xyes")
 AM_CONDITIONAL(USE_SOUND, test "x$USE_SOUND" = "xyes")
 
 AM_CONDITIONAL(USE_WIN, test "x$USE_WIN" = "xyes")
+
+AM_CONDITIONAL(USE_SSE, test "x$USE_SSE" = "xyes")
 
 AC_OUTPUT(Makefile foobillardplus.spec src/Makefile)
 

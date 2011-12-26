@@ -9,6 +9,7 @@
 - an extern history function
 - problems on toggle fullscreen solved
 - problems set windowed video mode solved
+- start of use SSE intrinsics
 
 3.41 beta
 =========

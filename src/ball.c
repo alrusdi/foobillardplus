@@ -35,19 +35,11 @@
 #include "png_loader.h"
 #include "options.h"
 #include "font.h"
-
-
-#ifdef GL_VERTEX_ARRAY
-   #define USE_VERTEX_ARRAYS
-#else
-   #undef USE_VERTEX_ARRAYS
-#endif
+#include "vmath.h"
 
 #ifdef __MINGW32__
 	extern void ( APIENTRY * glActiveTextureARB)( GLenum );
 #endif
-
-#define USE_TRISTRIPS   //only remark this on a very slow embedded devices like PowerVR
 
 static char * balltexdata[22];
 static GLuint balltexbind[22];
@@ -57,22 +49,18 @@ static char * shadowtexdata;
 static GLuint shadowtexbind;
 static int    depth;
 
-static GLfloat col_null [4] = {0.0, 0.0, 0.0, 0.0}; /* Tron Game Mode */
-static GLfloat col_spec [4] = {0.0, 0.0, 0.0, 1.0}; /* dont need any specular because of reflections */
-static GLfloat col_refl [4] = {1.0, 1.0, 1.0, 0.28};
-static GLfloat col_refl3[4] = {1.0, 1.0, 1.0, 0.60};   /* for rendered cubemap */
-static GLfloat col_diff [4] = {0.7, 0.7, 0.7, 1.0};
-static GLfloat col_diff3[4] = {0.69, 0.69, 0.69, 1.0};
-static GLfloat col_amb  [4] = {0.2, 0.2, 0.2, 1.0};
-static GLfloat col_amb3 [4] = {0.31, 0.31, 0.31, 1.0}; /* for simple reflections */
-static GLfloat col_shad [4] = {0.5, 0.0, 0.0, 0.0};
+static MATH_ALIGN16 GLfloat col_null [4] = {0.0, 0.0, 0.0, 0.0}; /* Tron Game Mode */
+static MATH_ALIGN16 GLfloat col_spec [4] = {0.0, 0.0, 0.0, 1.0}; /* dont need any specular because of reflections */
+static MATH_ALIGN16 GLfloat col_refl [4] = {1.0, 1.0, 1.0, 0.28};
+static MATH_ALIGN16 GLfloat col_refl3[4] = {1.0, 1.0, 1.0, 0.60};   /* for rendered cubemap */
+static MATH_ALIGN16 GLfloat col_diff [4] = {0.7, 0.7, 0.7, 1.0};
+static MATH_ALIGN16 GLfloat col_diff3[4] = {0.69, 0.69, 0.69, 1.0};
+static MATH_ALIGN16 GLfloat col_amb  [4] = {0.2, 0.2, 0.2, 1.0};
+static MATH_ALIGN16 GLfloat col_amb3 [4] = {0.31, 0.31, 0.31, 1.0}; /* for simple reflections */
+static MATH_ALIGN16 GLfloat col_shad [4] = {0.5, 0.0, 0.0, 0.0};
 
 enum BallSet { BALLSET_POOL, BALLSET_CARAMBOL, BALLSET_SNOOKER, BALLSET_NONE };
 enum BallSet g_ballset=BALLSET_NONE;
-
-/***********************************************************************/
-// intern functions / procedures
-void ball_subdivide9_rec(GLfloat *v1, GLfloat *v2, GLfloat *v3, const int depth, GLfloat r, ElemArray *array);
 
 /*
  Functions
@@ -173,108 +161,6 @@ void createvertex( GLfloat * v, GLfloat * n, GLfloat tex_x, GLfloat tex_y, ElemA
 
 /***********************************************************************/
 
-void ball_subdivide_rec(GLfloat *v1, GLfloat *v2, GLfloat *v3, const int depth, GLfloat r, ElemArray *array)
-/* if array=0 just make vertices */
-{
-    GLfloat v12[3], v23[3], v31[3], v123[3];
-    GLfloat n1[3], n2[3], n3[3];
-    GLint i;
-    int otherside;
-    VMfloat xt,yt,rho;
-    if (depth == 0 || depth==1) {
-
-        for(i=0;i<3;i++){
-            n1[i]=v1[i];   n2[i]=v2[i];   n3[i]=v3[i];
-        }
-        normalize(n1);  normalize(n2);  normalize(n3);
-        rescale(v1,r);  rescale(v2,r);  rescale(v3,r);
-
-        otherside = ( v1[2]+v2[2]+v3[2]>0.0 );
-        rho = sqrt(v1[0]*v1[0]+v1[1]*v1[1]);
-        xt=asin(rho)/M_PI*2.3*v1[0]/rho;
-        yt=asin(rho)/M_PI*2.3*v1[1]/rho;
-        xt=v1[0]/r;
-        yt=v1[1]/r;
-        createvertex( v1, n1, 0.5-0.5*(otherside?xt:-xt), 0.5+0.5*yt, array);
-        rho = sqrt(v2[0]*v2[0]+v2[1]*v2[1]);
-        xt=asin(rho)/M_PI*2.3*v2[0]/rho;
-        yt=asin(rho)/M_PI*2.3*v2[1]/rho;
-        xt=v2[0]/r;
-        yt=v2[1]/r;
-        createvertex( v2, n2, 0.5-0.5*(otherside?xt:-xt), 0.5+0.5*yt, array);
-        rho = sqrt(v3[0]*v3[0]+v3[1]*v3[1]);
-        xt=asin(rho)/M_PI*2.3*v3[0]/rho;
-        yt=asin(rho)/M_PI*2.3*v3[1]/rho;
-        xt=v3[0]/r;
-        yt=v3[1]/r;
-        createvertex( v3, n3, 0.5-0.5*(otherside?xt:-xt), 0.5+0.5*yt, array);
-    } else if( depth==1 ){
-        for (i = 0; i < 3; i++) v123[i] = v1[i]+v2[i]+v3[i];
-        rescale(v123,r);
-        ball_subdivide_rec( v123, v1, v2, depth-1, r, array);
-        ball_subdivide_rec( v123, v2, v3, depth-1, r, array);
-        ball_subdivide_rec( v123, v3, v1, depth-1, r, array);
-    } else if( depth==3 ){
-        ball_subdivide9_rec( v1, v2, v3, depth-2, r, array);
-    } else {
-        for (i = 0; i < 3; i++) {
-            v12[i] = v1[i]+v2[i];
-            v23[i] = v2[i]+v3[i];
-            v31[i] = v3[i]+v1[i];
-        }
-        rescale(v12,r);
-        rescale(v23,r);
-        rescale(v31,r);
-        ball_subdivide_rec( v1, v12, v31, depth-2, r, array);
-        ball_subdivide_rec( v2, v23, v12, depth-2, r, array);
-        ball_subdivide_rec( v3, v31, v23, depth-2, r, array);
-        ball_subdivide_rec(v12, v23, v31, depth-2, r, array);
-    }
-//    fprintf(stderr,"back again all (depth=%d)\n",depth);
-}
-
-/***********************************************************************/
-
-void ball_subdivide9_rec(GLfloat *v1, GLfloat *v2, GLfloat *v3, const int depth, GLfloat r, ElemArray *array)
-{
-    GLfloat v112[3], v122[3], v223[3], v233[3], v331[3], v311[3], v123[3];
-    GLint i;
-
-//    fprintf(stderr,"depth=%d\n",depth);
-    if (depth == 0) {
-        ball_subdivide_rec(v1,v2,v3,0,r, array); // draw the triangle
-    } else {
-        for (i = 0; i < 3; i++) {
-            v112[i] = v1[i]+v1[i]+v2[i];
-            v122[i] = v1[i]+v2[i]+v2[i];
-            v223[i] = v2[i]+v2[i]+v3[i];
-            v233[i] = v2[i]+v3[i]+v3[i];
-            v331[i] = v3[i]+v3[i]+v1[i];
-            v311[i] = v3[i]+v1[i]+v1[i];
-            v123[i] = v1[i]+v2[i]+v3[i];
-        }
-        rescale(v112,r);
-        rescale(v122,r);
-        rescale(v223,r);
-        rescale(v233,r);
-        rescale(v331,r);
-        rescale(v311,r);
-        rescale(v123,r);
-        ball_subdivide9_rec( v1  , v112, v311, depth-1, r, array);
-        ball_subdivide9_rec( v112, v122, v123, depth-1, r, array);
-        ball_subdivide9_rec( v112, v123, v311, depth-1, r, array);
-        ball_subdivide9_rec( v311, v123, v331, depth-1, r, array);
-        ball_subdivide9_rec( v122, v2  , v223, depth-1, r, array);
-        ball_subdivide9_rec( v122, v223, v123, depth-1, r, array);
-        ball_subdivide9_rec( v123, v223, v233, depth-1, r, array);
-        ball_subdivide9_rec( v123, v233, v331, depth-1, r, array);
-        ball_subdivide9_rec( v331, v233, v3  , depth-1, r, array);
-    }
-//    fprintf(stderr,"back again all (depth=%d)\n",depth);
-}
-
-/***********************************************************************/
-
 void ball_subdivide_nonrec(GLfloat *v1, GLfloat *v2, GLfloat *v3, int depth, GLfloat r, ElemArray *array)
 /* if array=0 just make vertices */
 {
@@ -336,58 +222,6 @@ void ball_subdivide_nonrec(GLfloat *v1, GLfloat *v2, GLfloat *v3, int depth, GLf
 }
 
 /***********************************************************************/
-
-void create_ball_icosa( GLfloat r, int ddepth, int id ) /*FOLD00*/
-{
-#define X .525731112119133606
-#define Z .850650808352039932
-
-    int i;
-
-    static GLfloat vdata[12][3] = {
-        {-X, 0.0, Z}, {X, 0.0, Z}, {-X, 0.0, -Z}, {X, 0.0, -Z},
-        {0.0, Z, X}, {0.0, Z, -X}, {0.0, -Z, X}, {0.0, -Z, -X},
-        {Z, X, 0.0}, {-Z, X, 0.0}, {Z, -X, 0.0}, {-Z, -X, 0.0}
-    };
-
-    static GLint tindices[20][3] = {
-        {0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
-        {8,10,1}, {8,3,10}, {5,3,8}, {5,2,3}, {2,7,3},
-        {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
-        {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
-    };
-
-    //fprintf(stderr,"create_ball_icosa\n");
-
-    glDisable( GL_NORMALIZE );   /* remove this */
-    glNewList(id, GL_COMPILE);
-    glPushMatrix();
-#ifndef USE_TRISTRIPS
-      glBegin(GL_TRIANGLES);
-#endif
-         for (i = 0; i < 20; i++) {
-#ifndef USE_TRISTRIPS
-             ball_subdivide_rec(
-#else
-             ball_subdivide_nonrec(
-#endif
-                                &vdata[tindices[i][0]][0],
-                                &vdata[tindices[i][1]][0],
-                                &vdata[tindices[i][2]][0],
-                                ddepth, r, NULL
-                               );
-         }
-#ifndef USE_TRISTRIPS
-    glEnd();
-#endif
-    glPopMatrix();
-    glEndList();
-
-}
-
-/***********************************************************************/
-
-#ifdef USE_VERTEX_ARRAYS
 
 ElemArray * create_ball_icosa_array( VMfloat r, int ddepth, int id )
 {
@@ -454,11 +288,7 @@ ElemArray * create_ball_icosa_array( VMfloat r, int ddepth, int id )
     //fprintf(stderr,"pnr=%d\n",pnr);
 
     for (i = 0; i < 20; i++) {
-#ifndef USE_TRISTRIPS
-        ball_subdivide_rec(
-#else
         ball_subdivide_nonrec(
-#endif
                            &vdata[tindices[i][0]][0],
                            &vdata[tindices[i][1]][0],
                            &vdata[tindices[i][2]][0],
@@ -469,26 +299,6 @@ ElemArray * create_ball_icosa_array( VMfloat r, int ddepth, int id )
     //fprintf(stderr,"array->indnr=%d\n",array->indnr);
     //fprintf(stderr,"array->vnr=%d\n",array->vnr);
     //fprintf(stderr,"create_ball_icosa_array: rescaling vertices\n");
-#ifndef USE_TRISTRIPS
-    volume=0.0;
-    for(i=0;i<array->indnr;i+=3){
-
-        v1.x = array->vert[array->index[i+0]*3+0];
-        v1.y = array->vert[array->index[i+0]*3+1];
-        v1.z = array->vert[array->index[i+0]*3+2];
-
-        v2.x = array->vert[array->index[i+1]*3+0];
-        v2.y = array->vert[array->index[i+1]*3+1];
-        v2.z = array->vert[array->index[i+1]*3+2];
-
-        v3.x = array->vert[array->index[i+2]*3+0];
-        v3.y = array->vert[array->index[i+2]*3+1];
-        v3.z = array->vert[array->index[i+2]*3+2];
-
-        volume+=tri_vol_xy( v1, v2, v3 );
-    }
-    //fprintf(stderr,"create_ball_icosa_array: volume=%f\n",volume);
-#else
     volume=0.0;
     actind=0;
         for(i=0;i<array->num_prim;i++){
@@ -515,7 +325,7 @@ ElemArray * create_ball_icosa_array( VMfloat r, int ddepth, int id )
             actind+=array->prim_size[i];
         }
     //fprintf(stderr,"create_ball_icosa_array: volume=%f\n",volume);
-#endif
+
     scale_ratio=pow((4.0/3.0*r*r*r*M_PI)/fabs(volume),1.0/3.0);
     //fprintf(stderr,"create_ball_icosa_array: scale_ratioe=%f\n",scale_ratio);
     for(i=0;i<array->vnr*3;i++){
@@ -532,25 +342,16 @@ ElemArray * create_ball_icosa_array( VMfloat r, int ddepth, int id )
         glNormalPointer( GL_FLOAT, 0, array->norm );
         glTexCoordPointer( 2, GL_FLOAT, 0, array->tex );
 
-        //fprintf(stderr,"indnr=%d\n",array->indnr);
-        //fprintf(stderr,"vnr=%d\n",array->vnr);
-
-#ifndef USE_TRISTRIPS
-        glDrawElements( GL_TRIANGLES, array->indnr, GL_UNSIGNED_INT, array->index );
-#else
         actind=0;
         for(i=0;i<array->num_prim;i++){
             glDrawElements( GL_TRIANGLE_STRIP, array->prim_size[i], GL_UNSIGNED_INT, &(array->index[actind]) );
             actind+=array->prim_size[i];
         }
-#endif
     glPopMatrix();
     glEndList();
 //    fprintf(stderr,"array compiled %d, NE=%d, %d\n",glGetError(),GL_NO_ERROR, array);
     return array;
 }
-
-#endif
 
 /***********************************************************************/
 
@@ -570,7 +371,7 @@ void draw_ball( BallType * ball, myvec cam_pos, GLfloat cam_FOV, int win_width)
 {
     float cnear, geomfact;
     static int glballlist[]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-    static float ballmatr[]={
+    static GLfloat ballmatr[]={
         0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0,
@@ -584,12 +385,10 @@ void draw_ball( BallType * ball, myvec cam_pos, GLfloat cam_FOV, int win_width)
         for(i=0;i<=maxdetail;i++){
             if(glballlist[i]!=-1) glDeleteLists(glballlist[i],1);
             glballlist[i]=-1;
-#ifdef USE_VERTEX_ARRAYS
             for(i=0;i<=maxdetail;i++){
                 free_elem_array( array[i] );
                 array[i]=(ElemArray *)0;
             }
-#endif
         }
         maxdetail = options_max_ball_detail;
     }
@@ -597,11 +396,7 @@ void draw_ball( BallType * ball, myvec cam_pos, GLfloat cam_FOV, int win_width)
     if( glballlist[0]==-1 ){
         for(i=0;i<=maxdetail;i++){
             glballlist[i] = glGenLists(1);
-#ifdef USE_VERTEX_ARRAYS
             array[i] = create_ball_icosa_array( BALL_D/2.0, i, glballlist[i] );
-#else
-            create_ball_icosa( BALL_D/2.0, i, glballlist[i] );
-#endif
         }
     }
 
@@ -1283,8 +1078,8 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         //fprintf(stderr,"blended_id %i\n",blended_id);
         glCallList(blended_id);
         if(options_cuberef){
-                glBlendFunc (GL_ONE_MINUS_DST_COLOR, GL_ONE);
-                glMaterialfv(GL_FRONT, GL_DIFFUSE, col_refl3);
+            glBlendFunc (GL_ONE_MINUS_DST_COLOR, GL_ONE);
+            glMaterialfv(GL_FRONT, GL_DIFFUSE, col_refl3);
         } else {
             glBlendFunc (GL_SRC_ALPHA, GL_ONE);
             glMaterialfv(GL_FRONT, GL_DIFFUSE, col_refl);
@@ -1294,34 +1089,31 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         if( options_cuberef && cuberef_binds!=0 ) {
             glDisable(GL_TEXTURE_2D);
             glEnable(GL_TEXTURE_CUBE_MAP_ARB);
+            //fprintf(stderr,"cuberef1_id %i\n",cuberef1_id);
+            glCallList(cuberef1_id);
+            glGetFloatv(GL_MODELVIEW_MATRIX, texmat);
+            /* maybe set this per ball to camera direction */
+            texmat[12]=0.0;
+            texmat[13]=0.0;
+            texmat[14]=0.0;
+            /* transpose */
+            dummy=texmat[1]; texmat[1]=texmat[4]; texmat[4]=dummy;
+            dummy=texmat[2]; texmat[2]=texmat[8]; texmat[8]=dummy;
+            dummy=texmat[6]; texmat[6]=texmat[9]; texmat[9]=dummy;
+            glMatrixMode(GL_TEXTURE);
+            glLoadMatrixf(texmat);
+            glMatrixMode(GL_MODELVIEW);
         } else {
             glBindTexture(GL_TEXTURE_2D,spheretexbind);
+            glCallList(sphere1_id);
         }
-
-        if( options_cuberef && cuberef_binds!=0 ){
-           //fprintf(stderr,"cuberef1_id %i\n",cuberef1_id);
-           glCallList(cuberef1_id);
-           glGetFloatv(GL_MODELVIEW_MATRIX, texmat);
-           /* maybe set this per ball to camera direction */
-           texmat[12]=0.0;
-           texmat[13]=0.0;
-           texmat[14]=0.0;
-           /* transpose */
-           dummy=texmat[1]; texmat[1]=texmat[4]; texmat[4]=dummy;
-           dummy=texmat[2]; texmat[2]=texmat[8]; texmat[8]=dummy;
-           dummy=texmat[6]; texmat[6]=texmat[9]; texmat[9]=dummy;
-           glMatrixMode(GL_TEXTURE);
-           glLoadMatrixf(texmat);
-           glMatrixMode(GL_MODELVIEW);
-        } else {
-           //fprintf(stderr,"sphere1_id %i\n",sphere1_id);
-           glCallList(sphere1_id);
-        }
-        for(i=0;i<balls.nr;i++) if(balls.ball[i].in_game && balls.ball[i].in_fov){
+        for(i=0;i<balls.nr;i++) {
+        	if(balls.ball[i].in_game && balls.ball[i].in_fov) {
             if( options_cuberef && cuberef_binds!=0 ){
                 glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, cuberef_binds[i]);
             }
             draw_ball(&balls.ball[i],cam_pos,cam_FOV,win_width);
+         }
         }
         if( options_cuberef && cuberef_binds!=0 ){
    	        //fprintf(stderr,"cuberef_id %i\n",cuberef_id);
@@ -1339,7 +1131,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
     //fprintf(stderr,"shadow_id %i\n",cuberef_id);
     glCallList(shadow_id);
     for(i=0;i<balls.nr;i++) {
-     if(balls.ball[i].in_game) { 
+     if(balls.ball[i].in_game && balls.ball[i].in_fov) {
       for(j=0;j<lightnr;j++) {
         v=vec_diff(balls.ball[i].r,vec_xyz(lightpos[j].x,lightpos[j].y,0.0));
         fact=1.0+vec_abs(v)*SH_FACT;

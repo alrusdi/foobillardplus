@@ -33,6 +33,7 @@
 #include "options.h"
 #include "png_loader.h"
 #include "bumpref.h"
+#include "vmath.h"
 
 #ifdef __MINGW32__
 	extern void ( APIENTRY * glActiveTextureARB)( GLenum );

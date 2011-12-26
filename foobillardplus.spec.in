@@ -70,6 +70,7 @@ make
 - an extern history function
 - problems on toggle fullscreen solved
 - problems set windowed video mode solved
+- start of use SSE intrinsics
 
 * Wed Nov 01 2011 Holger Schaekel
 - Bugfixes with language handling

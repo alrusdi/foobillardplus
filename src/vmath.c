@@ -27,70 +27,311 @@
 
 #include <math.h>
 #include "vmath.h"
-#if defined( __SSE__ )
- #include <xmmintrin.h> // the header that defines SSE intrinsics
-#endif
 
-/***********************************************************************/
+const float M_PI2 = M_PI*2;
 
-void shape_trans( struct Shape *s, struct Vect t )
-{
+#if 0
+
+//between if 0 are functions for fastmath without table lookup
+
+/***********************************************************************
+ *                       fast sinus implementation                     *
+ ***********************************************************************/
+
+// schnelle Sinus Implementierung mit Inline Assembler (MASM-style)
+//inline float _fastcall fastSinSSE(float x)
+//{
+//    static const float _0_16666 = -1/6.0f;
+//    static const float _0_00833 = 1/120.0f;
+//    static const float _0_00019 = -1/5040.0f;
+//    static const float _0_0000027 = 1/362880.0f;
+
+//    _asm
+//    {
+//        movss   xmm0, x
+//        comiss  xmm0, PI    // if (x > PI)
+//        jbe SHORT ln1
+
+//        addss   xmm0, PI
+//        jmp SHORT ln2
+
+//ln1:
+//        movss   xmm1, _PI
+//        comiss  xmm1, xmm0  // if ( x < -PI)
+//        jbe SHORT ln3
+
+//        subss   xmm0, PI
+
+//ln2:
+//        divss   xmm0, PI2
+
+//        cvttss2si ecx, xmm0 // = z ohne rundung!
+//        cvtsi2ss xmm1, ecx  // z wieder in float umwandeln
+
+//        movss   xmm0, x
+//        mulss   xmm1, PI2
+//        subss   xmm0, xmm1
+//ln3:
+//        // xmm0 beinhaltet immer das aktuelle ergebnis
+//        // xmm1 beinhaltet zu jeder zeit x^2
+//        // xmm2 beinhaltet zu jeder zeit x
+//        // x + x*x*x*(_0_16666 + x*x*(_0_00833 + x*x*(_0_00019f + _0_0000027*x*x))));
+
+//        movss   xmm2, xmm0          // x in xmm0 legen
+//        movss   xmm1, xmm0      // x in xmm1 legen
+//        mulss   xmm1, xmm1      // xmm1 = x*x
+//        movss   xmm0, _0_0000027
+//        mulss   xmm0, xmm1      // xmm0 = _0_0000027*x*x
+//        addss   xmm0, _0_00019
+//        mulss   xmm0, xmm1      // xmm0 = x*x*(_0_00019f + _0_0000027*x*x)
+//        addss   xmm0, _0_00833
+//        mulss   xmm0, xmm1      // xmm0 = x*x*(_0_00833 + x*x*(_0_00019f + _0_0000027*x*x))
+//        addss   xmm0, _0_16666
+//        mulss   xmm0, xmm1      // xmm0 = x*x*(_0_16666 + x*x*(_0_00833 + x*x*(_0_00019 + _0_0000027*x*x)))
+//        mulss   xmm0, xmm2
+//        addss   xmm0, xmm2
+//        movss   x, xmm0         // das ergebnis in x rüberschieben
+//    }
+
+//    return x;
+//}
+
+inline float fastsin(float x) {
+    if(M_PI < x) {
+        x = x-(int)((x+M_PI)/(M_PI2))*M_PI2;
+    }
+    else if(x < -M_PI) {
+        x = x-(int)((x-M_PI)/(M_PI2))*M_PI2;
+    }
+    return x*(1 - x*x*(0.16666667f - x*x*(0.00833333f - x*x*(0.0001984f - x*x*0.0000027f))));
+}
+
+/***********************************************************************
+ *                     fast cosinus implementation                     *
+ ***********************************************************************/
+
+// schnelle Kosinus Implementierung mit Inline Assembler  (MASM-style)
+//inline float _fastcall fastCosSSE(float x)
+//{
+//    static const float _0_5 = -1/2.0f;
+//    static const float _0_0416 = 1/24.0f;
+//    static const float _0_001387 = -1/720.0f;
+//    static const float _0_0000248 = 1/40320.0f;
+//    static const float _0_000000275 = -1/3629000.0f;
+//    static const float _1 = 1.0f;
+
+//    // Wenn x groeßer oder kleiner als PI,
+//    // dann wird x auf das Intervall -PI bis PI zurückgerechnet
+//    _asm
+//    {
+//        movss   xmm0, x
+//        comiss  xmm0, PI    // if (x > PI)
+//        jbe SHORT ln1
+
+//        addss   xmm0, PI
+//        jmp SHORT ln2
+
+//ln1:
+//        movss   xmm1, _PI
+//        comiss  xmm1, xmm0  // if ( x < -PI)
+//        jbe SHORT ln3
+
+//        subss   xmm0, PI
+
+//ln2:
+//        divss   xmm0, PI2
+
+//        cvttss2si ecx, xmm0 // = z ohne rundung!
+//        cvtsi2ss xmm1, ecx  // z wieder in float umwandeln
+
+//        movss   xmm0, x
+//        mulss   xmm1, PI2
+//        subss   xmm0, xmm1
+//ln3:
+//        // xmm0 beinhaltet immer das aktuelle ergebnis
+//        // xmm1 beinhaltet zu jeder zeit x^2
+
+//        //  1-x*x*(0.5f-x*x*(0.04166667f-x*x*(0.00138889f-x*x*(0.00002480f-x*x*0.000000275f))));
+
+//        movss   xmm1, xmm0      // x in xmm1 legen
+//        mulss   xmm1, xmm0      // xmm1 = x*x
+//        movss   xmm0, _0_000000275
+//        mulss   xmm0, xmm1      // xmm0 = _0_000000275*x*x
+//        addss   xmm0, _0_0000248
+//        mulss   xmm0, xmm1      // xmm0 = x*x*(_0_0000248 + _0_000000275*x*x)
+//        addss   xmm0, _0_001387
+//        mulss   xmm0, xmm1      // xmm0 = x*x*(_0_001387 + x*x*(_0_0000248 + _0_000000275*x*x))
+//        addss   xmm0, _0_0416
+//        mulss   xmm0, xmm1      // xmm0 = x*x*(_0_0416 + x*x*(_0_001387 + x*x*(_0_0000248 + _0_000000275*x*x)))
+//        addss   xmm0, _0_5
+//        mulss   xmm0, xmm1      // xmm0 = x*x*(_0_5+x*x*(_0_0416 + x*x*(_0_001387 + x*x*(_0_0000248 + _0_000000275*x*x))))
+//        addss   xmm0, _1        // xmm0++
+//        movss   x, xmm0         // das ergebnis in x rüberschieben
+//    }
+
+//    return x;
+//}
+
+inline float fastcos(float x) {
+    if(M_PI < x) {
+        x = x-(int)((x+M_PI)/(M_PI2))*M_PI2;
+    }
+    else if(x < -M_PI) {
+        x = x-(int)((x-M_PI)/(M_PI2))*M_PI2;
+    }
+    return 1-x*x*(0.5f-x*x*(0.04166667f-x*x*(0.00138889f-x*x*(0.00002480f-x*x*0.000000275f))));
+}
+
+#endif // end of if 0
+
+/***********************************************************************
+ *            fast sinus/cosinus lookup build table                    *
+ ***********************************************************************/
+
+#define MAX_CIRCLE_ANGLE 512
+#define HALF_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE/2)
+#define QUARTER_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE/4)
+#define MASK_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE - 1)
+
+static float fast_cossin_table[MAX_CIRCLE_ANGLE];           // Declare table of fast cosinus and sinus
+
+void initlookup_cossin_table(void) {
+	 long i;
+  // Build cossin table
+  for (i = 0; i < MAX_CIRCLE_ANGLE ; i++) {
+     fast_cossin_table[i] = (float)sin((double)i * M_PI / HALF_MAX_CIRCLE_ANGLE);
+  }
+}
+
+/***********************************************************************
+ *            fast sinus implementation lookup table                   *
+ ***********************************************************************/
+inline float fastsin(float n) {
+   float f = n * HALF_MAX_CIRCLE_ANGLE / M_PI;
    int i;
-   for(i=0;i<s->pnr;i++){
-      s->p[i].x+=t.x;
-      s->p[i].y+=t.y;
-      s->p[i].z+=t.z;
+   i = (int)f;
+   if (i < 0) {
+      return fast_cossin_table[(-((-i)&MASK_MAX_CIRCLE_ANGLE)) + MAX_CIRCLE_ANGLE];
+   } else {
+      return fast_cossin_table[i&MASK_MAX_CIRCLE_ANGLE];
    }
+}
+
+/***********************************************************************
+ *            fast cosinus implementation lookup table                 *
+ ***********************************************************************/
+
+inline float fastcos(float n) {
+   float f = n * HALF_MAX_CIRCLE_ANGLE / M_PI;
+   int i;
+   i = (int)f;
+   if (i < 0) {
+      return fast_cossin_table[((-i) + QUARTER_MAX_CIRCLE_ANGLE)&MASK_MAX_CIRCLE_ANGLE];
+   } else {
+      return fast_cossin_table[(i + QUARTER_MAX_CIRCLE_ANGLE)&MASK_MAX_CIRCLE_ANGLE];
+   }
+}
+
+/***********************************************************************
+ *                     fast atan implementation                       *
+ ***********************************************************************/
+
+inline float fastatan(float x)
+{
+    return M_PI_4*x - x*(fabs(x) - 1)*(0.2447 + 0.0663*fabs(x));
+}
+
+
+/***********************************************************************
+ *                     fast atan2 implementation                       *
+ ***********************************************************************/
+
+inline float fastatan2(float y, float x) {
+	  float coeff_1 = M_PI / 4.0f;
+	  float coeff_2 = 3.0f * coeff_1;
+	  float abs_y = abs(y);
+	  float angle;
+	  if (x > 0.0f) {
+		    float r = (x - abs_y) / (x + abs_y);
+		    angle = coeff_1 - coeff_1 * r;
+	  } else {
+		    float r = (x + abs_y) / (abs_y - x);
+		    angle = coeff_2 - coeff_1 * r;
+	  }
+	return y < 0.0f ? -angle : angle;
 }
 
 /***********************************************************************/
 
 struct Vect vec_cross( struct Vect v1, struct Vect v2 )
 {
-   struct Vect vr;
+   static struct Vect vr;
    vr.x = v1.y * v2.z - v2.y * v1.z;
    vr.y = v1.z * v2.x - v2.z * v1.x;
    vr.z = v1.x * v2.y - v2.x * v1.y;
-   return vr;
+   return (vr);
 }
 
 /***********************************************************************/
 
 VMfloat vec_mul( struct Vect v1, struct Vect v2 )
 {
- return( v1.x*v2.x + v1.y*v2.y + v1.z*v2.z );
+#ifndef USE_SSE
+   return( v1.x*v2.x + v1.y*v2.y + v1.z*v2.z );
+#else
+	  static struct Vect vr;
+	  vr.v = _mm_mul_ps(v1.v, v2.v);
+	  return (vr.x+vr.y+vr.z);
+#endif
+
 }
 
 /***********************************************************************/
 
 struct Vect vec_diff( struct Vect v1, struct Vect v2 )
 {
-   struct Vect vr;
+   static struct Vect vr;
+#ifndef USE_SSE
    vr.x = v1.x - v2.x;
    vr.y = v1.y - v2.y;
    vr.z = v1.z - v2.z;
-   return vr;
+#else
+   vr.v = _mm_sub_ps(v1.v, v2.v);
+#endif
+   return (vr);
 }
 
 /***********************************************************************/
 
-struct Vect vec_add( struct Vect v1, struct Vect v2 )
+struct Vect vec_add(struct Vect v1, struct Vect v2 )
 {
-   struct Vect vr;
+    static struct Vect vr;
+
+#ifndef USE_SSE
    vr.x = v1.x + v2.x;
    vr.y = v1.y + v2.y;
    vr.z = v1.z + v2.z;
-   return vr;
+#else
+    vr.v = _mm_add_ps(v1.v, v2.v);
+#endif
+	return (vr);
 }
 
 /***********************************************************************/
 
 struct Vect vec_scale( struct Vect v1, VMfloat scale )
 {
-   struct Vect vr;
+   static struct Vect vr;
+
+#ifndef USE_SSE
    vr.x = v1.x * scale;
    vr.y = v1.y * scale;
    vr.z = v1.z * scale;
+#else
+   static struct Vect vr1;
+   vr1.v = _mm_set1_ps (scale);
+   vr.v = _mm_mul_ps(v1.v, vr1.v);
+#endif
    return vr;
 }
 
@@ -98,7 +339,7 @@ struct Vect vec_scale( struct Vect v1, VMfloat scale )
 
 struct Vect vec_rotate( struct Vect v1, struct Vect ang )
 {
-    struct Vect vr;
+    static struct Vect vr;
     vr=v1;
     rot_ax( vec_unit(ang), &vr, 1, vec_abs(ang) );
     return(vr);
@@ -108,73 +349,103 @@ struct Vect vec_rotate( struct Vect v1, struct Vect ang )
 
 VMfloat vec_abs( struct Vect v )
 {
- return( sqrt( v.x*v.x + v.y*v.y + v.z*v.z ));
+
+#ifndef USE_SSE
+    return( sqrt( v.x*v.x + v.y*v.y + v.z*v.z ));
+#else
+    static struct Vect vr;
+    vr.v = _mm_mul_ps(v.v, v.v);
+    return( sqrt( vr.x + vr.y + vr.z ));
+#endif
 }
 
 /***********************************************************************/
 
 VMfloat vec_abssq( struct Vect v )
 {
- return( v.x*v.x + v.y*v.y + v.z*v.z );
+#ifndef USE_SSE
+    return( v.x*v.x + v.y*v.y + v.z*v.z );
+#else
+  	 static struct Vect vr;
+	   vr.v = _mm_mul_ps(v.v, v.v);
+    return(vr.x + vr.y + vr.z);
+#endif
 }
 
 /***********************************************************************/
 
 struct Vect vec_unit( struct Vect v )
 {
- struct Vect vr;
- VMfloat l;
-   l=vec_abs(v);
-   if(fabs(l)>1.0E-50){
+    static struct Vect vr;
+    VMfloat l;
+    l=vec_abs(v);
+    if(fabs(l)>1.0E-50){
+#ifndef USE_SSE
        vr.x=v.x/l;
        vr.y=v.y/l;
        vr.z=v.z/l;
-   } else {
+    } else {
        vr.x=0.0;
        vr.y=0.0;
        vr.z=0.0;
-   }
-   return vr;
-}
-
-/***********************************************************************/
-
-int vec_nearly_equal( struct Vect v1, struct Vect v2, VMfloat tolerance )
-{
-    return ( fabs(v1.x-v2.x)<tolerance &&
-             fabs(v1.y-v2.y)<tolerance &&
-             fabs(v1.z-v2.z)<tolerance );
+    }
+#else
+     static struct Vect vr1;
+   	   vr1.v = _mm_set1_ps(l);
+	      vr.v = _mm_div_ps(v.v,vr1.v);
+    } else {
+       vr.v = _mm_setzero_ps ();
+    }
+#endif
+    return vr;
 }
 
 /***********************************************************************/
 
 struct Vect vec_xyz( VMfloat x, VMfloat y, VMfloat z )
 {
-   struct Vect vr;
+   static struct Vect vr;
+#ifndef USE_SSE
    vr.x=x; vr.y=y; vr.z=z;
+#else
+   vr.v = _mm_setr_ps (1.0f,x,y,z); // first w to 1.0f, so no null division error can occur
+#endif
    return vr;
 }
 
 /***********************************************************************/
 
-struct Vect  vec_ez(void)
+struct Vect vec_ez(void)
 {
- return(vec_xyz(0.0,0.0,1.0));
+#ifndef USE_SSE
+   return(vec_xyz(0.0,0.0,1.0));
+#else
+   static struct Vect vr;
+   vr.v = _mm_setr_ps(1.0f,0.0f,0.0f,1.0f);
+   return(vr);
+#endif
 }
 
 /***********************************************************************/
 
-struct Vect  vec_null(void)
+struct Vect vec_null(void)
 {
- return(vec_xyz(0.0,0.0,0.0));
- }
+#ifndef USE_SSE
+   return(vec_xyz(0.0,0.0,0.0));
+#else
+   static struct Vect vr;
+   vr.v = _mm_setzero_ps ();
+   return(vr);
+#endif
+
+}
 
 /***********************************************************************/
 
 void rot_ax( struct Vect ax, struct Vect *v, int nr, VMfloat phi )
 {
-  struct Vect bx,by,bz; // base
-  struct Vect dp,dp2, nax;
+  static struct Vect bx,by,bz; // base
+  static struct Vect dp,dp2, nax;
   VMfloat sinphi,cosphi;
   int i;
 
@@ -191,7 +462,6 @@ void rot_ax( struct Vect ax, struct Vect *v, int nr, VMfloat phi )
       cosphi=cos(phi);
 
       for( i=0; i<nr; i++ ){
-//         v[i] = vec_diff( v[i], m );
          // transform into axis-system
          dp.x = vec_mul( v[i], bx );
          dp.y = vec_mul( v[i], by );
@@ -224,8 +494,13 @@ VMfloat vec_angle( struct Vect v1, struct Vect v2 )
 struct Vect vec_proj( struct Vect v1, struct Vect v2 )
 {
     static VMfloat v2ls;
-
+#ifndef USE_SSE
     v2ls = v2.x*v2.x + v2.y*v2.y + v2.z*v2.z;
+#else
+    static struct Vect vr;
+    vr.v = _mm_mul_ps(v2.v, v2.v);
+   	v2ls = vr.x + vr.y + vr.z;
+#endif
     if( v2ls > 0.0 ){
         return( vec_scale( v2, vec_mul(v1,v2)/v2ls ) );
     } else {
@@ -265,7 +540,7 @@ struct Vect vec_surf_proj( struct Vect center, struct Vect point, struct Vect n,
 
 struct Vect matr4_rdot( struct Matrix4 m, struct Vect v )
 {
-    struct Vect rvec;
+    static struct Vect rvec;
     rvec.x=v.x*m.m[0]+v.y*m.m[4]+v.z*m.m[ 8]+m.m[12];
     rvec.y=v.x*m.m[1]+v.y*m.m[5]+v.z*m.m[ 9]+m.m[13];
     rvec.z=v.x*m.m[2]+v.y*m.m[6]+v.z*m.m[10]+m.m[14];
@@ -276,9 +551,20 @@ struct Vect matr4_rdot( struct Matrix4 m, struct Vect v )
 
 struct Vect tri_center( struct Vect v1, struct Vect v2, struct Vect v3 )
 {
-    return( vec_xyz( (v1.x+v2.x+v3.x)/3.0,
-                     (v1.y+v2.y+v3.y)/3.0,
-                     (v1.z+v2.z+v3.z)/3.0 ) );
+
+#ifndef USE_SSE
+    return(vec_xyz((v1.x+v2.x+v3.x)/3.0,
+                   (v1.y+v2.y+v3.y)/3.0,
+                   (v1.z+v2.z+v3.z)/3.0));
+#else
+	   static struct Vect vr,vr1,vr2;
+    vr.v = _mm_add_ps(v1.v, v2.v);
+    vr1.v = _mm_add_ps(vr.v, v3.v);
+    vr2.v = _mm_set_ps1(3.0f);
+    vr.v = _mm_div_ps(vr1.v,vr2.v);
+    return vr;
+#endif
+
 }
 
 /***********************************************************************/

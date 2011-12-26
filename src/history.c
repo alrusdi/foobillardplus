@@ -30,6 +30,8 @@
 #include <sys_stuff.h>
 #ifdef USE_WIN
   #include <sys/time.h>
+  #include <windows.h>
+  #include <shellapi.h>
 #else
   #include <time.h>
 #endif
@@ -78,14 +80,9 @@ void get_history(char *strpointer) {
 int check_xml(char *filecheck) {
 
 	  char file[1024];
-	  FILE *fp;
 
 	  sprintf(file,"%s/html/%s",file_name,filecheck);
-	  if((fp=fopen(file,"rw"))) {
-	  	fclose(fp);
-	  	return 1;
-	  }
-   return 0;
+      return(file_exists(file));
 }
 
 /***********************************************************************
@@ -93,13 +90,17 @@ int check_xml(char *filecheck) {
  ***********************************************************************/
 
 void show_history(char * historyfile) {
-	  char callstring[1024];
 	  char workstring[1024];
 	  // build the browser call string
+#ifdef USE_WIN
+	  sprintf(workstring,"%s/html/%s",file_name,historyfile);
+#else
+	  char callstring[1024];
 	  get_browser(callstring);
 	  sprintf(workstring," %s%s/html/%s",callstring,file_name,historyfile);
-	  //fprintf(stderr,"%s\n",workstring);
-	  system(workstring);
+#endif
+	  launch_command(workstring);
+
 }
 
 /***********************************************************************
@@ -157,10 +158,11 @@ void parse_history(char *inputfile, char *outputfile) {
 
    FILE *fp,*wfp;
    int i;
-   char *parseinput[] = {"Game History","8 ball","9 ball","Carom","Snooker","Date","Player 1","Player 2","Winner","Strokes","Rounds"};
+   char *parseinput[] = {"Game History","8 ball","9 ball","Carom","Snooker","Date","Player 1","Player 2","Winner","Strokes",
+   		"Rounds","Tournament History","Game No.","Tournament Date","Round"};
    char *parseoutput[] = {localeText[436],localeText[93],localeText[94],localeText[95],localeText[96],localeText[437],localeText[0],
-   		localeText[2],localeText[438],localeText[439],localeText[440]};
-#define ARRAYLEN 11
+   		localeText[2],localeText[438],localeText[439],localeText[440],localeText[444],localeText[445],localeText[446],localeText[447]};
+#define ARRAYLEN 15
    char checkstring[2048];  // no entry inside the history-file should be longer
    char *buffer;
 

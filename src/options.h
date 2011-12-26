@@ -182,4 +182,24 @@ extern int extension_vp_NV;   /* NVIDIA vertex program */
 
 enum netSpeed { NET_SPEED_LOW=1, NET_SPEED_NORMAL, NET_SPEED_MIDDLE, NET_SPEED_HIGH }; //network-speed *5 = 5,10,15,20 packets per second
 
+enum archType { ARCH_WETAB, ARCH_WIN32, ARCH_WIN64, ARCH_LINUX };
+
+#if defined(USE_WIN) // set via .configure command or separately
+ #if defined(__MINGW64__) || defined(_WIN64) || defined(WIN64)
+   #ifndef WIN64
+     #define WIN64
+   #endif
+   #undef WIN32
+ #else
+   #ifndef WIN32
+     #define WIN32
+   #endif
+   #undef WIN64
+ #endif
+#else
+ #define POSIX
+#endif
+
+extern enum archType arch;
+
 #endif

@@ -37,9 +37,9 @@ extern "C" {
         int bumpref_list;
         int cubemap_bind;
         int normalmap_bind;
-        VMfloat bump_light[3];
-        VMfloat bump_diff_col[4];
-        VMfloat bump_spec_col[4];
+        GLfloat bump_light[3];
+        GLfloat bump_diff_col[4];
+        GLfloat bump_spec_col[4];
     } BumpRefType;
 
 
