@@ -161,8 +161,6 @@ static int cuebutt_id= -1;           // cue butt up/down glcompile-id
 static int cueball1_id= -1;          // helpline cross move glcompile-id
 static int fov_id= -1;               // front of view glcompile-id
 static int freeview_id= -1;          // freeview glcompile-id
-static int cubemap_id= -1;           // cubemap glcompile-id
-static int cubemap1_id= -1;          // cubemap glcompile-id
 static int tourn_id= -1;             // tournament glcompile-id
 static int hudstuff_id= -1;          // hud stuff mode changes glcompile-id
 static int enddisp_id= -1;           // end changes on end of displayfunc glcompile-id
@@ -3464,11 +3462,12 @@ void MouseMotion(int x, int y)
 
 void myRect2D_texture(void)
 {
+
   static int myrect_id= -1;             // glcompile-id
   if(myrect_id == -1) {
     myrect_id = glGenLists(1);
     glNewList(myrect_id, GL_COMPILE_AND_EXECUTE);
-    glBegin(GL_QUADS);
+     glBegin(GL_QUADS);
       glTexCoord2f(0,1);
       glVertex3f(0,0,0);
       glTexCoord2f(0,0);
@@ -3477,7 +3476,7 @@ void myRect2D_texture(void)
       glVertex3f(48,48,0);
       glTexCoord2f(1,1);
       glVertex3f(48,0,0);
-    glEnd();
+     glEnd();
     glEndList();
   } else {
     //fprintf(stderr,"myrect %i\n",myrect_id);
@@ -3632,27 +3631,97 @@ void draw_3D_winner_text(void)
 }
 
 /***********************************************************************
- * Create cuberef maps for one ball (called from create_cuberef_maps)  *
- *    and displays the textures (cuberef reflections) for one ball     *
+ *         Create the cuberef binds / textures for all balls           *
+ *           and displays the textures (cuberef reflections)           *
+ *              this function must be quick as possible                *
+ *                  called up to 6 times per ball!!!!                  *
  ***********************************************************************/
 
-void create_cuberef_map_and_display(int ballnr, int texbind, VMvect cam_pos)
+void create_cuberef_maps(VMvect cam_pos)
 {
-    int i, w, level;
+
+ struct vertex_cuberef_struct {
+    GLfloat x,y,z;  // vertex
+ };
+ struct color_cuberef_struct {
+    GLfloat a,b,c,d;  // color
+ };
+
+ unsigned const short cuberef_index[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
+
+ const struct color_cuberef_struct cuberef_color[]= {
+    {1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},
+
+    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},
+
+    {0.3,0.3,0.3,1.0},
+    {0.3,0.3,0.3,1.0},
+    {0.3,0.3,0.3,1.0},
+    {0.3,0.3,0.3,1.0},
+
+    {0.15,0.2,0.15,1.0},
+    {0.15,0.2,0.15,1.0},
+    {0.15,0.2,0.15,1.0},
+    {0.15,0.2,0.15,1.0}
+ };
+
+ const struct vertex_cuberef_struct cuberef_vertex[]= {
+
+    {0.18, 0.15, 1.0},
+    {0.18, 0.76, 1.0},
+    {-0.18, 0.76, 1.0},
+    {-0.18, 0.15, 1.0},
+    {-0.18, -0.15, 1.0},
+    {-0.18, -0.76, 1.0},
+    {0.18, -0.76, 1.0},
+    {0.18, -0.15, 1.0},
+
+    {0.20, 0.13, 1.001},
+    {0.20, 0.78, 1.001},
+    {-0.20, 0.78, 1.001},
+    {-0.20, 0.13, 1.001},
+    {-0.20, -0.13, 1.001},
+    {-0.20, -0.78, 1.001},
+    {0.20, -0.78, 1.001},
+    {0.20, -0.13, 1.001},
+
+    {0.28,-0.86, 1.002},
+    {0.28, 0.86, 1.002},
+    {-0.28, 0.86, 1.002},
+    {-0.28,-0.86, 1.002},
+
+    {0.38,-0.96, 1.004},
+    {0.38, 0.96, 1.004},
+    {-0.38, 0.96, 1.004},
+    {-0.38,-0.96, 1.004}
+ };
+
+    int i, w, level, ballnr;
     int xpos, ypos;
+    static int cubemap_id[6]= {-1,-1,-1,-1,-1,-1};           // cubemap glcompile-ids
     static VMfloat d, ang1, ang2;
     static VMfloat th, ph, cam_FOV2, cam_FOV3;
     static VMvect dvec, ballvec, right, up, cam_pos_;
     static const int target[6] = {GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB,
-    	                     	       GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
-                         		       GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
-                         		       GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
-                         		       GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
-                         		       GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB};
-
- 	  static const MATH_ALIGN16 GLfloat light_position[] = { 0.0, 0.0, 0.7, 0.0 };  //the [3] is 0.0 for better performance
-    static const MATH_ALIGN16 GLfloat light_diff[]     = { 0.2, 0.2, 0.2, 1.0 };
-    static const MATH_ALIGN16 GLfloat light_amb[]      = { 0.05, 0.05, 0.05, 1.0 };
+                                  GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
+                                  GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
+                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
+                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
+                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB};
 
     // the following definition is for more speed (Matrix of the reflexions)
     static const MATH_ALIGN16 GLfloat mv_matr[6][16] = {{0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
@@ -3662,136 +3731,73 @@ void create_cuberef_map_and_display(int ballnr, int texbind, VMvect cam_pos)
       /*  static MATH_ALIGN16 GLfloat mv_matr_ny[16] =*/ {1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
       /*  static MATH_ALIGN16 GLfloat mv_matr_nz[16] =*/ {-1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,1.0f}};
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, texbind);
-
-    /* calc necessary detail level */
-
-    cam_FOV3 = cam_FOV*M_PI/180.0/2.0;
-    cam_FOV2=(2.0*180.0/M_PI*MATH_ATAN(tan(cam_FOV3)/win_width*win_height))*M_PI/180.0/2.0;
-
-    th=(Xrot+Xrot_offs)/180.0*M_PI;
-    ph=(Zrot+Zrot_offs)/180.0*M_PI;
-    dvec  = vec_xyz(-MATH_SIN(th)*MATH_SIN(ph),-MATH_SIN(th)*MATH_COS(ph),-MATH_COS(th));
-    cam_pos_ = vec_diff( cam_pos, vec_scale(dvec,balls.ball[ballnr].d/2.0/MATH_SIN(cam_FOV3)));
-    right = vec_unit(vec_xyz(dvec.y,-dvec.x,0));
-    up    = vec_cross(right,dvec);
-    ballvec = vec_diff(balls.ball[ballnr].r,cam_pos_);
-    d = vec_mul(ballvec,dvec);
-    ang1  = MATH_ATAN2( vec_mul(ballvec, right), d);
-    ang2  = MATH_ATAN2( vec_mul(ballvec, up), d);
-
-    if(fabs(ang1) < cam_FOV3 && fabs(ang2) < cam_FOV2) {
-    //only draw, if the ball is in view and in quality only on near distance
-        level=fabs(d);
-        if (level>6) level=6; //never greater 6 and never <0
-        //fprintf(stderr,"%f %i\n",d,level);
-        w=options_cuberef_res>>level;
-        //  from here displays the textures (cuberef reflections) for one ball
-        for(i=0;i<6;i++){
-            xpos = (i%3)*options_cuberef_res;
-            ypos = (i/3)*options_cuberef_res;
-            glViewport( xpos, ypos, w, w);
-            if(cubemap1_id == -1) {
-              cubemap1_id = glGenLists(1);
-              glNewList(cubemap1_id, GL_COMPILE_AND_EXECUTE);
-              glDisable(GL_LIGHT1);
-              glMatrixMode( GL_PROJECTION );
-              glLoadIdentity();
-              glFrustum( -0.01f, +0.01f, -0.01f, +0.01f, +0.01f, +3.0f );
-              glMatrixMode( GL_MODELVIEW );
-              glLoadIdentity();
-              glEndList();
-            } else {
-              //fprintf(stderr,"cubemap1 %i\n",cubemap1_id);
-              glCallList(cubemap1_id);
-            }
-            glLoadMatrixf(mv_matr[i]);
-
-            if(cubemap_id == -1) {
-              cubemap_id = glGenLists(1);
-              glNewList(cubemap_id, GL_COMPILE_AND_EXECUTE);
-              glPushMatrix();
-
-              glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diff);
-              glLightfv(GL_LIGHT0, GL_AMBIENT,  light_amb);
-              glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-              /* light rects */
-              glDisable(GL_LIGHTING);
-              glDisable(GL_TEXTURE_2D);
-
-              glColor4f(1.0,1.0,1.0,1.0);
-              glBegin( GL_QUADS );
-                glNormal3f( 0.0,0.0,-1.0 );
-                glVertex3f(  0.18, 0.15, 1.0 );
-                glVertex3f(  0.18, 0.76, 1.0 );
-                glVertex3f( -0.18, 0.76, 1.0 );
-                glVertex3f( -0.18, 0.15, 1.0 );
-                glVertex3f( -0.18, -0.15, 1.0 );
-                glVertex3f( -0.18, -0.76, 1.0 );
-                glVertex3f(  0.18, -0.76, 1.0 );
-                glVertex3f(  0.18, -0.15, 1.0 );
-              glEnd();
-
-              glColor4f(0.6,0.6,0.6,1.0);
-              glBegin( GL_QUADS );
-                glVertex3f(  0.20, 0.13, 1.001 );
-                glVertex3f(  0.20, 0.78, 1.001 );
-                glVertex3f( -0.20, 0.78, 1.001 );
-                glVertex3f( -0.20, 0.13, 1.001 );
-                glVertex3f( -0.20, -0.13, 1.001 );
-                glVertex3f( -0.20, -0.78, 1.001 );
-                glVertex3f(  0.20, -0.78, 1.001 );
-                glVertex3f(  0.20, -0.13, 1.001 );
-              glEnd();
-
-              glColor4f(0.3,0.3,0.3,1.0);
-              glBegin( GL_QUADS );
-                glVertex3f(  0.28,-0.86, 1.002 );
-                glVertex3f(  0.28, 0.86, 1.002 );
-                glVertex3f( -0.28, 0.86, 1.002 );
-                glVertex3f( -0.28,-0.86, 1.002 );
-              glEnd();
-
-              glColor4f(0.15,0.2,0.15,1.0);
-              glBegin( GL_QUADS );
-                glVertex3f(  0.38,-0.96, 1.004 );
-                glVertex3f(  0.38, 0.96, 1.004 );
-                glVertex3f( -0.38, 0.96, 1.004 );
-                glVertex3f( -0.38,-0.96, 1.004 );
-              glEnd();
-
-              glEnable(GL_LIGHTING);
-              glEnable(GL_TEXTURE_2D);
-
-              glPopMatrix();
-              glEndList();
-            } else {
-              //fprintf(stderr,"cubemap %i\n",cubemap_id);
-              glCallList(cubemap_id);
-            }
-            glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_BASE_LEVEL, level);
-            glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAX_LEVEL, level);
-            glCopyTexSubImage2D(target[i], level, 0, 0, xpos, ypos, w, w );
-        }
-    }
-}
-
-/***********************************************************************
- *         Create the cuberef binds / textures for all balls           *
- ***********************************************************************/
-
-void create_cuberef_maps(VMvect cam_pos)
-{
-    int i;
     glColorMask(1, 1, 1, 1);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    for(i=0;i<balls.nr;i++) {
-      if(balls.ball[i].in_game){
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    for(ballnr=0;ballnr<balls.nr;ballnr++) {
+      if(balls.ball[ballnr].in_game && balls.ball[ballnr].in_fov){
         //fprintf(stderr,"creating cubemaps for ball #%d\n",i);
-        create_cuberef_map_and_display(i,cuberef_allballs_texbind[i],cam_pos);
+
+        glBindTexture(GL_TEXTURE_CUBE_MAP_ARB,cuberef_allballs_texbind[ballnr]);
+
+        /* calc necessary detail level */
+
+        cam_FOV3 = cam_FOV*M_PI/180.0/2.0;
+        cam_FOV2=(2.0*180.0/M_PI*MATH_ATAN(tan(cam_FOV3)/win_width*win_height))*M_PI/180.0/2.0;
+
+        th=(Xrot+Xrot_offs)/180.0*M_PI;
+        ph=(Zrot+Zrot_offs)/180.0*M_PI;
+        dvec  = vec_xyz(-MATH_SIN(th)*MATH_SIN(ph),-MATH_SIN(th)*MATH_COS(ph),-MATH_COS(th));
+        cam_pos_ = vec_diff( cam_pos, vec_scale(dvec,balls.ball[ballnr].d/2.0/MATH_SIN(cam_FOV3)));
+        right = vec_unit(vec_xyz(dvec.y,-dvec.x,0));
+        up    = vec_cross(right,dvec);
+        ballvec = vec_diff(balls.ball[ballnr].r,cam_pos_);
+        d = vec_mul(ballvec,dvec);
+        ang1  = MATH_ATAN2( vec_mul(ballvec, right), d);
+        ang2  = MATH_ATAN2( vec_mul(ballvec, up), d);
+
+        if(fabs(ang1) < cam_FOV3 && fabs(ang2) < cam_FOV2) {
+        //only draw, if the ball is in view and in quality only on near distance
+            level=fabs(d);
+            if (level>6) level=6; //never greater 6 and never <0
+            //fprintf(stderr,"%f %i\n",d,level);
+            w=options_cuberef_res>>level;
+            //  from here displays the textures (cuberef reflections) for one ball
+            for(i=0;i<6;i++){
+                xpos = (i%3)*options_cuberef_res;
+                ypos = (i/3)*options_cuberef_res;
+                glViewport( xpos, ypos, w, w);
+                if(cubemap_id[i] == -1) {
+                  cubemap_id[i] = glGenLists(1);
+                  glNewList(cubemap_id[i], GL_COMPILE_AND_EXECUTE);
+                    glMatrixMode( GL_PROJECTION );
+                    glLoadIdentity();
+                    glFrustum( -0.01f, +0.01f, -0.01f, +0.01f, +0.01f, +3.0f );
+                    glMatrixMode( GL_MODELVIEW );
+                    glLoadMatrixf(mv_matr[i]);
+                    glNormal3f( 0.0,0.0,-1.0 );
+                    glEnableClientState(GL_VERTEX_ARRAY);
+                    glVertexPointer(3, GL_FLOAT, sizeof (struct vertex_cuberef_struct),cuberef_vertex);
+                    glEnableClientState(GL_COLOR_ARRAY);
+                    glColorPointer(4, GL_FLOAT, sizeof (struct color_cuberef_struct), cuberef_color);
+                    glDrawElements(GL_QUADS, 24, GL_UNSIGNED_SHORT, cuberef_index);
+                    glDisableClientState(GL_VERTEX_ARRAY);
+                    glDisableClientState(GL_COLOR_ARRAY);
+                  glEndList();
+                } else {
+                  //fprintf(stderr,"cubemap (%i)%i\n",i,cubemap_id[i]);
+                  glCallList(cubemap_id[i]);
+                }
+                glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_BASE_LEVEL, level);
+                glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAX_LEVEL, level);
+                glCopyTexSubImage2D(target[i], level, 0, 0, xpos, ypos, w, w );
+            }
+        }
       }
     }
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
 }
 
 /***********************************************************************
