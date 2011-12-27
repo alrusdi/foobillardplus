@@ -203,6 +203,7 @@ else
 -falign-jumps \
 -falign-labels \
 -falign-loops \
+-ffast-math \
 -Wextra \
 "
   CXXFLAGS=""

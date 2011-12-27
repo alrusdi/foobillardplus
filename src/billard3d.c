@@ -3638,7 +3638,7 @@ void draw_3D_winner_text(void)
 
 void create_cuberef_map_and_display(int ballnr, int texbind, VMvect cam_pos)
 {
-    int i, w, /* target = 0, */ level;
+    int i, w, level;
     int xpos, ypos;
     static VMfloat d, ang1, ang2;
     static VMfloat th, ph, cam_FOV2, cam_FOV3;
@@ -3682,10 +3682,8 @@ void create_cuberef_map_and_display(int ballnr, int texbind, VMvect cam_pos)
 
     if(fabs(ang1) < cam_FOV3 && fabs(ang2) < cam_FOV2) {
     //only draw, if the ball is in view and in quality only on near distance
-        // level=log(d/0.2)/log(2.0)-1.0; //too complex math
         level=fabs(d);
-        if (level<0) level=0;
-        if (level>6) level=6;
+        if (level>6) level=6; //never greater 6 and never <0
         //fprintf(stderr,"%f %i\n",d,level);
         w=options_cuberef_res>>level;
         //  from here displays the textures (cuberef reflections) for one ball

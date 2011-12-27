@@ -7,12 +7,12 @@
  *      Author: holger
  */
 
-// gcc -o fastmath2 fastmath2.c
+// gcc -o fastmath2 fastmath2.c -lm -ffast-math
+// if this is better in speed as with -ffastmath , then use it
 
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
-#include <conio.h>
 #include <time.h>
 
 
