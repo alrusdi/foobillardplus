@@ -8,6 +8,7 @@ bin_PROGRAMS = foobillardplus
 
 foobillardplus_SOURCES = \
    foobillardplus.rc \
+   billard3d.h \
    billard3d.c \
    language.c \
    language.h \

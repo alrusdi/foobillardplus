@@ -26,7 +26,9 @@
 #define HISTORY_H
 
 #include "billmove.h"
+#include "billard3d.h"
 
+void file_tournament_history( struct TournamentState_ * ts, char *winner, enum gameType gametype);
 void file_history(char *player1, char *player2, char *winner, int hits, int rounds, enum gameType gametype);
 void get_history(char *strpointer);
 void init_history(void);

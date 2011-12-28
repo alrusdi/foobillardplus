@@ -37,6 +37,7 @@
 #endif
 #include "language.h"
 #include "billmove.h"
+#include "history.h"
 
 int history = 0; //history for one game 0 = work, 1 = no work
 static char file_name[512];
@@ -104,7 +105,75 @@ void show_history(char * historyfile) {
 }
 
 /***********************************************************************
- *                     write data to historyfile                       *
+ *               write data to tournament historyfile                  *
+ ***********************************************************************/
+
+void file_tournament_history( struct TournamentState_ * ts, char *winner, enum gameType gametype ) {
+
+   /* gametype enum from billmove.h GAME_8BALL, GAME_9BALL, GAME_CARAMBOL, GAME_SNOOKER
+    localeText[432] etc.*/
+   //fprintf(stderr,"Start: %s, %s, %s, %i, %i, %i\n",player1,player2,winner,hits,rounds,gametype);
+   FILE *fp, *wfp;
+   char historyfile[1024];  // no file with directory should be longer
+   char newfile[1024];      // no file with directory should be longer
+   char checkstring[2048];  // no entry inside the history-file should be longer
+   char datestring[25];
+   char gameid[200];
+   time_t rawtime;
+   struct tm * timeinfo;
+   int i,j;
+
+   if(!ts->tournament_over) {
+     fprintf(stderr,"Something is wrong with tournament write to history\n");
+     return; // nothing to do
+   }
+   time(&rawtime);
+   timeinfo = localtime(&rawtime);
+   snprintf(gameid,sizeof(gameid),"%02d%02d%04d%02d%02d%02d-%i",timeinfo->tm_mday,timeinfo->tm_mon+1,timeinfo->tm_year+1900,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec,rand());
+   snprintf(datestring,sizeof(datestring),"%02d.%02d.%04d %02d:%02d:%02d",timeinfo->tm_mday,timeinfo->tm_mon+1,timeinfo->tm_year+1900,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
+   //fprintf(stderr,"%s\n",datestring);
+   if(check_xml("tournament.xml")) {
+     // write new history to the file
+     sprintf(historyfile,"%s/html/%s",file_name,"tournament.xml");
+     sprintf(newfile,"%s/html/%s",file_name,"tournament.tmp");
+     if((fp=fopen(historyfile,"r"))) {
+        if((wfp=fopen(newfile,"w+"))) {
+          while(fgets(checkstring, sizeof(checkstring), fp) != NULL) {
+             if(strstr(checkstring,"</start>")) {
+               break;
+             } else {
+               fprintf(wfp,"%s",checkstring);
+             }
+          }
+        // write tournament to file
+        fprintf(wfp,"<%s>\n<gameid>%s</gameid>\n<date>%s</date>\n<allwin>%s</allwin>\n\n",
+             localeText[432+gametype],gameid,datestring,winner);
+        for(i=0;i<=ts->round_ind;i++) {
+             for(j=0;j<(1<<(ts->round_num-i-1));j++){
+                 fprintf(wfp,"<g%i>\n<go>%i</go>\n<p1>%s</p1>\n<p2>%s</p2>\n",
+                 		 i+1,j+1,ts->roster.player[ts->game[i][j].roster_player1].name,ts->roster.player[ts->game[i][j].roster_player2].name);
+                 if(ts->game[i][j].winner == 0) {
+                    fprintf(wfp,"<w>%s</w>\n",ts->roster.player[ts->game[i][j].roster_player1].name);
+                 } else {
+                    fprintf(wfp,"<w>%s</w>\n",ts->roster.player[ts->game[i][j].roster_player2].name);
+                 }
+                 fprintf(wfp,"<h>%i</h>\n<r>%i</r>\n</g%i>\n",ts->game[i][j].hits,ts->game[i][j].rounds,i+1);
+             }
+        }
+        fprintf(wfp,"</%s>\n</start>\n",localeText[432+gametype]);
+        fclose(fp);
+        fclose(wfp);
+        remove(historyfile);
+        rename(newfile,historyfile);
+        } else {
+          fclose(fp);
+        }
+     }
+   }
+}
+
+/***********************************************************************
+ *                 write data to normal historyfile                    *
  ***********************************************************************/
 
 void file_history(char *player1, char *player2, char *winner, int hits, int rounds,enum gameType gametype) {
@@ -122,12 +191,12 @@ void file_history(char *player1, char *player2, char *winner, int hits, int roun
 
    time(&rawtime);
    timeinfo = localtime(&rawtime);
-   sprintf(datestring,"%02d.%02d.%04d %02d:%02d:%02d",timeinfo->tm_mday,timeinfo->tm_mon+1,timeinfo->tm_year+1900,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
+   snprintf(datestring,sizeof(datestring),"%02d.%02d.%04d %02d:%02d:%02d",timeinfo->tm_mday,timeinfo->tm_mon+1,timeinfo->tm_year+1900,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec);
    //fprintf(stderr,"%s\n",datestring);
 	  if(check_xml("history.xml")) {
      // write new history to the file
-     sprintf(historyfile,"%s/html/%s",file_name,"history.xml");
-     sprintf(newfile,"%s/html/%s",file_name,"history.tmp");
+     snprintf(historyfile,sizeof(historyfile),"%s/html/%s",file_name,"history.xml");
+     snprintf(newfile,sizeof(newfile),"%s/html/%s",file_name,"history.tmp");
 		   if((fp=fopen(historyfile,"r"))) {
         if((wfp=fopen(newfile,"w+"))) {
 		   	    while(fgets(checkstring, sizeof(checkstring), fp) != NULL) {

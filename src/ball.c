@@ -869,9 +869,7 @@ void create_texbinds( BallsType *balls )
 void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width, int spheretexbind, VMvect * lightpos, int lightnr, unsigned int * cuberef_binds )
 {
     static int init = 0;
-    static int sphere_id= -1;             // sphere blending glcompile-id
     static int sphere1_id= -1;            // sphere blending glcompile-id
-    static int sphere2_id= -1;            // sphere blending glcompile-id
     static int cuberef_id = -1;           // cuberef glcompile-id
     static int light_id = -1;             // light glquad glcompile-id
     static int shadow_id = -1;            // shadow glcompile-id
@@ -906,20 +904,6 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
         //fprintf(stderr,"shadowtexbind=%d\n",shadowtexbind);
         create_texbinds(&balls);
-
-        sphere_id = glGenLists(1);
-        glNewList(sphere_id, GL_COMPILE);
-        glActiveTextureARB(GL_TEXTURE1_ARB);
-        glBindTexture(GL_TEXTURE_2D,spheretexbind);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, col_refl);
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_GEN_T);
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        glEnable(GL_TEXTURE_2D);
-        glActiveTextureARB(GL_TEXTURE0_ARB);
-        glEndList();
 
  	    cuberef_id = glGenLists(1);
  	    glNewList(cuberef_id, GL_COMPILE);
@@ -1006,17 +990,11 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
 
  	    sphere1_id = glGenLists(1);
  	    glNewList(sphere1_id, GL_COMPILE);
+ 	      glBindTexture(GL_TEXTURE_2D,spheretexbind);
         glEnable(GL_TEXTURE_GEN_S);
         glEnable(GL_TEXTURE_GEN_T);
         glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
         glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        glEndList();
-
- 	    sphere2_id = glGenLists(1);
- 	    glNewList(sphere2_id, GL_COMPILE);
- 	    glActiveTextureARB(GL_TEXTURE1_ARB);
-        glDisable(GL_TEXTURE_2D);
-        glActiveTextureARB(GL_TEXTURE0_ARB);
         glEndList();
 
         init=1;
@@ -1104,7 +1082,6 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
             glLoadMatrixf(texmat);
             glMatrixMode(GL_MODELVIEW);
         } else {
-            glBindTexture(GL_TEXTURE_2D,spheretexbind);
             glCallList(sphere1_id);
         }
         for(i=0;i<balls.nr;i++) {

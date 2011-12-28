@@ -69,32 +69,7 @@
 #include "mesh.h"
 #include "history.h"
 #include "vmath.h"
-
-#define CUE_BALL_IND (player[act_player].cue_ball)
-#define CUE_BALL_POS (balls.ball[CUE_BALL_IND].r)
-#define CUE_BALL_XYPOS (vec_xyz(CUE_BALL_POS.x,CUE_BALL_POS.y,0.0))
-#define CUEBALL_MAXSPEED 7.0
-
-#define CUESTEP 0.02               // step for Cue up down and cursor keys
-#define CUESTEPMAX 1.0             // max. step cue
-#define STEP1 0.01                 // step for one keypress circle
-#define FREEVIEW_STEP1 0.01        // step for one keypress up/down
-#define STEPMAX  2.0               // max. step keypress for left/right key
-#define FREEVIEW_STEPMAX 1.0       // max. step keypress for up/down key
-
-#define TOURNAMENT_ROUND_NUM 4     // Rounds for Tournament
-#define ROSTER_MAX_NUM 16          // max. Player no. for all players incl. Tournament
-
-#define FREE_VIEW  (!queue_view && options_free_view_on)
-
-#define strcpy_uscore_2_whtspace(d,s) {int i; for(i=0;(d[i]=(s[i]!='_'?s[i]:' '))!=0;i++);}
-#define strcpy_whtspace_2_uscore(d,s) {int i; for(i=0;(d[i]=(s[i]!=' '?s[i]:'_'))!=0;i++);}
-
-#define queue_point_x  (player[act_player].cue_x)
-#define queue_point_y  (player[act_player].cue_y)
-#define queue_strength (player[act_player].strength)
-
-//#define TIME_INTERPOLATE
+#include "billard3d.h"
 
 /* control-flags */
 int control__updated=0;  /* just activated */
@@ -301,29 +276,6 @@ VMfloat g_motion_ratio=1.0;  /* a shot to be due at the beginning */
   BallsType g_lastballs;
   BallsType g_drawballs;
 #endif
-
-struct PlayerRoster {
-    int nr;       /* number of players */
-    struct Player player[ROSTER_MAX_NUM];   /* max. players incl. Tournament*/
-} human_player_roster;
-
-static struct TournamentState_ {
-    int round_num;
-    int game_ind;
-    int round_ind;
-    int wait_for_next_match; /* show status meanwhile */
-    int overall_winner;
-    int tournament_over;
-    VMfloat ai_fast_motion;
-    struct {
-        int roster_player1;
-        int roster_player2;
-        int winner;
-    } game[TOURNAMENT_ROUND_NUM/*rounds*/][1<<(TOURNAMENT_ROUND_NUM-1)/*games*/];
-
-    struct PlayerRoster roster;
-
-} tournament_state;
 
 static textObj * winner_name_text_obj;  //for the name of the winner
 static textObj * winner_text_obj;       // for the winning text
@@ -2502,6 +2454,8 @@ void init_tournament_state( struct TournamentState_ * ts )
         ts->game[0][game].roster_player1 = players[(game*2)];
         ts->game[0][game].roster_player2 = players[(game*2)+1];
         ts->game[0][game].winner = -1;
+        ts->game[0][game].hits = 0;
+        ts->game[0][game].rounds = 0;
     }
     ts->roster.nr = 1<<ts->round_num;
 
@@ -2562,8 +2516,12 @@ void tournament_evaluate_last_match( struct TournamentState_ * ts )
 {
     if( player[0].winner ){
         ts->game[ts->round_ind][ts->game_ind].winner=0;
+        ts->game[ts->round_ind][ts->game_ind].hits = hitcounter;
+        ts->game[ts->round_ind][ts->game_ind].rounds = roundcounter;
     } else if( player[1].winner ){
         ts->game[ts->round_ind][ts->game_ind].winner=1;
+        ts->game[ts->round_ind][ts->game_ind].hits = hitcounter;
+        ts->game[ts->round_ind][ts->game_ind].rounds = roundcounter;
     } else {
         ts->game[ts->round_ind][ts->game_ind].winner=-1;
     }
@@ -4272,7 +4230,7 @@ void DisplayFunc( void )
    }
 
    if(options_cuberef) {
-       create_cuberef_maps(cam_pos);
+      create_cuberef_maps(cam_pos);
    }
 
    // Begin displaying from here
@@ -4510,15 +4468,15 @@ void DisplayFunc( void )
    /* draw balls with reflections and shadows */
 #ifdef TIME_INTERPOLATE
     if(options_cuberef) {
-        draw_balls(g_drawballs,cam_pos,cam_FOV,win_width,spheretexbind,lightpos,lightnr, cuberef_allballs_texbind);
+        draw_balls(g_drawballs,cam_pos,cam_FOV,win_width, spheretexbind, lightpos,lightnr, cuberef_allballs_texbind);
     } else {
-        draw_balls(g_drawballs,cam_pos,cam_FOV,win_width,spheretexbind,lightpos,lightnr, (unsigned int *)0);
+        draw_balls(g_drawballs,cam_pos,cam_FOV,win_width, spheretexbind, lightpos,lightnr, (unsigned int *)0);
     }
 #else
     if(options_cuberef) {
-        draw_balls(balls,cam_pos,cam_FOV,win_width,spheretexbind,lightpos,lightnr, cuberef_allballs_texbind);
+        draw_balls(balls,cam_pos,cam_FOV,win_width, spheretexbind, lightpos,lightnr, cuberef_allballs_texbind);
     } else {
-        draw_balls(balls,cam_pos,cam_FOV,win_width,spheretexbind,lightpos,lightnr, (unsigned int *)0);
+        draw_balls(balls,cam_pos,cam_FOV,win_width, spheretexbind, lightpos,lightnr, (unsigned int *)0);
     }
 
 #endif
@@ -4587,9 +4545,9 @@ void DisplayFunc( void )
           if(options_gamemode==options_gamemode_tournament) {
           	 if(tournament_state.overall_winner>=0) {
               if(player[0].winner) {
-                 // history tournament player 1 ### TODO ###
+              	  file_tournament_history(&tournament_state, player[0].name, gametype );
               } else {
-                 // history tournament player 2 ### TODO ###
+              	  file_tournament_history(&tournament_state, player[1].name, gametype );
               }
             }
           } else {
