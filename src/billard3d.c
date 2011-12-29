@@ -329,6 +329,7 @@ static struct option long_options[] = {
     {"freemove",     required_argument, (int *)localeText[39], OPT_FREEMOVE},
     {"cuberef",      required_argument, (int *)localeText[40], OPT_CUBEREF},
     {"cuberes",      required_argument, (int *)localeText[41], OPT_CUBERES},
+    {"ballsphere",   required_argument, (int *)localeText[17], OPT_SPHEREREF},
     {"bumpref",      required_argument, (int *)localeText[42], OPT_BUMPREF},
     {"bumpwood",     required_argument, (int *)localeText[43], OPT_BUMPWOOD},
     {"balltraces",   required_argument, (int *)localeText[44], OPT_BALLTRACE},
@@ -1448,6 +1449,16 @@ void process_option(enum optionType act_option)
                 break;
             }
           break;
+       case OPT_SPHEREREF:
+         switch(optarg[1]){
+             case 'f': /* off */
+             	  options_ball_sphere=0;
+                break;
+             case 'n': /* on  */
+             	  options_ball_sphere=1;
+                break;
+            }
+          break;
        case OPT_CUBEREF:
           switch(optarg[1]){
              case 'f': /* off */
@@ -1981,6 +1992,9 @@ void save_config(void)
         case OPT_CUBERES: 
              sprintf(str,"%d", options_cuberef_res);
              write_rc(f,opt,str);
+             break;
+        case OPT_SPHEREREF:
+             write_rc(f,opt, options_ball_sphere?"on":"off");
              break;
         case OPT_BUMPREF:
              write_rc(f,opt, options_bumpref?"on":"off");
@@ -7259,6 +7273,12 @@ void menu_cb( int id, void * arg , VMfloat value)
 #endif //NETWORKING
     case MENU_ID_REFLECTION_SPHERE:
         options_cuberef = 0;
+        options_ball_sphere = 1;
+        free_cuberef_tex();
+        break;
+    case MENU_ID_REFLECTION_STANDARD:
+        options_cuberef = 0;
+        options_ball_sphere = 0;
         free_cuberef_tex();
         break;
     case MENU_ID_REFLECTION_RENDERED:

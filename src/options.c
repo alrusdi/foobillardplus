@@ -131,7 +131,8 @@ int    options_net_compatible = 0;   // network very slow compatibility mode
 int    options_net_compatible_bak = 0;   // network very slow compatibility mode restoring after network play
 int    options_cuberef = 1;          // reflections on balls with cuberef reflections
 int    options_cuberef_res = 128;    // how much resolution
-int    options_rgaim = 0; /* 0=middle 1=right 2=left */
+int    options_ball_sphere = 0;      // standard sphere (0) or special (1) sphere blending on balls
+int    options_rgaim = 0;            /* 0=middle 1=right 2=left */
 int    options_bumpref   = 0;  /* bump reflection of chrome edges */
 int    options_bumpwood  = 0;  /* bump maps on wood frame */
 int    options_balltrace = 0;

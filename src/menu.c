@@ -811,6 +811,8 @@ void init_menu(void)
      Render Menu comes from Graphics/Reflections
      */
     render_menu = menu_new( menu_cb );
+    //spheremap standard
+    menu_add_entry(render_menu, localeText[448], MENU_ID_REFLECTION_STANDARD,localeText[449]);
     //spheremap
     menu_add_entry(render_menu, localeText[66], MENU_ID_REFLECTION_SPHERE,localeText[285]);
     //rendered

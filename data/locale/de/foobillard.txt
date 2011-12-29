@@ -446,3 +446,5 @@ Turnierhistorie
 Spiel Nr.
 Turnierdatum
 Runde
+Standard
+Ball Rendering in Standard

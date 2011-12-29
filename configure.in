@@ -248,6 +248,11 @@ AC_ARG_ENABLE(sse,
               [  --enable-sse          compile for SSE intrinsics],
               [export USE_SSE=yes; export USE_MATHSINGLE=yes], [export USE_SSE=no])
 
+### fast math compiling code, default = no
+AC_ARG_ENABLE(fastmath,
+              [  --enable-fastmath          compile fastmath routines in],
+              [export FAST_MATH=yes], [export FAST_MATH=no])
+
 ### generic touch wanted. Also used with WeTab, default = no
 AC_ARG_ENABLE(touch,
               [  --enable-touch          compile for generic touch-devices],
@@ -321,6 +326,8 @@ AM_CONDITIONAL(USE_WIN, test "x$USE_WIN" = "xyes")
 
 AM_CONDITIONAL(USE_SSE, test "x$USE_SSE" = "xyes")
 
+AM_CONDITIONAL(FAST_MATH, test "x$FAST_MATH" = "xyes")
+
 AC_OUTPUT(Makefile foobillardplus.spec src/Makefile)
 
 AC_MSG_RESULT([
@@ -345,6 +352,7 @@ General configuration ================================================
     WeTab Tablet compiling:   ${USE_WETAB}
     Network compiling:        ${USE_NETWORK}
     use sse                   ${USE_SSE}
+    fast math routines        ${FAST_MATH}
 
 Now run make ...
 ])

@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 /opt/%{name}/foobillardplus.xbm
 
 %build
-./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special
+./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special --enable-fastmath
 make 
 
 %changelog
@@ -71,6 +71,7 @@ make
 - problems on toggle fullscreen solved
 - problems set windowed video mode solved
 - start of use SSE intrinsics
+- fast math routines for sin, cos, atan and atan2
 
 * Wed Nov 01 2011 Holger Schaekel
 - Bugfixes with language handling

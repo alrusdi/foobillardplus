@@ -186,10 +186,18 @@ What is FooBillard++ ?
    math double precision. Clients with mixed single or double precision are not
    compatible in network games!!!
 
+   --enable-fastmath
+   
+   compile fast math routine in (default=no). With set this configure option, special 
+   optimized math-routines for cosine, sine, tangens are used. it has nothing to do
+   with sse intrinsincs. The fast math routines are not nearly as accurate as the
+   standard routines, but enough for the game.  
+
    --enable-sse=ARG
    
    compile with intrinsics SSE commands and use. With enabled SSE, the use of
    enable-mathsingle defaults to yes. Double precision are automatically disabled.
+   Use sse only on Intel or AMD based CPU systems!
 
    
    --enable-network=ARG

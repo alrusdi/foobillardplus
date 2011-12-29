@@ -118,7 +118,6 @@ struct PolyPoint{
 };
 typedef struct PolyPoint VMpolypoint;
 
-#define FAST_MATH
 #ifdef FAST_MATH
   #define MATH_SIN(x) fastsin(x)
   #define MATH_COS(x) fastcos(x)

@@ -36,6 +36,7 @@
 #include "options.h"
 #include "font.h"
 #include "vmath.h"
+#include "png_loader.h"
 
 #ifdef __MINGW32__
 	extern void ( APIENTRY * glActiveTextureARB)( GLenum );
@@ -43,9 +44,8 @@
 
 static char * balltexdata[22];
 static GLuint balltexbind[22];
+static GLuint sphere_ballbind;
 static int    balltexw,balltexh;
-static int    shadowtexw,shadowtexh;
-static char * shadowtexdata;
 static GLuint shadowtexbind;
 static int    depth;
 
@@ -870,6 +870,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
 {
     static int init = 0;
     static int sphere1_id= -1;            // sphere blending glcompile-id
+    static int sphere2_id= -1;            // sphere blending glcompile-id (standard-blend)
     static int cuberef_id = -1;           // cuberef glcompile-id
     static int light_id = -1;             // light glquad glcompile-id
     static int shadow_id = -1;            // shadow glcompile-id
@@ -895,14 +896,8 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
     col_shad[3]=1.0; //every time the same for shadow color [3]
     glDisable(GL_CULL_FACE);
     if( !init ){
-        glGenTextures(1,&shadowtexbind);
-        load_png("shadow2.png",&shadowtexw,&shadowtexh,&depth,&shadowtexdata);
-        glBindTexture(GL_TEXTURE_2D,shadowtexbind);
-        gluBuild2DMipmaps(GL_TEXTURE_2D, 1, shadowtexw, shadowtexh, GL_LUMINANCE,
-                          GL_UNSIGNED_BYTE, shadowtexdata);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
-        //fprintf(stderr,"shadowtexbind=%d\n",shadowtexbind);
+        create_png_texbind("shadow2.png", &shadowtexbind, 1, GL_LUMINANCE);
+        create_png_texbind("sphere_ball.png", &sphere_ballbind, 3, GL_RGB);
         create_texbinds(&balls);
 
  	    cuberef_id = glGenLists(1);
@@ -997,6 +992,15 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
         glEndList();
 
+      sphere2_id = glGenLists(1);
+   	  glNewList(sphere2_id, GL_COMPILE);
+   	    glBindTexture(GL_TEXTURE_2D,sphere_ballbind);
+        glEnable(GL_TEXTURE_GEN_S);
+        glEnable(GL_TEXTURE_GEN_T);
+        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+      glEndList();
+
         init=1;
     }
 
@@ -1082,7 +1086,11 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
             glLoadMatrixf(texmat);
             glMatrixMode(GL_MODELVIEW);
         } else {
-            glCallList(sphere1_id);
+        	   if(options_ball_sphere) {
+               glCallList(sphere1_id);
+        	   } else {
+        	   	  glCallList(sphere2_id);
+        	   }
         }
         for(i=0;i<balls.nr;i++) {
         	if(balls.ball[i].in_game && balls.ball[i].in_fov) {
