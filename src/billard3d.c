@@ -2918,10 +2918,12 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                    tournament_state.wait_for_next_match=0;
                 }
                 if(!introtexture) introtexture++;
+#ifndef TOUCH
                 if(b2_hold){
                     b2_b1_hold = 1;
                     Key1('m'); //m
                 } else {
+#endif
 #ifdef NETWORKING
                 // check on end of network game button upper right corner (only server is allowed to do that)
                 if(active_net_game) {
@@ -3133,7 +3135,9 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                          break;
                      }
                     }
+#ifndef TOUCH
                 }
+#endif
             }
             if (state == MOUSE_UP) {
                 hudbuttonpressed = 0;
@@ -3152,6 +3156,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                 if(control__active) control__updated=1;
             }
         }
+#ifndef TOUCH
         if (button == MOUSE_RIGHT_BUTTON){
             hudbuttonpressed = 0;
             button_anim = 0.7;
@@ -3191,7 +3196,7 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
             if(!player[act_player].is_AI && !balls_moving)
                 queue_strength = strength01( queue_strength-0.01 );
         }
-
+#endif
     }
 //    fprintf(stderr,"button=%d\n", button);
 
@@ -3417,7 +3422,9 @@ void MouseMotion(int x, int y)
         }
         start_x = x;
         start_y = y;
-    } else if(b2_hold){
+    }
+#ifndef TOUCH
+    else if(b2_hold){
         if(b2_b1_hold && !player[act_player].is_AI && !player[act_player].is_net ){
             control_set(&control__english);
         } else {
@@ -3425,6 +3432,7 @@ void MouseMotion(int x, int y)
             scaling_start = y;
         }
       }
+#endif
     } //end menuselect
 }
 
@@ -3619,67 +3627,31 @@ void create_cuberef_maps(VMvect cam_pos)
     GLfloat a,b,c,d;  // color
  };
 
- unsigned const short cuberef_index[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
+ static unsigned const short cuberef_index[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
 
- const struct color_cuberef_struct cuberef_color[]= {
-    {1.0,1.0,1.0,1.0},
-    {1.0,1.0,1.0,1.0},
-    {1.0,1.0,1.0,1.0},
-    {1.0,1.0,1.0,1.0},
-    {1.0,1.0,1.0,1.0},
-    {1.0,1.0,1.0,1.0},
-    {1.0,1.0,1.0,1.0},
-    {1.0,1.0,1.0,1.0},
+ static const struct color_cuberef_struct cuberef_color[]= {
+    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0},
+    {1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0},{1.0,1.0,1.0,1.0},
 
-    {0.6,0.6,0.6,1.0},
-    {0.6,0.6,0.6,1.0},
-    {0.6,0.6,0.6,1.0},
-    {0.6,0.6,0.6,1.0},
-    {0.6,0.6,0.6,1.0},
-    {0.6,0.6,0.6,1.0},
-    {0.6,0.6,0.6,1.0},
-    {0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},{0.6,0.6,0.6,1.0},{0.6,0.6,0.6,1.0},{0.6,0.6,0.6,1.0},
+    {0.6,0.6,0.6,1.0},{0.6,0.6,0.6,1.0},{0.6,0.6,0.6,1.0},{0.6,0.6,0.6,1.0},
 
-    {0.3,0.3,0.3,1.0},
-    {0.3,0.3,0.3,1.0},
-    {0.3,0.3,0.3,1.0},
-    {0.3,0.3,0.3,1.0},
+    {0.3,0.3,0.3,1.0},{0.3,0.3,0.3,1.0},{0.3,0.3,0.3,1.0},{0.3,0.3,0.3,1.0},
 
-    {0.15,0.2,0.15,1.0},
-    {0.15,0.2,0.15,1.0},
-    {0.15,0.2,0.15,1.0},
-    {0.15,0.2,0.15,1.0}
+    {0.15,0.2,0.15,1.0},{0.15,0.2,0.15,1.0},{0.15,0.2,0.15,1.0},{0.15,0.2,0.15,1.0}
  };
 
- const struct vertex_cuberef_struct cuberef_vertex[]= {
+ static const struct vertex_cuberef_struct cuberef_vertex[]= {
 
-    {0.18, 0.15, 1.0},
-    {0.18, 0.76, 1.0},
-    {-0.18, 0.76, 1.0},
-    {-0.18, 0.15, 1.0},
-    {-0.18, -0.15, 1.0},
-    {-0.18, -0.76, 1.0},
-    {0.18, -0.76, 1.0},
-    {0.18, -0.15, 1.0},
+    {0.18, 0.15, 1.0},{0.18, 0.76, 1.0},{-0.18, 0.76, 1.0},{-0.18, 0.15, 1.0},
+    {-0.18, -0.15, 1.0},{-0.18, -0.76, 1.0},{0.18, -0.76, 1.0},{0.18, -0.15, 1.0},
 
-    {0.20, 0.13, 1.001},
-    {0.20, 0.78, 1.001},
-    {-0.20, 0.78, 1.001},
-    {-0.20, 0.13, 1.001},
-    {-0.20, -0.13, 1.001},
-    {-0.20, -0.78, 1.001},
-    {0.20, -0.78, 1.001},
-    {0.20, -0.13, 1.001},
+    {0.20, 0.13, 1.001},{0.20, 0.78, 1.001},{-0.20, 0.78, 1.001},{-0.20, 0.13, 1.001},
+    {-0.20, -0.13, 1.001},{-0.20, -0.78, 1.001},{0.20, -0.78, 1.001},{0.20, -0.13, 1.001},
 
-    {0.28,-0.86, 1.002},
-    {0.28, 0.86, 1.002},
-    {-0.28, 0.86, 1.002},
-    {-0.28,-0.86, 1.002},
+    {0.28,-0.86, 1.002},{0.28, 0.86, 1.002},{-0.28, 0.86, 1.002},{-0.28,-0.86, 1.002},
 
-    {0.38,-0.96, 1.004},
-    {0.38, 0.96, 1.004},
-    {-0.38, 0.96, 1.004},
-    {-0.38,-0.96, 1.004}
+    {0.38,-0.96, 1.004},{0.38, 0.96, 1.004},{-0.38, 0.96, 1.004},{-0.38,-0.96, 1.004}
  };
 
     int i, w, level, ballnr;
@@ -3689,19 +3661,19 @@ void create_cuberef_maps(VMvect cam_pos)
     static VMfloat th, ph, cam_FOV2, cam_FOV3;
     static VMvect dvec, ballvec, right, up, cam_pos_;
     static const int target[6] = {GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB,
-                                  GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
-                                  GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
-                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
-                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
-                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB};
+                                    GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
+                                    GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
+                                    GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
+                                    GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
+                                    GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB};
 
     // the following definition is for more speed (Matrix of the reflexions)
     static const MATH_ALIGN16 GLfloat mv_matr[6][16] = {{0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
-      /*  static MATH_ALIGN16 GLfloat mv_matr_py[16] =*/ {1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
-      /*  static MATH_ALIGN16 GLfloat mv_matr_pz[16] =*/ {1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
-      /*  static MATH_ALIGN16 GLfloat mv_matr_nx[16] =*/  {0.0f,0.0f,1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
-      /*  static MATH_ALIGN16 GLfloat mv_matr_ny[16] =*/ {1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
-      /*  static MATH_ALIGN16 GLfloat mv_matr_nz[16] =*/ {-1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,1.0f}};
+         /*  mv_matr_py[16] */ {1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+         /*  mv_matr_pz[16] */ {1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+         /*  mv_matr_nx[16] */ {0.0f,0.0f,1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+         /*  mv_matr_ny[16] */ {1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
+         /*  mv_matr_nz[16] */ {-1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,1.0f}};
 
     glColorMask(1, 1, 1, 1);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -4692,9 +4664,9 @@ void DisplayFunc( void )
      if(hudstuff_id == -1) {
        hudstuff_id = glGenLists(1);
        glNewList(hudstuff_id, GL_COMPILE_AND_EXECUTE);
+
        glMatrixMode( GL_TEXTURE );
        glPushMatrix();
-
        glLoadIdentity();
 
        glMatrixMode( GL_PROJECTION );
