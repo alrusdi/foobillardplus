@@ -1002,6 +1002,9 @@ void grayen_color( GLfloat * col )
 int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 	   // parameter borders only used for debugging at the end of the function
 	   // no error and not much time to work with it. Don't optimize this
+
+	   //VMfloat cm  =  0.01;  // cm (for debugging in function my_glBox)
+
     static int bumpref_init = 0;
     static int bump_init = 0;
     static BumpRefType bumpref;
@@ -1016,7 +1019,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
     VMfloat tablel = TABLE_L;
     VMfloat tableh = TABLE_H;
     VMfloat bande_d = BANDE_D;
-//    VMfloat cm  =  0.01;  // cm (for debugging in function my_glBox)
     VMfloat hole_r1,hole_r2, edge_xyoffs;
     VMfloat x,y,fx,fy,xf,yf,phi;
     VMfloat lwood, woodpos;
@@ -1171,13 +1173,14 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 #define AREA_SUBDIV_Y 6
 #define AREA_SUBDIV_X 4
    jmax=AREA_SUBDIV_Y; imax=AREA_SUBDIV_X;
+   glNormal3f( 0.0, 0.0, 1.0 ); // ### TODO ### checkpoint new here , see some rows above
    for(j=0;j<jmax;j++){
        for(i=0;i<imax;i++){
            VMfloat x,y;
            glBegin(GL_QUADS);
            x=-area_w/2.0+i*area_w/imax; y=-area_l/2.0+j*area_l/jmax;
            glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( 0.0, 0.0, 1.0 );
+           //glNormal3f( 0.0, 0.0, 1.0 ); // why this here so often called inside loop ? ### TODO ### checkpoint this is now before for-loop
            glVertex3f( x,y, -balld/2.0);
            x=-area_w/2.0+i*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
            glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
@@ -1217,10 +1220,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
              glTexCoord2f( TABLETEXCOORD_X((x)*(f1),(y)*(f2)), TABLETEXCOORD_Y((x)*(f1),(y)*(f2)) ); \
              glVertex3f((x)*(f1),(y)*(f2),z);
    /*lower, upper*/
+   	   glNormal3f(0.0,0.0,1.0); // see some rows later, this here is new line ### TODO ### checkpoint
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
            glBegin(GL_QUAD_STRIP);
-           glNormal3f(0.0,0.0,1.0);
+           //glNormal3f(0.0,0.0,1.0); // why this here in loop? ### TODO ### checkpoint
            TABLEVERTEX( area_w/2.0,                                -area_l/2.0,                        -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
            TABLEVERTEX( TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN, -TABLE_L/2.0-BANDE_D*BANDE_D2RATIO, -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
            for(j=0;j<AREA_SUBDIV_X-1;j++){
@@ -1236,7 +1240,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
            glBegin(GL_TRIANGLES);
-           glNormal3f(0.0,0.0,1.0);
+           //glNormal3f(0.0,0.0,1.0); why this here in loop? ### TODO ### checkpoint it is set some lines before with the same !!!!!
            TABLEVERTEX( -area_w/2.0,                                  0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
            TABLEVERTEX( -TABLE_W/2.0-BANDE_D*BANDE_D2RATIO,          -HOLE2_R-HOLE2_TAN*BANDE_D,        -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
            TABLEVERTEX( -TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R,            0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
@@ -1261,7 +1265,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 
            glBegin(GL_QUAD_STRIP);
            /* furchen */
-           glNormal3f(0.0,0.0,1.0);
+           //glNormal3f(0.0,0.0,1.0); // why this here ? ### TODO ### checkpoint its not changed in the lines before see some lines before
            TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D, -HOLE1_R-HOLE2_TAN*BANDE_D,                 -BALL_D/2.0, fx,fy );
            TABLEVERTEX( -area_w/2.0,                        0.0,                                        -BALL_D/2.0, fx,fy );
            for(j=0;j<AREA_SUBDIV_Y/2-1;j++){
@@ -1274,7 +1278,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 
            /* quad between area-edge and hole */
            glBegin(GL_TRIANGLES);
-           glNormal3f(0.0,0.0,1.0);
+           // glNormal3f(0.0,0.0,1.0); // why this here ? ### TODO ### checkpoint its not changed in the lines before see some lines before
            TABLEVERTEX( -area_w/2.0,                            -area_l/2.0,                                -BALL_D/2.0, fx,fy );
            TABLEVERTEX( -TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2, -TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2,     -BALL_D/2.0, fx,fy );
            TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D,     -TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D, -BALL_D/2.0, fx,fy );
@@ -1308,11 +1312,12 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            glEnd();
        }
 
+       glNormal3f( 0.0, 0.0, 1.0 ); // ### TODO ### checkpoint changed from the lines above to this place before the loops
        for(k=0;k<2;k++){  /* left, right hole fans */
            for(j=0;j<2;j++){ /* fan 1, 2 */
                if(j^k) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
                glBegin(GL_TRIANGLE_FAN);
-               glNormal3f( 0.0, 0.0, 1.0 );
+               //glNormal3f( 0.0, 0.0, 1.0 ); // why this here in so heavy loop? ### TODO ### checkpoint is set before the loops
                x=-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO; y=-HOLE2_R-BANDE_D*HOLE2_TAN;
                if(j!=0) y=-y;
                if(k!=0) x=-x;
@@ -1476,11 +1481,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glRotatef( atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 0.0, 1.0, 0.0 );
        my_Diamondxy( 0.02, 0.014, 0.006, flip );
        glPopMatrix();
-       glPushMatrix();
+       // glPushMatrix(); // why this here ? ### TODO ### checkpoint
        glTranslatef( tablew/2.0+FRAME_D/2.0-FRAME_PHASE/2.0+bande_d/2.0, 1.0*tablel/8.0, FRAME_DH/2.0 );
        glRotatef( atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 0.0, 1.0, 0.0 );
        my_Diamondxy( 0.02, 0.014, 0.006, flip );
-       glPopMatrix();
+       // glPopMatrix(); // here pop down hhm  ### TODO ### checkpoint
        glPopMatrix();
    }
    /*upper lower*/
@@ -1501,11 +1506,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glRotatef( -atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 1.0, 0.0, 0.0 );
        my_Diamondxy( 0.014, 0.02, 0.006, flip );
        glPopMatrix();
-       glPushMatrix();
+       //glPushMatrix();  // why this here ?  ### TODO ### checkpoint
        glTranslatef( -tablew/2.0+3.0*tablew/4.0, tablel/2.0+FRAME_D/2.0-FRAME_PHASE/2.0+bande_d/2.0, FRAME_DH/2.0 );
        glRotatef( -atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 1.0, 0.0, 0.0 );
        my_Diamondxy( 0.014, 0.02, 0.006, flip );
-       glPopMatrix();
+       //glPopMatrix();  // here pop down hhm  ### TODO ### checkpoint
        glPopMatrix();
    }
 
@@ -1677,13 +1682,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
 
    /* wood-frame */
-   glMaterialfv(GL_FRONT, GL_AMBIENT,   wood_col_amb);
-   glMaterialfv(GL_FRONT, GL_SPECULAR,  wood_col_spec_null);
-   glMaterialf (GL_FRONT, GL_SHININESS, wood_col_shin);
-
    glEnable(GL_TEXTURE_2D);
    glMaterialfv(GL_FRONT, GL_DIFFUSE,   wood_col_diff2);
    glMaterialfv(GL_FRONT, GL_AMBIENT,   wood_col_amb2);
+   glMaterialfv(GL_FRONT, GL_SPECULAR,  wood_col_spec_null);
+   glMaterialf (GL_FRONT, GL_SHININESS, wood_col_shin);
    glBindTexture(GL_TEXTURE_2D,frametexbind);
    glDisable(GL_TEXTURE_GEN_S);
    glDisable(GL_TEXTURE_GEN_T);
@@ -1867,13 +1870,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }*/
 
    /* table feet */
-   glDisable(GL_TEXTURE_GEN_S);
-   glDisable(GL_TEXTURE_GEN_T);
-   glDisable(GL_TEXTURE_2D);
+
+   glEnable(GL_TEXTURE_2D);
    glMaterialfv(GL_FRONT, GL_AMBIENT,   wood_col_amb);
    glMaterialfv(GL_FRONT, GL_SPECULAR,  wood_col_spec_null);
    glMaterialf (GL_FRONT, GL_SHININESS, wood_col_shin);
-   glEnable(GL_TEXTURE_2D);
    glBindTexture(GL_TEXTURE_2D,reflect_bind);
    glEnable(GL_TEXTURE_GEN_S);
    glEnable(GL_TEXTURE_GEN_T);

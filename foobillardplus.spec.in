@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 /opt/%{name}/foobillardplus.xbm
 
 %build
-./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special --enable-fastmath
+./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special
 make 
 
 %changelog

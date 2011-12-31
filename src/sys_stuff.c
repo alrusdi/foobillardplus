@@ -116,6 +116,8 @@ int filecopy(char *filefrom,char *fileto)
 /***********************************************************************
  *                    init internetbrowser in string                   *
  *                    get it from options or os                        *
+ * WeTab Standard Browser can't show xml, xsl data. So another         *
+ * must be used here..... and have to store in the options             *
  ***********************************************************************/
 
 void init_browser(void) {
@@ -127,16 +129,13 @@ void init_browser(void) {
   }
   strcat(browser,"\\data\\");
 #else
-#ifdef WETAB
-  strcpy(browser,"tiitoo-browser-bin -t file://");
-#else
   if(!strcmp(options_browser,"browser")) {
     strcpy(options_browser,"./browser.sh");
   }
-#endif
   sprintf(browser,"%s file://",options_browser);
 #endif
 }
+
 /***********************************************************************
  *                    copy internetbrowser in string                   *
  *                    string length minimum 256                        *
