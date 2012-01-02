@@ -251,9 +251,12 @@ void sys_create_display(int width,int height)
 #endif
 //compile without errors, if SDL is < Version 1.2.10 at compile time
 #if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
-	 if(SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 ) < 0 ) {
-				fprintf( stderr, "Unable to guarantee accelerated visual with libSDL < 1.2.10\n");
-	 }
+// The next works only with fsaa options off!!!!
+  if(!options_fsaa_value) {
+	   if(SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 ) < 0 ) {
+				  fprintf( stderr, "Unable to guarantee accelerated visual with libSDL < 1.2.10\n");
+	   }
+  }
   if(vsync_supported()) {
   	 if(options_vsync) {
       if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1) < 0) { // since SDL v1.2.10
