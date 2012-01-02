@@ -54,7 +54,6 @@
 #include "png_loader.h"
 #include "aiplayer.h"
 #include "options.h"
-#include "player.h"
 #include "evaluate_move.h"
 #include "helpscreen.h"
 #include "font.h"
@@ -70,6 +69,9 @@
 #include "history.h"
 #include "vmath.h"
 #include "billard3d.h"
+
+static struct PlayerRoster human_player_roster;
+static struct TournamentState_ tournament_state;
 
 /* control-flags */
 int control__updated=0;  /* just activated */
@@ -313,6 +315,7 @@ static struct option long_options[] = {
     {"nolensflare",  no_argument,       (int *)localeText[27], OPT_NOLENSFLARE},
     {"poslight",     no_argument,       (int *)localeText[28], OPT_POSLIGHT},
     {"dirlight",     no_argument,       (int *)localeText[29], OPT_DIRLIGHT},
+    {"vsync",        required_argument, (int *)localeText[17], OPT_VSYNC},
     {"ai1err",       required_argument, (int *)localeText[30], OPT_AI1ERR},
     {"ai2err",       required_argument, (int *)localeText[31], OPT_AI2ERR},
     {"balldetail",   required_argument, (int *)localeText[32], OPT_BALLDETAIL},
@@ -1371,6 +1374,16 @@ void process_option(enum optionType act_option)
            sscanf(optarg,"%lf",&(human_player_roster.player[1].err));
 #endif
            break;
+       case OPT_VSYNC:
+          switch(optarg[1]){
+           case 'f': /* off */
+              options_vsync=0;
+              break;
+           case 'n': /* on  */
+              options_vsync=1;
+              break;
+          }
+          break;
        case OPT_GLASSBALL:
           switch(optarg[1]){
            case 'f': /* off */
@@ -1922,6 +1935,9 @@ void save_config(void)
              break;
         case OPT_GLASSBALL:
            write_rc(f,opt, options_glassballs?"on":"off");
+           break;
+        case OPT_VSYNC:
+           write_rc(f,opt, options_vsync?"on":"off");
            break;
         case OPT_BALLDETAIL:
             if (options_max_ball_detail == options_max_ball_detail_LOW ) {
@@ -4228,7 +4244,7 @@ void DisplayFunc( void )
 #endif
 
    if(!options_positional_light){
-   // only set if direct light. for postional light is the init on top of the function
+   // only set if direct light. for positional light is the init on top of the function
        light0_position[3]=0.0;
        light1_position[3]=0.0;
    }
@@ -6215,23 +6231,23 @@ void KeyUp(int key)
  *        unallocate all cuberef textures in memory allocation         *
  ***********************************************************************/
 
-void free_cuberef_tex(void)
-{
+void free_cuberef_tex(void) {
     int i;
-    for( i=0 ; i<cuberef_allballs_texbind_nr ; i++ ){
+    if(cuberef_allballs_texbind) {
+      for( i=0;i<cuberef_allballs_texbind_nr;i++ ){
 
-        glDeleteTextures(1,&cuberef_allballs_texbind[i]);
+          glDeleteTextures(1,&cuberef_allballs_texbind[i]);
+      }
+      free(cuberef_allballs_texbind);
+      cuberef_allballs_texbind=0;
     }
-    free(cuberef_allballs_texbind);
-    cuberef_allballs_texbind=0;
 }
 
 /***********************************************************************
  *       reassign / build all cuberef textures allocate memory         *
  ***********************************************************************/
 
-void reassign_and_gen_cuberef_tex(void)
-{
+void reassign_and_gen_cuberef_tex(void) {
     int i,j,k,l, layer, w, target = 0;
     char * data;
 
@@ -7017,6 +7033,25 @@ void menu_cb( int id, void * arg , VMfloat value)
         sys_fullscreen( 0 );
         break;
 #endif
+    case MENU_ID_VSYNC_ON:
+    	   //compile without errors, if SDL is < Version 10 at compile time
+#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
+        if(vsync_supported()) {
+     	    options_vsync = 1;
+          if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1) < 0) { // since SDL v1.2.10
+            fprintf(stderr, "SDL_GL_SWAP_CONTROL error: %s\n", SDL_GetError());
+          }
+        }
+#endif
+    	   break;
+    case MENU_ID_VSYNC_OFF:
+    	   options_vsync = 0;
+#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
+          if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 0) < 0) { // since SDL v1.2.10
+            fprintf(stderr, "SDL_GL_SWAP_CONTROL error: %s\n", SDL_GetError());
+          }
+#endif
+        break;
     case MENU_ID_RGSTEREO_ON:
         options_rgstereo_on=1;
         delete_queue_texbind();

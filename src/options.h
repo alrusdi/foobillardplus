@@ -122,6 +122,7 @@ extern int     options_use_sound;   /* for taking care of non-sound systems */
 extern int     options_use_music;
 extern int     options_gamemode;
 extern int     options_avatar_on;
+extern int     options_vsync;           // vsync on = 1, vsync off = 0 or SDL-Version does not understand vsync
 extern VMfloat options_tourfast;
 extern int     options_control_kind;    // behaviour of some Controlkeys 0 = toggle, 1 = set if pressed and unset if unpressed
 extern int     options_ai_birdview;     // changes to birdview if player ist AI, Standard 0=off, 1=on

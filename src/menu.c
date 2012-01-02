@@ -708,6 +708,7 @@ void init_menu(void)
     static menuType * game_menu;
     static menuType * player_menu;
     static menuType * rgstereo_menu;
+    static menuType * vsync_menu;
     static menuType * rgenable_menu;
     static menuType * rgaim_menu;
     static menuType * lensflare_menu;
@@ -862,6 +863,18 @@ void init_menu(void)
     menu_add_entry(light_menu, localeText[211], MENU_ID_LIGHT_DIR,localeText[293]);
     //< back
     menu_add_exit (light_menu, localeText[63],localeText[266]);
+
+    /*
+     vsync come from Graphics Options
+    */
+    vsync_menu = menu_new( menu_cb );
+    //on
+    menu_add_entry(vsync_menu, localeText[64], MENU_ID_VSYNC_ON,localeText[452]);
+    //off
+    menu_add_entry(vsync_menu, localeText[65], MENU_ID_VSYNC_OFF,localeText[453]);
+    //< back
+    menu_add_exit (vsync_menu, localeText[63],localeText[266]);
+
 
 #ifndef WETAB
     /*
@@ -1673,6 +1686,8 @@ void init_menu(void)
     menu_add_submenu(g_options_menu, localeText[105], reflection_menu, 0, NULL,localeText[385]);
     //Light Options
     menu_add_submenu(g_options_menu, localeText[219], light_menu, 1, localeText[211-options_positional_light],localeText[386]);
+    //Vsync Options
+    menu_add_submenu(g_options_menu, localeText[451], vsync_menu, 1, localeText[65-options_vsync],localeText[450]);
     //Back
     menu_add_exit(g_options_menu, localeText[63],localeText[266]);
 #ifdef USE_SOUND

@@ -448,3 +448,7 @@ Tournament Date
 Round
 Default
 Default ball rendering
+Vertical Sync on / off (you must restart the program)
+Vertical refresh sync
+Turn on vertical synchronization
+Vertical synchronization off

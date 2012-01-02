@@ -1112,7 +1112,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         glDepthMask (GL_TRUE);
     }
 
-   /* draw shadows */
+    /* draw shadows */
     //fprintf(stderr,"shadow_id %i\n",cuberef_id);
     glCallList(shadow_id);
     for(i=0;i<balls.nr;i++) {

@@ -45,6 +45,7 @@
 #include <GL/glu.h>
 #include <GL/glext.h>
 #include "sys_stuff.h"
+#include "billard3d.h"
 
 /***********************************************************************/
 
@@ -240,7 +241,31 @@ void sys_create_display(int width,int height)
   SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
   SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
   SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-  SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+  if (SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) <0) {
+  	 fprintf(stderr, "SDL_GL_DOUBLEBUFFER error: %s\n", SDL_GetError());
+  	 options_vsync = 0;
+  } else {
+#ifdef __APPLE__
+	long swapInterval = 1;
+	CGLSetParameter(CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
+#endif
+//compile without errors, if SDL is < Version 1.2.10 at compile time
+#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
+	 if(SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 ) < 0 ) {
+				fprintf( stderr, "Unable to guarantee accelerated visual with libSDL < 1.2.10\n");
+	 }
+  if(vsync_supported()) {
+  	 if(options_vsync) {
+      if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1) < 0) { // since SDL v1.2.10
+        fprintf(stderr, "SDL_GL_SWAP_CONTROL error: %s\n", SDL_GetError());
+        options_vsync = 0;
+      }
+  	 }
+  } else {
+    fprintf(stderr,"SDL-System without control of vsync. Scrolling may stutter\n");
+  }
+#endif
+  }
 
 #ifndef WETAB
   if(options_fsaa_value) {
@@ -672,8 +697,7 @@ int checkkey(void) {
  *           get all resolution modes for SDL/OpenGL                   *
  ***********************************************************************/
 
-sysResolution *sys_list_modes( void )
-{
+sysResolution *sys_list_modes( void ) {
     sysResolution * sysmodes;
     SDL_Rect ** modes;
     int i, modenr;
@@ -696,23 +720,27 @@ sysResolution *sys_list_modes( void )
  *                            SDL main loop                            *
  ***********************************************************************/
 
-void sys_main_loop(void)
-{
+void sys_main_loop(void) {
   // we want a good smooth scrolling
   GLint old_t, t;
   GLint sleeptime;
 
   old_t = SDL_GetTicks();
   while(1) {
-    process_events();
-    DisplayFunc();
-    SDL_GL_SwapBuffers();
-    t = SDL_GetTicks();
-    sleeptime = 15-(t-old_t); //wish sleeptime is 15 milliseconds
-    old_t = t;
-    if(sleeptime > 0) {
-      SDL_Delay(sleeptime);
-      //fprintf(stderr,"%i\n",sleeptime);
+  	 if(options_vsync) {
+       process_events();
+       DisplayFunc();
+       SDL_GL_SwapBuffers();
+    } else {
+       process_events();
+       DisplayFunc();
+       SDL_GL_SwapBuffers();
+       t = SDL_GetTicks();
+       sleeptime = 15-(t-old_t); //wish sleeptime is 15 milliseconds
+       old_t = t;
+       if(sleeptime > 0) {
+         SDL_Delay(sleeptime);
+       }
     }
   }
 
@@ -724,8 +752,7 @@ void sys_main_loop(void)
 
 static char data_dir[512];
 
-void enter_data_dir()
-{
+void enter_data_dir() {
     int success = 1;
 
 #ifdef POSIX
@@ -784,8 +811,7 @@ void enter_data_dir()
  *           returns the "data" directory and chdir into it            *
  ***********************************************************************/
 
-const char *get_data_dir()
-{
+const char *get_data_dir() {
 #ifdef POSIX
     return data_dir;
 #else
@@ -797,8 +823,7 @@ const char *get_data_dir()
  *      Check whether a given file exists                              *
  ***********************************************************************/
 
-int file_exists(const char *path)
-{
+int file_exists(const char *path) {
 #ifdef POSIX
     struct stat buf;
     return stat(path, &buf) == 0;
@@ -814,12 +839,29 @@ int file_exists(const char *path)
  *      Launch an external command                                     *
  ***********************************************************************/
 
-int launch_command(const char *command)
-{
+int launch_command(const char *command) {
 #ifdef USE_WIN
 	   ShellExecute(NULL,"open",command,NULL,NULL,SW_SHOWNORMAL);
 	   return (0);
 #else
     return system(command);
 #endif
+}
+
+/***********************************************************************
+ *      check if vsync is supported with SDL                           *
+ ***********************************************************************/
+
+int vsync_supported(void) {
+//compile without errors, if SDL is < Version 10 at compile time
+#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
+	   SDL_version v;
+
+    v = *SDL_Linked_Version();
+    if(v.major == 1 && v.minor == 2 && v.patch > 9) {
+    	 return 1;
+    }
+#endif
+    options_vsync = 0; //if not supported by SDL turn every time off
+    return 0;
 }

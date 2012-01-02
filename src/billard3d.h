@@ -25,6 +25,8 @@
 #ifndef BILLARD3D_H
 #define BILLARD3D_H
 
+#include "player.h"
+
 //#define TIME_INTERPOLATE
 
 #define CUE_BALL_IND (player[act_player].cue_ball)
@@ -54,9 +56,9 @@
 struct PlayerRoster {
     int nr;       /* number of players */
     struct Player player[ROSTER_MAX_NUM];   /* max. players incl. Tournament*/
-} human_player_roster;
+};
 
-static struct TournamentState_ {
+struct TournamentState_ {
     int round_num;
     int game_ind;
     int round_ind;
@@ -74,6 +76,14 @@ static struct TournamentState_ {
 
     struct PlayerRoster roster;
 
-} tournament_state;
+};
+
+void Key( int key, int modifiers );
+void KeyUp( int key );
+void MouseEvent(MouseButtonEnum button,MouseButtonState  state, int x, int y);
+void MouseMotion(int x, int y);
+void DisplayFunc(void);
+void ResizeWindow(int w,int h);
+void save_config(void);
 
 #endif

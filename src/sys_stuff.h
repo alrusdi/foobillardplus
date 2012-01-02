@@ -75,15 +75,6 @@ typedef struct{
 } sysResolution;
 
 
-// variables and functions in billard3d.c to be called by the system
-void Key( int key, int modifiers ) ;
-void KeyUp( int key ) ;
-void MouseEvent(MouseButtonEnum button,MouseButtonState  state, int x, int y) ;
-void MouseMotion(int x, int y) ;
-void DisplayFunc(void);
-void ResizeWindow(int w,int h);
-void save_config(void);
-
 // system functions 
 
 void set_checkkey(void);
@@ -101,7 +92,7 @@ void init_browser(void);
 void get_browser(char *strpointer);
 int filecopy(char *filefrom,char *fileto);
 char *replace(char *st, char *orig, char *repl);
-
+int vsync_supported(void);
 sysResolution * sys_list_modes(void);
 
 void enter_data_dir();

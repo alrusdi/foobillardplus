@@ -140,6 +140,7 @@ int    options_use_sound = 1;
 int    options_use_music = 1;
 int    options_gamemode  = 0;  /* 0=options_gamemode_match */
 int    options_avatar_on = 0;
+int    options_vsync = 1;          // vsync on = 1, vsync off = 0 or SDL-Version does not understand vsync
 VMfloat options_tourfast = 30.0;
 
 #ifdef TOUCH

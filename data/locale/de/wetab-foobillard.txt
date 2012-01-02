@@ -448,3 +448,7 @@ Turnierdatum
 Runde
 Standard
 Ball Rendering in Standard
+Vertikale Synchronisation An/Aus (Programmneustart notwendig)
+Vertikale Bildsynchronisation
+Vertikale Bildsynchronisation anschalten
+Vertikale Bildsynchronisation ausschalten
