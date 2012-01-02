@@ -66,6 +66,7 @@ bin_PROGRAMS = foobillardplus
 
 foobillardplus_SOURCES = \
    billard3d.c \
+   billard3d.h \
    language.c \
    language.h \
    billmove.c \
