@@ -133,6 +133,7 @@ extern int     options_jump_shots_net_bak;   // Balls can (1) jump out of the ta
 extern int     options_antialiasing;    // Antialiasing functions, 0 = off, >0 on
 extern int     options_fsaa;            // FSAA Test 0 = nothing an 1 is present
 extern int     options_fsaa_value;      // if options_fsaa !=0, the value for fsaa 2 or 4
+extern int     options_maxfsaa;         // max. value for fsaa testing (1,2,4,8)
 extern int     options_show_buttons;    // show the control buttons on the screen = 1, or not = 0
 extern int     options_mouseshoot;      // mouseshoot with angle = 1, without only up/down = 0
 extern int     options_auto_freemove;   // after shoot switch back to freeview (Standard =1), otherwise let the old one = 0

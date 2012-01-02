@@ -22,7 +22,7 @@
 #ifndef LANGUAGE_H
 #define LANGUAGE_H
 
-#define MAX_TEXT_ENTRIES 460
+#define MAX_TEXT_ENTRIES 470
 #define MAX_TEXT_ENTRY_LEN 200
 
 extern char localeText[MAX_TEXT_ENTRIES][MAX_TEXT_ENTRY_LEN];

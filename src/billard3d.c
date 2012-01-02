@@ -342,6 +342,7 @@ static struct option long_options[] = {
     {"showbuttons",  required_argument, (int *)localeText[17], OPT_SHOW_BUTTONS},
     {"jumpshots",    required_argument, (int *)localeText[17], OPT_JUMP_SHOTS},
     {"aliasing",     required_argument, (int *)localeText[17], OPT_ANTIALIASING},
+    {"aliasmax",     required_argument, (int *)localeText[460], OPT_ANTIALIASMAX},
     {"statustext",   required_argument, (int *)localeText[17], OPT_STATUSTEXT},
 #ifdef USE_SOUND
     {"usesound",     required_argument, (int *)localeText[17], OPT_USE_SOUND},
@@ -1584,6 +1585,11 @@ void process_option(enum optionType act_option)
                 break;
           }
           break;
+       case OPT_ANTIALIASMAX:
+          sscanf(optarg,"%d",&options_maxfsaa);
+          if(options_maxfsaa < 1) options_maxfsaa = 1;
+          if(options_maxfsaa > 8) options_maxfsaa = 8;
+          break;
        case OPT_STATUSTEXT:
           switch(optarg[1]){
              case 'f': /* off */
@@ -2052,6 +2058,10 @@ void save_config(void)
              break;
        case OPT_ANTIALIASING:
              write_rc(f,opt, options_antialiasing?"on":"off");
+             break;
+       case OPT_ANTIALIASMAX:
+             sprintf(str,"%d",options_maxfsaa);
+             write_rc(f,opt,str);
              break;
        case OPT_STATUSTEXT:
              write_rc(f,opt, options_status_text?"on":"off");
@@ -6708,7 +6718,7 @@ void menu_cb( int id, void * arg , VMfloat value)
 #ifndef WETAB
         if(options_fsaa) {
          glEnable(GL_MULTISAMPLE_ARB);
-        	options_fsaa_value = 8; //#### FIXME ### fsaa max. 8
+        	options_fsaa_value = 8; //this value is set correct with the options_maxfsaa
         }
 #endif
         break;
@@ -6720,6 +6730,18 @@ void menu_cb( int id, void * arg , VMfloat value)
         }
 #endif
         options_fsaa_value = 0;
+        break;
+    case MENU_ID_ALIASMAX_1:
+        options_maxfsaa = 1;
+        break;
+    case MENU_ID_ALIASMAX_2:
+        options_maxfsaa = 2;
+        break;
+    case MENU_ID_ALIASMAX_4:
+        options_maxfsaa = 4;
+        break;
+    case MENU_ID_ALIASMAX_8:
+        options_maxfsaa = 8;
         break;
     case MENU_ID_LIGHT_POS:
         options_positional_light = 1;

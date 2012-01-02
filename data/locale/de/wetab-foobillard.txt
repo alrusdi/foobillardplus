@@ -452,3 +452,10 @@ Vertikale Synchronisation An/Aus (Programmneustart notwendig)
 Vertikale Bildsynchronisation
 Vertikale Bildsynchronisation anschalten
 Vertikale Bildsynchronisation ausschalten
+Max. FSAA: 
+Kleiner Wert = schnelles Programm. Großer Wert = bessere Grafik. Standard ist 2 fach
+1 fach
+2 fach
+4 fach
+8 fach
+fsaa Wert von 1,2,4,8

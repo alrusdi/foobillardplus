@@ -697,6 +697,7 @@ void init_menu(void)
     static menuType * music_menu;
 #endif
     static menuType * antialias_menu;
+    static menuType * antialias_max;
     static menuType * fullscreen_menu;
     static menuType * reflection_menu;
     static menuType * render_menu;
@@ -934,13 +935,43 @@ void init_menu(void)
     menu_add_exit(fullscreen_menu, localeText[63],localeText[266]);
 
     /*
+      Antialias Max. Menu come from Antialias Menu
+    */
+    antialias_max = menu_new( menu_cb );
+    //max 1
+    menu_add_entry(antialias_max, localeText[456] , MENU_ID_ALIASMAX_1,localeText[455]);
+    //max 2
+    menu_add_entry(antialias_max, localeText[457], MENU_ID_ALIASMAX_2,localeText[455]);
+    //max 4
+    menu_add_entry(antialias_max, localeText[458], MENU_ID_ALIASMAX_4,localeText[455]);
+    //max 8
+    menu_add_entry(antialias_max, localeText[459], MENU_ID_ALIASMAX_8,localeText[455]);
+    //Back
+    menu_add_exit(antialias_max, localeText[63],localeText[266]);
+
+    /*
       Antialias Menu come from Graphics Options
     */
+    switch(options_maxfsaa) {
+      case 8:
+        neuwert = 3;
+        break;
+      case 4:
+        neuwert = 2;
+        break;
+      case 1:
+        neuwert = 0;
+        break;
+      default:
+        neuwert = 1;
+      }
     antialias_menu = menu_new( menu_cb );
     //Alias on
     menu_add_entry(antialias_menu, localeText[64] , MENU_ID_ALIAS_ON,localeText[296]);
     //Alias Off
     menu_add_entry(antialias_menu, localeText[65], MENU_ID_ALIAS_OFF,localeText[297]);
+    //Alias FSAA Max (1,2,4, or 8, default: 2)
+    menu_add_submenu(antialias_menu, localeText[454], antialias_max, 1, localeText[456+neuwert],localeText[455]);
     //Back
     menu_add_exit(antialias_menu, localeText[63],localeText[266]);
 

@@ -312,6 +312,9 @@ void sys_create_display(int width,int height)
   SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"),NULL);
 
 #ifndef WETAB
+  if(options_fsaa_value > options_maxfsaa) {
+  	options_fsaa_value = options_maxfsaa;
+  }
   while (vid_surface == NULL) {
 #endif
    if((vid_surface=SDL_SetVideoMode( width, height, vidmode_bpp, vidmode_flags )) == NULL) {

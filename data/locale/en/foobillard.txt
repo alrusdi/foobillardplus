@@ -452,3 +452,10 @@ Vertical Sync on / off (you must restart the program)
 Vertical refresh sync
 Turn on vertical synchronization
 Vertical synchronization off
+Max. FSAA: 
+Smaller value = fast program. Greater value = good graphics. Default is 2-fold
+1 fold
+2 fold
+4 fold
+8 fold
+fsaa value 1,2,4,8
