@@ -405,7 +405,7 @@ a:active {
 <p>&nbsp;</p>
 <p><em>Browser</em> (not on MS-Windows)</p>
 <p>&nbsp;</p>
-<p>This can be set to display the necessary Internet browser. The default is firefox. The maximum input length is limited to 15 characters and the browser needs to be in search path. I.e. a start of the browser is possible only with his programname accessed anywhere from any directory. On newer Linux distributions that is the case. Furthermore, there is the possibility to enter the filename browser.sh. The file resides in the data directory.  This is then executed in the call instruction. An example file is in the data directory.</p></td>
+<p>This can be set to display the necessary Internet browser. The default is firefox. The maximum input length is limited to 15 characters and the browser needs to be in search path. I.e. a start of the browser is possible only with his programname accessed anywhere from any directory. On modern Linux/Unix/Posix-like systems that is the case. Furthermore, there is the possibility to enter the the word browser. The file browser.sh resides in the data directory.  This is then executed in the call instruction. An example file is in the data directory. With MS-Windows the program is invoked, which is associated with the extension xml.</p></td>
 	        </tr>
 		    <tr>
 		      <td align="left" valign="top"><strong>Graphic</strong></td>
@@ -418,6 +418,8 @@ a:active {
 		        <p><em>Antialiasing</em> - On / Off</p>
 		        <p>&nbsp;</p>
 		        <p>When antialiasing on Linux is to note that any existing anti-aliasing can not be displayed immediately. You have to restart the program. When you restart the program is followed by attempts to an existing valid screen mode (anti-aliasing mode FSAA). On failure, the program will not start and the settings for anti-aliasing will be reset in FSAA and stored. Please restart the program. The application will then only accept rudimentary smoothing methods for lines.</p>
+		        <p>&nbsp;</p>
+		        <p>In point of anti-aliasing can still be adjusted the maximum value of an edge smoothing FSAA. Smaller values = faster program and larger values = better graphics. The default value here is 2-fold and can move in the range 1 to 8-fold.</p>
 		        <p>&nbsp;</p>
 		        <p><em>Reflections</em> - Rendering and render resolution</p>
 		        <p>&nbsp;</p>
@@ -445,6 +447,20 @@ a:active {
 		      <td align="left" valign="top"><strong>Manual</strong></td>
 		      <td align="left" valign="top"><p>A little joke to explain this menu here. You already read it ...... It is important to ensure that while viewing the guide, the game is paused. A simple change of the active window to the game back is not enough to continue playing. The instructions must be completely stopped. Only then a further play is possible.</p>
 	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Game history</strong></td>
+		      <td align="left" valign="top"><p>When activated, a history of previously saved game takes place in an external browser. In Linux, the call is made on the data entered in the browser preferences. In MS-Windows the program is started which the xml files are associated. Should there be no action, please check whether the browser supports set at all xml files with xsl style sheets, or on MS-Windows is a program linked to the representation of xml files.</p>
+		        <p>&nbsp;</p>
+		        <p>Linux or compatible Unix-/Posix derivatives, the underlying file is located under the home directory of the active user in the subdirectory foobillardplus-data/html and file historie.xml (historical data) and historie.xsl (xsl-Stylesheet for the xml-file). In MS-Windows the files are located in the folder foobillardplus-data on the desktop.</p>
+		        <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Tournament History</strong></td>
+		      <td align="left" valign="top"><p>When activated, a history of previously saved game takes place in an external browser. In Linux, the call is made on the data entered in the browser preferences. In MS-Windows the program is started which the xml files are associated. Should there be no action, please check whether the browser supports set at all xml files with xsl style sheets, or on MS-Windows is a program linked to the representation of xml files.</p>
+		        <p>&nbsp;</p>
+		        <p>Linux or compatible Unix-/Posix derivatives, the underlying file is located under the home directory of the active user in the subdirectory foobillardplus-data/html and file tournament.xml (historical data) and tournament.xsl (xsl-Stylesheet for the xml-file). In MS-Windows the files are located in the folder foobillardplus-data on the desktop.</p>
+		        <p>&nbsp;</p></td>
 	        </tr>
 		    <tr>
 		      <td align="left" valign="top"><strong>Quit</strong></td>

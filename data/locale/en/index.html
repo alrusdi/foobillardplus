@@ -347,6 +347,10 @@ a:active {
 		        <p><em>Status Text - On / Off</em></p>
 		        <p>&nbsp;</p>
 		        <p><em>Avatar - On / Off</em></p>
+		        <p>&nbsp;</p>
+<p><em>Browser</em></p>
+<p>&nbsp;</p>
+<p>This can be set to display the necessary Internet browser. The default is firefox. The maximum input length is limited to 15 characters and the browser needs to be in search path. I.e. a start of the browser is possible only with his programname accessed anywhere from any directory. On the WeTab that is the case. Furthermore, there is the possibility to enter the the word browser. The file browser.sh resides in the data directory.  This is then executed in the call instruction. An example file is in the data directory. The browser is used for the view of the history-files for game-play, because the WeTab standard browser can't display xml-contents correctly with xsl-Stylesheets. You must install an internet browser, to use this function.</p>
 <p>&nbsp;</p></td>
 	        </tr>
 		    <tr>
@@ -387,6 +391,20 @@ a:active {
 		      <td align="left" valign="top"><strong>Manual</strong></td>
 		      <td align="left" valign="top"><p>A little joke to explain this menu here. You already read it ...... It is important to ensure that while viewing the guide, the game is paused. A simple change of the active window to the game back is not enough to continue playing. The instructions must be completely stopped. Only then a further play is possible.</p>
 	          <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Game history</strong></td>
+		      <td align="left" valign="top"><p>When activated, a history of previously saved game takes place in an external browser. In Linux, the call is made on the data entered in the browser preferences. In MS-Windows the program is started which the xml files are associated. Should there be no action, please check whether the browser supports set at all xml files with xsl style sheets, or on MS-Windows is a program linked to the representation of xml files.</p>
+		        <p>&nbsp;</p>
+		        <p>Linux or compatible Unix-/Posix derivatives, the underlying file is located under the home directory of the active user in the subdirectory foobillardplus-data/html and file historie.xml (historical data) and historie.xsl (xsl-Stylesheet for the xml-file). In MS-Windows the files are located in the folder foobillardplus-data on the desktop.</p>
+<p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Tournament History</strong></td>
+		      <td align="left" valign="top"><p>When activated, a history of previously saved game takes place in an external browser. In Linux, the call is made on the data entered in the browser preferences. In MS-Windows the program is started which the xml files are associated. Should there be no action, please check whether the browser supports set at all xml files with xsl style sheets, or on MS-Windows is a program linked to the representation of xml files.</p>
+		        <p>&nbsp;</p>
+		        <p>Linux or compatible Unix-/Posix derivatives, the underlying file is located under the home directory of the active user in the subdirectory foobillardplus-data/html and file tournament.xml (historical data) and tournament.xsl (xsl-Stylesheet for the xml-file). In MS-Windows the files are located in the folder foobillardplus-data on the desktop.</p>
+<p>&nbsp;</p></td>
 	        </tr>
 		    <tr>
 		      <td align="left" valign="top"><strong>Quit</strong></td>

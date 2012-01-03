@@ -397,7 +397,7 @@ a:active {
 	          <p>&nbsp;</p>
 	          <p><em>Browser</em> (nicht bei Benutzung von MS-Windows)</p>
 	          <p>&nbsp;</p>
-	          <p>Hier kann der f&uuml;r die zur Anzeige notwendige Internet Browser eingestellt werden. Als Standard ist firefox vorgesehen. Die maximale Eingabel&auml;nge ist auf 15 Zeichen begrenzt und der Browser muss sich im Suchpfad befinden. D.h. ein Start des Browsers muss nur unter Angabe seines Programmnamens von &uuml;berall her aufrufbar sein. Auf neueren Linux Distributionen ist das der Fall. Des weiteren besteht die M&ouml;glichkeit dort browser.sh einzugeben. Die Datei browser.sh befindet sich im data-Verzeichnis. Darin muss der vollst&auml;ndige Pfad zu einem g&uuml;ltigen Internet-Browser eingetragen werden. Diese wird dann bei Aufruf der Anleitung ausgef&uuml;hrt. Eine beispielhafte Datei ist im data-Verzeichnis vorhanden.</p>
+	          <p>Hier kann der f&uuml;r die zur Anzeige notwendige Internet Browser eingestellt werden. Als Standard ist firefox vorgesehen. Die maximale Eingabel&auml;nge ist auf 15 Zeichen begrenzt und der Browser muss sich im Suchpfad befinden. D.h. ein Start des Browsers muss nur unter Angabe seines Programmnamens von &uuml;berall her aufrufbar sein. Auf neueren Linux Distributionen ist das der Fall. Des weiteren besteht die M&ouml;glichkeit dort nur das Wort browser einzugeben. Die Datei browser.sh wird dadurch angestartet und befindet sich im data-Verzeichnis. Darin muss der vollst&auml;ndige Pfad zu einem g&uuml;ltigen Internet-Browser eingetragen werden. Diese wird dann bei Aufruf der Anleitung ausgef&uuml;hrt. Eine beispielhafte Datei ist im data-Verzeichnis vorhanden.</p>
 	          <p>&nbsp;</p></td>
 	        </tr>
 		    <tr>
@@ -411,6 +411,8 @@ a:active {
 	          <p><em>Antialiasing - An/Aus</em>	          </p>
 	          <p>&nbsp;</p>
 	          <p>Beim Antialising unter Linux ist dabei zu beachten, dass ein etwaig vorhandenes Anti-Aliasing nicht sofort dargestellt werden kann. Das Programm ist zu beenden und neu zu starten. Beim Neustart versucht das Programm einen f&uuml;r den derzeitg g&uuml;ltigen Bildschirmmodus vorhandenen Anti-Alias Modus f&uuml;r FSAA zu ermitteln. Scheitert dieses in G&auml;nze wird das Programm nicht starten und die Einstellungen zum Anti-Aliasing werden im Bereich FSAA zur&uuml;ckgesetzt und abgespeichert. Starten Sie die Anwendung dann bitte neu. Zur Anwendung kommen dann nur rudiment&auml;re Gl&auml;ttungsmethoden f&uuml;r Linien.</p>
+	          <p>&nbsp;</p>
+	          <p>Im Punkt Antialiasing kann noch eingestellt werden, mit welchem maximalen FSAA Wert eine Kantengl&auml;ttung durchgef&uuml;hrt werden darf. Hierbei gilt, je kleiner der Wert, desto schneller arbeitet das rogramm und je gr&ouml;&szlig;er der Wert, desto besser die Grafikdarstellung. Der Standard-Wert ist hierbei 2-fach und kann sich im Bereich von 1 bis 8-fach bewegen.</p>
 	          <p>&nbsp;</p>
 	          <p>Ansichtsmodus f&uuml;r Fenster oder Vollbilddarstellung. Unter Windows besteht die Wahrscheinlichkeit, dass sich der Vollbildmodus nicht aktivieren l&auml;sst. Das ist begr&uuml;ndet durch die Benutzung des SDL-Layers in der Programmierung und hat nichts mit der verwendeten Grafikkarte oder dem Computersystem zu tun. Es wurde zwar versucht, hier Abhilfe zu schaffen. Aber eine Lauff&auml;higkeit unter allen Windows-Varianten kann nicht gew&auml;hrleistet werden.</p>
 	          <p>&nbsp;</p>
@@ -439,7 +441,21 @@ a:active {
 		    <tr>
 		      <td align="left" valign="top"><strong>Anleitung</strong></td>
 		      <td align="left" valign="top"><p>Ein wenig scherzhaft, diesen Men&uuml;punkt hier zu erl&auml;utern. Sie lesen ja schon darin...... Es ist darauf zu achten, dass w&auml;hrend der Ansicht der Anleitung das Spiel angehalten wird. Ein simpler Wechsel des Fensters in das Spielfeld reicht zum Weiterspielen nicht aus. Die Anleitung muss vollst&auml;ndig beendet werden. Erst dann ist ein Weiterspielen m&ouml;glich.</p>
-	          <p>&nbsp;</p></td>
+		        <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Einzelhistorie</strong></td>
+		      <td align="left" valign="top"><p>Bei Aktivierung erfolgt eine Anzeige der bisher gespeicherten Spielhistorie in einem externen Browser. Bei Linux erfolgt der Aufruf &uuml;ber den in den Einstellungen eingetragenen Browser. Bei MS-Windows wird das mit xml-Dateien verkn&uuml;pfte Programm gestartet. Sollte hier keine Aktion erfolgen, &uuml;berpr&uuml;fen Sie bitte, ob der eingestellte Browser &uuml;berhaupt xml-Dateien mit xsl-Stylesheets unterst&uuml;tzt, bzw unter Windows ein Programm f&uuml;r die Darstellung von xml-Dateien verkn&uuml;pft ist.</p>
+		        <p>&nbsp;</p>
+		        <p>Unter Linux bzw. Unix-/Posix kompatible Derivate befindet sich die zugrundeliegende Datei unter dem home-Verzeichnis des aktiven Benutzers im Unterordner foobillardplus-data/html in der Datei historie.xml (Historiendaten) und historie.xsl (Beschreibungsddatei zur Darstellung). Bei MS--Windows wird auf dem Desktop ein Unterodner im Desktop-Ordner foobillardplus-data entsprechend erstellt.</p>
+		        <p>&nbsp;</p></td>
+	        </tr>
+		    <tr>
+		      <td align="left" valign="top"><strong>Turnierhistorie</strong></td>
+		      <td align="left" valign="top"><p>Bei Aktivierung erfolgt eine Anzeige der bisher gespeicherten Turnierhistorie in einem externen Browser. Bei Linux erfolgt der Aufruf &uuml;ber den in den Einstellungen eingetragenen Browser. Bei MS-Windows wird das mit xml-Dateien verkn&uuml;pfte Programm gestartet. Sollte hier keine Aktion erfolgen, &uuml;berpr&uuml;fen Sie bitte, ob der eingestellte Browser &uuml;berhaupt xml-Dateien mit xsl-Stylesheets unterst&uuml;tzt, bzw unter Windows ein Programm f&uuml;r die Darstellung von xml-Dateien verkn&uuml;pft ist.</p>
+                <p>&nbsp;</p>
+                <p>Unter Linux bzw. Unix-/Posix kompatible Derivate befindet sich die zugrundeliegende Datei unter dem home-Verzeichnis des aktiven Benutzers im Unterordner foobillardplus-data/html in der Datei tournament.xml (Historiendaten) und tournament.xsl (Beschreibungsddatei zur Darstellung). Bei MS--Windows wird auf dem Desktop ein Unterodner im Desktop-Ordner foobillardplus-data entsprechend erstellt.</p>
+<p>&nbsp;</p></td>
 	        </tr>
 		    <tr>
 		      <td align="left" valign="top"><strong>Beenden</strong></td>
@@ -447,7 +463,7 @@ a:active {
 	          <p>&nbsp;</p></td>
 	        </tr>
 	      </table>
-    <p>&nbsp;</p>
+<p>&nbsp;</p>
 		  <p><strong><a name="spielmodi" id="spielmodi"></a>5. Spielmodi</strong><a href="#top"><img src="../img/back.png" alt="Zur&uuml;ck" width="32" height="32" align="right" /></a></p>
 		  <p>&nbsp;</p>
 		  <p>Die nun folgenden Erl&auml;uterungen stammen zum gr&ouml;&szlig;ten Teil aus der freien Enzyklop&auml;die Wikipedia. An einer m&ouml;glichst realistischen Wiedergabe der Spielregeln in Foobillard++ wird noch gearbeitet.</p>
