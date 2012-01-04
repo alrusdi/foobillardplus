@@ -56,6 +56,10 @@ rm -rf %{buildroot}
 /opt/%{name}/foobillardplus.xbm
 
 %build
+aclocal --force
+autoconf -f
+autoheader -f
+automake -a -c -f
 ./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special
 make 
 

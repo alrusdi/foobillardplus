@@ -142,9 +142,24 @@ What is FooBillard++ ?
    Please don't use enable-nvidia (it's only for testing.....)
    A build for more generic cards is in progress.
 
+   For compilation from source you need the gnu autoconf and automake packages.
+   After unpacking the sourceball change to the foobillardplus directory and
+   type the follwing commands.
+
+   aclocal --force
+   autoconf -f
+   autoheader -f
+   automake -a -c -f
+
    simply type in main-directory (for standard-installation):
 
    ./configure
+   make
+   make install
+   
+   A special very fast version is build with
+   
+   ./configure --enable-special
    make
    make install
 
@@ -159,7 +174,7 @@ What is FooBillard++ ?
    Troublshooting:
 
    On problems in compiling change to the foobillardplus directory
-   and type
+   and type again
 
    aclocal --force
    autoconf -f
