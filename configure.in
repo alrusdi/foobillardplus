@@ -66,14 +66,14 @@ fi
 if test "x$exec_prefix" = "xNONE" ; then
   exec_prefix=$prefix
 fi
-bindir=$prefix/bin
+bindir=$exec_prefix/bin
 datarootdir=$prefix/data
 datadir=$prefix/data
 localedir=$prefix/data/locale
 docdir=$prefix/data/locale
 PREFIX=$prefix
 AC_SUBST([PREFIX])
-EXECPREFIX=$prefix
+EXECPREFIX=$exec_prefix
 AC_SUBST([EXECPREFIX])
 BINDIR=$bindir
 AC_SUBST([BINDIR])
