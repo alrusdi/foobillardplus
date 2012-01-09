@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h> /* memcpy */
-#include <SDL.h>
+#include <SDL/SDL.h>
 #include "sound_stuff.h"
 #include "sys_stuff.h"
 #define MAX_EVENT_NR 1000

@@ -38,9 +38,9 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 
-#include <SDL.h>
+#include <SDL/SDL.h>
 #ifdef NETWORKING
-  #include <SDL_net.h>
+  #include <SDL/SDL_net.h>
 #endif
 
 #ifdef __MINGW32__ //RB
@@ -69,6 +69,7 @@
 #include "history.h"
 #include "vmath.h"
 #include "billard3d.h"
+#include "fire.h"
 
 static struct PlayerRoster human_player_roster;
 static struct TournamentState_ tournament_state;
@@ -3924,6 +3925,8 @@ void Display_tournament_tree( struct TournamentState_ * ts )
 void DisplayFunc( void )
 {
 
+#define NEXT_FLAME_COUNTER 0.5
+
   char str[256];                    // for string operations and network countdown
   int i,j,k,m;                      // some loop variables
   int minballnr;                    // next ball for 9ball
@@ -3932,9 +3935,11 @@ void DisplayFunc( void )
   static int dt;
   static int t_prev=-1;
   static int frametime_rest=0;
-  static int dt_rest=0;
+  //static int dt_rest=0;    // ### TODO ### for what is this variable?
   static int count=0;
   static VMfloat dt_s_rest=0.0;
+  static int flame_frame = 0;       // the fire flame-frame to show
+  static VMfloat next_flame = NEXT_FLAME_COUNTER;
   VMfloat fact;
 #ifdef USE_SOUND                    // some stuff for ball-sounds
   VMfloat bhitstrength=0.0;
@@ -3992,14 +3997,14 @@ void DisplayFunc( void )
     if( frametime_ms<1 ) frametime_ms=1;
     if( frametime_ms>frametime_ms_max ) frametime_ms=frametime_ms_max;
     dt=0;
-    dt_rest+=frametime_ms;
+    //dt_rest+=frametime_ms; // ### TODO ### for what is this variable ?
   }
 
  //    fprintf(stderr,"dt=%d\n",dt);
-  fact=pow(0.85,(VMfloat)frametime_ms/50.0);
+  fact=MATH_POW(0.85,(VMfloat)frametime_ms/50.0);
   Xrot_offs *= fact;
   Zrot_offs *= fact;
-  fact=pow(0.94,(VMfloat)frametime_ms/50.0);
+  fact=MATH_POW(0.94,(VMfloat)frametime_ms/50.0);
   cam_dist = (cam_dist*fact)+(cam_dist_aim+vec_abs(balls.ball[CUE_BALL_IND].v)*0.4)*(1.0-fact);
 
   free_view_pos = vec_add( vec_scale( free_view_pos, fact ), vec_scale( free_view_pos_aim, 1.0-fact ) );
@@ -4383,9 +4388,8 @@ void DisplayFunc( void )
      }
      glCallList(wall4_c_obj);
    } else {
-   	 glRotatef(-90.0,0.0,0.0,1.1);
+   	glRotatef(-90.0,0.0,0.0,1.1);
    }
-
    if(options_tronmode) { //switch Tron Gamemode off
      glDisable (GL_LINE_SMOOTH);
      glPolygonMode(GL_FRONT,GL_FILL);
@@ -4458,13 +4462,22 @@ void DisplayFunc( void )
      glRotatef(90.0,0.0,0.0,1.0);
      glTranslatef(-4.0,2.4,-0.43);
      glScalef(0.6,0.4,0.45);
-
      if(Zrot<90.0 || Zrot>280.0) {
     	 if(options_tronmode) {
     	  glDisable(GL_TEXTURE_2D);
     	 }
-   	   glCallList(camin_id); //Camin
-     }
+   	   glCallList(camin_id);   // fireplace
+       if(next_flame > 0.0 ){  // animation of flames in fireplace
+           next_flame-=(VMfloat)frametime_ms/120.0;
+       }
+       if(next_flame<0.05){
+           next_flame=NEXT_FLAME_COUNTER;
+           if((++flame_frame)>13) {
+           	flame_frame = 0;
+           }
+       }
+   	   display_fire(flame_frame);
+      }
      if(!options_birdview_on) {
        glPopMatrix();
        glPushMatrix();

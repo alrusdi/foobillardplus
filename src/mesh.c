@@ -27,6 +27,7 @@
 #include "fireplace.h"
 #include "Ceiling_light.h"
 #include "png_loader.h"
+#include "fire.h"
 
 // only define, if OpenGL version is higher then 1.5
 //#define USE_BINDBUFFER
@@ -318,5 +319,6 @@ void InitMesh() {
   MakeTable();
   MakeCamin();
   MakeLamp();
+  init_fire();  //initialize the fireflame for the fireplace
 }
 

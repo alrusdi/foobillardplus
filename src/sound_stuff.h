@@ -30,8 +30,8 @@
 #define PLAY_NOISE(data,volume) PlayNoise(data,volume);
 #define INIT_SOUND() init_sound()
 
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 #include "vmath.h"
 
 extern struct SoundStruct{

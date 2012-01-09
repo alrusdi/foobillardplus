@@ -236,7 +236,9 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     //right frame
     my_rect_most(-2.4,4.8,2.3,-2.4,4.999,2.3,-2.4,4.999,0.5,-2.4,4.8,0.5);
     //upper frame
-    my_rect_most(-3.6,4.8,2.3,-3.6,4.999,2.3,-2.4,4.999,2.3,-2.4,4.8,2.3);
+    // ### TODO ### upper frame only useful, if FREEVIEW and CUE_VIEW is ON
+    // now, we disable it....... because in other views the frame is disturbing!!!!
+    //my_rect_most(-3.6,4.8,2.3,-3.6,4.999,2.3,-2.4,4.999,2.3,-2.4,4.8,2.3);
     glEnd();
     //front
     glBindTexture(GL_TEXTURE_2D,cabinetfronttexbind);

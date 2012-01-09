@@ -16,6 +16,18 @@
 #include <time.h>
 
 
+//fast pow only with double (float won't work)
+
+double fastpow(double a, double b) {
+    int tmp = (*(1 + (int *)&a));
+    int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
+    double p = 0.0;
+    //*(1 + (int * )&p) = tmp2;
+    //return p;
+    union { double d; int x[2]; } u = { p }; u.x[1] = tmp2;
+    return u.d;
+}
+
 // fast atan only with float
 
 float fastatan(float x)
@@ -195,5 +207,41 @@ int main(int argc,char *argv[])
    dwTickEnd = clock();
    dwDuration = dwTickEnd - dwTickStart;
    printf("%d atan computed in %d ticks with normal[atan]\n", iMaxTests, dwDuration);
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d atan computed in %d ticks with fast[atan]\n", iMaxTests, dwDuration);
+
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = pow(f, f);
+
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d pow computed in %d ticks with normal[pow]\n", iMaxTests, dwDuration);
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = fastpow(f, f);
+
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d pow computed in %d ticks with fast[pow]\n", iMaxTests, dwDuration);
 
 }

@@ -59,7 +59,9 @@ foobillardplus_SOURCES = \
    burlap_sofa.h \
    fireplace.h \
    history.h \
-   history.c
+   history.c \
+   fire.h \
+   fire.c
 else
 
 bin_PROGRAMS = foobillardplus
@@ -116,7 +118,9 @@ foobillardplus_SOURCES = \
    burlap_sofa.h \
    fireplace.h \
    history.h \
-   history.c
+   history.c \
+   fire.h \
+   fire.c
 endif
 
 SDL_CFLAGS = `sdl-config --cflags`

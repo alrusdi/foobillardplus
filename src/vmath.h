@@ -123,14 +123,17 @@ typedef struct PolyPoint VMpolypoint;
   #define MATH_COS(x) fastcos(x)
   #define MATH_ATAN2(x,y) fastatan2(x,y)
   #define MATH_ATAN(x) fastatan(x)
+  #define MATH_POW(x,y) fastpow(x,y)
 #else
   #define MATH_SIN(x) sin(x)
   #define MATH_COS(x) cos(x)
   #define MATH_ATAN2(x,y) atan2(x,y)
   #define MATH_ATAN(x) atan(x)
+  #define MATH_POW(x,y) pow(x,y)
 #endif
 
 void initlookup_cossin_table(void);
+inline double fastpow(double a, double b);
 inline float fastcos(float n);
 inline float fastsin(float n);
 inline float fastatan2(float y, float x);

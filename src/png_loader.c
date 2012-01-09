@@ -40,7 +40,7 @@
 #ifdef USE_WIN //HS
 	#include <GL/glext.h>
  #include <fcntl.h>
- #include <SDL.h>
+ #include <SDL/SDL.h>
 #endif
 #include <string.h>
 #include <sys/stat.h>

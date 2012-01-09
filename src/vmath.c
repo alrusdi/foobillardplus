@@ -50,6 +50,23 @@ void initlookup_cossin_table(void) {
 }
 
 /***********************************************************************
+ *            fast pow implementation with double                      *
+ ***********************************************************************/
+
+// ### TODO ### work not really clean at the moment
+
+inline double fastpow(double a, double b) {
+    int tmp = (*(1 + (int *)&a));
+    int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
+    double p = 0.0;
+    //*(1 + (int * )&p) = tmp2;
+    //return p;
+    union { double d; int x[2]; } u = { p }; u.x[1] = tmp2;
+    return u.d;
+}
+
+
+/***********************************************************************
  *            fast sinus implementation lookup table                   *
  ***********************************************************************/
 inline float fastsin(float n) {

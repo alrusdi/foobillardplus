@@ -26,8 +26,8 @@
 #include "options.h"
 #include "sys_stuff.h"
 
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
