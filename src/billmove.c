@@ -27,6 +27,7 @@
 #include "options.h"
 #include "billmove.h"
 #include "math.h"
+#include "vmath.h"
 #include "player.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -489,8 +490,8 @@ static VMfloat calc_wall_collision_time( BallType * ball, BorderType * wall )
         ph = vec_mul(v,r)/vec_abssq(v);
         q  = (vec_abssq(r) - ball->d*ball->d/4.0)/vec_abssq(v);
         if(ph*ph>q){
-           t1 = -ph+sqrt(ph*ph-q);
-           t2 = -ph-sqrt(ph*ph-q);
+           t1 = -ph+MATH_SQRT(ph*ph-q);
+           t2 = -ph-MATH_SQRT(ph*ph-q);
         } else {
            t1 = SQRTM1;
            t2 = SQRTM1;
@@ -503,8 +504,8 @@ static VMfloat calc_wall_collision_time( BallType * ball, BorderType * wall )
         ph = vec_mul(ball->v,r)/vec_abssq(ball->v);
         q  = (vec_abssq(r) - ball->d*ball->d/4.0)/vec_abssq(v);
         if(ph*ph>q){
-	        t1 = -ph+sqrt(ph*ph-q);
-   	     t2 = -ph-sqrt(ph*ph-q);
+	        t1 = -ph+MATH_SQRT(ph*ph-q);
+   	     t2 = -ph-MATH_SQRT(ph*ph-q);
         } else {
            t1 = SQRTM1;
            t2 = SQRTM1;
@@ -532,7 +533,7 @@ static VMfloat calc_ball_collision_time( BallType * b1, BallType * b2 )
     ds *= ds;
     p  = ( dv.x*dr.x + dv.y*dr.y + dv.z*dr.z )/vs;
     q  = (rs-ds)/vs;
-    q  = (p*p>q)?sqrt(p*p-q):SQRTM1;
+    q  = (p*p>q)?MATH_SQRT(p*p-q):SQRTM1;
     t1 = -p + q;
     t2 = -p - q;
     return( (t1<t2)?t1:t2 );
@@ -589,7 +590,7 @@ static void ball_wall_interaction( BallType * ball, BorderType * wall )
 
         /* normal component */
         loss = CUSHION_LOSS_O0+(CUSHION_MAX_LOSS-CUSHION_LOSS_O0)*(1.0-exp(-vec_abs(vn)/CUSHION_LOSS_WSPEED));
-        dv = vec_scale( vn, -(1.0+sqrt(1.0-loss)) );
+        dv = vec_scale( vn, -(1.0+MATH_SQRT(1.0-loss)) );
         ball->v = vec_add(ball->v,dv);
 
         /* parallel component */

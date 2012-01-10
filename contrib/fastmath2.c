@@ -8,12 +8,119 @@
  */
 
 // gcc -o fastmath2 fastmath2.c -lm -ffast-math
-// if this is better in speed as with -ffastmath , then use it
+// if this is better in speed as with -ffast-math , then use it
 
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
 #include <time.h>
+#include <stdint.h>
+
+/// fast exp implementation
+
+static union{
+    double d;
+    struct{
+        int j,i;
+        } n;
+} d2i;
+
+#ifndef M_LN2
+#define M_LN2 0.69314718055994530942
+#endif
+
+#define EXP_A (1048576/M_LN2)
+#define EXP_C 60801
+//#define fastexp(y) (d2i.n.i = EXP_A*(y)+(1072693248-EXP_C),d2i.d)
+
+inline double fastexp(const double y){
+	return (d2i.n.i = EXP_A*(y)+(1072693248-EXP_C),d2i.d);
+}
+
+// fast fabs routine
+
+//inline float fastfabs(const float f) {
+//  int i=((*(int*)&f)&0x7fffffff);
+//  return (*(float*)&i);
+//}
+
+inline float fastfabs(const float n){
+    if(n >= 0.0f)return n; //if positive, return without any change
+    else return 0.0f - n; //if negative, return a positive version
+    }
+
+inline float fastneg(const float f) {
+ int i=((*(int*)&f)^0x80000000);
+ return (*(float*)&i);
+}
+
+inline int fastsgn(const float f) {
+ return 1+(((*(int*)&f)>>31)<<1);
+}
+
+
+// fast sqrt with table lookup (from Nvidia)
+
+//typedef unsigned char      BYTE;       // better: uint8_t out <stdint.h>
+//typedef unsigned short     WORD;       // better: uint16_t out <stdint.h>
+//typedef unsigned long      DWORD;      // better: uint32_t out <stdint.h>
+//typedef unsigned long      QWORD;      // better: uint64_t out <stdint.h>
+
+//#define FP_BITS(fp) (*(DWORD *)&(fp))
+#define FP_BITS(fp) (*(uint32_t *)&(fp))
+#define FP_ABS_BITS(fp) (FP_BITS(fp)&0x7FFFFFFF)
+#define FP_SIGN_BIT(fp) (FP_BITS(fp)&0x80000000)
+#define FP_ONE_BITS 0x3F800000
+
+static unsigned int fast_sqrt_table[0x10000];  // declare table of square roots
+
+typedef union FastSqrtUnion
+{
+  float f;
+  unsigned int i;
+} FastSqrtUnion;
+
+void  build_sqrt_table()
+{
+  unsigned int i;
+  FastSqrtUnion s;
+
+  for (i = 0; i <= 0x7FFF; i++)
+  {
+
+    // Build a float with the bit pattern i as mantissa
+    //  and an exponent of 0, stored as 127
+
+    s.i = (i << 8) | (0x7F << 23);
+    s.f = (float)sqrt(s.f);
+
+    // Take the square root then strip the first 7 bits of
+    //  the mantissa into the table
+
+    fast_sqrt_table[i + 0x8000] = (s.i & 0x7FFFFF);
+
+    // Repeat the process, this time with an exponent of 1,
+    //  stored as 128
+
+    s.i = (i << 8) | (0x80 << 23);
+    s.f = (float)sqrt(s.f);
+
+    fast_sqrt_table[i] = (s.i & 0x7FFFFF);
+  }
+}
+
+
+inline float fastsqrt(float n)
+{
+
+  if (FP_BITS(n) == 0)
+    return 0.0;                 // check for square root of 0
+
+  FP_BITS(n) = fast_sqrt_table[(FP_BITS(n) >> 8) & 0xFFFF] | ((((FP_BITS(n) - 0x3F800000) >> 1) + 0x3F800000) & 0x7F800000);
+
+  return n;
+}
+
 
 
 //fast pow only with double (float won't work)
@@ -91,6 +198,7 @@ int main(int argc,char *argv[])
 {
    long i;
    float s, c;
+   //float e[iMaxTests];
    float sc, scr = 0;
    unsigned long dwTickStart, dwTickEnd, dwDuration;
 
@@ -207,9 +315,6 @@ int main(int argc,char *argv[])
    dwTickEnd = clock();
    dwDuration = dwTickEnd - dwTickStart;
    printf("%d atan computed in %d ticks with normal[atan]\n", iMaxTests, dwDuration);
-   dwTickEnd = clock();
-   dwDuration = dwTickEnd - dwTickStart;
-   printf("%d atan computed in %d ticks with fast[atan]\n", iMaxTests, dwDuration);
 
    dwTickStart = clock();
    for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
@@ -243,5 +348,105 @@ int main(int argc,char *argv[])
    dwTickEnd = clock();
    dwDuration = dwTickEnd - dwTickStart;
    printf("%d pow computed in %d ticks with fast[pow]\n", iMaxTests, dwDuration);
+
+   build_sqrt_table();
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = sqrt(f);
+      //e[i] = s;
+
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d sqrt computed in %d ticks with normal[sqrt]\n", iMaxTests, dwDuration);
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = fastsqrt(f);
+      //fprintf(stderr,"%f %f\n",s,e[i]);
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d sqrt computed in %d ticks with fast[sqrt]\n", iMaxTests, dwDuration);
+
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = fabs(f);
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d fabs computed in %d ticks with normal[fabs]\n", iMaxTests, dwDuration);
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = fastfabs(f);
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d fabs computed in %d ticks with fast[fabs]\n", iMaxTests, dwDuration);
+   printf("Too slow, not implemented.... think a little bit about a new fabs......\n");
+
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = exp(f);
+      //e[i] = s;
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d exp computed in %d ticks with normal[exp]\n", iMaxTests, dwDuration);
+   dwTickStart = clock();
+   for (i = - (iMaxTests/2) ; i < iMaxTests/2 ; i++)
+   {
+      f = (float)i;
+      s = fastexp(f);
+      //fprintf(stderr,"%f %f\n",s,e[i]);
+      // This exist only to force optimiser to not delete code
+      sc = s * c;
+      if (sc > scr)
+      {
+         scr = sc;
+      }
+   }
+   dwTickEnd = clock();
+   dwDuration = dwTickEnd - dwTickStart;
+   printf("%d exp computed in %d ticks with fast[exp]\n", iMaxTests, dwDuration);
 
 }

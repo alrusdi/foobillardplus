@@ -68,17 +68,6 @@ enum BallSet g_ballset=BALLSET_NONE;
 
 /***********************************************************************/
 
-void normalize(GLfloat *v) /*FOLD00*/
-{
-    GLfloat d;
-    d = sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
-    v[0] /= d;
-    v[1] /= d;
-    v[2] /= d;
-}
-
-/***********************************************************************/
-
 void rescale(GLfloat *v, GLfloat r)
 {
     GLfloat d;

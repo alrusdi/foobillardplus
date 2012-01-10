@@ -4637,13 +4637,13 @@ void DisplayFunc( void )
                    up    = vec_xyz(0,0.02/0.4*(0.5-zact),0);
                } else if(j>=0 && j<10){
                    glBindTexture(GL_TEXTURE_2D,blendetexbind);
-                   zact = 0.32-0.25*exp((j-3)+k*1.4345);
+                   zact = 0.32-0.25*MATH_EXP((j-3)+k*1.4345);
                    actpos = vec_add( centpos , vec_scale(dpos,zact/dpos.z) );
                    right = vec_xyz(0.008*(1.0-k*0.23)/0.4*(0.5-zact),0,0);
                    up    = vec_xyz(0,0.008*(1.0-k*0.23)/0.4*(0.5-zact),0);
                } else {
                    glBindTexture(GL_TEXTURE_2D,blendetexbind);
-                   zact = 0.282-0.127*exp((j-3-10)+k*1.2453);
+                   zact = 0.282-0.127*MATH_EXP((j-3-10)+k*1.2453);
                    actpos = vec_add( centpos , vec_scale(dpos,zact/dpos.z) );
                    right = vec_xyz(0.003*(1.0-k*0.23)/0.4*(0.5-zact),0,0);
                    up    = vec_xyz(0,0.003*(1.0-k*0.23)/0.4*(0.5-zact),0);
@@ -7583,6 +7583,8 @@ int main( int argc, char *argv[] )
 #ifdef FAST_MATH
    /* Initialize fastmath cos sin with lookup table */
 	  initlookup_cossin_table();
+   /* Initialize fastmath sqrt lookup table */
+	  initlookup_sqrt_table();
 #endif
 
    /* initialize hostname with a default address */

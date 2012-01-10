@@ -31,6 +31,103 @@
 const float M_PI2 = M_PI*2;
 
 /***********************************************************************
+ *              fast exp implementation (very imprecise)               *
+ *               only to use for the lensflare function                *
+ ***********************************************************************/
+
+static union{
+    double d;
+    struct{
+        int j,i;
+        } n;
+} d2i;
+
+#ifndef M_LN2
+#define M_LN2 0.69314718055994530942
+#endif
+
+#define EXP_A (1048576/M_LN2)
+#define EXP_C 60801
+//#define fastexp(y) (d2i.n.i = EXP_A*(y)+(1072693248-EXP_C),d2i.d)
+
+inline double fastexp(const double y){
+	return (d2i.n.i = EXP_A*(y)+(1072693248-EXP_C),d2i.d);
+}
+
+
+/***********************************************************************
+ *            fast sqrt with table lookup (from Nvidia)                *
+ ***********************************************************************/
+//typedef unsigned char      BYTE;       // better: uint8_t out <stdint.h>
+//typedef unsigned short     WORD;       // better: uint16_t out <stdint.h>
+//typedef unsigned long      DWORD;      // better: uint32_t out <stdint.h>
+//typedef unsigned long      QWORD;      // better: uint64_t out <stdint.h>
+
+#ifdef USE_WIN
+  #define FP_BITS(fp) (*(DWORD *)&(fp))
+#else
+  #define FP_BITS(fp) (*(uint32_t *)&(fp))
+#endif
+#define FP_ABS_BITS(fp) (FP_BITS(fp)&0x7FFFFFFF)
+#define FP_SIGN_BIT(fp) (FP_BITS(fp)&0x80000000)
+#define FP_ONE_BITS 0x3F800000
+
+static unsigned int fast_sqrt_table[0x10000];  // declare table of square roots
+
+typedef union FastSqrtUnion
+{
+  float f;
+  unsigned int i;
+} FastSqrtUnion;
+
+/***********************************************************************
+ *        The init table sqrt with table lookup (from Nvidia)          *
+ ***********************************************************************/
+
+void initlookup_sqrt_table(void) {
+  unsigned int i;
+  FastSqrtUnion s;
+
+  for (i = 0; i <= 0x7FFF; i++)
+  {
+
+    // Build a float with the bit pattern i as mantissa
+    //  and an exponent of 0, stored as 127
+
+    s.i = (i << 8) | (0x7F << 23);
+    s.f = (float)sqrt(s.f);
+
+    // Take the square root then strip the first 7 bits of
+    //  the mantissa into the table
+
+    fast_sqrt_table[i + 0x8000] = (s.i & 0x7FFFFF);
+
+    // Repeat the process, this time with an exponent of 1,
+    //  stored as 128
+
+    s.i = (i << 8) | (0x80 << 23);
+    s.f = (float)sqrt(s.f);
+
+    fast_sqrt_table[i] = (s.i & 0x7FFFFF);
+  }
+}
+
+/***********************************************************************
+ *        The function sqrt with table lookup (from Nvidia)            *
+ ***********************************************************************/
+
+inline float fastsqrt(float n) {
+
+  if (FP_BITS(n) == 0)
+    return 0.0;                 // check for square root of 0
+
+  FP_BITS(n) = fast_sqrt_table[(FP_BITS(n) >> 8) & 0xFFFF] | ((((FP_BITS(n) - 0x3F800000) >> 1) + 0x3F800000) & 0x7F800000);
+
+  return n;
+}
+
+
+/***********************************************************************
  *            fast sinus/cosinus lookup build table                    *
  ***********************************************************************/
 
