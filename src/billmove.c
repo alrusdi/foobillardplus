@@ -26,7 +26,7 @@
 
 #include "options.h"
 #include "billmove.h"
-#include "math.h"
+#include <math.h>
 #include "vmath.h"
 #include "player.h"
 #include <stdlib.h>

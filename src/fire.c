@@ -28,6 +28,7 @@
 
 static int fire_id[MAX_FIRE_TEXTURES];          // fire displaylist glcompile-id
 static GLuint firetexbind[MAX_FIRE_TEXTURES];   // texture bindings
+static GLuint firemeshtexbind;                  // texture binding for the mesh
 
 /***********************************************************************
  *                  Initialize the fire textures                       *
@@ -37,6 +38,8 @@ static GLuint firetexbind[MAX_FIRE_TEXTURES];   // texture bindings
 void init_fire(void) {
     int i;
     char firename[10];
+
+    create_png_texbind("firemesh.png", &firemeshtexbind, 3, GL_RGB);
     for (i=0;i<MAX_FIRE_TEXTURES;i++) {
     	  sprintf(firename,"fire%i.png",i);
     	  create_png_texbind(firename, &firetexbind[i], 3, GL_RGB);
@@ -59,6 +62,18 @@ void init_fire(void) {
           glVertex3f(0.75,0.75,0.0);
           glTexCoord2s(1,0);
           glVertex3f(0.75,0.0,0.0);
+         glEnd();
+         glBlendFunc (GL_ONE, GL_SRC_ALPHA);
+         glBindTexture(GL_TEXTURE_2D,firemeshtexbind);
+         glBegin(GL_QUADS);
+          glTexCoord2s(0,0);
+          glVertex3f(-0.08,0.62,-0.12);
+          glTexCoord2s(0,1);
+          glVertex3f(-0.08,0.75,-0.12);
+          glTexCoord2s(1,1);
+          glVertex3f(0.695,0.75,-0.12);
+          glTexCoord2s(1,0);
+          glVertex3f(0.695,0.62,-0.12);
          glEnd();
          glDisable(GL_BLEND);
          glEndList();

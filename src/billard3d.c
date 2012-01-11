@@ -4472,7 +4472,7 @@ void DisplayFunc( void )
        }
        if(next_flame<0.05){
            next_flame=NEXT_FLAME_COUNTER;
-           if((++flame_frame)>13) {
+           if((++flame_frame)>MAX_FIRE_TEXTURES-1) {
            	flame_frame = 0;
            }
        }
