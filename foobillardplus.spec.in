@@ -65,6 +65,11 @@ make
 
 %changelog
 
+* Sun Jan 22 2012 Holger Schaekel
+- bug fixes turning around in room
+- new high-res graphics, peoples, plants.....
+- animated fire in fireplace
+
 * Sun Dec 18 2011 Holger Schaekel
 - reorg of sourcecode
 - new sound engine inside

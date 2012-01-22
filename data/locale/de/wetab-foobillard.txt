@@ -417,8 +417,8 @@ Ballspuren sind nicht mehr aktiv
 WeTab Schussvorschlag durch Auslösung bestätigen
 Raumtexturen : 
 Raumtexturen an oder ausschalten
-Möbeltexturen : 
-Möbeltexturen an oder ausschalten
+Extratexturen : 
+Extratexturen an oder ausschalten
 Lautstärke 0-128
 Musik
 Ton eingeschaltet
@@ -459,3 +459,7 @@ Kleiner Wert = schnelles Programm. Großer Wert = bessere Grafik. Standard ist 2
 4 fach
 8 fach
 fsaa Wert von 1,2,4,8
+Extratexturen: 0 = aus, 1 = Standard, 2 = hoch
+Aus
+Standard
+Hoch

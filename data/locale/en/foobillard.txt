@@ -417,8 +417,8 @@ Ball marks are no longer active
 Computer-shot proposal confirmed by shot
 Room-textures : 
 turn room-textures on or off
-Furniture-textures : 
-turn furniture-textures on or off
+Extra-textures : 
+turn extra-textures on or off
 Volume 0-128
 Music
 Sound turned on
@@ -459,3 +459,7 @@ Smaller value = fast program. Greater value = good graphics. Default is 2-fold
 4 fold
 8 fold
 fsaa value 1,2,4,8
+Extratexture: 0 = off, 1 = default, 2 = high
+Off
+Default
+High

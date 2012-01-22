@@ -23,10 +23,10 @@
 #include <stdio.h>
 #include <GL/gl.h>
 #include "png_loader.h"
-#include "options.h"
 #include "fire.h"
 
 static int fire_id[MAX_FIRE_TEXTURES];          // fire displaylist glcompile-id
+static int fire_id_high[MAX_FIRE_TEXTURES];     // fire displaylist glcompile-id high meshes
 static GLuint firetexbind[MAX_FIRE_TEXTURES];   // texture bindings
 static GLuint firemeshtexbind;                  // texture binding for the mesh
 
@@ -77,6 +77,42 @@ void init_fire(void) {
          glEnd();
          glDisable(GL_BLEND);
          glEndList();
+
+         fire_id_high[i] = glGenLists(1);
+         glNewList(fire_id_high[i], GL_COMPILE);
+     	     glPushMatrix();
+           glRotatef(180.0,180.0,0.0,0.0);
+           glTranslatef(-0.95,-0.25,4.7);
+           glEnable(GL_BLEND);
+           glBlendFunc (GL_ONE, GL_ONE);
+           glEnable(GL_TEXTURE_2D);
+           glBindTexture(GL_TEXTURE_2D,firetexbind[i]);
+           glBegin(GL_QUADS);
+            glTexCoord2s(0,0);
+            glVertex3f(0.0,0.0,0.0);
+            glTexCoord2s(0,1);
+            glVertex3f(0.0,0.75,0.0);
+            glTexCoord2s(1,1);
+            glVertex3f(0.75,0.75,0.0);
+            glTexCoord2s(1,0);
+            glVertex3f(0.75,0.0,0.0);
+           glEnd();
+           glBlendFunc (GL_ONE, GL_SRC_ALPHA);
+           glBindTexture(GL_TEXTURE_2D,firemeshtexbind);
+           glBegin(GL_QUADS);
+            glTexCoord2s(0,0);
+            glVertex3f(-0.0,0.52,-0.2);
+            glTexCoord2s(0,1);
+            glVertex3f(-0.0,0.68,-0.2);
+            glTexCoord2s(1,1);
+            glVertex3f(0.68,0.68,-0.2);
+            glTexCoord2s(1,0);
+            glVertex3f(0.68,0.52,-0.2);
+           glEnd();
+           glDisable(GL_BLEND);
+           glDisable(GL_TEXTURE_2D);
+           glPopMatrix();
+           glEndList();
     }
 
 }
@@ -85,7 +121,14 @@ void init_fire(void) {
  *                  Display fire textures id displaylist               *
  ***********************************************************************/
 
-
 void display_fire(int id) {
     glCallList(fire_id[id]);
+}
+
+/***********************************************************************
+ *          Display fire textures id displaylist high meshes           *
+ ***********************************************************************/
+
+void display_fire_high(int id) {
+    glCallList(fire_id_high[id]);
 }

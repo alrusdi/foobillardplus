@@ -24,6 +24,7 @@
 
   void InitMesh(void);
 
+  // for faster speed, the ids for glCallList are global
   extern int sofa_id;         // glcompile-id sofa
   extern int chair_id;        // glcompile-id chair
   extern int bartable_id;     // glcompile-id bar-table

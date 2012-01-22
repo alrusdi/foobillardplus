@@ -1,6 +1,6 @@
-/* fire.h
+/* fireplace_high.h
 **
-**    code for fire in fireplace
+**    code for high quality fireplace
 **
 **    Updated Version foobillard++ started at 12/2010
 **    Copyright (C) 2010/2011 Holger Schaekel (foobillardplus@go4more.de)
@@ -19,12 +19,14 @@
 **    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 **
 */
-#ifndef FIRE_H
-#define FIREH_H
 
-#define MAX_FIRE_TEXTURES 14
+#ifndef FIREPLACE_HIGH_H
+#define FIREPLACE_HIGH_H
 
-void init_fire(void); // Initialize the fire textures
-void display_fire(int id);     // Display fire displaylist id
-void display_fire_high(int id);     // Display fire displaylist id
+#include <GL/gl.h>
+
+void fireplace_high(void);
+void init_fireplace_high(void);
+void display_fireplace_high(void);
+
 #endif

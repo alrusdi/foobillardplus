@@ -24,6 +24,18 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+You need !
+----------
+   100% OpenGL compatible graphic card drivers for your operating system.
+   
+   The graphic card must have 50 to 80 Megabyte Video-RAM! If the driver can't
+   allocate enough graphic card memory, the game graphics is ugly and corrupt!!
+   
+   Linux, WeTab or Windows OS (32 or 64 Bit) with a minimum of 10 MB free
+   system memory at runtime.
+   
+   With minimum graphics = 1,6 GHz CPU
+
 Thank you very much
 -------------------
 
@@ -73,6 +85,7 @@ What is FooBillard++ ?
    Furthermore libpng has to be installed for loading the textures.
    And freetype is used for font rendering.
    SDL_net is used for the networking mode
+   SDL_mixer for sound and music
    
    The following features are implemented:
     - wood paneled table with gold covers and gold diamonds
@@ -134,7 +147,11 @@ What is FooBillard++ ?
    KNOWN BUGS:
    -----------
    
+   - Intel integrated graphic chips
    
+   On some Intel integrated graphic chips (GMA) the game is not playable with Linux.
+   You need really 100% OpenGL compatible graphic card drivers.
+      
    BUILDING:
    ---------
 

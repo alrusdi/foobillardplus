@@ -70,6 +70,13 @@
 #include "vmath.h"
 #include "billard3d.h"
 #include "fire.h"
+#include "ceilinglamp_high.h"
+#include "fireplace_high.h"
+#include "cartoonguy.h"
+#include "sittingboy.h"
+#include "flower.h"
+#include "bottle.h"
+#include "chess.h"
 
 static struct PlayerRoster human_player_roster;
 static struct TournamentState_ tournament_state;
@@ -107,7 +114,7 @@ static int frametime_ms_max = 200;
 static int frametime_ms = 40;
 
 static MATH_ALIGN16 GLuint table_obj = 0;
-static MATH_ALIGN16 GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0;
+static MATH_ALIGN16 GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0, Zrot_check = 0.0;
 static MATH_ALIGN16 GLfloat Xque = -83.0, Zque = 0.0;
 static MATH_ALIGN16 GLfloat Xrot_offs=0.0, Yrot_offs=0.0, Zrot_offs=0.0;
 
@@ -359,7 +366,7 @@ static struct option long_options[] = {
     {"auto_freemove",required_argument, (int *)localeText[17], OPT_FREEMOVE1},
     {"fsaa",         required_argument, (int *)localeText[17], OPT_FSAA},
     {"roomtexture",  required_argument, (int *)localeText[17], OPT_ROOM},
-    {"furnituretex", required_argument, (int *)localeText[17], OPT_FURNITURE},
+    {"furnituretex", required_argument, (int *)localeText[461], OPT_FURNITURE},
 #ifdef NETWORKING
     {"netspeed",     required_argument, (int *)localeText[239], OPT_NET_SPEED},
     {"netcompatible",required_argument, (int *)localeText[17], OPT_NET_COMPATIBLE},
@@ -1644,15 +1651,16 @@ void process_option(enum optionType act_option)
           }
           break;
        case OPT_FURNITURE:
-             switch(optarg[1]){
-                case 'f': /* off */
-                   options_furniture=0;
-                   break;
-                case 'n': /* on  */
-                   options_furniture=1;
-                   break;
-             }
+          sscanf(optarg,"%d",&options_furniture);
+          switch(options_furniture){
+           case 1: /* ok */
+           case 2:
              break;
+           default:
+             options_furniture = 0;
+             break;
+           }
+           break;
        case OPT_FREEMOVE1:
           switch(optarg[1]){
              case 'f': /* off */
@@ -2114,7 +2122,8 @@ void save_config(void)
           write_rc(f,opt, options_deco?"on":"off");
           break;
        case OPT_FURNITURE:
-          write_rc(f,opt, options_furniture?"on":"off");
+          sprintf(str,"%d",options_furniture);
+          write_rc(f,opt,str);
           break;
        }
     }
@@ -4359,11 +4368,9 @@ void DisplayFunc( void )
    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light0_diff);
    glLightfv(GL_LIGHT0, GL_AMBIENT,  light0_amb);
    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-   glEnable(GL_LIGHT1);
    glLightfv(GL_LIGHT1, GL_DIFFUSE,  light1_diff);
    glLightfv(GL_LIGHT1, GL_AMBIENT,  light1_amb);
    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
    // Tron Special Gamemode - and for debugging too.... ;-))
@@ -4381,7 +4388,7 @@ void DisplayFunc( void )
    if(options_deco) {     // draw room if option on
      glCallList(wall1_2_obj);  // room
      glRotatef(90.0,0.0,0.0,1.1);
-     if(Zrot>50 && Zrot<320) {
+     if(Zrot>50.0 && Zrot<320.0) {
        //fprintf(stderr,"Zrot: %f\n",Zrot);
        // draw the window with the skyline behind, problem......
        glCallList(wall3_obj);
@@ -4404,87 +4411,142 @@ void DisplayFunc( void )
  			   glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse_torus);
  			   glMaterialfv(GL_FRONT,GL_SPECULAR, specular_torus);
  			   glMaterialf (GL_FRONT, GL_SHININESS, 51);
+ 			   glDisable(GL_TEXTURE_2D);
      }
      glTranslatef(3.5,-4.0,0.65);
      glRotatef(180.0,0.0,0.0,1.0);
      glScalef(1.2,1.2,1.2);
      glCullFace(GL_FRONT);  // This is a must for blender export models
      glPolygonMode(GL_BACK,GL_FILL); // fill the back of the polygons
-     if(Zrot>180.0) {
-     	 glPushMatrix();
+     Zrot_check = Zrot+Zrot_offs;
+     if(Zrot_check>180.0) {
+       glPushMatrix();
        glScalef(0.5,1.0,0.7);
        glCallList(bartable_id); //table window
+    	  if(options_tronmode) {
+        glDisable(GL_TEXTURE_2D);
+    	  }
        glPopMatrix();
      }
-   	 if(options_tronmode) {
-       glDisable(GL_TEXTURE_2D);
-   	 }
      glTranslatef(2.0,0.0,0.0);
-     if(Zrot>180.0) {
+     if(Zrot_check>180.0) {
        glCallList(sofa_id); //sofa 1
      }
      glTranslatef(2.5,0.0,0.0);
-     if(Zrot>180.0) {
+     if(Zrot_check>180.0) {
    	   glCallList(sofa_id); //sofa 2
      }
      glTranslatef(1.0,0.0,0.0);
-     if(Zrot>180.0) {
-     	 glPushMatrix();
+     if(Zrot_check>180.0 || Zrot_check<2.0) {
+       glPushMatrix();
        glScalef(0.5,1.0,0.7);
        glCallList(bartable_id); //table sofa 2
+    	  if(options_tronmode) {
+        glDisable(GL_TEXTURE_2D);
+    	  }
        glPopMatrix();
      }
-
      glTranslatef(-6.0,-6.0,0.2);
      glScalef(0.7,0.7,0.7);
-     if(Zrot<190.0) {
+     if(Zrot_check<190.0) {
    	   glCallList(chair_id); //chair 1
      }
      glRotatef(65.0,0.0,0.0,1.0);
      glTranslatef(1.0,-3.0,0.0);
-     if(Zrot<190.0) {
+     if(Zrot_check<190.0) {
    	   glCallList(chair_id); //chair 2
      }
      glRotatef(115.0,0.0,0.0,1.0);
      glTranslatef(1.5,0.0,0.2);
      glScalef(1.1,1.1,1.7);
-     if(Zrot<190.0) {
+     if(Zrot_check<190.0) {
    	   glCallList(bartable_id); //bar table
-     }
-     glTranslatef(-5.5,0.6,-0.2);
-     glScalef(1.0,1.3,1.0);
-     if(Zrot<190.0 || Zrot>320.0) {
     	  if(options_tronmode) {
         glDisable(GL_TEXTURE_2D);
     	  }
+     }
+     glTranslatef(-5.5,0.6,-0.2);
+     glScalef(1.0,1.3,1.0);
+     if(Zrot_check<190.0 || Zrot_check>320.0) {
    	   glCallList(sofa_id); //sofa 3
      }
      glRotatef(90.0,0.0,0.0,1.0);
      glTranslatef(-4.0,2.4,-0.43);
      glScalef(0.6,0.4,0.45);
-     if(Zrot<90.0 || Zrot>280.0) {
-    	 if(options_tronmode) {
-    	  glDisable(GL_TEXTURE_2D);
-    	 }
-   	   glCallList(camin_id);   // fireplace
-       if(next_flame > 0.0 ){  // animation of flames in fireplace
-           next_flame-=(VMfloat)frametime_ms/120.0;
-       }
-       if(next_flame<0.05){
-           next_flame=NEXT_FLAME_COUNTER;
-           if((++flame_frame)>MAX_FIRE_TEXTURES-1) {
-           	flame_frame = 0;
-           }
-       }
-   	   display_fire(flame_frame);
-      }
-     if(!options_birdview_on) {
+     if(options_furniture == 1) {
+         if(Zrot_check<90.0 || Zrot_check>280.0) {
+    	    glCallList(camin_id);   // fireplace
+         if(next_flame > 0.0 ){  // animation of flames in fireplace
+             next_flame-=(VMfloat)frametime_ms/120.0;
+         }
+         if(next_flame<0.06){
+             next_flame=NEXT_FLAME_COUNTER;
+             if((++flame_frame)>MAX_FIRE_TEXTURES-1) {
+           	  flame_frame = 0;
+             }
+         }
+        display_fire(flame_frame);
+        }
+        if(!options_birdview_on) {
+          glPopMatrix();
+          glPushMatrix();
+          glScalef(0.1,0.7,0.05);
+          glTranslatef(0.0,0.0,20.0);
+          glCallList(lamp_id);  // ceiling lamp
+        }
+     } else {
+       //higher extra-textures
        glPopMatrix();
        glPushMatrix();
-       glScalef(0.1,0.7,0.05);
-       glTranslatef(0.0,0.0,20.0);
-       glCallList(lamp_id);
-     }
+       glRotatef(90.0,90.0,0.0,0.0);
+       glDisable(GL_TEXTURE_2D);
+       glEnable(GL_COLOR_MATERIAL);
+       glColor3f(0.2,0.2,0.2);
+       if(Zrot_check<90.0 || Zrot_check>250.0) {
+         display_cartoonguy(); //cartoon guy
+       }
+    	  if(options_tronmode) {
+         glDisable(GL_COLOR_MATERIAL);
+    	  }
+    	  if(Zrot_check>50 && Zrot_check<320) {
+         display_flower(); // flower
+       }
+       if(Zrot_check<190.0) {
+         display_chess(); //chess
+       }
+       if(Zrot_check>180.0) {
+         display_bottle(); //bottle
+         display_sittingboy(); //sitting boy
+       }
+       glDisable(GL_COLOR_MATERIAL);
+       if(Zrot_check<90.0 || Zrot_check>280.0) {
+       	display_fireplace_high(); // fireplace
+         if(next_flame > 0.0 ){  // animation of flames in fireplace
+           next_flame-=(VMfloat)frametime_ms/120.0;
+         }
+         if(next_flame<0.06){
+           next_flame=NEXT_FLAME_COUNTER;
+           if((++flame_frame)>MAX_FIRE_TEXTURES-1) {
+         	  flame_frame = 0;
+           }
+         }
+       display_fire_high(flame_frame);
+       }
+       if(!options_birdview_on) {
+        if(Xrot>-55.0) {
+          glDepthMask (GL_FALSE);
+          glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+          glEnable(GL_BLEND);
+        }
+        if(!options_tronmode) {
+          glEnable(GL_COLOR_MATERIAL);
+        }
+        display_ceilinglamp_high();
+        glDisable(GL_COLOR_MATERIAL);
+        glDepthMask (GL_TRUE);
+        glDisable(GL_BLEND);
+       }
+     } // end higher meshes
      glCullFace(GL_BACK);   // This is a must for blender export models
      glPolygonMode(GL_BACK,GL_LINE);  // fill the back of the polygons
    } // end furniture
@@ -4791,7 +4853,7 @@ void DisplayFunc( void )
          glPushMatrix();
          glColor3f(1.0,1.0,1.0);
          glTranslatef(0.03,-0.94,0.0);
-         glScalef(2.0/win_width,2.0/win_height,0.0);
+         glScalef(2.0/win_width,2.0/win_height,1.0);
          glBindTexture(GL_TEXTURE_2D,discbind); //disc png texture
          myRect2D_texture();
          glPopMatrix();
@@ -4801,7 +4863,7 @@ void DisplayFunc( void )
        if(!player[act_player].is_net && !balls_moving) {
        glPushMatrix();
        glColor3f(1.0,1.0,1.0);
-       glScalef(2.0/win_width,2.0/win_height,0.0);
+       glScalef(2.0/win_width,2.0/win_height,1.0);
 #ifndef WETAB
  #define MENUSTEP 5
 #else
@@ -4858,7 +4920,7 @@ void DisplayFunc( void )
         }
        }
        glPushMatrix();
-       glScalef(2.0/win_width,2.0/win_height,0.0);
+       glScalef(2.0/win_width,2.0/win_height,1.0);
        if(rightmenu == 1) { rightcount += MENUSTEP; }
        if(rightmenu == 3) { rightcount -= MENUSTEP; }
        if(rightcount <0) { rightcount = 0; rightmenu = 0; }
@@ -4887,7 +4949,7 @@ void DisplayFunc( void )
        }
 #ifdef USE_SOUND
        glPushMatrix();
-       glScalef(2.0/win_width,2.0/win_height,0.0);
+       glScalef(2.0/win_width,2.0/win_height,1.0);
        if(uppermenu == 1) { uppercount += MENUSTEP; }
        if(uppermenu == 3) { uppercount -= MENUSTEP; }
        if(uppercount <0) { uppercount = 0; uppermenu = 0; }
@@ -4918,7 +4980,7 @@ void DisplayFunc( void )
        } //End Menu bar left, right and upper one
        glPushMatrix();
        glColor3f(1.0,1.0,1.0);
-       glScalef(2.0/win_width,2.0/win_height,0.0);
+       glScalef(2.0/win_width,2.0/win_height,1.0);
        glTranslatef((VMfloat)win_width/2-358,(VMfloat)win_height/2-32,0.0);
        if(mscreen_id == -1) {
          mscreen_id = glGenLists(1);
@@ -5134,7 +5196,7 @@ void DisplayFunc( void )
              glPopMatrix();
              glPushMatrix();
              glTranslatef(0.03,-0.94,0.0);
-             glScalef(2.0/win_width,2.0/win_height,0.0);
+             glScalef(2.0/win_width,2.0/win_height,1.0);
              glBindTexture(GL_TEXTURE_2D,ebind); //English control mode png texture
              myRect2D_texture();
              glPopMatrix();
@@ -5150,7 +5212,7 @@ void DisplayFunc( void )
              glNewList(shoot_id, GL_COMPILE_AND_EXECUTE);
              glPushMatrix();
              glTranslatef(0.03,-0.94,0.0);
-             glScalef(2.0/win_width,2.0/win_height,0.0);
+             glScalef(2.0/win_width,2.0/win_height,1.0);
              glBindTexture(GL_TEXTURE_2D,sbind); //mouse shoot mode png texture
              myRect2D_texture();
              glPopMatrix();
@@ -5166,7 +5228,7 @@ void DisplayFunc( void )
              glNewList(cuebutt_id, GL_COMPILE_AND_EXECUTE);
              glPushMatrix();
              glTranslatef(0.03,-0.94,0.0);
-             glScalef(2.0/win_width,2.0/win_height,0.0);
+             glScalef(2.0/win_width,2.0/win_height,1.0);
              glBindTexture(GL_TEXTURE_2D,bbind); //cue up/down control mode png texture
              myRect2D_texture();
              glPopMatrix();
@@ -5182,7 +5244,7 @@ void DisplayFunc( void )
              glNewList(cueball1_id, GL_COMPILE_AND_EXECUTE);
              glPushMatrix();
              glTranslatef(0.03,-0.94,0.0);
-             glScalef(2.0/win_width,2.0/win_height,0.0);
+             glScalef(2.0/win_width,2.0/win_height,1.0);
              glBindTexture(GL_TEXTURE_2D,mbind); //set cue ball control mode png texture
              myRect2D_texture();
              glPopMatrix();
@@ -5198,7 +5260,7 @@ void DisplayFunc( void )
              glNewList(fov_id, GL_COMPILE_AND_EXECUTE);
              glPushMatrix();
              glTranslatef(0.03,-0.94,0.0);
-             glScalef(2.0/win_width,2.0/win_height,0.0);
+             glScalef(2.0/win_width,2.0/win_height,1.0);
              glBindTexture(GL_TEXTURE_2D,fbind); //FOV control mode png texture
              myRect2D_texture();
              glPopMatrix();
@@ -5215,7 +5277,7 @@ void DisplayFunc( void )
            glNewList(freeview_id, GL_COMPILE_AND_EXECUTE);
            glPushMatrix();
            glTranslatef(-0.09,-0.94,0.0);
-           glScalef(2.0/win_width,2.0/win_height,0.0);
+           glScalef(2.0/win_width,2.0/win_height,1.0);
            glBindTexture(GL_TEXTURE_2D,freeviewbind); //Freeview control mode png texture
            myRect2D_texture();
            glPopMatrix();
@@ -6957,6 +7019,9 @@ void menu_cb( int id, void * arg , VMfloat value)
         options_deco=0;
         glFogf (GL_FOG_END, 12.5);
         break;
+    case MENU_ID_FURNITURE_HIGH:
+        options_furniture=2;
+        break;
     case MENU_ID_FURNITURE_ON:
         options_furniture=1;
         break;
@@ -7549,7 +7614,6 @@ static void Init( void )
        reassign_and_gen_cuberef_tex();
    }
 
-   glEnable(GL_LIGHTING);
    glEnable(GL_TEXTURE_2D);
    glEnable(GL_TEXTURE_GEN_S);
    glEnable(GL_TEXTURE_GEN_T);

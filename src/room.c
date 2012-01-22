@@ -61,6 +61,26 @@ void my_rect_wall(void)
 }
 
 /***********************************************************************
+ *           Create equal rects for the strips                         *
+ ***********************************************************************/
+
+void my_rect_strip(GLuint texbind)
+{
+  glBindTexture(GL_TEXTURE_2D,texbind);
+  glBegin(GL_QUADS);
+  glTexCoord2s(0,0);
+  glVertex3f(-5.0, 4.998, 0.08);
+  glTexCoord2s(1,0);
+  glVertex3f( 5.0, 4.998, 0.08);
+  glTexCoord2s(1,1);
+  glVertex3f( 5.0, 4.998, 0);
+  glTexCoord2s(0,1);
+  glVertex3f(-5.0, 4.998, 0);
+  glEnd();
+}
+
+
+/***********************************************************************
  *           Create -most- rects (cabinet, graffity                    *
  ***********************************************************************/
 
@@ -214,6 +234,7 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     // wall 1
     glBindTexture(GL_TEXTURE_2D,corr1texbind);
     my_rect_wall();
+    my_rect_strip(cabinetframetexbind); // carpet strip
 
     glBindTexture(GL_TEXTURE_2D,graffity2texbind);
     glEnable(GL_BLEND);
@@ -260,6 +281,7 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     my_rect_most(-4.0,4.999,2.5,4.0,4.999,2.5,4.0,4.999,0.0,-4.0,4.999,0.0);
     glEnd();
     glDisable(GL_BLEND);
+    my_rect_strip(cabinetframetexbind); // carpet strip
    glEndList();
    if(*wall3_obj != -1 ) glDeleteLists( *wall3_obj, 1 );
    *wall3_obj = glGenLists(1);
@@ -335,6 +357,7 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     my_rect_most(1.0,5.2,2.3,4.0,5.2,2.3,4.0,5.2,0.5,1.0,5.2,0.5);
     glEnd();
     glDisable(GL_BLEND);
+    my_rect_strip(cabinetframetexbind); // carpet strip
    glEndList();
    if(*wall4_c_obj != -1 ) glDeleteLists( *wall4_c_obj, 1 );
    *wall4_c_obj = glGenLists(1);
@@ -350,6 +373,7 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     glBegin(GL_QUADS);
     my_rect_most(3.0,4.999,2.3,4.0,4.999,2.3,4.0,4.999,0.7,3.0,4.999,0.7);
     glEnd();
+    my_rect_strip(cabinetframetexbind); // carpet strip
     // closed window
     glBindTexture(GL_TEXTURE_2D,closewindowtexbind);
     glBegin(GL_QUADS);
@@ -358,7 +382,7 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     // door
     glBindTexture(GL_TEXTURE_2D,doortexbind);
     glBegin(GL_QUADS);
-    my_rect_most(-2.0,4.999,2.3,-1.0,4.999,2.3,-1.0,4.999,0.0,-2.0,4.999,0.0);
+    my_rect_most(-2.0,4.997,2.3,-1.0,4.997,2.3,-1.0,4.997,0.0,-2.0,4.997,0.0);
     glEnd();
     glDisable(GL_BLEND);
     // ceiling

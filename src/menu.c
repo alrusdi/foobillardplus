@@ -1068,10 +1068,12 @@ void init_menu(void)
      furnituretexture come from View Options
     */
     furnituretex_menu = menu_new( menu_cb );
-    //on
-    menu_add_entry(furnituretex_menu, localeText[64], MENU_ID_FURNITURE_ON,localeText[316]);
     //off
-    menu_add_entry(furnituretex_menu, localeText[65], MENU_ID_FURNITURE_OFF,localeText[317]);
+    menu_add_entry(furnituretex_menu, localeText[462], MENU_ID_FURNITURE_OFF,localeText[461]);
+    //default
+    menu_add_entry(furnituretex_menu, localeText[463], MENU_ID_FURNITURE_ON,localeText[461]);
+    //on
+    menu_add_entry(furnituretex_menu, localeText[464], MENU_ID_FURNITURE_HIGH,localeText[461]);
     //< back
     menu_add_exit (furnituretex_menu, localeText[63],localeText[266]);
 
@@ -1663,7 +1665,7 @@ void init_menu(void)
     //room textures on/off
     menu_add_submenu(view_menu, localeText[417], roomtexture_menu, 1, localeText[65-options_deco],localeText[418]);
     //furniture textures on/off
-    menu_add_submenu(view_menu, localeText[419], furnituretex_menu, 1, localeText[65-options_furniture],localeText[420]);
+    menu_add_submenu(view_menu, localeText[419], furnituretex_menu, 1, localeText[462+options_furniture],localeText[420]);
     //help line
     menu_add_submenu(view_menu, localeText[98], helpline_menu, 1, localeText[65-vline_on],localeText[376]);
     //ball traces

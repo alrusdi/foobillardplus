@@ -61,7 +61,19 @@ foobillardplus_SOURCES = \
    history.h \
    history.c \
    fire.h \
-   fire.c
+   fire.c \
+   ceilinglamp_high.h \
+   ceilinglamp_high.c \
+   cartoonguy.h \
+   cartoonguy.c \
+   sittingboy.h \
+   sittingboy.c \
+   flower.h \
+   flower.c \
+   bottle.h \
+   bottle.c \
+   chess.h \
+   chess.c
 else
 
 bin_PROGRAMS = foobillardplus
@@ -120,7 +132,21 @@ foobillardplus_SOURCES = \
    history.h \
    history.c \
    fire.h \
-   fire.c
+   fire.c \
+   fireplace_high.h \
+   fireplace_high.c \
+   ceilinglamp_high.h \
+   ceilinglamp_high.c \
+   cartoonguy.h \
+   cartoonguy.c \
+   sittingboy.h \
+   sittingboy.c \
+   flower.h \
+   flower.c \
+   bottle.h \
+   bottle.c \
+   chess.h \
+   chess.c
 endif
 
 SDL_CFLAGS = `sdl-config --cflags`
