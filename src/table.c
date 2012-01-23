@@ -829,7 +829,7 @@ void my_Bande( VMfloat x1, VMfloat y1, VMfloat z1,    /* inside up */
     VMvect p[12];
 
 #define BANDE_WULST 0.006
-
+    fprintf(stderr,"Call to build a table border\n");
     p[0]=vec_xyz(x1-(y2-y1)*tan1,y2,z1+FRAME_DH);
     p[1]=vec_xyz(x1,y1,z1-BANDE_WULST/2.0);
     p[2]=vec_xyz(x2,y1,z1-BANDE_WULST/2.0);
@@ -1076,11 +1076,12 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
         grayen_color(dia_col_diff);
     }
 
+ 	  fprintf(stderr,"Initialize billiard table-frame\n");
     if( frametexbind > 0 ) glDeleteTextures( 1, &frametexbind );
     create_png_texbind("table-frame.png", &frametexbind, 3, GL_RGB);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+ 	  fprintf(stderr,"Initialize table-texture\n");
     if( tabletexbind > 0 ) glDeleteTextures( 1, &tabletexbind );
 #ifdef WETAB
     create_png_texbind("tabletex_wetab_256x256.png", &tabletexbind, 1, GL_LUMINANCE);
@@ -1090,6 +1091,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
+ 	  fprintf(stderr,"Initialize clothing table texture\n");
     if( clothtexbind > 0 ) glDeleteTextures( 1, &clothtexbind );
     create_png_texbind("cloth.png", &clothtexbind, 1, GL_LUMINANCE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -1134,6 +1136,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
 
    if( table_obj != -1 ) glDeleteLists( table_obj, 1 );
+	  fprintf(stderr,"Initialize new table GL object\n");
    table_obj = glGenLists(1);
    glNewList(table_obj, GL_COMPILE);
    glShadeModel(GL_SMOOTH);
@@ -1215,11 +1218,13 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
 
    /* furchen */
+	  fprintf(stderr,"Generate furrow object\n");
    if(!carambol){
 #define TABLEVERTEX(x,y,z,f1,f2) \
              glTexCoord2f( TABLETEXCOORD_X((x)*(f1),(y)*(f2)), TABLETEXCOORD_Y((x)*(f1),(y)*(f2)) ); \
              glVertex3f((x)*(f1),(y)*(f2),z);
    /*lower, upper*/
+ 	     fprintf(stderr,"Generate lower upper furrow object\n");
    	   glNormal3f(0.0,0.0,1.0); // see some rows later, this here is new line ### TODO ### checkpoint
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
@@ -1237,6 +1242,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        /* some middle pocket triangles */
+    	  fprintf(stderr,"Generate some middle pocket triangles object\n");
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
            glBegin(GL_TRIANGLES);
@@ -1253,6 +1259,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        /* lower left, lower right, upper right, upper left */
+    	  fprintf(stderr,"Generate lower left, lower right, upper right, upper left pocket triangles object\n");
        for(i=0;i<4;i++){
            fx=0.0;
            fy=0.0;
@@ -1291,6 +1298,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
 #define HOLE2_SEGNR_2 12
+    	  fprintf(stderr,"Generate left, right pocket triangles object\n");
        for(k=0;k<2;k++){  /* left, right hole */
            if(k==0) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
            glBegin(GL_QUAD_STRIP);
@@ -1313,6 +1321,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        glNormal3f( 0.0, 0.0, 1.0 ); // ### TODO ### checkpoint changed from the lines above to this place before the loops
+    	  fprintf(stderr,"Generate left, right pocket fans triangles object\n");
        for(k=0;k<2;k++){  /* left, right hole fans */
            for(j=0;j<2;j++){ /* fan 1, 2 */
                if(j^k) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
@@ -1359,13 +1368,15 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
              +tablew/2.0-hole_r1, +tablel/2.0,   0.0 );
 */
 
+   fprintf(stderr,"Generate pocket objects: ");
    if(! carambol){
        /* upper */
+   	   fprintf(stderr,"Not carom: ");
        my_Bande( -tablew/2.0+hole_r1, tablel/2.0,        0.0,
                  +tablew/2.0-hole_r1, tablel/2.0+bande_d, -balld/2.0,
                  HOLE1_TAN, HOLE1_TAN, 0 );
 
-       /* lower */
+       fprintf(stderr,"lower "); /* lower */
        glPushMatrix();
        glScalef(1.0,-1.0,1.0);
        my_Bande( -tablew/2.0+hole_r1, tablel/2.0,        0.0,
@@ -1375,12 +1386,12 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
-       /* upper left */
+       fprintf(stderr,"upper left ");/* upper left */
        my_Bande( hole_r2,         tablew/2.0,        0.0,
                  +tablew-hole_r1, tablew/2.0+bande_d, -balld/2.0,
                  HOLE2_TAN, HOLE1_TAN, 0 );
        glScalef(1.0,-1.0,1.0);
-       /* upper right */
+       fprintf(stderr,"upper right ");/* upper right */
        my_Bande( hole_r2,         tablew/2.0,        0.0,
                  +tablew-hole_r1, tablew/2.0+bande_d, -balld/2.0,
                  HOLE2_TAN, HOLE1_TAN, 1 );
@@ -1389,23 +1400,25 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
 
-       /* lower left */
+       fprintf(stderr,"lower left "); /* lower left */
        my_Bande( -tablew+hole_r1,         tablew/2.0,        0.0,
                  -hole_r2, tablew/2.0+bande_d, -balld/2.0,
                  HOLE1_TAN, HOLE2_TAN, 0 );
-       /* lower right */
+       fprintf(stderr,"lower right "); /* lower right */
        glScalef(1.0,-1.0,1.0);
        my_Bande( -tablew+hole_r1,         tablew/2.0,        0.0,
                  -hole_r2, tablew/2.0+bande_d, -balld/2.0,
                  HOLE1_TAN, HOLE2_TAN, 1 );
        glPopMatrix();
+       fprintf(stderr,"\n");
    } else {
-       /* upper */
+	      fprintf(stderr,"carom: ");
+	      fprintf(stderr,"upper "); /* upper */
        my_Bande( -tablew/2.0, tablel/2.0,         0.0,
                  +tablew/2.0, tablel/2.0+bande_d, -balld/2.0,
                  1.0, 1.0, 0 );
 
-       /* lower */
+       fprintf(stderr,"lower ");/* lower */
        glPushMatrix();
        glScalef(1.0,-1.0,1.0);
        my_Bande( -tablew/2.0, tablel/2.0,        0.0,
@@ -1416,11 +1429,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
 
-       /* upper left */
+       fprintf(stderr,"upper left "); /* upper left */
        my_Bande( 0.0,      tablew/2.0,         0.0,
                  +tablew,  tablew/2.0+bande_d, -balld/2.0,
                  0.0, 1.0, 0 );
-       /* upper right */
+       fprintf(stderr,"upper right "); /* upper right */
        glScalef(1.0,-1.0,1.0);
        my_Bande( 0.0,      tablew/2.0,         0.0,
                  +tablew,  tablew/2.0+bande_d, -balld/2.0,
@@ -1431,16 +1444,17 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
 
-       /* lower left */
+       fprintf(stderr,"lower left "); /* lower left */
        my_Bande( -tablew,  tablew/2.0,         0.0,
                  0.0,      tablew/2.0+bande_d, -balld/2.0,
                  1.0, 0.0, 0 );
-       /* lower right */
+       fprintf(stderr,"lower right "); /* lower right */
        glScalef(1.0,-1.0,1.0);
        my_Bande( -tablew,  tablew/2.0,         0.0,
                  0.0,      tablew/2.0+bande_d, -balld/2.0,
                  1.0, 0.0, 1 );
        glPopMatrix();
+       fprintf(stderr,"\n");
    }
 
    /* disable 2nd tex unit for cloth texture */
@@ -1449,6 +1463,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glActiveTextureARB(GL_TEXTURE0_ARB);
 
    /* diamonds */
+   fprintf(stderr,"Generate diamonds border objects\n");
    glMaterialfv(GL_FRONT, GL_DIFFUSE,   dia_col_diff);
    glMaterialfv(GL_FRONT, GL_AMBIENT,   dia_col_amb);
    glMaterialfv(GL_FRONT, GL_SPECULAR,  dia_col_spec);
@@ -1516,6 +1531,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 
    /* gold edges and covers */
    if(!carambol){
+ 	     fprintf(stderr,"Generate gold/silver edges and cover objects\n");
        if( options_bumpref        &&
            extension_multitexture &&
            extension_cubemap
@@ -1566,6 +1582,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        /* bumpers for gold edges and covers */
+    	  fprintf(stderr,"Generate bumpers for gold/silver edges and covers\n");
        glMaterialfv(GL_FRONT, GL_DIFFUSE,   bumpers_col_diff);
        glMaterialfv(GL_FRONT, GL_AMBIENT,   bumpers_col_amb);
        glMaterialfv(GL_FRONT, GL_SPECULAR,  bumpers_col_spec);
@@ -1645,6 +1662,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 
 #define HOLE2_BACKSEGNR 8
 
+    	  fprintf(stderr,"Generate side holes\n");
        for(j=0;j<2;j++){ /* 2 side holes */
            xf=0.0;
            switch(j){
@@ -1682,6 +1700,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
 
    /* wood-frame */
+	  fprintf(stderr,"Generate wood frame\n");
    glEnable(GL_TEXTURE_2D);
    glMaterialfv(GL_FRONT, GL_DIFFUSE,   wood_col_diff2);
    glMaterialfv(GL_FRONT, GL_AMBIENT,   wood_col_amb2);
@@ -1934,6 +1953,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    } */
 
    glEndList();
-
+	  fprintf(stderr,"Return the new table object\n");
    return table_obj;
 }
