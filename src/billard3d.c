@@ -7513,8 +7513,8 @@ static void Init( void )
 
     glDisable(GL_DITHER);
     glEnable(GL_TEXTURE_2D);
+    fprintf(stderr,"Load 2D Graphics start\n");
     create_png_texbind("sphere_map_128x128.png", &spheretexbind, 3, GL_RGB);
-
 #ifdef WETAB
     create_png_texbind("tabletex_wetab_128x128.png", &fblogotexbind, 1, GL_LUMINANCE);
 #else
@@ -7570,16 +7570,17 @@ static void Init( void )
 #else
     create_png_texbind("mright.png", &mrightbind, 3, GL_RGBA);
 #endif
-      glEnable(GL_FOG);
-      glFogi (GL_FOG_MODE, GL_LINEAR);
-      glHint (GL_FOG_HINT, GL_FASTEST);
-      glFogf (GL_FOG_START, 0.0);
-      if(options_deco){
-        glFogf (GL_FOG_END, 16.0);
-      } else {
-        glFogf (GL_FOG_END, 12.5);
-      }
-      glFogfv (GL_FOG_COLOR, fogColor);
+    fprintf(stderr,"Graphics loaded and initialized\n");
+    glEnable(GL_FOG);
+    glFogi (GL_FOG_MODE, GL_LINEAR);
+    glHint (GL_FOG_HINT, GL_FASTEST);
+    glFogf (GL_FOG_START, 0.0);
+    if(options_deco){
+      glFogf (GL_FOG_END, 16.0);
+    } else {
+      glFogf (GL_FOG_END, 12.5);
+    }
+    glFogfv (GL_FOG_COLOR, fogColor);
 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
@@ -7588,6 +7589,7 @@ static void Init( void )
     create_walls( &walls );
     balls.ball=NULL;
     bakballs.ball=NULL;
+    fprintf(stderr,"Create balls scene\n");
     create_scene( &balls );
 
 #ifdef TIME_INTERPOLATE
@@ -7596,8 +7598,9 @@ static void Init( void )
     g_drawballs.ball=NULL;
     create_scene( &g_drawballs );
 #endif
-
+    fprintf(stderr,"Create table object\n");
     table_obj = create_table(spheretexbind, &walls, gametype==GAME_CARAMBOL);
+    fprintf(stderr,"Create room object\n");
     create_room(&floor_obj,&wall1_2_obj,&wall3_obj,&wall4_c_obj,&carpet_obj);
 
     /* lighting */
@@ -7647,8 +7650,10 @@ int main( int argc, char *argv[] )
 #ifdef FAST_MATH
    /* Initialize fastmath cos sin with lookup table */
 	  initlookup_cossin_table();
+	  fprintf(stderr,"Cosin Sine table lookup initialized\n");
    /* Initialize fastmath sqrt lookup table */
 	  initlookup_sqrt_table();
+	  fprintf(stderr,"sqrt table lookup initialized\n");
 #endif
 
    /* initialize hostname with a default address */
@@ -7656,19 +7661,19 @@ int main( int argc, char *argv[] )
 
    /* chdir into data directory */
    enter_data_dir();
-
+	  fprintf(stderr,"Data dir entry\n");
    /* Initialize browser to use */
    init_browser();
-
+	  fprintf(stderr,"Browser initialized for history-functions\n");
    /* Initialize Language and folders */
    init_language();
-
+	  fprintf(stderr,"Language initialized\n");
    /* Initialize history system */
    init_history();
-
+	  fprintf(stderr,"History system initialized\n");
    /* Initialize all player variables for two players */
    init_player_roster(&human_player_roster);
-
+	  fprintf(stderr,"Player variables initialized\n");
 #ifdef _MSC_VER //RB For only Windows-MSVC
 #else
    print_help(long_options,appname_str);
@@ -7676,12 +7681,15 @@ int main( int argc, char *argv[] )
 
    /* config file */
    load_config( &confv, &confc, argv, argc );
+	  fprintf(stderr,"Base-Configuration initialized\n");
    while( ( act_option = getopt_long_only(confc, confv, "+", long_options, &option_index) ) >= 0){
        //fprintf(stderr,"processing option %d=%s\n",act_option,optarg);
        process_option(act_option);
    }
+	  fprintf(stderr,"Configuration processing\n");
 
    sys_create_display(win_width, win_height);
+	  fprintf(stderr,"OpenGL context initialized\n");
    /* initialize random seed */
    srand(SDL_GetTicks());
 #ifdef __MINGW32__	//RB
@@ -7691,22 +7699,27 @@ int main( int argc, char *argv[] )
    if( fullscreen ) sys_fullscreen( 1 );
 #endif
    Init();
+	  fprintf(stderr,"Graphics loaded and initialized\n");
 
    /* Initialize the statusline */
    initstatustext();
+	  fprintf(stderr,"Status-line initialized\n");
 
    create_human_player_roster_text(&human_player_roster);
+	  fprintf(stderr,"Player construce initialized\n");
    create_players_text();
+	  fprintf(stderr,"Players text initialized\n");
 
    if(options_gamemode==options_gamemode_tournament){
        init_tournament_state(&tournament_state);
+    	  fprintf(stderr,"Tournament for start initialized\n");
    }
 
    /* this is a glory shit at this place. But we need it
       for some things that are loaded from the config-file on startup.
    */
    restart_game();
-
+	  fprintf(stderr,"Game restart for the selected start-game\n");
    glGetIntegerv(GL_AUX_BUFFERS, &auxnr);
    //fprintf(stderr,"# of AUX-buffers:%d\n",auxnr);
 
@@ -7714,6 +7727,7 @@ int main( int argc, char *argv[] )
 
    // Initialize Sound-System if sound is enabled
    INIT_SOUND();
+	  fprintf(stderr,"Sound-system initialized\n");
 
    if(!options_3D_winnertext){
        //wins
@@ -7740,7 +7754,9 @@ int main( int argc, char *argv[] )
 
    // Things for the Intro
    PLAY_NOISE(wave_intro,options_snd_volume);
+	  fprintf(stderr,"Play sound-intro\n");
    InitMesh();
+	  fprintf(stderr,"Graphic meshes initialized\nRun into game loop\n");
    sys_main_loop();
 
    return 0;
