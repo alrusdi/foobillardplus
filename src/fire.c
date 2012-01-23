@@ -39,6 +39,7 @@ void init_fire(void) {
     int i;
     char firename[10];
 
+    fprintf(stderr,"load fireplace fire graphics\n");
     create_png_texbind("firemesh.png", &firemeshtexbind, 3, GL_RGB);
     for (i=0;i<MAX_FIRE_TEXTURES;i++) {
     	  sprintf(firename,"fire%i.png",i);
@@ -114,7 +115,7 @@ void init_fire(void) {
            glPopMatrix();
            glEndList();
     }
-
+    fprintf(stderr,"Initialize fire lists completed\n");
 }
 
 /***********************************************************************

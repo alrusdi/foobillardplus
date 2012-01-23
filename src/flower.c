@@ -20,6 +20,8 @@
 **
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "flower.h"
 
 static int flower_id = -1;
@@ -50,9 +52,10 @@ void init_flower(void) {
 	 if(flower_id != -1) {
 	 	glDeleteLists(flower_id,1);
 	 }
-	 flower_id = glGenLists(1);
+  fprintf(stderr,"Initialize flower graphics\n");
+  flower_id = glGenLists(1);
   glNewList(flower_id, GL_COMPILE);
-    flower();
+  flower();
   glEndList();
 }
 
@@ -74,7 +77,7 @@ void display_flower(void) {
  ***********************************************************************/
 
 void flower(void) {
-	static GLfloat VertexData[] = {
+	static const GLfloat VertexData[] = {
 		-1.15726f, -0.171149f, 3.68038f, -1.13963f, -0.148076f, 3.68600f, -1.13876f, -0.153079f, 3.67196f, 
 		-1.13519f, -0.133426f, 3.70669f, -1.13217f, -0.142503f, 3.67866f, 
 		-1.13198f, -0.132926f, 4.35952f, -1.12980f, -0.129402f, 3.70182f, 
@@ -844,7 +847,7 @@ void flower(void) {
 		-0.0338260f, -0.0592420f, 3.87845f, -0.0321620f, -0.0918820f, 3.87865f, 
 		-0.0318690f, -0.0465430f, 3.88729f, -0.0298480f, -0.0605900f, 3.89183f
 	};
-	static GLfloat NormalData[] = {
+	static const GLfloat NormalData[] = {
 		-0.729457f, 0.625234f, -0.277443f, -0.644768f, 0.681602f, -0.345966f, -0.638431f, 0.682496f, -0.355815f, 
 		-0.660852f, 0.655606f, -0.365316f, -0.628316f, 0.704072f, -0.330910f, 
 		-0.851810f, 0.181953f, 0.491236f, -0.605000f, 0.674144f, -0.423681f, 
@@ -1614,7 +1617,7 @@ void flower(void) {
 		0.919379f, 0.212189f, -0.331239f, 0.958744f, 0.0471796f, -0.280328f, 
 		0.921373f, 0.244267f, -0.302334f, 0.965107f, 0.172162f, -0.197302f
 	};
-	static GLfloat TexCoordData[] = {
+	static const GLfloat TexCoordData[] = {
 		0.752582f, 1.14465f, 0.752689f, 1.08990f, 0.779817f, 1.08770f, 
 		0.720234f, 1.06974f, 0.770994f, 1.06728f, 
 		0.547135f, -0.662492f, 0.731272f, 1.05530f, 
@@ -2384,7 +2387,7 @@ void flower(void) {
 		0.552253f, 1.15229f, 0.546064f, 1.23972f, 
 		0.579361f, 1.12057f, 0.589062f, 1.15935f
 	};
-	static GLint Indices[] = {
+	static const GLint Indices[] = {
 		1156, 1141, 1156, 1297, 1156, 1275, 1155, 1274, 1155, 1212, 1155, 1080, 1222, 1172, 1222, 1338, 
 		1222, 1341, 1221, 1340, 1221, 1296, 1221, 1140, 1225, 1144, 1225, 1300, 1225, 1344, 1224, 1343, 
 		1224, 1337, 1224, 1171, 1153, 1077, 1153, 1209, 1153, 1278, 1152, 1277, 1152, 1299, 1152, 1143, 

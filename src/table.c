@@ -1582,7 +1582,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        /* bumpers for gold edges and covers */
-    	  fprintf(stderr,"Generate bumpers for gold/silver edges and covers\n");
+       fprintf(stderr,"Generate bumpers for gold/silver edges and covers\n");
        glMaterialfv(GL_FRONT, GL_DIFFUSE,   bumpers_col_diff);
        glMaterialfv(GL_FRONT, GL_AMBIENT,   bumpers_col_amb);
        glMaterialfv(GL_FRONT, GL_SPECULAR,  bumpers_col_spec);
@@ -1662,7 +1662,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 
 #define HOLE2_BACKSEGNR 8
 
-    	  fprintf(stderr,"Generate side holes\n");
+       fprintf(stderr,"Generate side holes\n");
        for(j=0;j<2;j++){ /* 2 side holes */
            xf=0.0;
            switch(j){
@@ -1700,7 +1700,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
 
    /* wood-frame */
-	  fprintf(stderr,"Generate wood frame\n");
+   fprintf(stderr,"Generate wood frame\n");
    glEnable(GL_TEXTURE_2D);
    glMaterialfv(GL_FRONT, GL_DIFFUSE,   wood_col_diff2);
    glMaterialfv(GL_FRONT, GL_AMBIENT,   wood_col_amb2);
@@ -1953,6 +1953,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    } */
 
    glEndList();
-	  fprintf(stderr,"Return the new table object\n");
+   fprintf(stderr,"Return the new table object\n");
    return table_obj;
 }

@@ -20,6 +20,8 @@
 **
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "fireplace_high.h"
 #include "png_loader.h"
 
@@ -56,6 +58,7 @@ void init_fireplace_high(void) {
 	 if(fireplace_high_id != -1) {
 	 	glDeleteLists(fireplace_high_id,1);
 	 }
+  fprintf(stderr,"Initialize high-res fireplace graphics\n");
   if(fp2texbind) {
     glDeleteTextures(1,&fp3texbind);
   }
@@ -118,7 +121,7 @@ void fireplace_Texture_Map(GLuint texture_map) {
  ***********************************************************************/
 
 void fireplace_high(void) {
-	static GLfloat VertexData[] = {
+	static const GLfloat VertexData[] = {
 		0.0336960f, -0.482614f, -4.53707f, 0.0336960f, -0.482614f, -4.53707f, 0.0336960f, -0.482614f, -4.53707f, 
 		0.0336960f, -0.482614f, -4.53707f, 0.0336960f, -0.872695f, -4.53707f, 
 		0.0336960f, -0.872695f, -4.53707f, 0.0336960f, -0.872695f, -4.53707f, 
@@ -5453,7 +5456,7 @@ void fireplace_high(void) {
 		-0.220142f, 1.24480f, -4.47962f, -0.220142f, 1.24567f, -4.47861f, 
 		-0.220142f, 1.24651f, -4.47768f, -0.220142f, 1.24730f, -4.47687f
 	};
-	static GLfloat NormalData[] = {
+	static const GLfloat NormalData[] = {
 		0.000000f, 0.000000f, -1.00000f, 1.51839e-006f, 1.00000f, 1.24179e-006f, -0.0434494f, 0.999056f, 1.12238e-006f, 
 		-0.631185f, 0.000000f, -0.775632f, 0.000000f, 0.000000f, -1.00000f, 
 		1.00000f, 0.000000f, 0.000000f, 0.000000f, -1.00000f, 0.000000f, 
@@ -10788,7 +10791,7 @@ void fireplace_high(void) {
 		-2.19977e-007f, 0.758653f, -0.651495f, 1.04803e-007f, 0.748836f, -0.662756f, 
 		-2.64468e-007f, 0.730096f, -0.683345f, -9.38969e-007f, 0.570253f, -0.821469f
 	};
-	static GLint Indices[] = {
+	static const GLint Indices[] = {
 		8836, 8835, 8750, 8835, 8749, 8834, 8748, 8833, 8747, 8832, 8746, 8831, 8745, 8830, 8744, 8829, 
 		8743, 8828, 8742, 8827, 8741, 8826, 8740, 8825, 8739, 8824, 8738, 8823, 8737, 8822, 8736, 8821, 
 		8735, 8820, 8734, 8819, 8733, 8818, 8732, 8817, 8731, 8816, 8730, 8815, 8729, 8814, 8728, 8813, 

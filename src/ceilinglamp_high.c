@@ -20,6 +20,8 @@
 **
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "ceilinglamp_high.h"
 
 static int ceilinglamp_high_id = -1;
@@ -50,9 +52,10 @@ void init_ceilinglamp_high(void) {
 	 if(ceilinglamp_high_id != -1) {
 	 	glDeleteLists(ceilinglamp_high_id,1);
 	 }
-	 ceilinglamp_high_id = glGenLists(1);
+  fprintf(stderr,"Initialize high-res ceiling-lamp graphics\n");
+  ceilinglamp_high_id = glGenLists(1);
   glNewList(ceilinglamp_high_id, GL_COMPILE);
-    ceilinglamp_high();
+  ceilinglamp_high();
   glEndList();
 }
 
@@ -73,7 +76,7 @@ void display_ceilinglamp_high(void) {
  ***********************************************************************/
 
 void ceilinglamp_high(void) {
-	static GLfloat VertexData[] = {
+	static const GLfloat VertexData[] = {
 		-0.139668f, 0.853677f, -0.280424f, -0.139668f, 0.853677f, -0.280424f, -0.139549f, 0.853677f, 0.280381f, 
 		-0.139549f, 0.853677f, 0.280381f, -0.136540f, 0.853677f, -0.238809f, 
 		-0.136540f, 0.853677f, -0.238809f, -0.136439f, 0.853677f, 0.238765f, 
@@ -5698,7 +5701,7 @@ void ceilinglamp_high(void) {
 		0.139549f, 0.853677f, -0.280483f, 0.139668f, 0.853677f, 0.280322f, 
 		0.139668f, 0.853677f, 0.280322f
 	};
-	static GLfloat NormalData[] = {
+	static const GLfloat NormalData[] = {
 		-0.989416f, 0.143084f, -0.0241326f, -0.0106736f, -0.999942f, -0.00133894f, -0.989406f, 0.143081f, 0.0245583f, 
 		-0.0106740f, -0.999942f, 0.00134351f, -0.952574f, 0.143080f, 0.268573f, 
 		-0.0105942f, -0.999942f, 0.00186679f, -0.952690f, 0.143062f, -0.268170f, 
@@ -11323,7 +11326,7 @@ void ceilinglamp_high(void) {
 		0.0107555f, -0.999942f, -0.000266878f, 0.982016f, 0.143080f, 0.123178f, 
 		0.0107538f, -0.999942f, 0.000262242f
 	};
-	static GLfloat TexCoordData[] = {
+	static const GLfloat TexCoordData[] = {
 		58.0022f, -40.1476f, 58.0022f, -40.1476f, 1.92169f, -40.1476f, 
 		1.92169f, -40.1476f, 53.8407f, -40.1476f, 
 		53.8407f, -40.1476f, 6.08320f, -40.1476f, 
@@ -16948,7 +16951,7 @@ void ceilinglamp_high(void) {
 		58.0022f, -40.1476f, 1.92169f, -40.1476f, 
 		1.92169f, -40.1476f
 	};
-	static GLint Indices[] = {
+	static const GLint Indices[] = {
 		6843, 4394, 8428, 4144, 8203, 5844, 8574, 5848, 8639, 8642, 9600, 9684, 10033, 10164, 9961, 10147, 
 		9101, 9318, 5773, 5770, 1675, 1586, 805, 750, 576, 548, 702, 663, 1335, 1325, 5891, 1325, 
 		5888, 1384, 5879, 1584, 5870, 1922, 5867, 2237, 5840, 3018, 7019, 4067, 7019, 5830, 6842, 8427, 

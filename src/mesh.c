@@ -19,6 +19,8 @@
 **    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 **/
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include "barchair.h"
@@ -255,6 +257,7 @@ void InitMesh(void) {
     glDeleteTextures(1,&camintexbind);
   }
    //sofa
+   fprintf(stderr,"Initialize default mesh-graphics\n");
    create_png_texbind("sofa.png", &sofatexbind, 3, GL_RGB);
 #ifdef USE_BINDBUFFER
    glGenBuffers(1, &vbo);
@@ -327,11 +330,17 @@ void InitMesh(void) {
    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof (indexes4[0]) * FACES4_COUNT * 3, indexes4, GL_STATIC_DRAW);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 #endif
+  fprintf(stderr,"Initialize default Sofa object\n");
   MakeSofa();
+  fprintf(stderr,"Initialize default Chair object\n");
   MakeChair();
+  fprintf(stderr,"Initialize default Table object\n");
   MakeTable();
+  fprintf(stderr,"Initialize default Fireplace object\n");
   MakeCamin();
+  fprintf(stderr,"Initialize default ceiling-lamp object\n");
   MakeLamp();
+  fprintf(stderr,"Initialize fire object\n");
   init_fire();  //initialize the fireflame for the fireplace
 }
 

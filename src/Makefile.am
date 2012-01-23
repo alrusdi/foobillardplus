@@ -62,6 +62,8 @@ foobillardplus_SOURCES = \
    history.c \
    fire.h \
    fire.c \
+   fireplace_high.h \
+   fireplace_high.c \
    ceilinglamp_high.h \
    ceilinglamp_high.c \
    cartoonguy.h \

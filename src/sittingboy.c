@@ -20,6 +20,8 @@
 **
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "sittingboy.h"
 #include "png_loader.h"
 
@@ -55,11 +57,12 @@ void init_sittingboy(void) {
   if(sbtexbind) {
     glDeleteTextures(1,&sbtexbind);
   }
+  fprintf(stderr,"Initialize high-res sitting-boy graphics\n");
   create_png_texbind("boy.png", &sbtexbind, 3, GL_RGB);
-	 sittingboy_id = glGenLists(1);
+  sittingboy_id = glGenLists(1);
   glNewList(sittingboy_id, GL_COMPILE);
-     //glDisable(GL_COLOR_MATERIAL);
-     sittingboy();
+  //glDisable(GL_COLOR_MATERIAL);
+  sittingboy();
   glEndList();
 }
 
@@ -94,7 +97,7 @@ void sittingboy_Texture_Map(GLuint texture_map) {
  ***********************************************************************/
 
 void sittingboy(void) {
-	static GLfloat VertexData[] = {
+	static const GLfloat VertexData[] = {
 		-4.08713f, 0.264085f, 1.65649f, -4.08366f, 0.268812f, 1.60515f, -4.08212f, 0.319736f, 1.65258f, 
 		-4.08027f, 0.273361f, 1.55751f, -4.08010f, 0.320652f, 1.60540f, 
 		-4.07083f, 0.333928f, 1.65681f, -4.07083f, 0.333928f, 1.65681f, 
@@ -2506,7 +2509,7 @@ void sittingboy(void) {
 		-3.29755f, -0.795977f, 1.40473f, -3.29755f, -0.795977f, 1.40473f, 
 		-3.29755f, -0.795977f, 1.40473f, -3.29755f, -0.795977f, 1.40473f
 	};
-	static GLfloat NormalData[] = {
+	static const GLfloat NormalData[] = {
 		-0.914250f, -0.281506f, 0.291377f, -0.994831f, -0.0423804f, -0.0922826f, -0.939173f, 0.267394f, 0.215536f, 
 		-0.897156f, -0.218432f, -0.383926f, -0.895621f, 0.435822f, -0.0890078f, 
 		-0.779263f, 0.626339f, -0.0211875f, -0.782608f, 0.520861f, 0.340923f, 
@@ -4918,7 +4921,7 @@ void sittingboy(void) {
 		0.966944f, -0.0670465f, -0.246018f, 0.966510f, -0.0474351f, 0.252208f, 
 		0.971842f, -0.107132f, 0.209870f, 0.966623f, -0.0624642f, -0.248474f
 	};
-	static GLfloat TexCoordData[] = {
+	static const GLfloat TexCoordData[] = {
 		0.600700f, 0.363100f, 0.548300f, 0.376100f, 0.600600f, 0.496700f, 
 		0.497000f, 0.386900f, 0.547700f, 0.502300f, 
 		0.610300f, 0.601300f, 0.610300f, 0.601300f, 
@@ -7330,7 +7333,7 @@ void sittingboy(void) {
 		0.252800f, 0.986400f, 0.252800f, 0.986400f, 
 		0.252800f, 0.986400f, 0.252800f, 0.986400f
 	};
-	static GLint Indices[] = {
+	static const GLint Indices[] = {
 		4514, 4479, 4514, 4485, 4671, 4736, 4671, 4739, 3626, 4254, 3958, 4254, 4236, 4254, 4329, 4525, 
 		4329, 4484, 4483, 4525, 4650, 4708, 4735, 4773, 4777, 4773, 4785, 4650, 4735, 4650, 4670, 4617, 
 		4638, 4581, 4615, 4581, 4592, 4735, 4777, 4738, 4775, 4749, 4775, 4803, 4775, 4813, 4777, 4813, 

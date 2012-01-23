@@ -20,6 +20,8 @@
 **
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "cartoonguy.h"
 
 static int cartoonguy_id = -1;
@@ -49,9 +51,10 @@ void init_cartoonguy(void) {
 	 if(cartoonguy_id != -1) {
 	 	glDeleteLists(cartoonguy_id,1);
 	 }
-	 cartoonguy_id = glGenLists(1);
+  fprintf(stderr,"Initialize cartoonguy graphics\n");
+  cartoonguy_id = glGenLists(1);
   glNewList(cartoonguy_id, GL_COMPILE);
-    cartoonguy();
+  cartoonguy();
   glEndList();
 }
 
@@ -73,7 +76,7 @@ void display_cartoonguy(void) {
  ***********************************************************************/
 
 void cartoonguy(void) {
-	static GLfloat VertexData[] = {
+	static const GLfloat VertexData[] = {
 		1.90001f, -0.850983f, -2.96807f, 1.90001f, -0.850983f, -2.96807f, 1.90001f, -0.850983f, -2.96807f, 
 		1.90001f, -0.850983f, -2.96807f, 1.90021f, -0.863505f, -2.96902f, 
 		1.90021f, -0.863505f, -2.96902f, 1.90021f, -0.863505f, -2.96902f, 
@@ -3820,7 +3823,7 @@ void cartoonguy(void) {
 		2.31547f, 0.816753f, -2.97567f, 2.31968f, 0.875237f, -2.98374f, 
 		2.31968f, 0.875237f, -2.98374f, 2.31968f, 0.875237f, -2.98374f
 	};
-	static GLfloat NormalData[] = {
+	static const GLfloat NormalData[] = {
 		-0.897080f, 0.290990f, 0.332524f, -0.855102f, 0.241924f, -0.458555f, -0.900480f, 0.385572f, 0.201171f, 
 		-0.897665f, 0.404459f, -0.174957f, -0.281915f, -0.958967f, -0.0301181f, 
 		-0.931131f, -0.0426590f, 0.362180f, -0.878502f, 0.0220756f, -0.477228f, 
@@ -7567,7 +7570,7 @@ void cartoonguy(void) {
 		0.728199f, -0.362844f, -0.581439f, 0.659851f, 0.0931166f, 0.745605f, 
 		0.749916f, -0.143137f, -0.645862f, 0.399621f, 0.868210f, -0.294134f
 	};
-	static GLint Indices[] = {
+	static const GLint Indices[] = {
 		4895, 5208, 4895, 4915, 2831, 2815, 2761, 2939, 3256, 2939, 3222, 2939, 3067, 2801, 3000, 2761, 
 		3064, 2831, 2898, 2815, 2898, 3007, 2898, 3042, 2898, 3173, 3064, 4419, 4421, 4419, 4180, 3222, 
 		3256, 3567, 3256, 3892, 3657, 4210, 3946, 4374, 4180, 4590, 4421, 4634, 4419, 4634, 4896, 4634, 

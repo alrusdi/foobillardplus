@@ -20,6 +20,8 @@
 **
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "bottle.h"
 
 static int bottle_id = -1;
@@ -49,9 +51,10 @@ void init_bottle(void) {
 	 if(bottle_id != -1) {
 	 	glDeleteLists(bottle_id,1);
 	 }
-	 bottle_id = glGenLists(1);
+  fprintf(stderr,"Initialize bottle graphics\n");
+  bottle_id = glGenLists(1);
   glNewList(bottle_id, GL_COMPILE);
-    bottle();
+  bottle();
   glEndList();
 }
 
@@ -73,7 +76,7 @@ void display_bottle(void) {
  ***********************************************************************/
 
 void bottle(void) {
-	static GLfloat VertexData[] = {
+	static const GLfloat VertexData[] = {
 		-3.88940f, -0.174219f, 3.32862f, -3.88939f, -0.157863f, 3.32861f, -3.88937f, -0.137607f, 3.32861f, 
 		-3.88935f, -0.114749f, 3.32861f, -3.88932f, -0.0905820f, 3.32861f, 
 		-3.88930f, -0.0664040f, 3.32861f, -3.88928f, -0.0435090f, 3.32861f, 
@@ -454,7 +457,7 @@ void bottle(void) {
 		-3.76225f, -0.0934631f, 3.20995f, -3.76206f, -0.0934632f, 3.20132f, 
 		-3.76076f, -0.0935486f, 3.21550f, -3.76004f, -0.0935485f, 3.19730f
 	};
-	static GLfloat NormalData[] = {
+	static const GLfloat NormalData[] = {
 		-0.999731f, 0.00591003f, 0.0224293f, -0.999264f, 0.000943227f, 0.0383437f, -0.999263f, 0.000953985f, 0.0383630f, 
 		-0.999263f, 0.000954540f, 0.0383766f, -0.999262f, 0.000923142f, 0.0383913f, 
 		-0.999261f, 0.000935564f, 0.0384162f, -0.999229f, -0.00663992f, 0.0386899f, 
@@ -952,7 +955,7 @@ void bottle(void) {
 		0.999263f, 0.000942566f, -0.0383822f, 0.999263f, 0.000936307f, -0.0383703f, 
 		0.999294f, 0.00124541f, -0.0375401f, 0.999825f, 0.00101580f, -0.0186863f
 	};
-	static GLfloat TexCoordData[] = {
+	static const GLfloat TexCoordData[] = {
 		0.000000f, 0.000000f, 0.000000f, 0.000000f, 0.000000f, 0.0724792f, 
 		0.000000f, 0.100324f, 0.000000f, 0.100339f, 
 		0.000000f, 0.100356f, 0.000000f, 0.145149f, 
@@ -2502,7 +2505,7 @@ void bottle(void) {
 		1.00066f, 0.290359f, 1.00092f, 0.00242500f, 
 		1.11110f, 1.11110f
 	};
-	static GLint Indices[] = {
+	static const GLint Indices[] = {
 		473, 490, 446, 446, 490, 458, 458, 490, 487, 487, 491, 453, 338, 457, 468, 338, 
 		468, 472, 491, 492, 440, 473, 498, 490, 490, 498, 495, 490, 495, 487, 487, 495, 
 		496, 487, 496, 497, 487, 497, 491, 491, 497, 492, 338, 472, 474, 338, 474, 470, 
