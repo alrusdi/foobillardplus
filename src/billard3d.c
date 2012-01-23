@@ -4385,10 +4385,11 @@ void DisplayFunc( void )
 
    glPushMatrix();
    glCallList(floor_obj); // draw floor
+   Zrot_check = Zrot+Zrot_offs;
    if(options_deco) {     // draw room if option on
      glCallList(wall1_2_obj);  // room
      glRotatef(90.0,0.0,0.0,1.1);
-     if(Zrot>50.0 && Zrot<320.0) {
+     if(Zrot_check>50.0 && Zrot_check<320.0) {
        //fprintf(stderr,"Zrot: %f\n",Zrot);
        // draw the window with the skyline behind, problem......
        glCallList(wall3_obj);
@@ -4418,7 +4419,6 @@ void DisplayFunc( void )
      glScalef(1.2,1.2,1.2);
      glCullFace(GL_FRONT);  // This is a must for blender export models
      glPolygonMode(GL_BACK,GL_FILL); // fill the back of the polygons
-     Zrot_check = Zrot+Zrot_offs;
      if(Zrot_check>180.0) {
        glPushMatrix();
        glScalef(0.5,1.0,0.7);

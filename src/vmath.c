@@ -26,6 +26,7 @@
 // http://gcc.gnu.org/onlinedocs/gcc-4.0.2/gcc/X86-Built_002din-Functions.html
 
 #include <math.h>
+#include <stdint.h>
 #include "vmath.h"
 
 const float M_PI2 = M_PI*2;
@@ -63,7 +64,7 @@ inline double fastexp(const double y){
 //typedef unsigned long      DWORD;      // better: uint32_t out <stdint.h>
 //typedef unsigned long      QWORD;      // better: uint64_t out <stdint.h>
 
-#ifdef USE_WIN
+#ifdef DWORD
   #define FP_BITS(fp) (*(DWORD *)&(fp))
 #else
   #define FP_BITS(fp) (*(uint32_t *)&(fp))
