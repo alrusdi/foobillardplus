@@ -75,15 +75,19 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
     png_ptr = png_create_read_struct
        (PNG_LIBPNG_VER_STRING, (png_voidp)NULL/*user_error_ptr*/,
         NULL/*user_error_fn*/, NULL/*user_warning_fn*/);
-    if (!png_ptr)
-        return 0;
+    if (!png_ptr) {
+     fprintf(stderr,"Error png-ptr png-file (%s). Terminating!\n",file_name);
+     sys_exit(0);
+     }
 
     info_ptr = png_create_info_struct(png_ptr);
     if (!info_ptr)
     {
         png_destroy_read_struct(&png_ptr,
            (png_infopp)NULL, (png_infopp)NULL);
-        return 0;
+        fprintf(stderr,"Eror create info struct png-file (%s). Terminating!\n",file_name);
+        sys_exit(0);
+
     }
 
     png_init_io(png_ptr, fp);

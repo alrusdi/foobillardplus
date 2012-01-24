@@ -99,7 +99,7 @@ extern int     options_max_ball_detail;
 extern VMfloat options_ball_detail_nearmax;
 extern VMfloat options_ball_detail_farmin;
 extern int     options_rgstereo_on;
-extern int *   options_col_ball;
+extern int    *options_col_ball;
 extern int     options_col_ball_pool[];
 extern int     options_col_ball_carambol[];
 extern int     options_col_ball_snooker[];

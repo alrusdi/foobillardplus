@@ -36,16 +36,17 @@ static GLuint firemeshtexbind;                  // texture binding for the mesh
 
 
 void init_fire(void) {
-    int i;
-    char firename[10];
+    int fireindex;
+    char firename[20];
 
     fprintf(stderr,"load fireplace fire graphics\n");
     create_png_texbind("firemesh.png", &firemeshtexbind, 3, GL_RGB);
-    for (i=0;i<MAX_FIRE_TEXTURES;i++) {
-    	  sprintf(firename,"fire%i.png",i);
-    	  create_png_texbind(firename, &firetexbind[i], 3, GL_RGB);
-       fire_id[i] = glGenLists(1);
-       glNewList(fire_id[i], GL_COMPILE);
+    for (fireindex=0;fireindex<MAX_FIRE_TEXTURES;fireindex++) {
+       fprintf(stderr,"Create fire no: %i of 14\n",fireindex);
+    	  sprintf(firename,"fire%i.png",fireindex);
+    	  create_png_texbind(firename, &firetexbind[fireindex], 3, GL_RGB);
+       fire_id[fireindex] = glGenLists(1);
+       glNewList(fire_id[fireindex], GL_COMPILE);
    	     glPopMatrix();
    	     glPushMatrix();
          glRotatef(270.0,90.0,0.0,0.0);
@@ -53,7 +54,7 @@ void init_fire(void) {
          glEnable(GL_BLEND);
          glBlendFunc (GL_ONE, GL_ONE);
          glEnable(GL_TEXTURE_2D);
-         glBindTexture(GL_TEXTURE_2D,firetexbind[i]);
+         glBindTexture(GL_TEXTURE_2D,firetexbind[fireindex]);
          glBegin(GL_QUADS);
           glTexCoord2s(0,0);
           glVertex3f(0.0,0.0,0.0);
@@ -79,15 +80,15 @@ void init_fire(void) {
          glDisable(GL_BLEND);
          glEndList();
 
-         fire_id_high[i] = glGenLists(1);
-         glNewList(fire_id_high[i], GL_COMPILE);
+         fire_id_high[fireindex] = glGenLists(1);
+         glNewList(fire_id_high[fireindex], GL_COMPILE);
      	     glPushMatrix();
            glRotatef(180.0,180.0,0.0,0.0);
            glTranslatef(-0.95,-0.25,4.7);
            glEnable(GL_BLEND);
            glBlendFunc (GL_ONE, GL_ONE);
            glEnable(GL_TEXTURE_2D);
-           glBindTexture(GL_TEXTURE_2D,firetexbind[i]);
+           glBindTexture(GL_TEXTURE_2D,firetexbind[fireindex]);
            glBegin(GL_QUADS);
             glTexCoord2s(0,0);
             glVertex3f(0.0,0.0,0.0);
