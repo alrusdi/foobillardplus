@@ -1,9 +1,9 @@
 /* sittingboy.h
 **
-**    code for high quality ceiling lamp
+**    code for display sitting boy
 **
 **    Updated Version foobillard++ started at 12/2010
-**    Copyright (C) 2010/2011 Holger Schaekel (foobillardplus@go4more.de)
+**    Copyright (C) 2012 Holger Schaekel (foobillardplus@go4more.de)
 **
 **    This program is free software; you can redistribute it and/or modify
 **    it under the terms of the GNU General Public License Version 2 as
@@ -28,4 +28,5 @@
 void sittingboy(void);
 void init_sittingboy(void);
 void display_sittingboy(void);
+
 #endif
