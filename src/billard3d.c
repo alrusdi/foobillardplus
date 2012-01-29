@@ -1673,7 +1673,7 @@ void process_option(enum optionType act_option)
           }
           break;
        case OPT_MAXP_CARAMBOL:
-           sscanf(optarg,"%d",&options_maxp_carambol);
+           sscanf(optarg,"%u",&options_maxp_carambol);
            if(options_maxp_carambol < 5) options_maxp_carambol = 5;
            if(options_maxp_carambol > 100) options_maxp_carambol = 100;
           break;
@@ -1698,7 +1698,7 @@ void process_option(enum optionType act_option)
           }
           break;
        case OPT_FSAA:
-             sscanf(optarg,"%d",&options_fsaa_value);
+             sscanf(optarg,"%u",&options_fsaa_value);
              switch(options_fsaa_value){
                 case 1: /* ok */
                 case 2:
@@ -1712,7 +1712,7 @@ void process_option(enum optionType act_option)
              break;
 #ifdef NETWORKING
        case OPT_NET_SPEED:
-             sscanf(optarg,"%d",&options_net_speed);
+             sscanf(optarg,"%u",&options_net_speed);
              if(options_net_speed <NET_SPEED_LOW) { options_net_speed = NET_SPEED_LOW; }
              if(options_net_speed >NET_SPEED_HIGH) { options_net_speed = NET_SPEED_HIGH; }
              break;
@@ -4419,7 +4419,7 @@ void DisplayFunc( void )
      glScalef(1.2,1.2,1.2);
      glCullFace(GL_FRONT);  // This is a must for blender export models
      glPolygonMode(GL_BACK,GL_FILL); // fill the back of the polygons
-     if(Zrot_check>180.0) {
+     if(Zrot_check>170.0) {
        glPushMatrix();
        glScalef(0.5,1.0,0.7);
        glCallList(bartable_id); //table window
@@ -4429,7 +4429,7 @@ void DisplayFunc( void )
        glPopMatrix();
      }
      glTranslatef(2.0,0.0,0.0);
-     if(Zrot_check>180.0) {
+     if(Zrot_check>170.0) {
        glCallList(sofa_id); //sofa 1
      }
      glTranslatef(2.5,0.0,0.0);
@@ -4502,7 +4502,7 @@ void DisplayFunc( void )
        glDisable(GL_TEXTURE_2D);
        glEnable(GL_COLOR_MATERIAL);
        glColor3f(0.2,0.2,0.2);
-       if(Zrot_check<90.0 || Zrot_check>250.0) {
+       if(Zrot_check<110.0 || Zrot_check>250.0) {
          display_cartoonguy(); //cartoon guy
        }
     	  if(options_tronmode) {
@@ -4514,7 +4514,7 @@ void DisplayFunc( void )
        if(Zrot_check<190.0) {
          display_chess(); //chess
        }
-       if(Zrot_check>180.0) {
+       if(Zrot_check>170.0) {
          display_bottle(); //bottle
          display_sittingboy(); //sitting boy
        }

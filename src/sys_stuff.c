@@ -250,13 +250,21 @@ void sys_create_display(int width,int height)
 	CGLSetParameter(CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
 #endif
 //compile without errors, if SDL is < Version 1.2.10 at compile time
-#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
-// The next works only with fsaa options off!!!!
+// on windows with patchlevel 15 only, rest of the world with higher 9
+#ifdef USE_WIN
+  #define CHECK_LEVEL 14
+#else
+  #define CHECK_LEVEL 9
+#endif
+#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > CHECK_LEVEL
+// The next works only with fsaa options off!!! and not stable on win Patchlevel < 15
+#ifndef USE_WIN
   if(!options_fsaa_value) {
-	   if(SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 ) < 0 ) {
-				  fprintf( stderr, "Unable to guarantee accelerated visual with libSDL < 1.2.10\n");
-	   }
+    if(SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 ) < 0 ) {
+       fprintf( stderr, "Unable to guarantee accelerated visual with libSDL < 1.2.10\n");
+	  }
   }
+#endif
   if(vsync_supported()) {
   	 if(options_vsync) {
       if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1) < 0) { // since SDL v1.2.10
