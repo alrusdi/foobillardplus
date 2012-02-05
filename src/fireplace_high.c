@@ -55,9 +55,9 @@ void fireplace_Material_Parameters(float shininess, float r_diffuseColor, float 
 
 void init_fireplace_high(void) {
 
-	 if(fireplace_high_id != -1) {
-	 	glDeleteLists(fireplace_high_id,1);
-	 }
+  if(fireplace_high_id != -1) {
+    glDeleteLists(fireplace_high_id,1);
+  }
   fprintf(stderr,"Initialize high-res fireplace graphics\n");
   if(fp2texbind) {
     glDeleteTextures(1,&fp3texbind);
@@ -65,9 +65,9 @@ void init_fireplace_high(void) {
   if(fp3texbind) {
     glDeleteTextures(1,&fp3texbind);
   }
-	 create_png_texbind("art.png", &fp2texbind, 3, GL_RGB);
-	 create_png_texbind("fp.png", &fp3texbind, 3, GL_RGB);
-	 fireplace_high_id = glGenLists(1);
+  create_png_texbind("art.png", &fp2texbind, 3, GL_RGB);
+  create_png_texbind("fp.png", &fp3texbind, 3, GL_RGB);
+  fireplace_high_id = glGenLists(1);
   glNewList(fireplace_high_id, GL_COMPILE);
     glEnable(GL_COLOR_MATERIAL);
     fireplace_high();

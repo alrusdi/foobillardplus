@@ -161,6 +161,9 @@ static int uppermenu = 0;            // upper slider menu is closed on startup
 static int leftcount = 0;            // the left counter for left menu for sliding
 static int rightcount = 0;           // the right counter for left menu for sliding
 static int uppercount = 0;           // the upper counter for upper menu for sliding
+static VMfloat next_leftmenu = 0.0;  // menu speed
+static VMfloat next_rightmenu = 0.0; // menu speed
+static VMfloat next_uppermenu = 0.0; // menu speed
 
 #define MENUCOUNT 177                // how much to count for sliding in/out left/right menu
 
@@ -3985,6 +3988,7 @@ void DisplayFunc( void )
   static GLfloat rg_eye_dist=0.05;
   static int introxanimate = 0; //animate the intro (don't change this!!)
   static int introyanimate = 0; //dto.
+  static VMfloat next_intro = 0.0; // speed variable for intro graphic
   static GLfloat introblendxanimate = 0.0; //dto.
   static GLfloat introblendyanimate = 0.0; //dto.
 
@@ -4408,11 +4412,11 @@ void DisplayFunc( void )
    	 if(!options_tronmode) {
    	   glCallList(carpet_obj); // first must draw the carpet
      } else {
- 			   glMaterialfv(GL_FRONT,GL_AMBIENT, ambient_torus);
- 			   glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse_torus);
- 			   glMaterialfv(GL_FRONT,GL_SPECULAR, specular_torus);
- 			   glMaterialf (GL_FRONT, GL_SHININESS, 51);
- 			   glDisable(GL_TEXTURE_2D);
+       glMaterialfv(GL_FRONT,GL_AMBIENT, ambient_torus);
+       glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse_torus);
+       glMaterialfv(GL_FRONT,GL_SPECULAR, specular_torus);
+       glMaterialf (GL_FRONT, GL_SHININESS, 51);
+       glDisable(GL_TEXTURE_2D);
      }
      glTranslatef(3.5,-4.0,0.65);
      glRotatef(180.0,0.0,0.0,1.0);
@@ -4476,10 +4480,10 @@ void DisplayFunc( void )
      if(options_furniture == 1) {
          if(Zrot_check<90.0 || Zrot_check>280.0) {
     	    glCallList(camin_id);   // fireplace
-         if(next_flame > 0.0 ){  // animation of flames in fireplace
+         if(next_flame > -0.3 ){  // animation of flames in fireplace
              next_flame-=(VMfloat)frametime_ms/120.0;
          }
-         if(next_flame<0.06){
+         if(next_flame<-0.2){
              next_flame=NEXT_FLAME_COUNTER;
              if((++flame_frame)>MAX_FIRE_TEXTURES-1) {
            	  flame_frame = 0;
@@ -4516,15 +4520,18 @@ void DisplayFunc( void )
        }
        if(Zrot_check>170.0) {
          display_bottle(); //bottle
+         if(options_tronmode) {
+           glEnable(GL_COLOR_MATERIAL);
+         }
          display_sittingboy(); //sitting boy
        }
        glDisable(GL_COLOR_MATERIAL);
        if(Zrot_check<90.0 || Zrot_check>280.0) {
        	display_fireplace_high(); // fireplace
-         if(next_flame > 0.0 ){  // animation of flames in fireplace
+         if(next_flame > -0.3 ){  // animation of flames in fireplace
            next_flame-=(VMfloat)frametime_ms/120.0;
          }
-         if(next_flame<0.06){
+         if(next_flame<-0.2){
            next_flame=NEXT_FLAME_COUNTER;
            if((++flame_frame)>MAX_FIRE_TEXTURES-1) {
          	  flame_frame = 0;
@@ -4540,6 +4547,11 @@ void DisplayFunc( void )
         }
         if(!options_tronmode) {
           glEnable(GL_COLOR_MATERIAL);
+        } else {
+          glMaterialfv(GL_FRONT,GL_AMBIENT, ambient_torus);
+          glMaterialfv(GL_FRONT,GL_DIFFUSE, diffuse_torus);
+          glMaterialfv(GL_FRONT,GL_SPECULAR, specular_torus);
+          glMaterialf (GL_FRONT, GL_SHININESS, 51);
         }
         display_ceilinglamp_high();
         glDisable(GL_COLOR_MATERIAL);
@@ -4864,14 +4876,28 @@ void DisplayFunc( void )
        glPushMatrix();
        glColor3f(1.0,1.0,1.0);
        glScalef(2.0/win_width,2.0/win_height,1.0);
-#ifndef WETAB
- #define MENUSTEP 5
-#else
+#ifdef WETAB
  #define MENUSTEP 20
+#else
+ #define MENUSTEP 10
 #endif
-       if(leftmenu == 1) { leftcount += MENUSTEP; }
-       if(leftmenu == 3) { leftcount -= MENUSTEP; }
-       if(leftcount <0) { leftcount = 0; leftmenu = 0; }
+       if(leftmenu == 1) {
+         if(next_leftmenu < 0.05 ){  // animation
+           next_leftmenu+=(VMfloat)frametime_ms/120.0;
+         } else {
+           next_leftmenu = 0.0;
+           leftcount += MENUSTEP;
+         }
+       }
+       if(leftmenu == 3) {
+         if(next_leftmenu < 0.05 ){  // animation
+           next_leftmenu+=(VMfloat)frametime_ms/120.0;
+         } else {
+           next_leftmenu = 0.0;
+           leftcount -= MENUSTEP;
+         }
+       }
+       if(leftcount <0) { leftcount = 0; leftmenu = 0; next_leftmenu = 0.0; }
        if(leftcount > MENUCOUNT) { leftcount = MENUCOUNT; leftmenu = 2; }
        glTranslatef(-((VMfloat)win_width/2+180-leftcount),-(VMfloat)win_height/2+170,0.0);
        if( options_gamemode == options_gamemode_training ) {
@@ -4921,10 +4947,24 @@ void DisplayFunc( void )
        }
        glPushMatrix();
        glScalef(2.0/win_width,2.0/win_height,1.0);
-       if(rightmenu == 1) { rightcount += MENUSTEP; }
-       if(rightmenu == 3) { rightcount -= MENUSTEP; }
+       if(rightmenu == 1) {
+         if(next_rightmenu < 0.05 ){  // animation
+           next_rightmenu+=(VMfloat)frametime_ms/120.0;
+         } else {
+           next_rightmenu = 0.0;
+           rightcount += MENUSTEP;
+         }
+       }
+       if(rightmenu == 3) {
+         if(next_rightmenu < 0.05 ){  // animation
+           next_rightmenu+=(VMfloat)frametime_ms/120.0;
+         } else {
+           next_rightmenu = 0.0;
+           rightcount -= MENUSTEP;
+         }
+       }
        if(rightcount <0) { rightcount = 0; rightmenu = 0; }
-       if(rightcount > MENUCOUNT) { rightcount = MENUCOUNT; rightmenu = 2; }
+       if(rightcount > MENUCOUNT) { rightcount = MENUCOUNT; rightmenu = 2; next_rightmenu = 0.0; }
        glTranslatef((VMfloat)win_width/2-35-rightcount,-(VMfloat)win_height/2+170,0.0);
        if(mright_id == -1) {
          mright_id = glGenLists(1);
@@ -4950,9 +4990,23 @@ void DisplayFunc( void )
 #ifdef USE_SOUND
        glPushMatrix();
        glScalef(2.0/win_width,2.0/win_height,1.0);
-       if(uppermenu == 1) { uppercount += MENUSTEP; }
-       if(uppermenu == 3) { uppercount -= MENUSTEP; }
-       if(uppercount <0) { uppercount = 0; uppermenu = 0; }
+       if(uppermenu == 1) {
+         if(next_uppermenu < 0.05 ){  // animation of uppermenu
+           next_uppermenu+=(VMfloat)frametime_ms/120.0;
+         } else {
+           next_uppermenu = 0.0;
+           uppercount += MENUSTEP;
+         }
+       }
+       if(uppermenu == 3) {
+         if(next_uppermenu < 0.05 ){  // animation of uppermenu
+           next_uppermenu+=(VMfloat)frametime_ms/120.0;
+         } else {
+           next_uppermenu = 0.0;
+           uppercount -= MENUSTEP;
+         }
+       }
+       if(uppercount <0) { uppercount = 0; uppermenu = 0; next_uppermenu = 0.0; }
        if(uppercount > MENUCOUNT) { uppercount = MENUCOUNT; uppermenu = 2; }
        glTranslatef((VMfloat)win_width/2-600,(VMfloat)win_height/2-32-uppercount,0.0);
        if(mupper_id == -1) {
@@ -5354,10 +5408,15 @@ void DisplayFunc( void )
        }
 
     if(!introtexture) {
-        if((introxanimate+=12) >768) introxanimate = 768;
-        if((introyanimate+=8) >512) introyanimate = 512;
-        if((introblendxanimate-=6) < -384.0) introblendxanimate = -384.0;
-        if((introblendyanimate-=3.22) < -206.0) introblendyanimate = -206.0;
+        if(next_intro < 0.2 ){  // animation of intro
+          next_intro+=(VMfloat)frametime_ms/120.0;
+        } else {
+          next_intro = 0.0;
+          if((introxanimate+=12) >768) introxanimate = 768;
+          if((introyanimate+=8) >512) introyanimate = 512;
+          if((introblendxanimate-=6) < -384.0) introblendxanimate = -384.0;
+          if((introblendyanimate-=3.22) < -206.0) introblendyanimate = -206.0;
+        }
         glEnable(GL_TEXTURE_2D);
         glColor4f(0.9,0.9,0.9,1.0);
         glEnable(GL_BLEND);
@@ -7703,23 +7762,23 @@ int main( int argc, char *argv[] )
 
    /* Initialize the statusline */
    initstatustext();
-	  fprintf(stderr,"Status-line initialized\n");
+   fprintf(stderr,"Status-line initialized\n");
 
    create_human_player_roster_text(&human_player_roster);
-	  fprintf(stderr,"Player construce initialized\n");
+   fprintf(stderr,"Player construce initialized\n");
    create_players_text();
-	  fprintf(stderr,"Players text initialized\n");
+   fprintf(stderr,"Players text initialized\n");
 
    if(options_gamemode==options_gamemode_tournament){
        init_tournament_state(&tournament_state);
-    	  fprintf(stderr,"Tournament for start initialized\n");
+   	  fprintf(stderr,"Tournament for start initialized\n");
    }
 
    /* this is a glory shit at this place. But we need it
       for some things that are loaded from the config-file on startup.
    */
    restart_game();
-	  fprintf(stderr,"Game restart for the selected start-game\n");
+   fprintf(stderr,"Game restart for the selected start-game\n");
    glGetIntegerv(GL_AUX_BUFFERS, &auxnr);
    //fprintf(stderr,"# of AUX-buffers:%d\n",auxnr);
 
@@ -7727,7 +7786,7 @@ int main( int argc, char *argv[] )
 
    // Initialize Sound-System if sound is enabled
    INIT_SOUND();
-	  fprintf(stderr,"Sound-system initialized\n");
+   fprintf(stderr,"Sound-system initialized\n");
 
    if(!options_3D_winnertext){
        //wins
@@ -7754,9 +7813,9 @@ int main( int argc, char *argv[] )
 
    // Things for the Intro
    PLAY_NOISE(wave_intro,options_snd_volume);
-	  fprintf(stderr,"Play sound-intro\n");
+   fprintf(stderr,"Play sound-intro\n");
    InitMesh();
-	  fprintf(stderr,"Graphic meshes initialized\nRun into game loop\n");
+   fprintf(stderr,"Graphic meshes initialized\nRun into game loop\n");
    sys_main_loop();
 
    return 0;

@@ -82,7 +82,7 @@ void init_fire(void) {
 
          fire_id_high[fireindex] = glGenLists(1);
          glNewList(fire_id_high[fireindex], GL_COMPILE);
-     	     glPushMatrix();
+           glPushMatrix();
            glRotatef(180.0,180.0,0.0,0.0);
            glTranslatef(-0.95,-0.25,4.7);
            glEnable(GL_BLEND);

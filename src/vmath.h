@@ -123,7 +123,11 @@ typedef struct PolyPoint VMpolypoint;
   #define MATH_COS(x) fastcos(x)
   #define MATH_ATAN2(x,y) fastatan2(x,y)
   #define MATH_ATAN(x) fastatan(x)
+#ifdef USE_WIN
+  #define MATH_POW(x,y) pow(x,y)
+#else
   #define MATH_POW(x,y) fastpow(x,y)
+#endif
   #define MATH_SQRT(x) fastsqrt(x)
   #define MATH_EXP(x) fastexp(x)
 #else
