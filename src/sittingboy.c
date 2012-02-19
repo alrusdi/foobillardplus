@@ -74,9 +74,10 @@ void display_sittingboy(void) {
 /***********************************************************************
  *                           build the boy                             *
  *               Polygons for object (8415 polygons)                   *
+ *               gloves with errors - disabled in source               *
  ***********************************************************************/
 
-void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
+void sittingboy(void) {
 
 	static GLfloat VertexData[] = {
 		-4.11330f, 0.443552f, 1.71106f, -4.11215f, 0.456755f, 1.83671f, -4.10937f, 0.551727f, 1.79709f, 
@@ -20019,8 +20020,7 @@ void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
 	glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_INT, &Indices[2254]);
 	glDrawElements(GL_TRIANGLE_STRIP, 8, GL_UNSIGNED_INT, &Indices[2260]);
 	glDrawElements(GL_TRIANGLE_STRIP, 7, GL_UNSIGNED_INT, &Indices[2268]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[2275]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[2278]);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &Indices[2275]);
 	glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_INT, &Indices[2281]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[2287]);
 	glDrawElements(GL_TRIANGLE_STRIP, 8, GL_UNSIGNED_INT, &Indices[2291]);
@@ -20447,9 +20447,9 @@ void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[4661]);
 
 	// Material attributes for surface 'gloves-material'
-	sittingboy_Material_Parameters(96.0000f, 0.0288625f, 0.0376470f, 0.0778040f, 0.250000f, 0.250000f, 0.250000f);
+	//sittingboy_Material_Parameters(96.0000f, 0.0288625f, 0.0376470f, 0.0778040f, 0.250000f, 0.250000f, 0.250000f);
 
-	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[4665]);
+	/* glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[4665]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[4669]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[4673]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[4677]);
@@ -21654,7 +21654,7 @@ void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10178]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10182]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10186]);
-	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10190]);
+	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10190]); */
 
 	// Material attributes for surface 'jeanstex_jea-material'
 	sittingboy_Material_Parameters(96.0000f, 0.0149410f, 0.0203215f, 0.132977f, 0.250000f, 0.250000f, 0.250000f);
@@ -21711,8 +21711,7 @@ void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10505]);
 	glDrawElements(GL_TRIANGLE_STRIP, 45, GL_UNSIGNED_INT, &Indices[10509]);
 	glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_INT, &Indices[10554]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[10560]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[10563]);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &Indices[10560]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10566]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[10570]);
 	glDrawElements(GL_TRIANGLE_STRIP, 5, GL_UNSIGNED_INT, &Indices[10574]);
@@ -22665,28 +22664,13 @@ void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
 	sittingboy_Material_Parameters(96.0000f, 0.320000f, 0.320000f, 0.320000f, 0.250000f, 0.250000f, 0.250000f);
 
 	glDrawElements(GL_TRIANGLE_STRIP, 116, GL_UNSIGNED_INT, &Indices[15753]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15869]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15872]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15875]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15878]);
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, &Indices[15869]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[15881]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15885]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15888]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15891]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15894]);
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, &Indices[15885]);
 	glDrawElements(GL_TRIANGLE_STRIP, 42, GL_UNSIGNED_INT, &Indices[15897]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15939]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15942]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15945]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15948]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15951]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15954]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15957]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15960]);
+	glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, &Indices[15939]);
 	glDrawElements(GL_TRIANGLE_STRIP, 36, GL_UNSIGNED_INT, &Indices[15963]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[15999]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[16002]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[16005]);
+	glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, &Indices[15999]);
 	glDrawElements(GL_TRIANGLE_STRIP, 11, GL_UNSIGNED_INT, &Indices[16008]);
 	glDrawElements(GL_TRIANGLE_STRIP, 21, GL_UNSIGNED_INT, &Indices[16019]);
 	glDrawElements(GL_TRIANGLE_STRIP, 9, GL_UNSIGNED_INT, &Indices[16040]);
@@ -23580,31 +23564,16 @@ void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
 
 	glDrawElements(GL_TRIANGLE_STRIP, 17, GL_UNSIGNED_INT, &Indices[20112]);
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, &Indices[20129]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20133]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20136]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20139]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20142]);
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, &Indices[20133]);
 	glDrawElements(GL_TRIANGLE_STRIP, 9, GL_UNSIGNED_INT, &Indices[20145]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20154]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20157]);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &Indices[20154]);
 	glDrawElements(GL_TRIANGLE_STRIP, 9, GL_UNSIGNED_INT, &Indices[20160]);
 	glDrawElements(GL_TRIANGLE_STRIP, 10, GL_UNSIGNED_INT, &Indices[20169]);
 	glDrawElements(GL_TRIANGLE_STRIP, 16, GL_UNSIGNED_INT, &Indices[20179]);
 	glDrawElements(GL_TRIANGLE_STRIP, 86, GL_UNSIGNED_INT, &Indices[20195]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20281]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20284]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20287]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20290]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20293]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20296]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20299]);
+	glDrawElements(GL_TRIANGLES, 21, GL_UNSIGNED_INT, &Indices[20281]);
 	glDrawElements(GL_TRIANGLE_STRIP, 22, GL_UNSIGNED_INT, &Indices[20302]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20324]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20327]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20330]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20333]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20336]);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &Indices[20339]);
+	glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, &Indices[20324]);
 	glDrawElements(GL_TRIANGLE_STRIP, 39, GL_UNSIGNED_INT, &Indices[20342]);
 	glDrawElements(GL_TRIANGLE_STRIP, 36, GL_UNSIGNED_INT, &Indices[20381]);
 	glDrawElements(GL_TRIANGLE_STRIP, 80, GL_UNSIGNED_INT, &Indices[20417]);
@@ -23960,4 +23929,4 @@ void sittingboy(void) {// Polygons for object 'polygons#2' (8415 polygons)
 	sittingboy_Material_Parameters(96.0000f, 0.0134400f, 0.0553600f, 0.0387200f, 0.250000f, 0.250000f, 0.250000f);
 
 	glDrawElements(GL_TRIANGLE_STRIP, 20, GL_UNSIGNED_INT, &Indices[22651]);
-}	// End of polygons for object 'polygons#2'
+}

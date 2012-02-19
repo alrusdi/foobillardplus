@@ -253,8 +253,8 @@ VMfloat g_motion_ratio=1.0;  /* a shot to be due at the beginning */
   static int init_netclient = 0;     // call a client net-game on 1
   static int wait_key = 0;           // set with every mouse-click and keystroke (for waiting purposes)
   static void (* network_game)(void);// holds the network function if a network game is set
-  static int (* net_send_data)(void);// holds the hardcoding or slow compatble network send function
-  static int (* net_get_data)(void);  // holds the hardcoding or slow compatble network get function
+  static int (* net_send_data)(void);// holds the hard-coding or slow compatible network send function
+  static int (* net_get_data)(void);  // holds the hard-coding or slow compatible network get function
   static int wait_seconds = 0;       // for network play the longest time to wait for connect
   static int wait_client = 0;        // wait for client connect to server = 1
   static int wait_server = 0;        // wait for server connect from client = 1
@@ -263,7 +263,7 @@ VMfloat g_motion_ratio=1.0;  /* a shot to be due at the beginning */
   static int send_data = 0;          // 0 no data send, != 0 data to send
   static int get_data = 0;           // 0 no data to get != data get
   static int netorder=0;             // the order 0 = nothing, 1 = end
-  static int data_len;               // the length of network sended data and for the pointer bug in some gcc
+  static int data_len;               // the length of network send-data and for the pointer bug in some gcc
   static char net_data[5000];        // all data send as a string for 32/64 Bit, Win/Linux compatibility
   static char net_workstr[5000];     // network work string for building the next ip-packets
   static TCPsocket server=NULL;      // hold a server TCP connection socket
@@ -428,7 +428,7 @@ void restart_game_training(void);
  *            get as string!!!!! 32/64 Bit Win/Linux stable            *
  ***********************************************************************/
 
-int net_get_data_soft(void)
+static int net_get_data_soft(void)
 {
     int i;
     if(netorder>1) {
@@ -493,7 +493,7 @@ int net_get_data_soft(void)
  *           send as string!!!!! 32/64 Bit Win/Linux stable            *
  ***********************************************************************/
 
-int net_send_data_soft(void)
+static int net_send_data_soft(void)
 {
     int i;
     if(netorder>1) {
@@ -544,7 +544,7 @@ int net_send_data_soft(void)
  *                    Network get data hard coding                     *
  ***********************************************************************/
 
-int net_get_data_hard(void)
+static int net_get_data_hard(void)
 {
     int i;
     int index = 0;
@@ -837,7 +837,7 @@ int net_get_data_hard(void)
  *                   Network send data hardcoding                      *
  ***********************************************************************/
 
-int net_send_data_hard(void)
+static int net_send_data_hard(void)
 {
     int i;
     if(netorder>1) {
@@ -1120,7 +1120,7 @@ int net_send_data_hard(void)
  *                      Network get data timer                         *
  ***********************************************************************/
 
-Uint32 net_get_timer(Uint32 intervall, void *param) {
+static Uint32 net_get_timer(Uint32 intervall, void *param) {
     // param not used, but a must have for SDL_AddTimer
     get_data++;
     return (intervall);
@@ -1130,7 +1130,7 @@ Uint32 net_get_timer(Uint32 intervall, void *param) {
  *                      Network send data timer                        *
  ***********************************************************************/
 
-Uint32 net_send_timer(Uint32 intervall, void *param) {
+static Uint32 net_send_timer(Uint32 intervall, void *param) {
     // param not used, but a must have for SDL_AddTimer
     send_data++;
     return(intervall);
@@ -1140,7 +1140,7 @@ Uint32 net_send_timer(Uint32 intervall, void *param) {
  *  counter waiting on network Server connect (SDL-Timer function)     *
  ***********************************************************************/
 
-Uint32 wait_for_connect(Uint32 intervall,void *param) {
+static Uint32 wait_for_connect(Uint32 intervall,void *param) {
 	 // param not used, but a must have for SDL_AddTimer
   wait_server = 1;
   if(--wait_seconds < 0) { //count the seconds down
@@ -1153,7 +1153,7 @@ Uint32 wait_for_connect(Uint32 intervall,void *param) {
  *  counter waiting on network client connect (SDL-Timer function)     *
  ***********************************************************************/
 
-Uint32 wait_for_server_connect(Uint32 intervall,void *param) {
+static Uint32 wait_for_server_connect(Uint32 intervall,void *param) {
 	 // param not used, but a must have for SDL_AddTimer
   wait_client = 1;
   if(--wait_seconds < 0) { //count the seconds down
@@ -1205,17 +1205,23 @@ static void play_network(void)
         }
      }
      if(get_data) {
-        net_get_data();
+        //net_get_data();
         if(netorder && active_net_timer !=NULL) {
          SDL_RemoveTimer(active_net_timer);
          active_net_timer = NULL;
+         //fprintf(stderr,"Last move network read\n");
+        } else {
+        	net_get_data();
         }
         get_data = 0;
      } else if(send_data) {
-        net_send_data();
+        //net_send_data();
         if(netorder && active_net_timer !=NULL) {
          SDL_RemoveTimer(active_net_timer);
          active_net_timer = NULL;
+         //fprintf(stderr,"Last move network write\n");
+        } else {
+        	net_send_data();
         }
         send_data = 0;
      }
@@ -1268,7 +1274,7 @@ static void no_network(void) {
  *  the time for the disc png is shown after F5 (SDL-Timer function)   *
  ***********************************************************************/
 
-Uint32 notshow_disc(Uint32 intervall,void *param) {
+static Uint32 notshow_disc(Uint32 intervall,void *param) {
 	 // intervall and param not used, but a must have for SDL_AddTimer
   show_disc = 0;
   return 0;
@@ -4130,6 +4136,7 @@ void DisplayFunc( void )
          balls_were_moving=0;
          if(options_gamemode!=options_gamemode_training){
              old_actplayer = act_player; // save the state of the actual player for network game and history function
+             //fprintf(stderr,"evaluate_last_move is called\n");
              evaluate_last_move( player, &act_player, &balls, &queue_view, &Xque );
              if(old_actplayer != act_player) {
              	  roundcounter++;
