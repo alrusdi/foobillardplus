@@ -23,7 +23,11 @@
 #ifndef CHESS_H
 #define CHESSS_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 
 void chess(void);
 void init_chess(void);

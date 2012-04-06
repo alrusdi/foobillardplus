@@ -167,7 +167,14 @@ void launch_manual()
         return;
     }
 
-    switch (arch) {
+#ifdef __APPLE__
+    snprintf(command, sizeof(command), "%s/%s", get_data_dir(), manual_file);
+
+    void open_file_with_browser_mac(char *file);
+
+    open_file_with_browser_mac(command);
+#else
+    	switch (arch) {
         case ARCH_WETAB:
             snprintf(command, sizeof(command),
                 "tiitoo-browser-bin -t file://%s/%s",
@@ -191,6 +198,7 @@ void launch_manual()
     }
 
     launch_command(command);
+#endif
 }
 
 /***********************************************************************

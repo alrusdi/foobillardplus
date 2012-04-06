@@ -384,6 +384,7 @@ BallType * BM_get_ball_by_nr( int nr, BallsType *pballs )
 
 void record_move_log_event( enum event_type event, int nr, int nr2, BallsType *pballs, VMfloat timeoffs )
 {
+	   //fprintf(stderr,"New log-entry %i\n",move_log.eventnr);
     move_log.event[move_log.eventnr].event=event;
 
     move_log.event[move_log.eventnr].ballnr=nr;

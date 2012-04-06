@@ -21,7 +21,11 @@
 */
 
 #include <stdio.h>
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 #include "png_loader.h"
 #include "fire.h"
 

@@ -29,8 +29,14 @@
 #include FT_OUTLINE_H
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+ #include <OpenGL/glu.h>
+ typedef GLvoid (*_GLUfuncptr)(GLvoid);
+#else
+ #include <GL/gl.h>
+ #include <GL/glu.h>
+#endif
 #include <regex.h>
 
 #include "vmath.h"

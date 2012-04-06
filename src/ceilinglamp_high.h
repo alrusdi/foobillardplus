@@ -23,7 +23,11 @@
 #ifndef CEILINGLAMP_HIGH_H
 #define CEILINGLAMP_HIGH_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 
 void ceilinglamp_high(void);
 void init_ceilinglamp_high(void);

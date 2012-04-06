@@ -23,7 +23,11 @@
 #ifndef CARTOONGUY_H
 #define CARTOONGUY_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+  #include <OpenGL/gl.h>
+#else
+  #include <GL/gl.h>
+#endif
 
 void cartoonguy(void);
 void init_cartoonguy(void);

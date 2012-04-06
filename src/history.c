@@ -93,6 +93,14 @@ int check_xml(char *filecheck) {
 void show_history(char * historyfile) {
 	  char workstring[1024];
 	  // build the browser call string
+#ifdef __APPLE__
+	  sprintf(workstring,"%s/html/%s",file_name,historyfile);
+
+	  void open_file_with_browser_mac(char *file);
+
+	  open_file_with_browser_mac(workstring);
+#else
+
 #ifdef USE_WIN
 	  sprintf(workstring,"%s/html/%s",file_name,historyfile);
 #else
@@ -101,7 +109,7 @@ void show_history(char * historyfile) {
 	  sprintf(workstring," %s%s/html/%s",callstring,file_name,historyfile);
 #endif
 	  launch_command(workstring);
-
+#endif
 }
 
 /***********************************************************************
@@ -268,6 +276,10 @@ void init_history(void) {
    strcpy(file_name,getenv("USERPROFILE"));
    strcat(file_name,"/Desktop/foobillardplus-data");
    mkdir(file_name); //build directory every time is not a problem
+#elif defined(__APPLE__)
+   strcpy(file_name,getenv("HOME"));
+   strcat(file_name,"/Library/Application Support/Foobillard++");
+   mkdir(file_name,0777); //build directory every time is not a problem
 #else
    strcpy(file_name,getenv("HOME"));
    strcat(file_name,"/foobillardplus-data");

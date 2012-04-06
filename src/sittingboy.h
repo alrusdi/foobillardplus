@@ -23,7 +23,11 @@
 #ifndef SITTINGBOY_H
 #define SITTINGBOY_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 
 void sittingboy(void);
 void init_sittingboy(void);

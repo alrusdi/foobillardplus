@@ -25,15 +25,25 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
-#include <GL/glext.h>
+#ifdef __APPLE__
+ #include <OpenGL/glu.h>
+ #include <OpenGL/gl.h>
+ #include <OpenGL/glext.h>
+#else
+ #include <GL/glu.h>
+ #include <GL/gl.h>
+ #include <GL/glext.h>
+#endif
 #include "billard.h"
 #include "table.h"
 #include "options.h"
 #include "png_loader.h"
 #include "bumpref.h"
 #include "vmath.h"
+
+#ifdef __APPLE__
+	#define glActiveTexture glActiveTextureARB
+#endif
 
 #ifdef __MINGW32__
 	extern void ( APIENTRY * glActiveTextureARB)( GLenum );

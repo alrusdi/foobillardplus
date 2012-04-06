@@ -210,7 +210,7 @@ inline float fastatan(float x)
 inline float fastatan2(float y, float x) {
 	  float coeff_1 = M_PI / 4.0f;
 	  float coeff_2 = 3.0f * coeff_1;
-	  float abs_y = abs(y);
+	  float abs_y = fabs(y);
 	  float angle;
 	  if (x > 0.0f) {
 		    float r = (x - abs_y) / (x + abs_y);

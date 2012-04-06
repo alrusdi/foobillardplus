@@ -34,9 +34,15 @@
 #include <unistd.h>
 #include <getopt.h>
 
-#include <GL/glu.h>
-#include <GL/gl.h>
-#include <GL/glext.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+ #include <OpenGL/glu.h>
+ #include <OpenGL/glext.h>
+#else
+ #include <GL/gl.h>
+ #include <GL/glu.h>
+ #include <GL/glext.h>
+#endif
 
 #include <SDL/SDL.h>
 #ifdef NETWORKING
@@ -1205,23 +1211,19 @@ static void play_network(void)
         }
      }
      if(get_data) {
-        //net_get_data();
+        net_get_data();
         if(netorder && active_net_timer !=NULL) {
          SDL_RemoveTimer(active_net_timer);
          active_net_timer = NULL;
-         //fprintf(stderr,"Last move network read\n");
-        } else {
-        	net_get_data();
+         //fprintf(stderr,"After last move network read\n");
         }
         get_data = 0;
      } else if(send_data) {
-        //net_send_data();
+        net_send_data();
         if(netorder && active_net_timer !=NULL) {
          SDL_RemoveTimer(active_net_timer);
          active_net_timer = NULL;
-         //fprintf(stderr,"Last move network write\n");
-        } else {
-        	net_send_data();
+         //fprintf(stderr,"After last move network write\n");
         }
         send_data = 0;
      }
@@ -1788,6 +1790,8 @@ int load_config( char *** confv, int * confc, char ** argv, int argc )
 
 #ifdef __MINGW32__ //HS
     sprintf(filename,"%s\\.foobillardrc",getenv("USERPROFILE"));
+#elif defined(__APPLE__)
+    sprintf(filename,"%s/Library/Preferences/org.foobillard.Foobillard--",getenv("HOME"));
 #else
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
 #endif
@@ -1863,6 +1867,8 @@ void save_config(void)
 
 #ifdef __MINGW32__ //HS
     sprintf(filename,"%s\\.foobillardrc",getenv("USERPROFILE"));
+#elif defined(__APPLE__)
+    sprintf(filename,"%s/Library/Preferences/org.foobillard.Foobillard--",getenv("HOME"));
 #else
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
 #endif
@@ -3706,11 +3712,11 @@ void create_cuberef_maps(VMvect cam_pos)
     static VMfloat th, ph, cam_FOV2, cam_FOV3;
     static VMvect dvec, ballvec, right, up, cam_pos_;
     static const int target[6] = {GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB,
-                                    GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
-                                    GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
-                                    GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
-                                    GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
-                                    GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB};
+                                  GL_TEXTURE_CUBE_MAP_POSITIVE_Y_ARB,
+                                  GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
+                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
+                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB,
+                                  GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB};
 
     // the following definition is for more speed (Matrix of the reflexions)
     static const MATH_ALIGN16 GLfloat mv_matr[6][16] = {{0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,1.0f},
@@ -4136,7 +4142,7 @@ void DisplayFunc( void )
          balls_were_moving=0;
          if(options_gamemode!=options_gamemode_training){
              old_actplayer = act_player; // save the state of the actual player for network game and history function
-             //fprintf(stderr,"evaluate_last_move is called\n");
+             fprintf(stderr,"evaluate_last_move is called\n");
              evaluate_last_move( player, &act_player, &balls, &queue_view, &Xque );
              if(old_actplayer != act_player) {
              	  roundcounter++;
@@ -4444,10 +4450,13 @@ void DisplayFunc( void )
        glCallList(sofa_id); //sofa 1
      }
      glTranslatef(2.5,0.0,0.0);
+#ifndef WETAB
      if(Zrot_check>180.0) {
    	   glCallList(sofa_id); //sofa 2
      }
+#endif
      glTranslatef(1.0,0.0,0.0);
+#ifndef WETAB
      if(Zrot_check>180.0 || Zrot_check<2.0) {
        glPushMatrix();
        glScalef(0.5,1.0,0.7);
@@ -4457,6 +4466,7 @@ void DisplayFunc( void )
     	  }
        glPopMatrix();
      }
+#endif
      glTranslatef(-6.0,-6.0,0.2);
      glScalef(0.7,0.7,0.7);
      if(Zrot_check<190.0) {
@@ -5524,7 +5534,6 @@ void DisplayFunc( void )
       glCallList(enddisp_id);
     }
    } /* rg stereo */
-
 }
 
 /***********************************************************************
@@ -7754,7 +7763,7 @@ int main( int argc, char *argv[] )
    }
 	  fprintf(stderr,"Configuration processing\n");
 
-   sys_create_display(win_width, win_height);
+   sys_create_display(win_width, win_height, fullscreen);
 	  fprintf(stderr,"OpenGL context initialized\n");
    /* initialize random seed */
    srand(SDL_GetTicks());

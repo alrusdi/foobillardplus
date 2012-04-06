@@ -27,7 +27,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 #include "options.h"
 #include "sys_stuff.h"
 #include "sound_stuff.h"

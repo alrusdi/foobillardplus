@@ -25,7 +25,11 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 #include "vmath.h"
 
 #define options_tex_min_filter GL_LINEAR_MIPMAP_LINEAR

@@ -65,6 +65,9 @@ make
 
 %changelog
 
+* Sun Apr 06 2012 Holger Schaekel
+- Start of Apple Mac Port from Julian Mayer (many thanks)
+
 * Sun Jan 22 2012 Holger Schaekel
 - bug fixes turning around in room
 - bug-fixes for WINDOWS-Port SDL 1.2.15

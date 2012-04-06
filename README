@@ -31,8 +31,8 @@ You need !
    The graphic card must have 50 to 80 Megabyte Video-RAM! If the driver can't
    allocate enough graphic card memory, the game graphics is ugly and corrupt!!
    
-   Linux, WeTab or Windows OS (32 or 64 Bit) with a minimum of 10 MB free
-   system memory at runtime.
+   Linux, WeTab, Mac OS 10.6.x or Windows OS (32 or 64 Bit) with a minimum of 10 MB
+   free system memory at runtime.
    
    With minimum graphics = 1,6 GHz CPU
 
@@ -154,6 +154,11 @@ What is FooBillard++ ?
       
    BUILDING:
    ---------
+
+   For Mac OS are special files inside the directory osx from root. There is also a
+   project file. Frretype and SDL are included there.
+   
+   All other compile the code like:
 
    Building for soundsupport and no Nvidia-related specs are standard.
    Please don't use enable-nvidia (it's only for testing.....)

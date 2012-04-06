@@ -21,8 +21,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+ #include <OpenGL/glu.h>
+#else
+ #include <GL/gl.h>
+ #include <GL/glu.h>
+#endif
 #include "barchair.h"
 #include "bartable.h"
 #include "burlap_sofa.h"

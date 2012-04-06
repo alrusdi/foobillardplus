@@ -35,8 +35,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+ #include <OpenGL/glu.h>
+#else
+ #include <GL/gl.h>
+ #include <GL/glu.h>
+#endif
 #ifdef USE_WIN //HS
 	#include <GL/glext.h>
  #include <fcntl.h>

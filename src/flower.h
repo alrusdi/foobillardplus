@@ -23,7 +23,11 @@
 #ifndef FLOWER_H
 #define FLOWER_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 
 void flower(void);
 void init_flower(void);

@@ -21,8 +21,13 @@
 */
 
 #include <stdio.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+ #include <OpenGL/glu.h>
+#else
+ #include <GL/gl.h>
+ #include <GL/glu.h>
+#endif
 #include "png_loader.h"
 #include "billard.h"
 

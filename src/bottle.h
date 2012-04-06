@@ -23,7 +23,11 @@
 #ifndef BOTTLE_H
 #define BOTTLE_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 
 void bottle(void);
 void init_bottle(void);

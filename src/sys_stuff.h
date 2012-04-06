@@ -79,7 +79,7 @@ typedef struct{
 
 void set_checkkey(void);
 int checkkey(void);
-void sys_create_display(int width,int height) ;
+void sys_create_display(int width,int height, int _fullscreen) ;
 int  sys_get_fullscreen(void);
 void sys_fullscreen( int fullscr);
 void sys_toggle_fullscreen( void );

@@ -23,7 +23,11 @@
 #ifndef FIREPLACE_HIGH_H
 #define FIREPLACE_HIGH_H
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+ #include <OpenGL/gl.h>
+#else
+ #include <GL/gl.h>
+#endif
 
 void fireplace_high(void);
 void init_fireplace_high(void);

@@ -41,9 +41,16 @@
   #include <SDL/SDL_net.h>
 #endif
 #include "sound_stuff.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glext.h>
+#ifdef __APPLE__
+ #include <OpenGL/OpenGL.h>
+ #include <OpenGL/gl.h>
+ #include <OpenGL/glu.h>
+ #include <OpenGL/glext.h>
+#else
+ #include <GL/gl.h>
+ #include <GL/glu.h>
+ #include <GL/glext.h>
+#endif
 #include "sys_stuff.h"
 #include "billard3d.h"
 
@@ -188,8 +195,9 @@ void sys_exit( int code )
  *      Initialize SDL and make a SDL-Window / Fullscreen              *
  ***********************************************************************/
 
-void sys_create_display(int width,int height)
+void sys_create_display(int width,int height,int _fullscreen)
 {
+	 fullscreen = _fullscreen;
   /* Information about the current video settings. */
   const SDL_VideoInfo* info = NULL;
   int vidmode_flags=0, samplingerror = 0;
@@ -246,8 +254,8 @@ void sys_create_display(int width,int height)
   	 options_vsync = 0;
   } else {
 #ifdef __APPLE__
-	long swapInterval = 1;
-	CGLSetParameter(CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
+  const GLint swapInterval = 1;
+	 CGLSetParameter(CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
 #endif
 //compile without errors, if SDL is < Version 1.2.10 at compile time
 // on windows with patchlevel 15 only, rest of the world with higher 9
@@ -307,13 +315,15 @@ void sys_create_display(int width,int height)
     vidmode_flags |= SDL_HWACCEL;
   }
 #ifndef WETAB
-    if (fullscreen) {
+  if (fullscreen) {
       vidmode_flags |= SDL_FULLSCREEN;
-    }else{
+  } else {
+#ifndef __APPLE__
+  	   vidmode_flags |= SDL_RESIZABLE;
 #endif
-      vidmode_flags |= SDL_RESIZABLE;
-#ifndef WETAB
   }
+#else
+  vidmode_flags |= SDL_FULLSCREEN;
 #endif
 
   //Set the window icon
@@ -379,7 +389,10 @@ int sys_get_fullscreen(void)
 void sys_fullscreen( int fullscr )
 {
 
-#ifdef USE_WIN
+#ifdef __APPLE__
+	// would need to rebuild context for toggling fullscreen
+	fullscreen = fullscr;
+#elif defined(USE_WIN)
 	   // MS-Windows and SDL 1.2 with OpenGL are not really friends
 	   // and at the time I don't want to rebuild the whole OpenGL context
 	   // so only a window resize to fullscreen and back is done
@@ -606,6 +619,9 @@ static void handle_key_up(SDL_KeyboardEvent* e)
 void sys_resize( int width, int height, int callfrom )
 {
 
+#ifdef __APPLE__
+	  // would need to reload whole opengl context just like with fullscreen toggling
+#else
     SDL_Surface * screen;
     Uint32 flags;
 
@@ -628,6 +644,7 @@ void sys_resize( int width, int height, int callfrom )
     	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
     }
     ResizeWindow(width,height);
+#endif
 }
 
 /***********************************************************************
@@ -777,7 +794,13 @@ void enter_data_dir() {
     do {
         success = 0;
 
-#ifdef POSIX
+#ifdef __APPLE__
+        char *get_mac_data_directory();
+        char *data_directory = get_mac_data_directory();
+
+        strncpy(data_dir, data_directory, sizeof(data_dir));
+        free(data_directory);
+#elif defined(POSIX)
         snprintf(proc_exe, sizeof(proc_exe), "/proc/%d/exe", getpid());
         if (readlink(proc_exe, data_dir, sizeof(data_dir)) < 0) {
             perror("readlink failed");
@@ -797,7 +820,6 @@ void enter_data_dir() {
         strncpy(slash_pos, "/data", sizeof(data_dir) - (slash_pos - data_dir));
 #else
         /* ### TODO ### Get the working directory of the program
-         * Mac OS X: _NSGetExecutablePath() (man 3 dyld)
          * Solaris: getexecname()
          * FreeBSD: sysctl CTL_KERN KERN_PROC KERN_PROC_PATHNAME -1
          * BSD with procfs: readlink /proc/curproc/file
