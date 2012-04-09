@@ -1,6 +1,9 @@
 3.43 beta
 =========
 - Start of Apple Mac Port from Julian Mayer (thanks)
+- old mouse movement is selectable under options
+- selectable language option
+- correct application restart in menu
 - bug-fixes turning around in room
 - bug-fixes for WINDOWS-Port SDL 1.2.15
 - new high-res graphics, peoples, plants.....

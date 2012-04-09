@@ -712,6 +712,7 @@ void init_menu(void)
     static menuType * view_menu;
     static menuType * game_menu;
     static menuType * player_menu;
+    static menuType * language_menu;
     static menuType * rgstereo_menu;
     static menuType * vsync_menu;
     static menuType * rgenable_menu;
@@ -743,6 +744,7 @@ void init_menu(void)
     static menuType * tourfast_menu;
     static menuType * anisotrop_menu;
     static menuType * mshoot_menu;
+    static menuType * mmove_menu;
     static menuType * freemove_menu;
     char str[256];
     int neuwert = 0;       // for the localeText variables inside some loops
@@ -759,6 +761,17 @@ void init_menu(void)
     menu_add_entry( mshoot_menu, localeText[235], MENU_ID_MSHOOT_CLASSIC,localeText[271]);
     //< back
     menu_add_exit ( mshoot_menu, localeText[63],localeText[266]);
+
+    /*
+     Oldmove Menu comes from Game Options
+     */
+    mmove_menu = menu_new( menu_cb );
+    // old Mouse moving
+    menu_add_entry( mmove_menu, localeText[234], MENU_ID_OLDMOVE_OFF,localeText[465]);
+    // new Mouse moving
+    menu_add_entry( mmove_menu, localeText[235], MENU_ID_OLDMOVE_ON,localeText[466]);
+    //< back
+    menu_add_exit ( mmove_menu, localeText[63],localeText[266]);
     /*
      Tourfast Menu comes from Game Options
      */
@@ -1595,6 +1608,8 @@ void init_menu(void)
     menu_add_submenu(game_menu, localeText[216], jump_shot_menu, 1, localeText[65-options_jump_shots],localeText[366]);
     //Mouse shots
     menu_add_submenu(game_menu, localeText[233], mshoot_menu, 1, localeText[235-options_mouseshoot],localeText[367]);
+    //Mouse movement changes
+    menu_add_submenu(game_menu, localeText[467], mmove_menu, 1, localeText[234+options_oldmove],localeText[468]);
     //Auto free move view
     menu_add_submenu(game_menu, localeText[236], freemove_menu, 1, localeText[65-options_auto_freemove],localeText[368]);
 #ifndef TOUCH
@@ -1881,6 +1896,17 @@ void init_menu(void)
 
     /********************************************************/
     /*
+      Language Menu come from Main Menu
+    */
+    language_menu = menu_new( menu_cb );
+    //German
+    menu_add_entry(language_menu, localeText[471] , MENU_ID_LANG_DE,localeText[470]);
+    //English
+    menu_add_entry(language_menu, localeText[472], MENU_ID_LANG_EN,localeText[470]);
+    //Back
+    menu_add_exit(language_menu, localeText[63],localeText[266]);
+    /********************************************************/
+    /*
       question to quit the whole program come from Main Menu
     */
     quit_menu = menu_new( menu_cb );
@@ -1899,6 +1925,8 @@ void init_menu(void)
     menu_add_exit(g_main_menu, localeText[139],localeText[401]);
     //Restart Game
     menu_add_entry(g_main_menu, localeText[220], MENU_ID_RESTART,localeText[402]);
+    //Language Menu
+    menu_add_submenu(g_main_menu, localeText[469], language_menu, 0, NULL,localeText[470]);
     //Player Menu
     menu_add_submenu(g_main_menu, localeText[221], player_menu, 0, NULL,localeText[403]);
     //Game Options

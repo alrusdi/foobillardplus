@@ -108,6 +108,7 @@ extern int     options_col_ball_pool[];
 extern int     options_col_ball_carambol[];
 extern int     options_col_ball_snooker[];
 extern char    options_net_hostname[];
+extern char    options_language [3];         // language, 00 = uninitialized
 extern int     options_net_portnum;
 extern int     options_net_compatible;           // network very slow compatibility mode
 extern int     options_net_compatible_bak;       // network very slow compatibility mode restoring after network play
@@ -129,6 +130,7 @@ extern int     options_avatar_on;
 extern int     options_vsync;           // vsync on = 1, vsync off = 0 or SDL-Version does not understand vsync
 extern VMfloat options_tourfast;
 extern int     options_control_kind;    // behaviour of some Controlkeys 0 = toggle, 1 = set if pressed and unset if unpressed
+extern int     options_oldmove;         // old mouse movement style from original foobillard, default off
 extern int     options_ai_birdview;     // changes to birdview if player ist AI, Standard 0=off, 1=on
 extern int     options_status_text;     // Show the statusline ? != 0
 extern int     options_maxp_carambol;   // Points to arrive for winning a carambol Game

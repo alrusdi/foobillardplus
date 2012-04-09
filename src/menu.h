@@ -51,7 +51,7 @@ struct menu_struct;
 typedef struct menu_entry_struct menuEntry;
 typedef struct menu_struct menuType;
 
-/*typedef*/ struct menu_entry_struct{
+struct menu_entry_struct{
 
     char            text[256];
     char            settingtext[256];
@@ -71,9 +71,9 @@ typedef struct menu_struct menuType;
     int             maxfield; // max. nun m of char for input
     int             value; /* a value to work with it */
 
-}/* menuEntry*/;
+};
 
-/*typedef */struct menu_struct{
+struct menu_struct{
 
     menuEntry   entry[MAX_MENU_ENTRY_NUM];
     int         nr;
@@ -87,7 +87,7 @@ typedef struct menu_struct menuType;
     menuType *  parent;
     menuEntry * parent_entry;
 
-}/* menuType*/;
+};
 
 enum menu_ID {
 
@@ -242,8 +242,15 @@ enum menu_ID {
 
     MENU_ID_MSHOOT_NEW,
     MENU_ID_MSHOOT_CLASSIC,
+    MENU_ID_OLDMOVE_ON,
+    MENU_ID_OLDMOVE_OFF,
 
     MENU_ID_BROWSER,
+
+   // The supported languages for changing
+
+    MENU_ID_LANG_DE,
+    MENU_ID_LANG_EN,
 
     MENU_ID_AUTOFREEMOVE_ON,
     MENU_ID_AUTOFREEMOVE_OFF,
@@ -315,10 +322,12 @@ enum optionType {
     OPT_AI_BIRDVIEW,
     OPT_VALUE_ANISOTROP,
     OPT_MSHOOT,
+    OPT_MMOVE,
     OPT_FREEMOVE1,
     OPT_FSAA,
     OPT_ROOM,
     OPT_FURNITURE,
+    OPT_LANG,
     OPT_DUMMY
 };
 

@@ -166,28 +166,34 @@ void get_browser(char *strpointer) {
 #endif
 
 /***********************************************************************
+ *                         Exit SDL-Support                            *
+ ***********************************************************************/
+
+void sdl_exit()
+{
+    if (sdl_on) {
+      /*
+       * Quit SDL so we can release the fullscreen
+       * mode and restore the previous video settings,
+       * etc.
+       */
+       save_config(); //save the config (must!!!)
+  #ifdef USE_SOUND
+       exit_sound();
+  #endif
+  #ifdef NETWORKING
+        SDLNet_Quit();  //in case of open Netgame
+  #endif
+        SDL_Quit();
+    }
+  }
+/***********************************************************************
  *                      Exit with SDL-Support                          *
  ***********************************************************************/
 
 void sys_exit( int code )
 {
-  if (sdl_on) {
-    /*
-     * Quit SDL so we can release the fullscreen
-     * mode and restore the previous video settings,
-     * etc.
-     */
-     save_config(); //save the config (must!!!)
-#ifdef USE_SOUND
-     exit_sound();
-#endif
-#ifdef NETWORKING
-      SDLNet_Quit();  //in case of open Netgame
-#endif
-      SDL_Quit( );
-  }
-
-  /* Exit program. */
+ 	sdl_exit();
   exit( code );
 }
 
@@ -779,9 +785,11 @@ void sys_main_loop(void) {
 
 /***********************************************************************
  *      Find the program's "data" directory and chdir into it          *
+ *      and the program executable and directory to it
  ***********************************************************************/
 
 static char data_dir[512];
+static char exe_prog[512];
 
 void enter_data_dir() {
     int success = 1;
@@ -793,12 +801,15 @@ void enter_data_dir() {
 
     do {
         success = 0;
-
+#ifdef USE_WIN
+        GetModuleFileName(NULL,exe_prog,sizeof(exe_prog));
+#endif
 #ifdef __APPLE__
         char *get_mac_data_directory();
         char *data_directory = get_mac_data_directory();
 
         strncpy(data_dir, data_directory, sizeof(data_dir));
+        strncpy(exe_prog, data_directory, sizeof(exe_prog));
         free(data_directory);
 #elif defined(POSIX)
         snprintf(proc_exe, sizeof(proc_exe), "/proc/%d/exe", getpid());
@@ -806,7 +817,7 @@ void enter_data_dir() {
             perror("readlink failed");
             break;
         }
-
+        strncpy(exe_prog, data_dir, sizeof(exe_prog));
         // Remove program name
         slash_pos = strrchr(data_dir, '/');
         if (!slash_pos) break;
@@ -854,7 +865,13 @@ const char *get_data_dir() {
     return ".";
 #endif
 }
+/***********************************************************************
+ *           returns the "exe" directory and applicationname           *
+ ***********************************************************************/
 
+const char *get_prog() {
+    return exe_prog;
+}
 /***********************************************************************
  *      Check whether a given file exists                              *
  ***********************************************************************/

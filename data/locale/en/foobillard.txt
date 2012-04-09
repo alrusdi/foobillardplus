@@ -463,3 +463,11 @@ Extratexture: 0 = off, 1 = default, 2 = high
 Off
 Default
 High
+Mouse movement new style of movement in the horizontal
+Mouse movement old style of movement in the horizontal
+Maus movement
+Attitude towards the behavior of the mouse movement in the horizontal direction
+Change language
+Change the language. Reboot required!
+German
+English

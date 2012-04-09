@@ -46,6 +46,11 @@ static void find_system_locale()
     char *locale_str;
     char *locale_code_pos;
 
+    if(strcmp(options_language, "00")) {
+    	strncpy(charlang, options_language, sizeof(charlang));
+    	return;
+    }
+
     setlocale(LC_ALL,"");
 #ifdef LC_MESSAGES
     locale_str = setlocale(LC_MESSAGES, NULL);
@@ -71,6 +76,7 @@ static void find_system_locale()
         //windows have other locales than Linux/Unix
         strncpy(charlang, "de", sizeof(charlang));
     }
+    strncpy(options_language,charlang, sizeof(charlang));
 }
 
 /***********************************************************************

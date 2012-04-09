@@ -67,6 +67,8 @@ make
 
 * Sun Apr 06 2012 Holger Schaekel
 - Start of Apple Mac Port from Julian Mayer (many thanks)
+- Old mouse movement is selectable under options
+- Selectable language option
 
 * Sun Jan 22 2012 Holger Schaekel
 - bug fixes turning around in room

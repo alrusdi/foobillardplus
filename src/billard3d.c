@@ -361,6 +361,7 @@ static struct option long_options[] = {
     {"aliasing",     required_argument, (int *)localeText[17], OPT_ANTIALIASING},
     {"aliasmax",     required_argument, (int *)localeText[460], OPT_ANTIALIASMAX},
     {"statustext",   required_argument, (int *)localeText[17], OPT_STATUSTEXT},
+    {"language",     required_argument, (int *)localeText[469], OPT_LANG},
 #ifdef USE_SOUND
     {"usesound",     required_argument, (int *)localeText[17], OPT_USE_SOUND},
     {"usemusic",     required_argument, (int *)localeText[17], OPT_USE_MUSIC},
@@ -372,6 +373,7 @@ static struct option long_options[] = {
     {"aibirdview",   required_argument, (int *)localeText[17], OPT_AI_BIRDVIEW},
     {"anisotrop",    required_argument, (int *)localeText[17], OPT_VALUE_ANISOTROP},
     {"mouseshoot",   required_argument, (int *)localeText[17], OPT_MSHOOT},
+    {"oldmoving",    required_argument, (int *)localeText[17], OPT_MMOVE},
     {"auto_freemove",required_argument, (int *)localeText[17], OPT_FREEMOVE1},
     {"fsaa",         required_argument, (int *)localeText[17], OPT_FSAA},
     {"roomtexture",  required_argument, (int *)localeText[17], OPT_ROOM},
@@ -1306,15 +1308,18 @@ void process_option(enum optionType act_option)
 {
 
        switch(act_option){
+       case OPT_LANG:
+       	   strncpy(options_language,optarg,sizeof(options_language));
+           break;
        case OPT_PLAYER1:
            human_player_roster.player[0].is_AI=(optarg[0]=='a')?1:0;
            human_player_roster.player[0].queue_view=(optarg[0]=='a')?0:1;
            queue_view=human_player_roster.player[0].queue_view;
-       break;
+           break;
        case OPT_PLAYER2:
            human_player_roster.player[1].is_AI=(optarg[0]=='a')?1:0;
            human_player_roster.player[1].queue_view=(optarg[0]=='a')?0:1;
-       break;
+           break;
        case OPT_NAME1:
            strcpy_uscore_2_whtspace(human_player_roster.player[0].name,optarg);
            strcpy_uscore_2_whtspace(player[0].name,optarg);
@@ -1564,7 +1569,17 @@ void process_option(enum optionType act_option)
                 break;
             }
           break;
-       case OPT_TOURFAST:
+       case OPT_MMOVE:
+             switch(optarg[1]){
+                case 'f': /* off */
+                   options_oldmove=0;
+                   break;
+                case 'n': /* on  */
+                   options_oldmove=1;
+                   break;
+               }
+             break;
+        case OPT_TOURFAST:
 #ifdef VMATH_SINGLE_PRECISION
           sscanf(optarg,"%f",&options_tourfast);
 #else
@@ -1880,8 +1895,11 @@ void save_config(void)
 
     for(opt=0;opt<OPT_DUMMY;opt++){
         //fprintf(stderr,"save_config: writing option %d\n",opt);
-        switch(opt){
-        case OPT_PLAYER1:
+     switch(opt){
+       case OPT_LANG:
+             write_rc(f,opt,options_language);
+             break;
+       case OPT_PLAYER1:
              write_rc(f,opt,(human_player_roster.player[0].is_AI)?"ai":"human");
              break;
         case OPT_PLAYER2:
@@ -2069,6 +2087,9 @@ void save_config(void)
              break;
         case OPT_MSHOOT:
              write_rc(f,opt, options_mouseshoot?"on":"off");
+             break;
+        case OPT_MMOVE:
+             write_rc(f,opt, options_oldmove?"on":"off");
              break;
         case OPT_TOURFAST:
              sprintf(str,"%f",options_tourfast);
@@ -3422,7 +3443,7 @@ void MouseMotion(int x, int y)
             if(!FREE_VIEW) {
                Xoffs += (VMfloat)(y-start_y)*fabs(y-start_y)*0.01*acc;
                Zoffs += (VMfloat)(x-start_x)*fabs(x-start_x)*0.01*acc;
-               if(y <= win_height/2) {
+               if(!options_oldmove && y <= win_height/2) {
                  Zoffs = -Zoffs;
                }
                //fprintf(stderr,"Z %f w %f\n",Zoffs,whatoffs);
@@ -4142,7 +4163,7 @@ void DisplayFunc( void )
          balls_were_moving=0;
          if(options_gamemode!=options_gamemode_training){
              old_actplayer = act_player; // save the state of the actual player for network game and history function
-             fprintf(stderr,"evaluate_last_move is called\n");
+             //fprintf(stderr,"evaluate_last_move is called\n");
              evaluate_last_move( player, &act_player, &balls, &queue_view, &Xque );
              if(old_actplayer != act_player) {
              	  roundcounter++;
@@ -6802,14 +6823,25 @@ TCPsocket open_server_listener(void)
 
 void menu_cb( int id, void * arg , VMfloat value)
 {
-    switch(id){
+  switch(id){
+    case MENU_ID_LANG_DE:
+    	   strncpy(options_language,"de", sizeof(options_language));
+        break;
+    case MENU_ID_LANG_EN:
+    	   strncpy(options_language,"en", sizeof(options_language));
+        break;
     case MENU_ID_MSHOOT_NEW:
         options_mouseshoot = 1;
         break;
     case MENU_ID_MSHOOT_CLASSIC:
         options_mouseshoot = 0;
         break;
-    case MENU_ID_TOURFAST_NO:
+    case MENU_ID_OLDMOVE_OFF:
+        options_oldmove = 0;
+        break;
+    case MENU_ID_OLDMOVE_ON:
+        options_oldmove = 1;
+        break;    case MENU_ID_TOURFAST_NO:
         options_tourfast = 1.0;
         if(options_gamemode==options_gamemode_tournament) {
           tournament_state.ai_fast_motion=options_tourfast;
@@ -7258,7 +7290,11 @@ void menu_cb( int id, void * arg , VMfloat value)
         options_lensflare=0;
         break;
     case MENU_ID_RESTART:
-        restart_game();
+    	   save_config();
+    	   SDL_Delay(1000); //wait a second
+    	   sdl_exit(); //only quit SDL before new restart!!!
+    	   execl(get_prog(),appname_str,(char *)0);
+    	   fprintf(stderr,"Return not expected. Must be an execv error.\n");
         break;
     case MENU_ID_CONTROL_KIND_ON:
         options_control_kind = 1;
@@ -7740,6 +7776,18 @@ int main( int argc, char *argv[] )
    /* Initialize browser to use */
    init_browser();
 	  fprintf(stderr,"Browser initialized for history-functions\n");
+#ifdef _MSC_VER //RB For only Windows-MSVC
+#else
+   print_help(long_options,appname_str);
+#endif
+   /* config file */
+   load_config( &confv, &confc, argv, argc );
+	  fprintf(stderr,"Base-Configuration initialized\n");
+   while( ( act_option = getopt_long_only(confc, confv, "+", long_options, &option_index) ) >= 0){
+       fprintf(stderr,"processing option %d=%s\n",act_option,optarg);
+       process_option(act_option);
+   }
+	  fprintf(stderr,"Configuration processing\n");
    /* Initialize Language and folders */
    init_language();
 	  fprintf(stderr,"Language initialized\n");
@@ -7749,20 +7797,6 @@ int main( int argc, char *argv[] )
    /* Initialize all player variables for two players */
    init_player_roster(&human_player_roster);
 	  fprintf(stderr,"Player variables initialized\n");
-#ifdef _MSC_VER //RB For only Windows-MSVC
-#else
-   print_help(long_options,appname_str);
-#endif
-
-   /* config file */
-   load_config( &confv, &confc, argv, argc );
-	  fprintf(stderr,"Base-Configuration initialized\n");
-   while( ( act_option = getopt_long_only(confc, confv, "+", long_options, &option_index) ) >= 0){
-       //fprintf(stderr,"processing option %d=%s\n",act_option,optarg);
-       process_option(act_option);
-   }
-	  fprintf(stderr,"Configuration processing\n");
-
    sys_create_display(win_width, win_height, fullscreen);
 	  fprintf(stderr,"OpenGL context initialized\n");
    /* initialize random seed */

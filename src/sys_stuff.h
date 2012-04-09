@@ -86,6 +86,7 @@ void sys_toggle_fullscreen( void );
 void sys_main_loop(void) ;
 void sys_resize( int width, int height, int callfrom);
 void sys_redisplay(void) ;
+void sdl_exit( void ) ;
 void sys_exit( int code ) ;
 void sys_fullscreen( int fullscr );
 void init_browser(void);
@@ -97,6 +98,7 @@ sysResolution * sys_list_modes(void);
 
 void enter_data_dir();
 const char *get_data_dir();
+const char *get_prog();
 int file_exists(const char *path);
 
 int launch_command(const char *command);

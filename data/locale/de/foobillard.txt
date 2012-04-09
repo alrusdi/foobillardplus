@@ -463,3 +463,11 @@ Extratexturen: 0 = aus, 1 = Standard, 2 = hoch
 Aus
 Standard
 Hoch
+Mausbewegung neuer Bewegungstil in der Horizontalen
+Mausbewegung alter Bewegungstil in der Horizontalen
+Mausbewegung
+Einstellung zum Verhalten der Mausbewegung in horizontaler Richtung
+Sprachenänderung
+Änderung der Sprache. Neustart erforderlich!
+Deutsch
+Englisch
