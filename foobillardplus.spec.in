@@ -65,18 +65,18 @@ make
 
 %changelog
 
-* Sun Apr 06 2012 Holger Schaekel
+* Sun Apr 06 2012 Julian Mayer, Holger Schaekel <foobillardplus@go4more.de>
 - Start of Apple Mac Port from Julian Mayer (many thanks)
 - Old mouse movement is selectable under options
 - Selectable language option
 
-* Sun Jan 22 2012 Holger Schaekel
+* Sun Jan 22 2012 Holger Schaekel <foobillardplus@go4more.de>
 - bug fixes turning around in room
 - bug-fixes for WINDOWS-Port SDL 1.2.15
 - new high-res graphics, peoples, plants.....
 - animated fire in fireplace
 
-* Sun Dec 18 2011 Holger Schaekel
+* Sun Dec 18 2011 Holger Schaekel <foobillardplus@go4more.de>
 - reorg of sourcecode
 - new sound engine inside
 - change SDL_Audio to SDL_MIXER
@@ -88,15 +88,15 @@ make
 - start of use SSE intrinsics
 - fast math routines for sin, cos, atan and atan2
 
-* Wed Nov 01 2011 Holger Schaekel
+* Wed Nov 01 2011 Holger Schaekel <foobillardplus@go4more.de>
 - Bugfixes with language handling
 - res files for windows
 
-* Sun Sep 26 2011 Robert Brandl, Holger Schaekel
+* Sun Sep 26 2011 Robert Brandl, Holger Schaekel <foobillardplus@go4more.de>
 - Port for MS-Windows
 - Make 3.4 Source compatible for both worlds (Win/Linux)
 
-* Wed Sep 14 2011 Holger Schaekel
+* Wed Sep 14 2011 Holger Schaekel <foobillardplus@go4more.de>
 - textures for furniture
 - textures for fireplace
 - new routines for blender exported meshes
@@ -104,12 +104,12 @@ make
 - bugfixing for antialiasing for some Linux-Versions
 - example foobillardplus.desktop file
 
-* Fri Aug 26 2011 Holger Schaekel
+* Fri Aug 26 2011 Holger Schaekel <foobillardplus@go4more.de>
 - textures for room and walls
 - routines for displaying walls
 - more optimizations in table.c 
 
-* Thu Jul 26 2011 Holger Schaekel
+* Thu Jul 26 2011 Holger Schaekel <foobillardplus@go4more.de>
 - Tron like game playfield (a little bit like the movie ;-)
 - Glass balls (not really perfect, but a beginning
 - new network module IPv4
@@ -118,7 +118,7 @@ make
 - in birds eye view it's now possible to play a game with cue-moving etc.
 - the main-menu now shows some more help on every option.
 
-* Fri May 20 2011 Holger Schaekel
+* Fri May 20 2011 Holger Schaekel <foobillardplus@go4more.de>
  - a little bit textures for the roomfloor
  - new handling of changing to the next shot (more human feeling)
  - start to write a whole manual
@@ -144,7 +144,7 @@ make
  - Snooker shows now the correct balls to play
  - new statusline for more info in gameplay
 
-* Mon Jan 24 2011 Holger Schaekel
+* Mon Jan 24 2011 Holger Schaekel <foobillardplus@go4more.de>
  - Start of Localisation
  - better orientation for the Fonts
  - changed fonts for blueboldttf,iomanoid,youregon because they are not GPL
@@ -157,7 +157,7 @@ make
  - Improved and corrected moving around in all states
  - program not published
 
-* Thu Jan 18 2011 Holger Schaekel
+* Thu Jan 18 2011 Holger Schaekel <foobillardplus@go4more.de>
 - start of the first playable version foobillard++
 - remove manpage, build html manual
 - program not published

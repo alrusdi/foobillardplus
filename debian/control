@@ -1,0 +1,18 @@
+Source: foobillardplus
+Section: Games
+Priority: extra
+Maintainer: Holger Schäkel <foobillardplus@go4more.de>
+Build-Depends: debhelper (>= 8.0.0), libglu1-mesa-dev, libfreetype6-dev, libpng12-dev, libsdl1.2-dev, libsdl-net1.2-dev, libsdl-mixer1.2-dev, autotools-dev, automake
+Standards-Version: 3.9.2
+Homepage: <http://foobillardplus.sourceforge.net>
+
+Package: foobillardplus
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: FooBillard++ is an 3D OpenGL billiards game
+ FooBillard++ is a free OpenGL-billard game for Linux and based on the
+ original foobillard 3.0a source from Florian Berger. Started at 12/2010
+ an advanced version is in progress with foobillard++. It's not really a
+ new game, but an advanced with a lot of fixes, new options, graphics and
+ features until the last version of foobillard (2007).
+ At this point it's started with a special version for the Touch-PC WeTab.
