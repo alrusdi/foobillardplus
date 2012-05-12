@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Holger Schäkel <foobillardplus@go4more.de>
 Build-Depends: debhelper (>= 8.0.0), libglu1-mesa-dev, libfreetype6-dev, libpng12-dev, libsdl1.2-dev, libsdl-net1.2-dev, libsdl-mixer1.2-dev, autotools-dev, automake
 Standards-Version: 3.9.2
-Homepage: <http://foobillardplus.sourceforge.net>
+Homepage: http://foobillardplus.sourceforge.net
 
 Package: foobillardplus
 Architecture: any

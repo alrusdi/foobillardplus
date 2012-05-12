@@ -1,6 +1,6 @@
 Format: http://dep.debian.net/deps/dep5
 Upstream-Name: foobillardplus
-Source: <http://sourceforge.net/projects/foobillardplus>
+Source: http://sourceforge.net/projects/foobillardplus
 
 Files: *
 Copyright: <2010-2012> <Holger Schäkel foobillardplus@go4more.de>
