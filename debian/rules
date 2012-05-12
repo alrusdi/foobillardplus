@@ -15,7 +15,7 @@ else
 CFLAGS += -O2
 endif
 
-build: build-stamp
+build: build-stamp build-arch build-indep
 build-stamp:
 	dh_testdir
 
@@ -25,7 +25,7 @@ build-stamp:
 	autoheader -f
 	automake -a -c -f
 	./configure --enable-special
-	make
+	$(MAKE)
 	# --- end custom part for compiling
 
 	touch build-stamp..
@@ -48,8 +48,8 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package
-	# The DESTDIR Has To Be Exactly  /usr/src/packages/BUILD/debian/<nameOfPackage>
-	make install
+	# The DESTDIR Has To Be Exactly ??
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/foobillardplus
 	# --- end custom part for installing
 
 # Build architecture-independent files here.
