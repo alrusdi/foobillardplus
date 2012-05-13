@@ -1,11 +1,12 @@
-Format: http://dep.debian.net/deps/dep5
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: foobillardplus
 Source: http://sourceforge.net/projects/foobillardplus
 
 Files: *
-Copyright: <2010-2012> <Holger Schäkel foobillardplus@go4more.de>
-           <2001-2003> <Florian Berger>
-License: GPL-2+
+Copyright: 2010 - 2012 Holger Schäkel <foobillardplus@go4more.de>
+           2001 - 2003 Florian Berger
+
+License: GPLv2
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or

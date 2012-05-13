@@ -15,7 +15,7 @@ else
 CFLAGS += -O2
 endif
 
-build: build-stamp build-arch build-indep
+build: build-stamp
 build-stamp:
 	dh_testdir
 
@@ -24,7 +24,7 @@ build-stamp:
 	autoconf -f
 	autoheader -f
 	automake -a -c -f
-	./configure --enable-special
+	./configure --exec-prefix=/usr/games/foobillardplus --prefix=$(CURDIR)/debian/foobillardplus/usr/games --enable-special
 	$(MAKE)
 	# --- end custom part for compiling
 
@@ -46,7 +46,9 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-
+	dh_install -a foobillardplus.png usr/share/icons
+	dh_install -a foobillardplus.desktop usr/share/applications
+	dh_install -a debian/copyright usr/share/doc/foobillardplus
 	# Add here commands to install the package
 	# The DESTDIR Has To Be Exactly ??
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/foobillardplus

@@ -8,8 +8,8 @@ Homepage: http://foobillardplus.sourceforge.net
 
 Package: foobillardplus
 Architecture: any
-Depends: ${shlibs:Depends}
-Description: FooBillard++ is an 3D OpenGL billiards game
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: FooBillard++
  FooBillard++ is a free OpenGL-billard game for Linux and based on the
  original foobillard 3.0a source from Florian Berger. Started at 12/2010
  an advanced version is in progress with foobillard++. It's not really a
