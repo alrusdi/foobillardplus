@@ -1,5 +1,7 @@
 3.43 beta
 =========
+- new default directory /usr/games
+- Package Management for debian/ubuntu distribution
 - Start of Apple Mac Port from Julian Mayer (thanks)
 - old mouse movement is selectable under options
 - selectable language option

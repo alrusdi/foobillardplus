@@ -56,10 +56,10 @@ dnl Checks for library functions.
 AC_CHECK_FUNCS(socket poll)
 
 ### set the variables for compiling
-AC_PREFIX_DEFAULT(/opt/foobillardplus)
+AC_PREFIX_DEFAULT(/usr/games/foobillardplus)
 
 if test "x$prefix" = "xNONE" ; then
-  prefix="/opt/foobillardplus"
+  prefix="/usr/games/foobillardplus"
 else
   prefix=$prefix/foobillardplus
 fi

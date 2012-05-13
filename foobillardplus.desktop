@@ -3,10 +3,8 @@
 Version=1.0
 Type=Application
 Terminal=false
-Icon=/opt/foobillardplus/foobillardplus.png
+Icon=/usr/share/icons/foobillardplus.png
 Name=Foobillard++
-Exec=/opt/foobillardplus/bin/foobillardplus
-Comment=OpenGL Billiard Game
-Name=Foobillard++
+Exec=/usr/games/foobillardplus/bin/foobillardplus
 Comment=OpenGL Billiard Game
 GenericName=OpenGL Billiard Game

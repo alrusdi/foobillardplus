@@ -14,7 +14,7 @@ BuildRoot:      %{_tmppath}/%{name}-root
 #Requires:       libSDL, SDL_net, SDL_mixer, freetype2
 #BuildRequires:  libSDL-devel, libSDL_net-devel, libSDL_mixer-devel, freetype2-devel
 
-Prefix: /opt
+Prefix: /usr/games
 
 %description
 FooBillard++ is an attempt to create a free OpenGL-billard for Linux. Why foo?
@@ -40,30 +40,34 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%dir /opt/%{name}
-%dir /opt/%{name}/bin
-%dir /opt/%{name}/data
-/opt/%{name}/data/*
-/opt/%{name}/bin/*
-/opt/%{name}/AUTHORS
-/opt/%{name}/COPYING
-/opt/%{name}/ChangeLog
-/opt/%{name}/INSTALL
-/opt/%{name}/README
-/opt/%{name}/TODO
-/opt/%{name}/foobillardplus.desktop
-/opt/%{name}/foobillardplus.png
-/opt/%{name}/foobillardplus.xbm
+%dir /usr/games/%{name}
+%dir /usr/games/%{name}/bin
+%dir /usr/games/%{name}/data
+/usr/games/%{name}/data/*
+/usr/games/%{name}/bin/*
+/usr/games/%{name}/AUTHORS
+/usr/games/%{name}/COPYING
+/usr/games/%{name}/ChangeLog
+/usr/games/%{name}/INSTALL
+/usr/games/%{name}/README
+/usr/games/%{name}/TODO
+/usr/games/%{name}/foobillardplus.desktop
+/usr/games/%{name}/foobillardplus.png
+/usr/games/%{name}/foobillardplus.xbm
 
 %build
 aclocal --force
 autoconf -f
 autoheader -f
 automake -a -c -f
-./configure --prefix=$RPM_BUILD_ROOT/opt --enable-special
+./configure --prefix=$RPM_BUILD_ROOT/usr/games --enable-special
 make 
 
 %changelog
+
+* Sun May 13 2012 Holger Schaekel <foobillardplus@go4more.de>
+- new default directory /usr/games
+- Package Management for debian/ubuntu distribution
 
 * Sun Apr 06 2012 Julian Mayer, Holger Schaekel <foobillardplus@go4more.de>
 - Start of Apple Mac Port from Julian Mayer (many thanks)

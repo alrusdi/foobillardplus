@@ -23,7 +23,9 @@ dist-hook:
 	cp -p $(srcdir)/ChangeLog $(distdir)
 	cp -p $(srcdir)/TODO $(distdir)
 	cp -p $(srcdir)/foobillardplus.desktop $(distdir)
+	cp -p $(srcdir)/foobillardplus.desktop /usr/share/applications
 	cp -p $(srcdir)/foobillardplus.png $(distdir)
+	cp -p $(srcdir)/foobillardplus.png /usr/share/icons
 	cp -p $(srcdir)/foobillardplus.xbm $(distdir)
 
 install-data-hook:
@@ -36,7 +38,9 @@ install-data-hook:
 	cp -p $(srcdir)/ChangeLog $(prefix)
 	cp -p $(srcdir)/TODO $(prefix)
 	cp -p $(srcdir)/foobillardplus.desktop $(prefix)
+	cp -p $(srcdir)/foobillardplus.desktop /usr/share/applications
 	cp -p $(srcdir)/foobillardplus.png $(prefix)
+	cp -p $(srcdir)/foobillardplus.png /usr/share/icons
 	cp -p $(srcdir)/foobillardplus.xbm $(prefix)
 
 uninstall-hook:
