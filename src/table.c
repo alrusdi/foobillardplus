@@ -1086,28 +1086,28 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
         grayen_color(dia_col_diff);
     }
 
- 	  fprintf(stderr,"Initialize billiard table-frame\n");
+    fprintf(stderr,"Initialize billiard table-frame\n");
     if( frametexbind > 0 ) glDeleteTextures( 1, &frametexbind );
     create_png_texbind("table-frame.png", &frametexbind, 3, GL_RGB);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
- 	  fprintf(stderr,"Initialize table-texture\n");
+    fprintf(stderr,"Initialize table-texture\n");
     if( tabletexbind > 0 ) glDeleteTextures( 1, &tabletexbind );
 #ifdef WETAB
     create_png_texbind("tabletex_wetab_256x256.png", &tabletexbind, 1, GL_LUMINANCE);
 #else
     create_png_texbind("tabletex_fB_256x256.png", &tabletexbind, 1, GL_LUMINANCE);
 #endif
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
- 	  fprintf(stderr,"Initialize clothing table texture\n");
+    fprintf(stderr,"Initialize clothing table texture\n");
     if( clothtexbind > 0 ) glDeleteTextures( 1, &clothtexbind );
     create_png_texbind("cloth.png", &clothtexbind, 1, GL_LUMINANCE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-   for(i=0;i<3;i++) {
+    for(i=0;i<3;i++) {
        tab_col_amb[i]=tab_col_diff[i]*0.5;
        dia_col_amb[i]=dia_col_diff[i]*0.5;
        bumpers_col_amb[i]=bumpers_col_diff[i]*0.5;
@@ -1146,7 +1146,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
 
    if( table_obj != -1 ) glDeleteLists( table_obj, 1 );
-	  fprintf(stderr,"Initialize new table GL object\n");
+   fprintf(stderr,"Initialize new table GL object\n");
    table_obj = glGenLists(1);
    glNewList(table_obj, GL_COMPILE);
    glShadeModel(GL_SMOOTH);
@@ -1170,7 +1170,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glBindTexture(GL_TEXTURE_2D,clothtexbind);
        glActiveTextureARB(GL_TEXTURE0_ARB);
    }
-   glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+   //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
    if(carambol){
        tablew=TABLE_W+2.0*BANDE_D;
@@ -1234,7 +1234,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
              glTexCoord2f( TABLETEXCOORD_X((x)*(f1),(y)*(f2)), TABLETEXCOORD_Y((x)*(f1),(y)*(f2)) ); \
              glVertex3f((x)*(f1),(y)*(f2),z);
    /*lower, upper*/
- 	     fprintf(stderr,"Generate lower upper furrow object\n");
+       fprintf(stderr,"Generate lower upper furrow object\n");
    	   glNormal3f(0.0,0.0,1.0); // see some rows later, this here is new line ### TODO ### checkpoint
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
@@ -1252,7 +1252,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        /* some middle pocket triangles */
-    	  fprintf(stderr,"Generate some middle pocket triangles object\n");
+       fprintf(stderr,"Generate some middle pocket triangles object\n");
        for(i=0;i<2;i++){
            glFrontFace(i==0?GL_CW:GL_CCW);
            glBegin(GL_TRIANGLES);
@@ -1269,7 +1269,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        /* lower left, lower right, upper right, upper left */
-    	  fprintf(stderr,"Generate lower left, lower right, upper right, upper left pocket triangles object\n");
+       fprintf(stderr,"Generate lower left, lower right, upper right, upper left pocket triangles object\n");
        for(i=0;i<4;i++){
            fx=0.0;
            fy=0.0;
@@ -1308,7 +1308,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
 #define HOLE2_SEGNR_2 12
-    	  fprintf(stderr,"Generate left, right pocket triangles object\n");
+       fprintf(stderr,"Generate left, right pocket triangles object\n");
        for(k=0;k<2;k++){  /* left, right hole */
            if(k==0) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
            glBegin(GL_QUAD_STRIP);
@@ -1331,7 +1331,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        }
 
        glNormal3f( 0.0, 0.0, 1.0 ); // ### TODO ### checkpoint changed from the lines above to this place before the loops
-    	  fprintf(stderr,"Generate left, right pocket fans triangles object\n");
+       fprintf(stderr,"Generate left, right pocket fans triangles object\n");
        for(k=0;k<2;k++){  /* left, right hole fans */
            for(j=0;j<2;j++){ /* fan 1, 2 */
                if(j^k) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
@@ -1422,8 +1422,8 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glPopMatrix();
        fprintf(stderr,"\n");
    } else {
-	      fprintf(stderr,"carom: ");
-	      fprintf(stderr,"upper "); /* upper */
+      fprintf(stderr,"carom: ");
+      fprintf(stderr,"upper "); /* upper */
        my_Bande( -tablew/2.0, tablel/2.0,         0.0,
                  +tablew/2.0, tablel/2.0+bande_d, -balld/2.0,
                  1.0, 1.0, 0 );
@@ -1506,11 +1506,9 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glRotatef( atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 0.0, 1.0, 0.0 );
        my_Diamondxy( 0.02, 0.014, 0.006, flip );
        glPopMatrix();
-       // glPushMatrix(); // why this here ? ### TODO ### checkpoint
        glTranslatef( tablew/2.0+FRAME_D/2.0-FRAME_PHASE/2.0+bande_d/2.0, 1.0*tablel/8.0, FRAME_DH/2.0 );
        glRotatef( atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 0.0, 1.0, 0.0 );
        my_Diamondxy( 0.02, 0.014, 0.006, flip );
-       // glPopMatrix(); // here pop down hhm  ### TODO ### checkpoint
        glPopMatrix();
    }
    /*upper lower*/
@@ -1531,11 +1529,9 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glRotatef( -atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 1.0, 0.0, 0.0 );
        my_Diamondxy( 0.014, 0.02, 0.006, flip );
        glPopMatrix();
-       //glPushMatrix();  // why this here ?  ### TODO ### checkpoint
        glTranslatef( -tablew/2.0+3.0*tablew/4.0, tablel/2.0+FRAME_D/2.0-FRAME_PHASE/2.0+bande_d/2.0, FRAME_DH/2.0 );
        glRotatef( -atan(FRAME_DH/(FRAME_D-bande_d-FRAME_PHASE))*180.0/M_PI, 1.0, 0.0, 0.0 );
        my_Diamondxy( 0.014, 0.02, 0.006, flip );
-       //glPopMatrix();  // here pop down hhm  ### TODO ### checkpoint
        glPopMatrix();
    }
 
