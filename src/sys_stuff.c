@@ -302,6 +302,7 @@ void sys_create_display(int width,int height,int _fullscreen)
   if (samplingerror == -1) {
 #endif
     options_fsaa_value = 0;
+    fprintf(stderr,"FSAA Multisample not available\n");
 #ifndef WETAB
   }
 #endif
@@ -325,7 +326,7 @@ void sys_create_display(int width,int height,int _fullscreen)
       vidmode_flags |= SDL_FULLSCREEN;
   } else {
 #ifndef __APPLE__
-  	   vidmode_flags |= SDL_RESIZABLE;
+      vidmode_flags |= SDL_RESIZABLE;
 #endif
   }
 #else
@@ -361,6 +362,7 @@ void sys_create_display(int width,int height,int _fullscreen)
   }
   // Check new settings for better output the next line is a must for multisample
   if(!samplingerror && options_fsaa_value){
+     fprintf(stderr,"Attempt to initialize FSAA Multisample (Antialiasing)\n");
      glEnable(GL_MULTISAMPLE);
      //glHint(GL_MULTISAMPLE_FILTER_HINT_NV,GL_NICEST); //be careful (Nvidia-specific), set over an option ?
   }

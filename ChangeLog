@@ -1,5 +1,6 @@
 3.43 beta
 =========
+- bugfixing table display
 - new default directory /usr/games
 - Package Management for debian/ubuntu distribution
 - Start of Apple Mac Port from Julian Mayer (thanks)

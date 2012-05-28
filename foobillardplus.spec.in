@@ -51,6 +51,7 @@ rm -rf %{buildroot}
 /usr/games/%{name}/INSTALL
 /usr/games/%{name}/README
 /usr/games/%{name}/TODO
+/usr/games/%{name}/OFL.txt
 /usr/games/%{name}/foobillardplus.desktop
 /usr/games/%{name}/foobillardplus.png
 /usr/games/%{name}/foobillardplus.xbm
@@ -65,7 +66,8 @@ make
 
 %changelog
 
-* Sun May 13 2012 Holger Schaekel <foobillardplus@go4more.de>
+* Sun May 27 2012 Holger Schaekel <foobillardplus@go4more.de>
+- bugfixing table display
 - new default directory /usr/games
 - Package Management for debian/ubuntu distribution
 

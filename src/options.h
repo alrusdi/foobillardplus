@@ -77,13 +77,13 @@
 #define options_ball_detail_farmin_VERYHIGH  7.0
 
 #define options_player_fontname    "DejaVuSans.ttf"
-#define options_help_fontname      "DejaVuSans-Bold.ttf"
+#define options_help_fontname      "LinBiolinum_aSB.ttf"
 #define options_menu_fontname      "DejaVuSans-Bold.ttf"
-#define options_winner_fontname    "DejaVuSans-Bold.ttf"
+#define options_winner_fontname    "LinBiolinum_aSB.ttf"
 #define options_ball_fontname      "DejaVuSans-Bold.ttf"
 #define options_score_fontname     "DejaVuSans-Bold.ttf"
-#define options_roster_fontname    "DejaVuSans.ttf"
-#define options_status_fontname    "DejaVuSans.ttf"
+#define options_roster_fontname    "LinBiolinum_aS.ttf"
+#define options_status_fontname    "LinBiolinum_aS.ttf"
 
 #define options_3D_winnertext 1
 
