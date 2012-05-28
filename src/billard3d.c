@@ -7772,33 +7772,33 @@ int main( int argc, char *argv[] )
 
    /* chdir into data directory */
    enter_data_dir();
-	  fprintf(stderr,"Data dir entry\n");
+   fprintf(stderr,"Data dir entry\n");
    /* Initialize browser to use */
    init_browser();
-	  fprintf(stderr,"Browser initialized for history-functions\n");
+   fprintf(stderr,"Browser initialized for history-functions\n");
 #ifdef _MSC_VER //RB For only Windows-MSVC
 #else
    print_help(long_options,appname_str);
 #endif
+   /* Initialize all player variables for two players */
+   init_player_roster(&human_player_roster);
+   fprintf(stderr,"Player variables initialized\n");
    /* config file */
    load_config( &confv, &confc, argv, argc );
-	  fprintf(stderr,"Base-Configuration initialized\n");
+   fprintf(stderr,"Base-Configuration initialized\n");
    while( ( act_option = getopt_long_only(confc, confv, "+", long_options, &option_index) ) >= 0){
        fprintf(stderr,"processing option %d=%s\n",act_option,optarg);
        process_option(act_option);
    }
-	  fprintf(stderr,"Configuration processing\n");
+   fprintf(stderr,"Configuration processing\n");
    /* Initialize Language and folders */
    init_language();
-	  fprintf(stderr,"Language initialized\n");
+   fprintf(stderr,"Language initialized\n");
    /* Initialize history system */
    init_history();
-	  fprintf(stderr,"History system initialized\n");
-   /* Initialize all player variables for two players */
-   init_player_roster(&human_player_roster);
-	  fprintf(stderr,"Player variables initialized\n");
+   fprintf(stderr,"History system initialized\n");
    sys_create_display(win_width, win_height, fullscreen);
-	  fprintf(stderr,"OpenGL context initialized\n");
+   fprintf(stderr,"OpenGL context initialized\n");
    /* initialize random seed */
    srand(SDL_GetTicks());
 #ifdef __MINGW32__	//RB
@@ -7808,7 +7808,7 @@ int main( int argc, char *argv[] )
    if( fullscreen ) sys_fullscreen( 1 );
 #endif
    Init();
-	  fprintf(stderr,"Graphics loaded and initialized\n");
+   fprintf(stderr,"Graphics loaded and initialized\n");
 
    /* Initialize the statusline */
    initstatustext();
@@ -7820,7 +7820,7 @@ int main( int argc, char *argv[] )
    fprintf(stderr,"Players text initialized\n");
 
    if(options_gamemode==options_gamemode_tournament){
-       init_tournament_state(&tournament_state);
+      init_tournament_state(&tournament_state);
    	  fprintf(stderr,"Tournament for start initialized\n");
    }
 
