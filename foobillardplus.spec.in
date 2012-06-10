@@ -67,6 +67,7 @@ make
 %changelog
 
 * Sun May 27 2012 Holger Schaekel <foobillardplus@go4more.de>
+- replace glbegin/glend/glvertex and so on to vertex arrays
 - bugfixing table display
 - new default directory /usr/games
 - Package Management for debian/ubuntu distribution

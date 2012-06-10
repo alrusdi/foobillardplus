@@ -93,69 +93,74 @@
 
 /***********************************************************************/
 
-void autonormalize_quad( VMvect v1, VMvect v2, VMvect v3, VMvect v4, int order )
+void autonormalize_quad( VMvect v1, VMvect v2, VMvect v3, VMvect v4, int order, GLfloat *VertexData, GLfloat *NormalData )
 {
     VMvect n;
     n=vec_unit(vec_cross(vec_diff(v2,v1),vec_diff(v3,v1)));
-    glNormal3f( n.x, n.y, n.z );
+    NormalData[0] = n.x; NormalData[1] = n.y; NormalData[2] = n.z;
+    NormalData[3] = n.x; NormalData[4] = n.y; NormalData[5] = n.z;
+    NormalData[6] = n.x; NormalData[7] = n.y; NormalData[8] = n.z;
+    NormalData[9] = n.x; NormalData[10] = n.y; NormalData[11] = n.z;
     if( !order ) {
-        glVertex3f(v4.x,v4.y,v4.z);
-        glVertex3f(v3.x,v3.y,v3.z);
-        glVertex3f(v2.x,v2.y,v2.z);
-        glVertex3f(v1.x,v1.y,v1.z);
+        VertexData[0] = v4.x; VertexData[1] = v4.y; VertexData[2] = v4.z;
+        VertexData[3] = v3.x; VertexData[4] = v3.y; VertexData[5] = v3.z;
+        VertexData[6] = v2.x; VertexData[7] = v2.y; VertexData[8] = v2.z;
+        VertexData[9] = v1.x; VertexData[10] = v1.y; VertexData[11] = v1.z;
     } else {
-        glVertex3f(v1.x,v1.y,v1.z);
-        glVertex3f(v2.x,v2.y,v2.z);
-        glVertex3f(v3.x,v3.y,v3.z);
-        glVertex3f(v4.x,v4.y,v4.z);
+        VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+        VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
+        VertexData[6] = v3.x; VertexData[7] = v3.y; VertexData[8] = v3.z;
+        VertexData[9] = v4.x; VertexData[10] = v4.y; VertexData[11] = v4.z;
     }
 }
 
 /***********************************************************************/
 
-void autonormalize_triangle( VMvect v1, VMvect v2, VMvect v3, int order )
+void autonormalize_triangle( VMvect v1, VMvect v2, VMvect v3, int order, GLfloat *VertexData, GLfloat *NormalData )
 {
     VMvect n;
     n=vec_unit(vec_cross(vec_diff(v2,v1),vec_diff(v3,v1)));
-    glNormal3f( n.x, n.y, n.z );
+    NormalData[0] = n.x; NormalData[1] = n.y; NormalData[2] = n.z;
+    NormalData[3] = n.x; NormalData[4] = n.y; NormalData[5] = n.z;
+    NormalData[6] = n.x; NormalData[7] = n.y; NormalData[8] = n.z;
     if( !order ) {
-        glVertex3f(v3.x,v3.y,v3.z);
-        glVertex3f(v2.x,v2.y,v2.z);
-        glVertex3f(v1.x,v1.y,v1.z);
+        VertexData[0] = v3.x; VertexData[1] = v3.y; VertexData[2] = v3.z;
+        VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
+        VertexData[6] = v1.x; VertexData[7] = v1.y; VertexData[8] = v1.z;
     } else {
-        glVertex3f(v1.x,v1.y,v1.z);
-        glVertex3f(v2.x,v2.y,v2.z);
-        glVertex3f(v3.x,v3.y,v3.z);
+        VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+        VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
+        VertexData[6] = v3.x; VertexData[7] = v3.y; VertexData[8] = v3.z;
     }
 }
 
 /***********************************************************************/
 
-void autonormalize_triangle_round( VMvect v1, VMvect v2, VMvect v3, int order, VMfloat round )
+void autonormalize_triangle_round( VMvect v1, VMvect v2, VMvect v3, int order, VMfloat round, GLfloat *VertexData, GLfloat *NormalData )
 {
     VMvect n0,c,n;
     n0=vec_cross(vec_diff(v2,v1),vec_diff(v3,v1));
     c=tri_center(v1,v2,v3);
     if( !order ) {
         n=vec_unit(vec_add(n0,vec_scale(vec_diff(v3,c),round)));
-        glNormal3f( n.x, n.y, n.z );
-        glVertex3f(v3.x,v3.y,v3.z);
+        NormalData[0] = n.x; NormalData[1] = n.y; NormalData[2] = n.z;
+        VertexData[0] = v3.x; VertexData[1] = v3.y; VertexData[2] = v3.z;
         n=vec_unit(vec_add(n0,vec_scale(vec_diff(v2,c),round)));
-        glNormal3f( n.x, n.y, n.z );
-        glVertex3f(v2.x,v2.y,v2.z);
+        NormalData[3] = n.x; NormalData[4] = n.y; NormalData[5] = n.z;
+        VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
         n=vec_unit(vec_add(n0,vec_scale(vec_diff(v1,c),round)));
-        glNormal3f( n.x, n.y, n.z );
-        glVertex3f(v1.x,v1.y,v1.z);
+        NormalData[6] = n.x; NormalData[7] = n.y; NormalData[8] = n.z;
+        VertexData[6] = v1.x; VertexData[7] = v1.y; VertexData[8] = v1.z;
     } else {
         n=vec_unit(vec_add(n0,vec_scale(vec_diff(v1,c),round)));
-        glNormal3f( n.x, n.y, n.z );
-        glVertex3f(v1.x,v1.y,v1.z);
+        NormalData[0] = n.x; NormalData[1] = n.y; NormalData[2] = n.z;
+        VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
         n=vec_unit(vec_add(n0,vec_scale(vec_diff(v2,c),round)));
-        glNormal3f( n.x, n.y, n.z );
-        glVertex3f(v2.x,v2.y,v2.z);
+        NormalData[3] = n.x; NormalData[4] = n.y; NormalData[5] = n.z;
+        VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
         n=vec_unit(vec_add(n0,vec_scale(vec_diff(v3,c),round)));
-        glNormal3f( n.x, n.y, n.z );
-        glVertex3f(v3.x,v3.y,v3.z);
+        NormalData[6] = n.x; NormalData[7] = n.y; NormalData[8] = n.z;
+        VertexData[6] = v3.x; VertexData[7] = v3.y; VertexData[8] = v3.z;
     }
 }
 
@@ -169,13 +174,17 @@ void my_Diamondxy( VMfloat wx, VMfloat wy, VMfloat h, int order )
     p[1] = vec_xyz(  wx, 0.0, 0.0 );
     p[0] = vec_xyz( 0.0, -wy, 0.0 );
     p[4] = vec_xyz( 0.0, 0.0,   h );
-
-    glBegin(GL_TRIANGLES);
-       autonormalize_triangle_round(p[0],p[1],p[4],order,-0.002);
-       autonormalize_triangle_round(p[1],p[2],p[4],order,-0.002);
-       autonormalize_triangle_round(p[2],p[3],p[4],order,-0.002);
-       autonormalize_triangle_round(p[3],p[0],p[4],order,-0.002);
-    glEnd();
+    static GLfloat NormalData[3*3*4];
+    static GLfloat VertexData[3*3*4];
+    autonormalize_triangle_round(p[0],p[1],p[4],order,-0.002,&VertexData[0],&NormalData[0]);
+    autonormalize_triangle_round(p[1],p[2],p[4],order,-0.002,&VertexData[9],&NormalData[9]);
+    autonormalize_triangle_round(p[2],p[3],p[4],order,-0.002,&VertexData[18],&NormalData[18]);
+    autonormalize_triangle_round(p[3],p[0],p[4],order,-0.002,&VertexData[27],&NormalData[27]);
+    glNormalPointer(GL_FLOAT, 0, NormalData);
+    glVertexPointer(3, GL_FLOAT, 0, VertexData);
+    glPushMatrix();
+    glDrawArrays(GL_TRIANGLES,0,12);
+    glPopMatrix();
 }
 
 /***********************************************************************
@@ -250,6 +259,10 @@ void my_Edge( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*r2)(VMfloat), int or
     int i;
     VMfloat phi1,phi2,dphi1,dphi2;
     VMvect n10,n20,n30,n40,n1,n2,n3,n4,n5,n6,n7,n8,v1,v2,v3,v4,v5,v6,v7,v8, v8_2,v8_3, v4_2,v4_3;
+    GLfloat VertexData[12*3];
+    GLfloat TexData[12*2];
+    GLfloat NormalData[12*3];
+
     n10 = vec_xyz(0,0,1);
     n20 = vec_unit(vec_xyz(FRAME_DH,0,FRAME_D-BANDE_D-FRAME_PHASE));
     n30 = vec_unit(vec_xyz(FRAME_H-FRAME_PHASE,0,-FRAME_PHASE));
@@ -281,84 +294,86 @@ void my_Edge( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*r2)(VMfloat), int or
         v8_3 = vec_xyz((r2(phi2)-FRAME_PHASE-2.0*FRAME_DW)*cos(phi2),(r2(phi2)-FRAME_PHASE-2.0*FRAME_DW)*sin(phi2),-FRAME_H2);
         if(!order){
 #define FACT 8.0
-            glBegin(GL_QUAD_STRIP);
-            glTexCoord2f(phi1/M_PI*2.0, 0.0*0.5);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glTexCoord2f(phi2/M_PI*2.0, 0.0*0.5);
-            glNormal3f(n5.x,n5.y,n5.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glTexCoord2f(phi1/M_PI*2.0, 0.9*0.5);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glTexCoord2f(phi2/M_PI*2.0, 0.9*0.5);
-            glNormal3f(n6.x,n6.y,n6.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glTexCoord2f(phi1/M_PI*2.0, 1.0*0.5);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glTexCoord2f(phi2/M_PI*2.0, 1.0*0.5);
-            glNormal3f(n7.x,n7.y,n7.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glTexCoord2f(phi1/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glTexCoord2f(phi2/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glTexCoord2f(phi1/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4_2.x,v4_2.y,v4_2.z);
-            glTexCoord2f(phi2/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8_2.x,v8_2.y,v8_2.z);
-            glTexCoord2f(phi1/M_PI*2.0, 3.0*0.5);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4_3.x,v4_3.y,v4_3.z);
-            glTexCoord2f(phi2/M_PI*2.0, 3.0*0.5);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8_3.x,v8_3.y,v8_3.z);
-            glEnd();
+            TexData[0] = phi1/M_PI*2.0; TexData[1] = 0.0*0.5;
+            NormalData[0] = n1.x; NormalData[1] = n1.y; NormalData[2] = n1.z;
+            VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+            TexData[2] = phi2/M_PI*2.0; TexData[3] = 0.0*0.5;
+            NormalData[3] = n5.x; NormalData[4] = n5.y; NormalData[5] = n5.z;
+            VertexData[3] = v5.x; VertexData[4] = v5.y; VertexData[5] = v5.z;
+            TexData[4] = phi1/M_PI*2.0; TexData[5] = 0.9*0.5;
+            NormalData[6] = n2.x; NormalData[7] = n2.y; NormalData[8] = n2.z;
+            VertexData[6] = v2.x; VertexData[7] = v2.y; VertexData[8] = v2.z;
+            TexData[6] = phi2/M_PI*2.0; TexData[7] = 0.9*0.5;
+            NormalData[9] = n6.x; NormalData[10] = n6.y; NormalData[11] = n6.z;
+            VertexData[9] = v6.x; VertexData[10] = v6.y; VertexData[11] = v6.z;
+            TexData[8] = phi1/M_PI*2.0; TexData[9] = 1.0*0.5;
+            NormalData[12] = n3.x; NormalData[13] = n3.y; NormalData[14] = n3.z;
+            VertexData[12] = v3.x; VertexData[13] = v3.y; VertexData[14] = v3.z;
+            TexData[10] = phi2/M_PI*2.0; TexData[11] = 1.0*0.5;
+            NormalData[15] = n7.x; NormalData[16] = n7.y; NormalData[17] = n7.z;
+            VertexData[15] = v7.x; VertexData[16] = v7.y; VertexData[17] = v7.z;
+            TexData[12] = phi1/M_PI*2.0; TexData[13] = 2.0*0.5;
+            NormalData[18] = n4.x; NormalData[19] = n4.y; NormalData[20] = n4.z;
+            VertexData[18] = v4.x; VertexData[19] = v4.y; VertexData[20] = v4.z;
+            TexData[14] = phi2/M_PI*2.0; TexData[15] = 2.0*0.5;
+            NormalData[21] = n8.x; NormalData[22] = n8.y; NormalData[23] = n8.z;
+            VertexData[21] = v8.x; VertexData[22] = v8.y; VertexData[23] = v8.z;
+            TexData[16] = phi1/M_PI*2.0; TexData[17] = 2.0*0.5;
+            NormalData[24] = n4.x; NormalData[25] = n4.y; NormalData[26] = n4.z;
+            VertexData[24] = v4_2.x; VertexData[25] = v4_2.y; VertexData[26] = v4_2.z;
+            TexData[18] = phi2/M_PI*2.0; TexData[19] = 2.0*0.5;
+            NormalData[27] = n8.x; NormalData[28] = n8.y; NormalData[29] = n8.z;
+            VertexData[27] = v8_2.x; VertexData[28] = v8_2.y; VertexData[29] = v8_2.z;
+            TexData[20] = phi1/M_PI*2.0; TexData[21] = 3.0*0.5;
+            NormalData[30] = n4.x; NormalData[31] = n4.y; NormalData[32] = n4.z;
+            VertexData[30] = v4_3.x; VertexData[31] = v4_3.y; VertexData[32] = v4_3.z;
+            TexData[22] = phi2/M_PI*2.0; TexData[23] = 3.0*0.5;
+            NormalData[33] = n8.x; NormalData[34] = n8.y; NormalData[35] = n8.z;
+            VertexData[33] = v8_3.x; VertexData[34] = v8_3.y; VertexData[35] = v8_3.z;
         } else {
-            glBegin(GL_QUAD_STRIP);
-            glTexCoord2f(1.0-phi2/M_PI*2.0, 0.0*0.5);
-            glNormal3f(n5.x,n5.y,n5.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glTexCoord2f(1.0-phi1/M_PI*2.0, 0.0*0.5);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glTexCoord2f(1.0-phi2/M_PI*2.0, 0.9*0.5);
-            glNormal3f(n6.x,n6.y,n6.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glTexCoord2f(1.0-phi1/M_PI*2.0, 0.9*0.5);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glTexCoord2f(1.0-phi2/M_PI*2.0, 1.0*0.5);
-            glNormal3f(n7.x,n7.y,n7.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glTexCoord2f(1.0-phi1/M_PI*2.0, 1.0*0.5);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glTexCoord2f(1.0-phi2/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glTexCoord2f(1.0-phi1/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glTexCoord2f(1.0-phi2/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8_2.x,v8_2.y,v8_2.z);
-            glTexCoord2f(1.0-phi1/M_PI*2.0, 2.0*0.5);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4_2.x,v4_2.y,v4_2.z);
-            glTexCoord2f(1.0-phi2/M_PI*2.0, 3.0*0.5);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8_3.x,v8_3.y,v8_3.z);
-            glTexCoord2f(1.0-phi1/M_PI*2.0, 3.0*0.5);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4_3.x,v4_3.y,v4_3.z);
-            glEnd();
+            TexData[0] = 1.0-phi2/M_PI*2.0; TexData[1] = 0.0*0.5;
+            NormalData[0] = n5.x; NormalData[1] = n5.y; NormalData[2] = n5.z;
+            VertexData[0] = v5.x; VertexData[1] = v5.y; VertexData[2] = v5.z;
+            TexData[2] = 1.0-phi1/M_PI*2.0; TexData[3] = 0.0*0.5;
+            NormalData[3] = n1.x; NormalData[4] = n1.y; NormalData[5] = n1.z;
+            VertexData[3] = v1.x; VertexData[4] = v1.y; VertexData[5] = v1.z;
+            TexData[4] = 1.0-phi2/M_PI*2.0; TexData[5] = 0.9*0.5;
+            NormalData[6] = n6.x; NormalData[7] = n6.y; NormalData[8] = n6.z;
+            VertexData[6] = v6.x; VertexData[7] = v6.y; VertexData[8] = v6.z;
+            TexData[6] = 1.0-phi1/M_PI*2.0; TexData[7] = 0.9*0.5;
+            NormalData[9] = n2.x; NormalData[10] = n2.y; NormalData[11] = n2.z;
+            VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
+            TexData[8] = 1.0-phi2/M_PI*2.0; TexData[9] = 1.0*0.5;
+            NormalData[12] = n7.x; NormalData[13] = n7.y; NormalData[14] = n7.z;
+            VertexData[12] = v7.x; VertexData[13] = v7.y; VertexData[14] = v7.z;
+            TexData[10] = 1.0-phi1/M_PI*2.0; TexData[11] = 1.0*0.5;
+            NormalData[15] = n3.x; NormalData[16] = n3.y; NormalData[17] = n3.z;
+            VertexData[15] = v3.x; VertexData[16] = v3.y; VertexData[17] = v3.z;
+            TexData[12] = 1.0-phi2/M_PI*2.0; TexData[13] = 2.0*0.5;
+            NormalData[18] = n8.x; NormalData[19] = n8.y; NormalData[20] = n8.z;
+            VertexData[18] = v8.x; VertexData[19] = v8.y; VertexData[20] = v8.z;
+            TexData[14] = 1.0-phi1/M_PI*2.0; TexData[15] = 2.0*0.5;
+            NormalData[21] = n4.x; NormalData[22] = n4.y; NormalData[23] = n4.z;
+            VertexData[21] = v4.x; VertexData[22] = v4.y; VertexData[23] = v4.z;
+            TexData[16] = 1.0-phi2/M_PI*2.0; TexData[17] = 2.0*0.5;
+            NormalData[24] = n8.x; NormalData[25] = n8.y; NormalData[26] = n8.z;
+            VertexData[24] = v8_2.x; VertexData[25] = v8_2.y; VertexData[26] = v8_2.z;
+            TexData[18] = 1.0-phi1/M_PI*2.0; TexData[19] = 2.0*0.5;
+            NormalData[27] = n4.x; NormalData[28] = n4.y; NormalData[29] = n4.z;
+            VertexData[27] = v4_2.x; VertexData[28] = v4_2.y; VertexData[29] = v4_2.z;
+            TexData[20] = 1.0-phi2/M_PI*2.0; TexData[21] = 3.0*0.5;
+            NormalData[30] = n8.x; NormalData[31] = n8.y; NormalData[32] = n8.z;
+            VertexData[30] = v8_3.x; VertexData[31] = v8_3.y; VertexData[32] = v8_3.z;
+            TexData[22] = 1.0-phi1/M_PI*2.0; TexData[23] = 3.0*0.5;
+            NormalData[33] = n4.x; NormalData[34] = n4.y; NormalData[35] = n4.z;
+            VertexData[33] = v4_3.x; VertexData[34] = v4_3.y; VertexData[35] = v4_3.z;
         }
+        glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+        glVertexPointer(3, GL_FLOAT, 0, VertexData);
+        glNormalPointer(GL_FLOAT, 0, NormalData);
+        glPushMatrix();
+        glDrawArrays(GL_QUAD_STRIP,0,12);
+        glPopMatrix();
         /* for debugging
         glBegin(GL_LINES);
             glVertex3f(v1.x,v1.y,v1.z); v1=vec_add(v1,vec_scale(n1,0.1)); glVertex3f(v1.x,v1.y,v1.z);
@@ -384,6 +399,9 @@ void my_EdgeBumper( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*sc)(VMfloat), 
     int i;
     VMfloat phi1,phi2,dphi1,dphi2;
     VMvect n10,n20,n30,n40,v10,v20,v30,v40,n1,n2,n3,n4,n5,n6,n7,n8,v1,v2,v3,v4,v5,v6,v7,v8;
+    GLfloat VertexData[8*3];
+    GLfloat NormalData[8*3];
+
     n10 = vec_unit(vec_xyz(-1,0,-1));
     n20 = vec_unit(vec_xyz(-1,0,0));
     n30 = vec_unit(vec_xyz(0,0,1));
@@ -422,44 +440,45 @@ void my_EdgeBumper( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*sc)(VMfloat), 
         v7 = vec_add(v7,vec_scale(vec_rotate(v30,vec_xyz(0,0,phi2)),sc(phi2)));
         v8 = vec_add(v8,vec_scale(vec_rotate(v40,vec_xyz(0,0,phi2)),sc(phi2)));
         if(!order){
-            glBegin(GL_QUAD_STRIP);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glNormal3f(n5.x,n5.y,n5.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glNormal3f(n6.x,n6.y,n6.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glNormal3f(n7.x,n7.y,n7.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glEnd();
+            NormalData[0] = n1.x; NormalData[1] = n1.y; NormalData[2] = n1.z;
+            VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+            NormalData[3] = n5.x; NormalData[4] = n5.y; NormalData[5] = n5.z;
+            VertexData[3] = v5.x; VertexData[4] = v5.y; VertexData[5] = v5.z;
+            NormalData[6] = n2.x; NormalData[7] = n2.y; NormalData[8] = n2.z;
+            VertexData[6] = v2.x; VertexData[7] = v2.y; VertexData[8] = v2.z;
+            NormalData[9] = n6.x; NormalData[10] = n6.y; NormalData[11] = n6.z;
+            VertexData[9] = v6.x; VertexData[10] = v6.y; VertexData[11] = v6.z;
+            NormalData[12] = n3.x; NormalData[13] = n3.y; NormalData[14] = n3.z;
+            VertexData[12] = v3.x; VertexData[13] = v3.y; VertexData[14] = v3.z;
+            NormalData[15] = n7.x; NormalData[16] = n7.y; NormalData[17] = n7.z;
+            VertexData[15] = v7.x; VertexData[16] = v7.y; VertexData[17] = v7.z;
+            NormalData[18] = n4.x; NormalData[19] = n4.y; NormalData[20] = n4.z;
+            VertexData[18] = v4.x; VertexData[19] = v4.y; VertexData[20] = v4.z;
+            NormalData[21] = n8.x; NormalData[22] = n8.y; NormalData[23] = n8.z;
+            VertexData[21] = v8.x; VertexData[22] = v8.y; VertexData[23] = v8.z;
         } else {
-            glBegin(GL_QUAD_STRIP);
-            glNormal3f(n5.x,n5.y,n5.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glNormal3f(n6.x,n6.y,n6.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glNormal3f(n7.x,n7.y,n7.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glEnd();
+            NormalData[0] = n5.x; NormalData[1] = n5.y; NormalData[2] = n5.z;
+            VertexData[0] = v5.x; VertexData[1] = v5.y; VertexData[2] = v5.z;
+            NormalData[3] = n1.x; NormalData[4] = n1.y; NormalData[5] = n1.z;
+            VertexData[3] = v1.x; VertexData[4] = v1.y; VertexData[5] = v1.z;
+            NormalData[6] = n6.x; NormalData[7] = n6.y; NormalData[8] = n6.z;
+            VertexData[6] = v6.x; VertexData[7] = v6.y; VertexData[8] = v6.z;
+            NormalData[9] = n2.x; NormalData[10] = n2.y; NormalData[11] = n2.z;
+            VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
+            NormalData[12] = n7.x; NormalData[13] = n7.y; NormalData[14] = n7.z;
+            VertexData[12] = v7.x; VertexData[13] = v7.y; VertexData[14] = v7.z;
+            NormalData[15] = n3.x; NormalData[16] = n3.y; NormalData[17] = n3.z;
+            VertexData[15] = v3.x; VertexData[16] = v3.y; VertexData[17] = v3.z;
+            NormalData[18] = n8.x;  NormalData[19] = n8.y; NormalData[20] = n8.z;
+            VertexData[18] = v8.x; VertexData[19] = v8.y; VertexData[20] = v8.z;
+            NormalData[21] = n4.x; NormalData[22] = n4.y; NormalData[23] = n4.z;
+            VertexData[21] = v4.x; VertexData[22] = v4.y; VertexData[23] = v4.z;
         }
+        glVertexPointer(3, GL_FLOAT, 0, VertexData);
+        glNormalPointer(GL_FLOAT, 0, NormalData);
+        glPushMatrix();
+        glDrawArrays(GL_QUAD_STRIP,0,8);
+        glPopMatrix();
         /* for debugging
         glBegin(GL_LINES);
             glVertex3f(v1.x,v1.y,v1.z); v1=vec_add(v1,vec_scale(n1,0.01)); glVertex3f(v1.x,v1.y,v1.z);
@@ -502,6 +521,9 @@ void my_Cover( int segnr, VMfloat (*r1)(VMfloat), VMfloat l, int order, VMfloat 
     VMfloat tan1, tan2;
     VMvect n1,n2,n3,n4,v1,v2,v3,v4,v5,v6,v7,v8, v4_2,v4_3, v8_2,v8_3;
     VMfloat r2;
+    GLfloat VertexData[12*3];
+    GLfloat NormalData[12*3];
+    GLfloat TexData[12*2];
     r2 = FRAME_D-BANDE_D;
     n1 = vec_unit(vec_xyz(0,0,1));
     n2 = vec_unit(vec_xyz(FRAME_DH/(FRAME_D-BANDE_D-FRAME_PHASE),0,1));
@@ -525,68 +547,86 @@ void my_Cover( int segnr, VMfloat (*r1)(VMfloat), VMfloat l, int order, VMfloat 
         v8_2 = vec_xyz(r2-FRAME_PHASE-1.0*FRAME_DW,y2,-FRAME_H);     v8_2.y += tan2 * v8_2.x;
         v8_3 = vec_xyz(r2-FRAME_PHASE-2.0*FRAME_DW,y2,-FRAME_H2);    v8_3.y += tan2 * v8_3.x;
         if(!order){
-            glBegin(GL_QUAD_STRIP);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 0.0*0.5*tex_y);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 0.0*0.5*tex_y);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v4_2.x,v4_2.y,v4_2.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v8_2.x,v8_2.y,v8_2.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v4_3.x,v4_3.y,v4_3.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v8_3.x,v8_3.y,v8_3.z);
-            glEnd();
+            TexData[0] = (y1/l+0.5)*0.4*tex_x; TexData[1] = 0.0*0.5*tex_y;
+            NormalData[0] = n1.x; NormalData[1] = n1.y; NormalData[2] = n1.z;
+            VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+            TexData[2] = (y2/l+0.5)*0.4*tex_x; TexData[3] = 0.0*0.5*tex_y;
+            NormalData[3] = n1.x; NormalData[4] = n1.y; NormalData[5] = n1.z;
+            VertexData[3] = v5.x; VertexData[4] = v5.y; VertexData[5] = v5.z;
+            TexData[4] = (y1/l+0.5)*0.4*tex_x; TexData[5] = 0.9*0.5*tex_y;
+            NormalData[6] = n2.x; NormalData[7] = n2.y; NormalData[8] = n2.z;
+            VertexData[6] = v2.x; VertexData[7] = v2.y; VertexData[8] = v2.z;
+            TexData[6] = (y2/l+0.5)*0.4*tex_x; TexData[7] = 0.9*0.5*tex_y;
+            NormalData[9] = n2.x; NormalData[10] = n2.y; NormalData[11] = n2.z;
+            VertexData[9] = v6.x; VertexData[10] = v6.y; VertexData[11] = v6.z;
+            TexData[8] = (y1/l+0.5)*0.4*tex_x; TexData[9] = 1.0*0.5*tex_y;
+            NormalData[12] = n3.x; NormalData[13] = n3.y; NormalData[14] = n3.z;
+            VertexData[12] = v3.x; VertexData[13] = v3.y; VertexData[14] = v3.z;
+            TexData[10] = (y2/l+0.5)*0.4*tex_x; TexData[11] = 1.0*0.5*tex_y;
+            NormalData[15] = n3.x; NormalData[16] = n3.y; NormalData[17] = n3.z;
+            VertexData[15] = v7.x; VertexData[16] = v7.y; VertexData[17] = v7.z;
+            TexData[12] = (y1/l+0.5)*0.4*tex_x; TexData[13] = 2.0*0.5*tex_y;
+            NormalData[18] = n4.x; NormalData[19] = n4.y; NormalData[20] = n4.z;
+            VertexData[18] = v4.x; VertexData[19] = v4.y; VertexData[20] = v4.z;
+            TexData[14] = (y2/l+0.5)*0.4*tex_x; TexData[15] = 2.0*0.5*tex_y;
+            NormalData[21] = n4.x; NormalData[22] = n4.y; NormalData[23] = n4.z;
+            VertexData[21] = v8.x; VertexData[22] = v8.y; VertexData[23] = v8.z;
+            TexData[16] = (y1/l+0.5)*0.4*tex_x; TexData[17] = 3.0*0.5*tex_y;
+            NormalData[24] = n4.x; NormalData[25] = n4.y; NormalData[26] = n4.z;
+            VertexData[24] = v4_2.x; VertexData[25] = v4_2.y; VertexData[26] = v4_2.z;
+            TexData[18] = (y2/l+0.5)*0.4*tex_x; TexData[19] = 3.0*0.5*tex_y;
+            NormalData[27] = n4.x; NormalData[28] = n4.y; NormalData[29] = n4.z;
+            VertexData[27] = v8_2.x; VertexData[28] = v8_2.y; VertexData[29] = v8_2.z;
+            TexData[20] = (y1/l+0.5)*0.4*tex_x; TexData[21] = 3.0*0.5*tex_y;
+            NormalData[30] = n4.x; NormalData[31] = n4.y; NormalData[32] = n4.z;
+            VertexData[30] = v4_3.x; VertexData[31] = v4_3.y; VertexData[32] = v4_3.z;
+            TexData[22] = (y2/l+0.5)*0.4*tex_x; TexData[23] = 3.0*0.5*tex_y;
+            NormalData[33] = n4.x; NormalData[34] = n4.y; NormalData[35] = n4.z;
+            VertexData[33] = v8_3.x; VertexData[34] = v8_3.y; VertexData[35] = v8_3.z;
         } else {
-            glBegin(GL_QUAD_STRIP);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 0.0*0.5*tex_y);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 0.0*0.5*tex_y);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 0.9*0.5*tex_y);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 1.0*0.5*tex_y);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 2.0*0.5*tex_y);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v8_2.x,v8_2.y,v8_2.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v4_2.x,v4_2.y,v4_2.z);
-            glTexCoord2f((y2/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v8_3.x,v8_3.y,v8_3.z);
-            glTexCoord2f((y1/l+0.5)*0.4*tex_x, 3.0*0.5*tex_y);
-            glVertex3f(v4_3.x,v4_3.y,v4_3.z);
-            glEnd();
+            TexData[0] = (y2/l+0.5)*0.4*tex_x; TexData[1] = 0.0*0.5*tex_y;
+            NormalData[0] = n1.x; NormalData[1] = n1.y; NormalData[2] = n1.z;
+            VertexData[0] = v5.x; VertexData[1] = v5.y; VertexData[2] = v5.z;
+            TexData[2] = (y1/l+0.5)*0.4*tex_x; TexData[3] = 0.0*0.5*tex_y;
+            NormalData[3] = n1.x; NormalData[4] = n1.y; NormalData[5] = n1.z;
+            VertexData[3] = v1.x; VertexData[4] = v1.y; VertexData[5] = v1.z;
+            TexData[4] = (y2/l+0.5)*0.4*tex_x; TexData[5] = 0.9*0.5*tex_y;
+            NormalData[6] = n2.x; NormalData[7] = n2.y; NormalData[8] = n2.z;
+            VertexData[6] = v6.x; VertexData[7] = v6.y; VertexData[8] = v6.z;
+            TexData[6] = (y1/l+0.5)*0.4*tex_x; TexData[7] = 0.9*0.5*tex_y;
+            VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
+            NormalData[9] = n2.x; NormalData[10] = n2.y; NormalData[11] = n2.z;
+            TexData[8] = (y2/l+0.5)*0.4*tex_x; TexData[9] = 1.0*0.5*tex_y;
+            NormalData[12] = n3.x; NormalData[13] = n3.y; NormalData[14] = n3.z;
+            VertexData[12] = v7.x; VertexData[13] = v7.y; VertexData[14] = v7.z;
+            NormalData[15] = n3.x; NormalData[16] = n3.y; NormalData[17] = n3.z;
+            TexData[10] = (y1/l+0.5)*0.4*tex_x; TexData[11] = 1.0*0.5*tex_y;
+            VertexData[15] = v3.x; VertexData[16] = v3.y; VertexData[17] = v3.z;
+            TexData[12] = (y2/l+0.5)*0.4*tex_x; TexData[13] = 2.0*0.5*tex_y;
+            NormalData[18] = n4.x; NormalData[19] = n4.y; NormalData[20] = n4.z;
+            VertexData[18] = v8.x; VertexData[19] = v8.y; VertexData[20] = v8.z;
+            TexData[14] = (y1/l+0.5)*0.4*tex_x; TexData[15] = 2.0*0.5*tex_y;
+            NormalData[21] = n4.x; NormalData[22] = n4.y; NormalData[23] = n4.z;
+            VertexData[21] = v4.x; VertexData[22] = v4.y; VertexData[23] = v4.z;
+            TexData[16] = (y2/l+0.5)*0.4*tex_x; TexData[17] = 3.0*0.5*tex_y;
+            NormalData[24] = n4.x; NormalData[25] = n4.y; NormalData[26] = n4.z;
+            VertexData[24] = v8_2.x; VertexData[25] = v8_2.y; VertexData[26] = v8_2.z;
+            TexData[18] = (y1/l+0.5)*0.4*tex_x; TexData[19] = 3.0*0.5*tex_y;
+            NormalData[27] = n4.x; NormalData[28] = n4.y; NormalData[29] = n4.z;
+            VertexData[27] = v4_2.x; VertexData[28] = v4_2.y; VertexData[29] = v4_2.z;
+            TexData[20] = (y2/l+0.5)*0.4*tex_x; TexData[21] = 3.0*0.5*tex_y;
+            NormalData[30] = n4.x; NormalData[31] = n4.y; NormalData[32] = n4.z;
+            VertexData[30] = v8_3.x; VertexData[31] = v8_3.y; VertexData[32] = v8_3.z;
+            TexData[22] = (y1/l+0.5)*0.4*tex_x; TexData[23] = 3.0*0.5*tex_y;
+            NormalData[33] = n4.x; NormalData[34] = n4.y; NormalData[35] = n4.z;
+            VertexData[33] = v4_3.x; VertexData[34] = v4_3.y; VertexData[35] = v4_3.z;
         }
+        glVertexPointer(3, GL_FLOAT, 0, VertexData);
+        glNormalPointer(GL_FLOAT, 0, NormalData);
+        glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+        glPushMatrix();
+        glDrawArrays(GL_QUAD_STRIP,0,12);
+        glPopMatrix();
     }
 }
 
@@ -622,7 +662,9 @@ void my_Cover2func( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*r2)(VMfloat), V
     VMfloat r2_1,r2_2;
     VMfloat txfact=0.75;
     VMfloat tyfact=6.0;
-
+    GLfloat VertexData[12*3];
+    GLfloat NormalData[12*3];
+    GLfloat TexData[12*2];
     n1 = vec_unit(vec_xyz(0,0,1));
     n2 = vec_unit(vec_xyz(FRAME_DH/(FRAME_D-BANDE_D-FRAME_PHASE),0,1));
     n3 = vec_unit(vec_xyz(FRAME_H-FRAME_PHASE,0,-FRAME_PHASE));
@@ -664,68 +706,84 @@ void my_Cover2func( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*r2)(VMfloat), V
         v8_3 = vec_xyz(r2_2-FRAME_PHASE-2.0*FRAME_DW,y2,-FRAME_H2);
         v8_3.y += tan2 * v8_3.x;
         if(!order){
-            glBegin(GL_QUAD_STRIP);
-            glTexCoord2f(v1.y*txfact,v1.x*tyfact);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glTexCoord2f(v5.y*txfact,v5.x*tyfact);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glTexCoord2f(v2.y*txfact,v2.x*tyfact);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glTexCoord2f(v6.y*txfact,v6.x*tyfact);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glTexCoord2f(v3.y*txfact,v3.x*tyfact);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glTexCoord2f(v7.y*txfact,v7.x*tyfact);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glTexCoord2f(v4.y*txfact,v4.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glTexCoord2f(v8.y*txfact,v8.x*tyfact);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glTexCoord2f(v4_2.y*txfact,v4_2.x*tyfact);
-            glVertex3f(v4_2.x,v4_2.y,v4_2.z);
-            glTexCoord2f(v8_2.y*txfact,v8_2.x*tyfact);
-            glVertex3f(v8_2.x,v8_2.y,v8_2.z);
-            glTexCoord2f(v4_3.y*txfact,v4_3.x*tyfact);
-            glVertex3f(v4_3.x,v4_3.y,v4_3.z);
-            glTexCoord2f(v8_3.y*txfact,v8_3.x*tyfact);
-            glVertex3f(v8_3.x,v8_3.y,v8_3.z);
-            glEnd();
+            TexData[0] = v1.y*txfact; TexData[1] = v1.x*tyfact;
+            NormalData[0] = n1.x; NormalData[1] = n1.y; NormalData[2] = n1.z;
+            VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+            TexData[2] = v5.y*txfact; TexData[3] = v5.x*tyfact;
+            NormalData[3] = n1.x; NormalData[4] = n1.y; NormalData[5] = n1.z;
+            VertexData[3] = v5.x; VertexData[4] = v5.y; VertexData[5] = v5.z;
+            TexData[4] = v2.y*txfact; TexData[5] = v2.x*tyfact;
+            NormalData[6] = n2.x; NormalData[7] = n2.y; NormalData[8] = n2.z;
+            VertexData[6] = v2.x; VertexData[7] = v2.y; VertexData[8] = v2.z;
+            TexData[6] = v6.y*txfact; TexData[7] = v6.x*tyfact;
+            NormalData[9] = n2.x; NormalData[10] = n2.y; NormalData[11] = n2.z;
+            VertexData[9] = v6.x; VertexData[10] = v6.y; VertexData[11] = v6.z;
+            TexData[8] = v3.y*txfact; TexData[9] = v3.x*tyfact;
+            NormalData[12] = n3.x; NormalData[13] = n3.y; NormalData[14] = n3.z;
+            VertexData[12] = v3.x; VertexData[13] = v3.y; VertexData[14] = v3.z;
+            TexData[10] = v7.y*txfact; TexData[11] = v7.x*tyfact;
+            NormalData[15] = n3.x; NormalData[16] = n3.y; NormalData[17] = n3.z;
+            VertexData[15] = v7.x; VertexData[16] = v7.y; VertexData[17] = v7.z;
+            TexData[12] = v4.y*txfact; TexData[13] = v4.x*tyfact;
+            NormalData[18] = n4.x; NormalData[19] = n4.y; NormalData[20] = n4.z;
+            VertexData[18] = v4.x; VertexData[19] = v4.y; VertexData[20] = v4.z;
+            TexData[14] = v8.y*txfact; TexData[15] = v8.x*tyfact;
+            NormalData[21] = n4.x; NormalData[22] = n4.y; NormalData[23] = n4.z;
+            VertexData[21] = v8.x; VertexData[22] = v8.y; VertexData[23] = v8.z;
+            TexData[16] = v4_2.y*txfact; TexData[17] = v4_2.x*tyfact;
+            NormalData[24] = n4.x; NormalData[25] = n4.y; NormalData[26] = n4.z;
+            VertexData[24] = v4_2.x; VertexData[25] = v4_2.y; VertexData[26] = v4_2.z;
+            TexData[18] = v8_2.y*txfact; TexData[19] = v8_2.x*tyfact;
+            NormalData[27] = n4.x; NormalData[28] = n4.y; NormalData[29] = n4.z;
+            VertexData[27] = v8_2.x; VertexData[28] = v8_2.y; VertexData[29] = v8_2.z;
+            TexData[20] = v4_3.y*txfact; TexData[21] = v4_3.x*tyfact;
+            NormalData[30] = n4.x; NormalData[31] = n4.y; NormalData[32] = n4.z;
+            VertexData[30] = v4_3.x; VertexData[31] = v4_3.y; VertexData[32] = v4_3.z;
+            TexData[22] = v8_3.y*txfact; TexData[23] = v8_3.x*tyfact;
+            NormalData[33] = n4.x; NormalData[34] = n4.y; NormalData[35] = n4.z;
+            VertexData[33] = v8_3.x; VertexData[34] = v8_3.y; VertexData[35] = v8_3.z;
         } else {
-            glBegin(GL_QUAD_STRIP);
-            glTexCoord2f(v5.y*txfact,v5.x*tyfact);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glTexCoord2f(v1.y*txfact,v1.x*tyfact);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glTexCoord2f(v6.y*txfact,v6.x*tyfact);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glTexCoord2f(v2.y*txfact,v2.x*tyfact);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glTexCoord2f(v7.y*txfact,v7.x*tyfact);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glTexCoord2f(v3.y*txfact,v3.x*tyfact);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glTexCoord2f(v8.y*txfact,v8.x*tyfact);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glTexCoord2f(v4.y*txfact,v4.x*tyfact);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glTexCoord2f(v8_2.y*txfact,v8_2.x*tyfact);
-            glVertex3f(v8_2.x,v8_2.y,v8_2.z);
-            glTexCoord2f(v4_2.y*txfact,v4_2.x*tyfact);
-            glVertex3f(v4_2.x,v4_2.y,v4_2.z);
-            glTexCoord2f(v8_3.y*txfact,v8_3.x*tyfact);
-            glVertex3f(v8_3.x,v8_3.y,v8_3.z);
-            glTexCoord2f(v4_3.y*txfact,v4_3.x*tyfact);
-            glVertex3f(v4_3.x,v4_3.y,v4_3.z);
-            glEnd();
+            TexData[0] = v5.y*txfact; TexData[1] = v5.x*tyfact;
+            NormalData[0] = n1.x; NormalData[1] = n1.y; NormalData[2] = n1.z;
+            VertexData[0] = v5.x; VertexData[1] = v5.y; VertexData[2] = v5.z;
+            TexData[2] = v1.y*txfact; TexData[3] = v1.x*tyfact;
+            NormalData[3] = n1.x; NormalData[4] = n1.y; NormalData[5] = n1.z;
+            VertexData[3] = v1.x; VertexData[4] = v1.y; VertexData[5] = v1.z;
+            TexData[4] = v6.y*txfact; TexData[5] = v6.x*tyfact;
+            NormalData[6] = n2.x; NormalData[7] = n2.y; NormalData[8] = n2.z;
+            VertexData[6] = v6.x; VertexData[7] = v6.y; VertexData[8] = v6.z;
+            TexData[6] = v2.y*txfact; TexData[7] = v2.x*tyfact;
+            NormalData[9] = n2.x; NormalData[10] = n2.y; NormalData[11] = n2.z;
+            VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
+            TexData[8] = v7.y*txfact; TexData[9] = v7.x*tyfact;
+            NormalData[12] = n3.x; NormalData[13] = n3.y; NormalData[14] = n3.z;
+            VertexData[12] = v7.x; VertexData[13] = v7.y; VertexData[14] = v7.z;
+            TexData[10] = v3.y*txfact; TexData[11] = v3.x*tyfact;
+            NormalData[15] = v3.x; NormalData[16] = v3.y; NormalData[17] = v3.z;
+            VertexData[15] = v3.x; VertexData[16] = v3.y; VertexData[17] = v3.z;
+            TexData[12] = v8.y*txfact; TexData[13] = v8.x*tyfact;
+            NormalData[18] = n4.x; NormalData[19] = n4.y; NormalData[20] = n4.z;
+            VertexData[18] = v8.x; VertexData[19] = v8.y; VertexData[20] = v8.z;
+            TexData[14] = v4.y*txfact; TexData[15] = v4.x*tyfact;
+            NormalData[21] = n4.x; NormalData[22] = n4.y; NormalData[23] = n4.z;
+            VertexData[21] = v4.x; VertexData[22] = v4.y; VertexData[23] = v4.z;
+            TexData[16] = v8_2.y*txfact; TexData[17] = v8_2.x*tyfact;
+            NormalData[24] = n4.x; NormalData[25] = n4.y; NormalData[26] = n4.z;
+            VertexData[24] = v8_2.x; VertexData[25] = v8_2.y; VertexData[26] = v8_2.z;
+            TexData[18] = v4_2.y*txfact; TexData[19] = v4_2.x*tyfact;
+            NormalData[27] = n4.x; NormalData[28] = n4.y; NormalData[29] = n4.z;
+            VertexData[27] = v4_2.x; VertexData[28] = v4_2.y; VertexData[29] = v4_2.z;
+            TexData[20] = v8_3.y*txfact; TexData[21] = v8_3.x*tyfact;
+            NormalData[30] = n4.x; NormalData[31] = n4.y; NormalData[32] = n4.z;
+            VertexData[30] = v8_3.x; VertexData[31] = v8_3.y; VertexData[32] = v8_3.z;
+            TexData[22] = v4_3.y*txfact; TexData[23] = v4_3.x*tyfact;
+            NormalData[33] = n4.x; NormalData[34] = n4.y; NormalData[35] = n4.z;
+            VertexData[33] = v4_3.x; VertexData[34] = v4_3.y; VertexData[35] = v4_3.z;
         }
+        glVertexPointer(3, GL_FLOAT, 0, VertexData);
+        glNormalPointer(GL_FLOAT, 0, NormalData);
+        glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+        glDrawArrays(GL_QUAD_STRIP,0,12);
     }
 }
 
@@ -744,6 +802,9 @@ void my_CoverBumper( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*sc)(VMfloat), 
     int i;
     VMfloat y1,y2, dphi1, dphi2;
     VMvect v10,v20,v30,v40,n1,n2,n3,n4,n5,n6,n7,n8,n10,n20,n30,n40,v1,v2,v3,v4,v5,v6,v7,v8;
+    GLfloat VertexData[8*3];
+    GLfloat NormalData[8*3];
+
     n10 = vec_unit(vec_xyz(-1,0,-1));
     n20 = vec_unit(vec_xyz(-1,0,0));
     n30 = vec_unit(vec_xyz(0,0,1));
@@ -774,51 +835,50 @@ void my_CoverBumper( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*sc)(VMfloat), 
         v7 = vec_add(vec_scale(v30,sc(y2/l*2.0)),vec_xyz(r1(y2/l*2.0),y2,FRAME_DH));
         v8 = vec_add(vec_scale(v40,sc(y2/l*2.0)),vec_xyz(r1(y2/l*2.0),y2,FRAME_DH));
         if(!order){
-            glBegin(GL_QUAD_STRIP);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glNormal3f(n5.x,n5.y,n5.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glNormal3f(n6.x,n6.y,n6.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glNormal3f(n7.x,n7.y,n7.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glEnd();
+            NormalData[0] = n1.x; NormalData[1] = n1.y; NormalData[2] = n1.z;
+            VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+            NormalData[3] = n5.x; NormalData[4] = n5.y; NormalData[5] = n5.z;
+            VertexData[3] = v5.x; VertexData[4] = v5.y; VertexData[5] = v5.z;
+            NormalData[6] = n2.x; NormalData[7] = n2.y; NormalData[8] = n2.z;
+            VertexData[6] = v2.x; VertexData[7] = v2.y; VertexData[8] = v2.z;
+            NormalData[9] = n6.x; NormalData[10] = n6.y; NormalData[11] = n6.z;
+            VertexData[9] = v6.x; VertexData[10] = v6.y; VertexData[11] = v6.z;
+            NormalData[12] = n3.x; NormalData[13] = n3.y; NormalData[14] = n3.z;
+            VertexData[12] = v3.x; VertexData[13] = v3.y; VertexData[14] = v3.z;
+            NormalData[15] = n7.x; NormalData[16] = n7.y; NormalData[17] = n7.z;
+            VertexData[15] = v7.x; VertexData[16] = v7.y; VertexData[17] = v7.z;
+            NormalData[18] = n4.x; NormalData[19] = n4.y; NormalData[20] = n4.z;
+            VertexData[18] = v4.x; VertexData[19] = v4.y; VertexData[20] = v4.z;
+            NormalData[21] = n8.x; NormalData[22] = n8.y; NormalData[23] = n8.z;
+            VertexData[21] = v8.x; VertexData[22] = v8.y; VertexData[23] = v8.z;
         } else {
-            glBegin(GL_QUAD_STRIP);
-            glNormal3f(n5.x,n5.y,n5.z);
-            glVertex3f(v5.x,v5.y,v5.z);
-            glNormal3f(n1.x,n1.y,n1.z);
-            glVertex3f(v1.x,v1.y,v1.z);
-            glNormal3f(n6.x,n6.y,n6.z);
-            glVertex3f(v6.x,v6.y,v6.z);
-            glNormal3f(n2.x,n2.y,n2.z);
-            glVertex3f(v2.x,v2.y,v2.z);
-            glNormal3f(n7.x,n7.y,n7.z);
-            glVertex3f(v7.x,v7.y,v7.z);
-            glNormal3f(n3.x,n3.y,n3.z);
-            glVertex3f(v3.x,v3.y,v3.z);
-            glNormal3f(n8.x,n8.y,n8.z);
-            glVertex3f(v8.x,v8.y,v8.z);
-            glNormal3f(n4.x,n4.y,n4.z);
-            glVertex3f(v4.x,v4.y,v4.z);
-            glEnd();
+            NormalData[0] = n5.x; NormalData[1] = n5.y; NormalData[2] = n5.z;
+            VertexData[0] = v5.x; VertexData[1] = v5.y; VertexData[2] = v5.z;
+            NormalData[3] = n1.x; NormalData[4] = n1.y; NormalData[5] = n1.z;
+            VertexData[3] = v1.x; VertexData[4] = v1.y; VertexData[5] = v1.z;
+            NormalData[6] = n6.x; NormalData[7] = n6.y; NormalData[8] = n6.z;
+            VertexData[6] = v6.x; VertexData[7] = v6.y; VertexData[8] = v6.z;
+            NormalData[9] = n2.x; NormalData[10] = n2.y; NormalData[11] = n2.z;
+            VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
+            NormalData[12] = n7.x; NormalData[13] = n7.y; NormalData[14] = n7.z;
+            VertexData[12] = v7.x; VertexData[13] = v7.y; VertexData[14] = v7.z;
+            NormalData[15] = n3.x; NormalData[16] = n3.y; NormalData[17] = n3.z;
+            VertexData[15] = v3.x; VertexData[16] = v3.y; VertexData[17] = v3.z;
+            NormalData[18] = n8.x; NormalData[19] = n8.y; NormalData[20] = n8.z;
+            VertexData[18] = v8.x; VertexData[19] = v8.y; VertexData[20] = v8.z;
+            NormalData[21] = n4.x; NormalData[22] = n4.y; NormalData[23] = n4.z;
+            VertexData[21] = v4.x; VertexData[22] = v4.y; VertexData[23] = v4.z;
         }
-/*      for debugging
+        glVertexPointer(3, GL_FLOAT, 0, VertexData);
+        glNormalPointer(GL_FLOAT, 0, NormalData);
+        glDrawArrays(GL_QUAD_STRIP,0,8);
+     /* for debugging
         glBegin(GL_LINES);
             glVertex3f(v1.x,v1.y,v1.z); v1=vec_add(v1,vec_scale(n1,0.01)); glVertex3f(v1.x,v1.y,v1.z);
             glVertex3f(v2.x,v2.y,v2.z); v2=vec_add(v2,vec_scale(n2,0.01)); glVertex3f(v2.x,v2.y,v2.z);
             glVertex3f(v3.x,v3.y,v3.z); v3=vec_add(v3,vec_scale(n3,0.01)); glVertex3f(v3.x,v3.y,v3.z);
             glVertex3f(v4.x,v4.y,v4.z); v4=vec_add(v4,vec_scale(n4,0.01)); glVertex3f(v4.x,v4.y,v4.z);
-        glEnd();*/
+        glEnd(); */
     }
 }
 
@@ -837,6 +897,8 @@ void my_Bande( VMfloat x1, VMfloat y1, VMfloat z1,    /* inside up */
   *     1                 2      */
     VMfloat dummy,sin1,sin2,cos1,cos2,r1,r2;
     VMvect p[12];
+    GLfloat VertexData[75];
+    GLfloat NormalData[75];
 
 #define BANDE_WULST 0.006
     fprintf(stderr,"Call to build a table border\n");
@@ -864,38 +926,42 @@ void my_Bande( VMfloat x1, VMfloat y1, VMfloat z1,    /* inside up */
     r2=sqrt((y2-y1)*BANDE_D2RATIO*(y2-y1)*BANDE_D2RATIO+(z1-z2)*(z1-z2));
     sin2=fabs((y2-y1)*BANDE_D2RATIO/r2);
     cos2=fabs((z1-z2)/r2);
-
-    glBegin(GL_QUADS);
-       autonormalize_quad(p[10],p[11],p[9],p[8],order);
-       autonormalize_quad(p[5],p[6],p[2],p[1],order);
+       autonormalize_quad(p[10],p[11],p[9],p[8],order,&VertexData[0],&NormalData[0]);
+       autonormalize_quad(p[5],p[6],p[2],p[1],order,&VertexData[12],&NormalData[12]);
        if(!order){
-           glNormal3f(0,-sin1,cos1);
-           glVertex3f(p[10].x,p[10].y,p[10].z);
-           glVertex3f(p[11].x,p[11].y,p[11].z);
-           glNormal3f(0,-cos2,-sin2);
-           glVertex3f(p[2].x,p[2].y,p[2].z);
-           glVertex3f(p[1].x,p[1].y,p[1].z);
+           NormalData[24] = 0.0; NormalData[25] = -sin1; NormalData[26] = cos1;
+           VertexData[24] = p[10].x; VertexData[25] = p[10].y; VertexData[26] = p[10].z;
+           NormalData[27] = 0.0; NormalData[28] = -sin1; NormalData[29] = cos1;
+           VertexData[27] = p[11].x; VertexData[28] = p[11].y; VertexData[29] = p[11].z;
+           NormalData[30] = 0.0; NormalData[31] = -cos2; NormalData[32] = -sin2;
+           VertexData[30] = p[2].x; VertexData[31] = p[2].y; VertexData[32] = p[2].z;
+           NormalData[33] = 0.0; NormalData[34] = -cos2; NormalData[35] = -sin2;
+           VertexData[33] = p[1].x; VertexData[34] = p[1].y; VertexData[35] = p[1].z;
        }else{
-           glNormal3f(0,-cos2,-sin2);
-           glVertex3f(p[1].x,p[1].y,p[1].z);
-           glVertex3f(p[2].x,p[2].y,p[2].z);
-           glNormal3f(0,-sin1,cos1);
-           glVertex3f(p[11].x,p[11].y,p[11].z);
-           glVertex3f(p[10].x,p[10].y,p[10].z);
+           NormalData[24] = 0.0; NormalData[25] = -cos2; NormalData[26] = -sin2;
+           VertexData[24] = p[1].x; VertexData[25] = p[1].y; VertexData[26] = p[1].z;
+           NormalData[27] = 0.0; NormalData[28] = -cos2; NormalData[29] = -sin2;
+           VertexData[27] = p[2].x; VertexData[28] = p[2].y; VertexData[29] = p[2].z;
+           NormalData[30] = 0.0; NormalData[31] = -sin1; NormalData[32] = cos1;
+           VertexData[30] = p[11].x; VertexData[31] = p[11].y; VertexData[32] = p[11].z;
+           NormalData[33] = 0.0; NormalData[34] = -sin1; NormalData[35] = cos1;
+           VertexData[33] = p[10].x; VertexData[34] = p[10].y; VertexData[35] = p[10].z;
        }
-    glEnd();
+    glVertexPointer(3, GL_FLOAT, 0, VertexData);
+    glNormalPointer(GL_FLOAT, 0, NormalData);
+    glPushMatrix();
+    glDrawArrays(GL_QUADS,0,12);
 
-    glBegin(GL_TRIANGLES);
-       autonormalize_triangle(p[1],p[10],p[0],order);
-       autonormalize_triangle(p[2],p[3],p[11],order);
-
-       autonormalize_triangle(p[0],p[10],p[8],order);
-       autonormalize_triangle(p[0],p[5],p[1],order);
-       autonormalize_triangle(p[0],p[4],p[5],order);
-       autonormalize_triangle(p[3],p[9],p[11],order);
-       autonormalize_triangle(p[3],p[2],p[6],order);
-       autonormalize_triangle(p[3],p[6],p[7],order);
-    glEnd();
+    autonormalize_triangle(p[1],p[10],p[0],order,&VertexData[0],&NormalData[0]);
+    autonormalize_triangle(p[2],p[3],p[11],order,&VertexData[9],&NormalData[9]);
+    autonormalize_triangle(p[0],p[10],p[8],order,&VertexData[18],&NormalData[18]);
+    autonormalize_triangle(p[0],p[5],p[1],order,&VertexData[27],&NormalData[27]);
+    autonormalize_triangle(p[0],p[4],p[5],order,&VertexData[36],&NormalData[36]);
+    autonormalize_triangle(p[3],p[9],p[11],order,&VertexData[45],&NormalData[45]);
+    autonormalize_triangle(p[3],p[2],p[6],order,&VertexData[54],&NormalData[54]);
+    autonormalize_triangle(p[3],p[6],p[7],order,&VertexData[63],&NormalData[63]);
+    glDrawArrays(GL_TRIANGLES,0,8*3);
+    glPopMatrix();
 }
 
 /***********************************************************************/
@@ -906,92 +972,115 @@ void my_Bande( VMfloat x1, VMfloat y1, VMfloat z1,    /* inside up */
    /* holes-tuch */
 void my_HoleTuch( int xfact, int yfact )
 {
-       int i;
+#define  HOLE1_SEGNR_4 8
+
+       int i,j,k,l;
        VMfloat x,y,phi;
        VMfloat edge_xyoffs;
        edge_xyoffs = HOLE1_R*SQR2-BANDE_D;
+       GLfloat VertexData[(HOLE1_SEGNR_4+3)*3*2*2];
+       GLfloat NormalData[(HOLE1_SEGNR_4+3)*3*2*2];
+       GLfloat TexData[(HOLE1_SEGNR_4+3)*2*2*2];
 
-       glBegin(GL_TRIANGLES);
+       //glEnableClientState are defined from the calling function
 
+       NormalData[0] = 0.0; NormalData[1] = 0.0; NormalData[2] = 1.0;
+       NormalData[3] = 0.0; NormalData[4] = 0.0; NormalData[5] = 1.0;
+       NormalData[6] = 0.0; NormalData[7] = 0.0; NormalData[8] = 1.0;
+       NormalData[9] = 0.0; NormalData[10] = 0.0; NormalData[11] = 1.0;
+       NormalData[12] = 0.0; NormalData[13] = 0.0; NormalData[14] = 1.0;
+       NormalData[15] = 0.0; NormalData[16] = 0.0; NormalData[17] = 1.0;
        x=-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2; y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
-       glVertex3f(x,y,-BALL_D/2.0);
+       TexData[0] = TABLETEXCOORD_X(x,y); TexData[1] = TABLETEXCOORD_Y(x,y);
+       VertexData[0] = x; VertexData[1] = y; VertexData[2] = -BALL_D/2.0;
        x=-TABLE_W/2.0-BANDE_D; y=-TABLE_L/2.0+edge_xyoffs;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glVertex3f(x,y,-BALL_D/2.0);
+       TexData[2] = TABLETEXCOORD_X(x,y); TexData[3] = TABLETEXCOORD_Y(x,y);
+       VertexData[3] = x; VertexData[4] = y; VertexData[5] = -BALL_D/2.0;
        x=-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO; y=-TABLE_L/2.0+edge_xyoffs+BANDE_D*HOLE1_TAN;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glVertex3f(x,y,-BALL_D/2.0);
-
+       TexData[4] = TABLETEXCOORD_X(x,y); TexData[5] = TABLETEXCOORD_Y(x,y);
+       VertexData[6] = x; VertexData[7] = y; VertexData[8] = -BALL_D/2.0;
        x=-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2; y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glVertex3f(x,y,-BALL_D/2.0);
+       TexData[6] = TABLETEXCOORD_X(x,y); TexData[7] = TABLETEXCOORD_Y(x,y);
+       VertexData[9] = x; VertexData[10] = y; VertexData[11] = -BALL_D/2.0;
        x=-TABLE_W/2.0+edge_xyoffs+BANDE_D*HOLE1_TAN; y=-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glVertex3f(x,y,-BALL_D/2.0);
+       TexData[8] = TABLETEXCOORD_X(x,y); TexData[9] = TABLETEXCOORD_Y(x,y);
+       VertexData[12] = x; VertexData[13] = y; VertexData[14] = -BALL_D/2.0;
        x=-TABLE_W/2.0+edge_xyoffs; y=-TABLE_L/2.0-BANDE_D;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glVertex3f(x,y,-BALL_D/2.0);
+       TexData[10] = TABLETEXCOORD_X(x,y); TexData[11] = TABLETEXCOORD_Y(x,y);
+       VertexData[15] = x; VertexData[16] = y; VertexData[17] = -BALL_D/2.0;
+       glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+       glVertexPointer(3, GL_FLOAT, 0, VertexData);
+       glNormalPointer(GL_FLOAT, 0, NormalData);
+       glPushMatrix();
+       glDrawArrays(GL_TRIANGLES,0,6);
+       glPopMatrix();
 
-       glEnd();
-
-#define  HOLE1_SEGNR_4 8
-       glBegin(GL_TRIANGLE_FAN);
        x=-TABLE_W/2.0-BANDE_D; y=-TABLE_L/2.0+edge_xyoffs;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
-       glVertex3f(x,y,-BALL_D/2.0);
+       j = 0;
+       k = 0;
+       TexData[j++] = TABLETEXCOORD_X(x,y); TexData[j++] = TABLETEXCOORD_Y(x,y);
+       VertexData[k++] = x; VertexData[k++] = y; VertexData[k++] = -BALL_D/2.0;
        for(i=0;i<HOLE1_SEGNR_4+1;i++){
            phi=M_PI/4.0+(VMfloat)i*M_PI/HOLE1_SEGNR_4/2.0;
            x=-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi);
            y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi);
            x*=xfact; y*=yfact;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glVertex3f(x,y,-BALL_D/2.0);
+           TexData[j++] = TABLETEXCOORD_X(x,y); TexData[j++] = TABLETEXCOORD_Y(x,y);
+           VertexData[k++] = x; VertexData[k++] = y; VertexData[k++] = -BALL_D/2.0;
        }
-       glEnd();
+       // glnormal like before
+       glPushMatrix();
+       glDrawArrays(GL_TRIANGLE_FAN,0,HOLE1_SEGNR_4+1);
+       glPopMatrix();
 
-       glBegin(GL_TRIANGLE_FAN);
+       j = 0;
+       k = 0;
        x=-TABLE_W/2.0+edge_xyoffs; y=-TABLE_L/2.0-BANDE_D;
        x*=xfact; y*=yfact;
-       glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-       glNormal3f( 0.0, 0.0, 1.0 );
-       glVertex3f(x,y,-BALL_D/2.0);
+       TexData[j++] = TABLETEXCOORD_X(x,y); TexData[j++] = TABLETEXCOORD_Y(x,y);
+       VertexData[k++] = x; VertexData[k++] = y; VertexData[k++] = -BALL_D/2.0;
        for(i=HOLE1_SEGNR_4;i>=0;i--){
            phi=M_PI/4.0+(VMfloat)i*M_PI/HOLE1_SEGNR_4/2.0;
            x=-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi);
            y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi);
            x*=xfact; y*=yfact;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glVertex3f(x,y,-BALL_D/2.0);
+           TexData[j++] = TABLETEXCOORD_X(x,y); TexData[j++] = TABLETEXCOORD_Y(x,y);
+           VertexData[k++] = x; VertexData[k++] = y; VertexData[k++] = -BALL_D/2.0;
        }
-       glEnd();
+       // glnormal like before
+       glPushMatrix();
+       glDrawArrays(GL_TRIANGLE_FAN,0,HOLE1_SEGNR_4+1);
+       glPopMatrix();
 
-       glBegin(GL_QUAD_STRIP);
+       j = 0;
+       k = 0;
+       l = 0;
        for(i=-HOLE1_SEGNR_4;i<HOLE1_SEGNR_4+1;i++){
            phi=M_PI/4.0+(VMfloat)i*M_PI/HOLE1_SEGNR_4/2.0;
            x=-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi);
            y=-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi);
            x*=xfact; y*=yfact;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( 0.0, 0.0, 1.0 );
-           glVertex3f(x,y,-BALL_D/2.0);
+           TexData[j++] = TABLETEXCOORD_X(x,y); TexData[j++] = TABLETEXCOORD_Y(x,y);
+           NormalData[k++] = 0.0; NormalData[k++] = 0.0; NormalData[k++] = 1.0;
+           VertexData[l++] = x; VertexData[l++] = y; VertexData[l++] = -BALL_D/2.0;
            x=-TABLE_W/2.0-HOLE1_XYOFFS+(HOLE1_R-0.005)*cos(phi);
            y=-TABLE_L/2.0-HOLE1_XYOFFS+(HOLE1_R-0.005)*sin(phi);
            x*=xfact; y*=yfact;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glNormal3f( -cos(phi)*xfact, -sin(phi)*yfact, 0.0 );
-           glVertex3f(x,y,-BALL_D/2.0-0.005);
+           TexData[j++] = TABLETEXCOORD_X(x,y); TexData[j++] = TABLETEXCOORD_Y(x,y);
+           NormalData[k++] = -cos(phi)*xfact; NormalData[k++] = -sin(phi)*yfact; NormalData[k++] = 0.0;
+           VertexData[l++] = x; VertexData[l++] = y; VertexData[l++] = -BALL_D/2.0-0.005;
        }
-       glEnd();
+       glPushMatrix();
+       glDrawArrays(GL_QUAD_STRIP,0,1+HOLE1_SEGNR_4*2*2);
+       glPopMatrix();
+       //glDisableClientState are defined inside the calling function
 }
 
 /***********************************************************************
@@ -1059,7 +1148,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
     GLfloat vx[4]={0,50,60,0};
     GLfloat vy[4]={50,0,60,0};
 
-    int imax,jmax,i,j,k,l;
+    int imax,jmax,i,j,k,l,m,n,o;
     VMfloat area_w,area_l;  /* the main area */
 
     edge_xyoffs = HOLE1_R*SQR2-BANDE_D;
@@ -1173,8 +1262,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
    if(carambol){
-       tablew=TABLE_W+2.0*BANDE_D;
-       tablel=TABLE_L+2.0*BANDE_D;
+       //tablew=TABLE_W+2.0*BANDE_D;
+       //tablel=TABLE_L+2.0*BANDE_D;
+       // see some lines above. Is this right here?
+       tablew=TABLE_W;
+       tablel=TABLE_L;
        area_w = TABLE_W+2.0*BANDE_D;
        area_l = TABLE_L+2.0*BANDE_D;
    } else {
@@ -1185,32 +1277,50 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 /* AREA_SUBDIV_Y and AREA_SUBDIV_X have to be even */
 #define AREA_SUBDIV_Y 6
 #define AREA_SUBDIV_X 4
+   GLfloat TexData[(AREA_SUBDIV_Y*AREA_SUBDIV_X+3)*2*4];
+   GLfloat VertexData[(AREA_SUBDIV_Y*AREA_SUBDIV_X+3)*3*4];
+   GLfloat NormalData[(AREA_SUBDIV_Y*AREA_SUBDIV_X+3)*3*4];
+
    jmax=AREA_SUBDIV_Y; imax=AREA_SUBDIV_X;
-   glNormal3f( 0.0, 0.0, 1.0 ); // ### TODO ### checkpoint new here , see some rows above
+   glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
+   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+   glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+   glVertexPointer(3, GL_FLOAT, 0, VertexData);
+   glNormalPointer(GL_FLOAT, 0, NormalData);
+
+   m = 0;
+   n = 0;
+   o = 0;
+   glPushMatrix();
    for(j=0;j<jmax;j++){
        for(i=0;i<imax;i++){
            VMfloat x,y;
-           glBegin(GL_QUADS);
            x=-area_w/2.0+i*area_w/imax; y=-area_l/2.0+j*area_l/jmax;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           //glNormal3f( 0.0, 0.0, 1.0 ); // why this here so often called inside loop ? ### TODO ### checkpoint this is now before for-loop
-           glVertex3f( x,y, -balld/2.0);
+           TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
+           VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -balld/2.0;
            x=-area_w/2.0+i*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glVertex3f( x,y, -balld/2.0);
+           TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
+           VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -balld/2.0;
            x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glVertex3f( x,y, -balld/2.0);
+           TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
+           VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -balld/2.0;
            x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+j*area_l/jmax;
-           glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-           glVertex3f( x,y, -balld/2.0);
-           glEnd();
+           TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
+           VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -balld/2.0;
        }
    }
-   if(carambol){
-       tablew=TABLE_W;
-       tablel=TABLE_L;
-   }
+   glDrawArrays(GL_QUADS,0,4*AREA_SUBDIV_Y*AREA_SUBDIV_X);
+   glPopMatrix();
+   // the following lines are wrong here? set this a few lines before, because can't find a reason that it's here
+   //if(carambol){
+   //    tablew=TABLE_W;
+   //    tablel=TABLE_L;
+   //}
 
    if(!carambol){
        /* holes */
@@ -1230,42 +1340,69 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    /* furchen */
 	  fprintf(stderr,"Generate furrow object\n");
    if(!carambol){
-#define TABLEVERTEX(x,y,z,f1,f2) \
-             glTexCoord2f( TABLETEXCOORD_X((x)*(f1),(y)*(f2)), TABLETEXCOORD_Y((x)*(f1),(y)*(f2)) ); \
-             glVertex3f((x)*(f1),(y)*(f2),z);
    /*lower, upper*/
        fprintf(stderr,"Generate lower upper furrow object\n");
-   	   glNormal3f(0.0,0.0,1.0); // see some rows later, this here is new line ### TODO ### checkpoint
+       //glnormal array are well defined before
+       glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+       glVertexPointer(3, GL_FLOAT, 0, VertexData);
+       glNormalPointer(GL_FLOAT, 0, NormalData);
        for(i=0;i<2;i++){
+           m = 0;
+           o = 0;
            glFrontFace(i==0?GL_CW:GL_CCW);
-           glBegin(GL_QUAD_STRIP);
-           //glNormal3f(0.0,0.0,1.0); // why this here in loop? ### TODO ### checkpoint
-           TABLEVERTEX( area_w/2.0,                                -area_l/2.0,                        -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
-           TABLEVERTEX( TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN, -TABLE_L/2.0-BANDE_D*BANDE_D2RATIO, -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
-           for(j=0;j<AREA_SUBDIV_X-1;j++){
-               TABLEVERTEX( area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X, -area_l/2.0,                        -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
-               TABLEVERTEX( area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X, -TABLE_L/2.0-BANDE_D*BANDE_D2RATIO, -BALL_D/2.0, 1.0, i==0?1.0:-1.0 );
-           }
-           TABLEVERTEX( area_w/2.0,                                -area_l/2.0,                        -BALL_D/2.0, -1.0, i==0?1.0:-1.0 );
-           TABLEVERTEX( TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN, -TABLE_L/2.0-BANDE_D*BANDE_D2RATIO, -BALL_D/2.0, -1.0, i==0?1.0:-1.0 );
-           glEnd();
-       }
+           TexData[m++] = TABLETEXCOORD_X((area_w/2.0)*(1.0),(-area_l/2.0)*(i==0?1.0:-1.0));
+           TexData[m++] = TABLETEXCOORD_Y((area_w/2.0)*(1.0),(-area_l/2.0)*(i==0?1.0:-1.0));
+           VertexData[o++] = (area_w/2.0)*(1.0); VertexData[o++] = (-area_l/2.0)*(i==0?1.0:-1.0); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(1.0),(-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0));
+           TexData[m++] = TABLETEXCOORD_Y((TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(1.0),(-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0));
+           VertexData[o++] = (TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(1.0); VertexData[o++] = (-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0); VertexData[o++] = -BALL_D/2.0;
 
+           for(j=0;j<AREA_SUBDIV_X-1;j++){
+               TexData[m++] = TABLETEXCOORD_X((area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X)*(1.0),(-area_l/2.0)*(i==0?1.0:-1.0));
+               TexData[m++] = TABLETEXCOORD_Y((area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X)*(1.0),(-area_l/2.0)*(i==0?1.0:-1.0));
+               VertexData[o++] = (area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X)*(1.0); VertexData[o++] = (-area_l/2.0)*(i==0?1.0:-1.0); VertexData[o++] = -BALL_D/2.0;
+               TexData[m++] = TABLETEXCOORD_X((area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X)*(1.0),(-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0));
+               TexData[m++] = TABLETEXCOORD_Y((area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X)*(1.0),(-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0));
+               VertexData[o++] = (area_w/2.0-area_w*(j+1)/AREA_SUBDIV_X)*(1.0); VertexData[o++] = (-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0); VertexData[o++] = -BALL_D/2.0;
+           }
+           TexData[m++] = TABLETEXCOORD_X((area_w/2.0)*(-1.0),(-area_l/2.0)*(i==0?1.0:-1.0));
+           TexData[m++] = TABLETEXCOORD_Y((area_w/2.0)*(-1.0),(-area_l/2.0)*(i==0?1.0:-1.0));
+           VertexData[o++] = (area_w/2.0)*(-1.0); VertexData[o++] = (-area_l/2.0)*(i==0?1.0:-1.0); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(-1.0),(-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0));
+           TexData[m++] = TABLETEXCOORD_Y((TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(-1.0),(-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0));
+           VertexData[o++] = (TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(-1.0); VertexData[o++] = (-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0); VertexData[o++] = -BALL_D/2.0;
+           glPushMatrix();
+           glDrawArrays(GL_QUAD_STRIP,0,(4+(AREA_SUBDIV_X*2-1)));
+           glPopMatrix();
+       }
        /* some middle pocket triangles */
        fprintf(stderr,"Generate some middle pocket triangles object\n");
        for(i=0;i<2;i++){
+           m = 0;
+           o = 0;
            glFrontFace(i==0?GL_CW:GL_CCW);
-           glBegin(GL_TRIANGLES);
-           //glNormal3f(0.0,0.0,1.0); why this here in loop? ### TODO ### checkpoint it is set some lines before with the same !!!!!
-           TABLEVERTEX( -area_w/2.0,                                  0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
-           TABLEVERTEX( -TABLE_W/2.0-BANDE_D*BANDE_D2RATIO,          -HOLE2_R-HOLE2_TAN*BANDE_D,        -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
-           TABLEVERTEX( -TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R,            0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
-
-           TABLEVERTEX( -area_w/2.0,                                  0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
-           TABLEVERTEX( -TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R,            0.0,                              -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
-           TABLEVERTEX( -TABLE_W/2.0-BANDE_D*BANDE_D2RATIO,          +HOLE2_R+HOLE2_TAN*BANDE_D,        -BALL_D/2.0, i==0?1.0:-1.0, 1.0 );
-
-           glEnd();
+           //glnormal array are well defined before
+           TexData[m++] = TABLETEXCOORD_X((-area_w/2.0)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           VertexData[o++] = (-area_w/2.0)*(i==0?1.0:-1.0); VertexData[o++] = (0.0)*(1.0); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0),(-HOLE2_R-HOLE2_TAN*BANDE_D)*(1.0));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0),(-HOLE2_R-HOLE2_TAN*BANDE_D)*(1.0));
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0); VertexData[o++] = (-HOLE2_R-HOLE2_TAN*BANDE_D)*(1.0); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R)*(i==0?1.0:-1.0); VertexData[o++] = (0.0)*(1.0); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-area_w/2.0)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           VertexData[o++] = (-area_w/2.0)*(i==0?1.0:-1.0); VertexData[o++] = (0.0)*(1.0); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R)*(i==0?1.0:-1.0),(0.0)*(1.0));
+           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R)*(i==0?1.0:-1.0); VertexData[o++] = (0.0)*(1.0); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0),(+HOLE2_R+HOLE2_TAN*BANDE_D)*(1.0));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0),(+HOLE2_R+HOLE2_TAN*BANDE_D)*(1.0));
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0); VertexData[o++] = (+HOLE2_R+HOLE2_TAN*BANDE_D)*(1.0); VertexData[o++] = -BALL_D/2.0;
+           glPushMatrix();
+           glDrawArrays(GL_TRIANGLES,0,6);
+           glPopMatrix();
        }
 
        /* lower left, lower right, upper right, upper left */
@@ -1273,6 +1410,8 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        for(i=0;i<4;i++){
            fx=0.0;
            fy=0.0;
+           m = 0;
+           o = 0;
            switch(i){
            case 0: fx=+1.0; fy=+1.0; glFrontFace(GL_CW);  break;  /* lower left  */
            case 1: fx=-1.0; fy=+1.0; glFrontFace(GL_CCW); break;  /* lower right */
@@ -1280,81 +1419,113 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            case 3: fx=+1.0; fy=-1.0; glFrontFace(GL_CCW); break;  /* upper left  */
            }
 
-           glBegin(GL_QUAD_STRIP);
            /* furchen */
-           //glNormal3f(0.0,0.0,1.0); // why this here ? ### TODO ### checkpoint its not changed in the lines before see some lines before
-           TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D, -HOLE1_R-HOLE2_TAN*BANDE_D,                 -BALL_D/2.0, fx,fy );
-           TABLEVERTEX( -area_w/2.0,                        0.0,                                        -BALL_D/2.0, fx,fy );
+           //glnormal array are well defined before
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-HOLE1_R-HOLE2_TAN*BANDE_D)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-HOLE1_R-HOLE2_TAN*BANDE_D)*(fy));
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx); VertexData[o++] = (-HOLE1_R-HOLE2_TAN*BANDE_D)*(fy); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-area_w/2.0)*(fx),(0.0)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(fx),(0.0)*(fy));
+           VertexData[o++] = (-area_w/2.0)*(fx); VertexData[o++] = (0.0)*(fy); VertexData[o++] = -BALL_D/2.0;
+
            for(j=0;j<AREA_SUBDIV_Y/2-1;j++){
-               TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D, -area_l*(j+1)/AREA_SUBDIV_Y,            -BALL_D/2.0, fx,fy );
-               TABLEVERTEX( -area_w/2.0,                        -area_l*(j+1)/AREA_SUBDIV_Y,            -BALL_D/2.0, fx,fy );
+               TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-area_l*(j+1)/AREA_SUBDIV_Y)*(fy));
+               TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-area_l*(j+1)/AREA_SUBDIV_Y)*(fy));
+               VertexData[o++] = (-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx); VertexData[o++] = (-area_l*(j+1)/AREA_SUBDIV_Y)*(fy); VertexData[o++] = -BALL_D/2.0;
+               TexData[m++] = TABLETEXCOORD_X((-area_w/2.0)*(fx),(-area_l*(j+1)/AREA_SUBDIV_Y)*(fy));
+               TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(fx),(-area_l*(j+1)/AREA_SUBDIV_Y)*(fy));
+               VertexData[o++] = (-area_w/2.0)*(fx); VertexData[o++] = (-area_l*(j+1)/AREA_SUBDIV_Y)*(fy); VertexData[o++] = -BALL_D/2.0;
            }
-           TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D, -TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D, -BALL_D/2.0, fx,fy );
-           TABLEVERTEX( -area_w/2.0,                        -area_l/2.0,                                -BALL_D/2.0, fx,fy );
-           glEnd();
-
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fy));
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx); VertexData[o++] = (-TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fy); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-area_w/2.0)*(fx),(-area_l/2.0)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(fx),(-area_l/2.0)*(fy));
+           VertexData[o++] = (-area_w/2.0)*(fx); VertexData[o++] = (-area_l/2.0)*(fy); VertexData[o++] = -BALL_D/2.0;
+           glPushMatrix();
+           glDrawArrays(GL_QUAD_STRIP,0,4+AREA_SUBDIV_Y-1);
+           glPopMatrix();
+           m = 0;
+           o = 0;
            /* quad between area-edge and hole */
-           glBegin(GL_TRIANGLES);
-           // glNormal3f(0.0,0.0,1.0); // why this here ? ### TODO ### checkpoint its not changed in the lines before see some lines before
-           TABLEVERTEX( -area_w/2.0,                            -area_l/2.0,                                -BALL_D/2.0, fx,fy );
-           TABLEVERTEX( -TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2, -TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2,     -BALL_D/2.0, fx,fy );
-           TABLEVERTEX( -TABLE_W/2.0-BANDE_D2RATIO*BANDE_D,     -TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D, -BALL_D/2.0, fx,fy );
-
-           TABLEVERTEX( -area_w/2.0,                            -area_l/2.0,                                -BALL_D/2.0, fx,fy );
-           TABLEVERTEX( -TABLE_W/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D, -TABLE_L/2.0-BANDE_D2RATIO*BANDE_D,     -BALL_D/2.0, fx,fy );
-           TABLEVERTEX( -TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2, -TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2,     -BALL_D/2.0, fx,fy );
-
-           glEnd();
+           TexData[m++] = TABLETEXCOORD_X((-area_w/2.0)*(fx),(-area_l/2.0)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(fx),(-area_l/2.0)*(fy));
+           VertexData[o++] = (-area_w/2.0)*(fx); VertexData[o++] = (-area_l/2.0)*(fy); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fx),(-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fx),(-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fy));
+           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fx); VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fy); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx),(-TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fy));
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D2RATIO*BANDE_D)*(fx); VertexData[o++] = (-TABLE_L/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fy); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-area_w/2.0)*(fx),(-area_l/2.0)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(fx),(-area_l/2.0)*(fy));
+           VertexData[o++] = (-area_w/2.0)*(fx); VertexData[o++] = (-area_l/2.0)*(fy); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fx),(-TABLE_L/2.0-BANDE_D2RATIO*BANDE_D)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fx),(-TABLE_L/2.0-BANDE_D2RATIO*BANDE_D)*(fy));
+           VertexData[o++] = (-TABLE_W/2.0+edge_xyoffs+HOLE1_TAN*BANDE_D)*(fx); VertexData[o++] = (-TABLE_L/2.0-BANDE_D2RATIO*BANDE_D)*(fy); VertexData[o++] = -BALL_D/2.0;
+           TexData[m++] = TABLETEXCOORD_X((-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fx),(-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fy));
+           TexData[m++] = TABLETEXCOORD_Y((-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fx),(-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fy));
+           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fx); VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R/SQR2)*(fy); VertexData[o++] = -BALL_D/2.0;
+           glPushMatrix();
+           glDrawArrays(GL_TRIANGLES,0,6);
+           glPopMatrix();
        }
 
 #define HOLE2_SEGNR_2 12
        fprintf(stderr,"Generate left, right pocket triangles object\n");
        for(k=0;k<2;k++){  /* left, right hole */
            if(k==0) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
-           glBegin(GL_QUAD_STRIP);
+           m = 0;
+           n = 0;
+           o = 0;
            for(i=0;i<HOLE2_SEGNR_2+1;i++){
                phi=(VMfloat)i*M_PI/HOLE2_SEGNR_2;
                x=-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R*sin(phi);
                y=HOLE2_R*cos(phi);
                if(k!=0) x=-x;
-               glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-               glNormal3f( 0.0, 0.0, 1.0 );
-               glVertex3f( x,y, -BALL_D/2.0 );
+               TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+               NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
+               VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0 ;
                x=-TABLE_W/2.0-HOLE2_XYOFFS+(HOLE2_R-HOLE2_PHASE)*sin(phi);
                y=(HOLE2_R-HOLE2_PHASE)*cos(phi);
                if(k!=0) x=-x;
-               glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-               glNormal3f( -sin(phi), (k==0)?-cos(phi):cos(phi), 0.0 );
-               glVertex3f( x,y, -BALL_D/2.0-HOLE2_PHASE );
+               TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+               NormalData[n++] = -sin(phi); NormalData[n++] = (k==0)?-cos(phi):cos(phi); NormalData[n++] = 0.0;
+               VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0-HOLE2_PHASE ;
            }
-           glEnd();
+           glPushMatrix();
+           glDrawArrays(GL_QUAD_STRIP,0,HOLE2_SEGNR_2*2+1);
+           glPopMatrix();
        }
 
-       glNormal3f( 0.0, 0.0, 1.0 ); // ### TODO ### checkpoint changed from the lines above to this place before the loops
        fprintf(stderr,"Generate left, right pocket fans triangles object\n");
        for(k=0;k<2;k++){  /* left, right hole fans */
            for(j=0;j<2;j++){ /* fan 1, 2 */
+               m = 0;
+               n = 0;
+               o = 0;
                if(j^k) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
-               glBegin(GL_TRIANGLE_FAN);
-               //glNormal3f( 0.0, 0.0, 1.0 ); // why this here in so heavy loop? ### TODO ### checkpoint is set before the loops
+               NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
                x=-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO; y=-HOLE2_R-BANDE_D*HOLE2_TAN;
                if(j!=0) y=-y;
                if(k!=0) x=-x;
-               glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-               glVertex3f( x, y, -BALL_D/2.0 );
+               TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+               VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0 ;
                for(i=0;i<HOLE2_SEGNR_2/2+1;i++){
                    phi=(VMfloat)i*M_PI/HOLE2_SEGNR_2;
                    x=-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R*sin(phi);
                    y=-HOLE2_R*cos(phi);
                    if(j!=0) y=-y;
                    if(k!=0) x=-x;
-                   glTexCoord2f( TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y) );
-                   glVertex3f( x,y, -BALL_D/2.0 );
+                   TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+                   VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0 ;
+                   NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
                }
-               glEnd();
+               glPushMatrix();
+               glDrawArrays(GL_TRIANGLE_FAN,0,1+HOLE2_SEGNR_2/2+1);
+               glPopMatrix();
            }
        }
-
        glFrontFace(GL_CW);
    } /* if(!carambol) */
 
@@ -1379,90 +1550,64 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
 */
 
    fprintf(stderr,"Generate pocket objects: ");
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
    if(! carambol){
        /* upper */
    	   fprintf(stderr,"Not carom: ");
-       my_Bande( -tablew/2.0+hole_r1, tablel/2.0,        0.0,
-                 +tablew/2.0-hole_r1, tablel/2.0+bande_d, -balld/2.0,
-                 HOLE1_TAN, HOLE1_TAN, 0 );
+       my_Bande( -tablew/2.0+hole_r1, tablel/2.0, 0.0, +tablew/2.0-hole_r1, tablel/2.0+bande_d, -balld/2.0, HOLE1_TAN, HOLE1_TAN, 0 );
 
        fprintf(stderr,"lower "); /* lower */
        glPushMatrix();
        glScalef(1.0,-1.0,1.0);
-       my_Bande( -tablew/2.0+hole_r1, tablel/2.0,        0.0,
-                 +tablew/2.0-hole_r1, tablel/2.0+bande_d, -balld/2.0,
-                 HOLE1_TAN, HOLE1_TAN, 1 );
+       my_Bande( -tablew/2.0+hole_r1, tablel/2.0, 0.0, +tablew/2.0-hole_r1, tablel/2.0+bande_d, -balld/2.0, HOLE1_TAN, HOLE1_TAN, 1 );
        glPopMatrix();
 
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
        fprintf(stderr,"upper left ");/* upper left */
-       my_Bande( hole_r2,         tablew/2.0,        0.0,
-                 +tablew-hole_r1, tablew/2.0+bande_d, -balld/2.0,
-                 HOLE2_TAN, HOLE1_TAN, 0 );
+       my_Bande( hole_r2, tablew/2.0, 0.0, +tablew-hole_r1, tablew/2.0+bande_d, -balld/2.0, HOLE2_TAN, HOLE1_TAN, 0 );
        glScalef(1.0,-1.0,1.0);
        fprintf(stderr,"upper right ");/* upper right */
-       my_Bande( hole_r2,         tablew/2.0,        0.0,
-                 +tablew-hole_r1, tablew/2.0+bande_d, -balld/2.0,
-                 HOLE2_TAN, HOLE1_TAN, 1 );
+       my_Bande( hole_r2, tablew/2.0, 0.0, +tablew-hole_r1, tablew/2.0+bande_d, -balld/2.0, HOLE2_TAN, HOLE1_TAN, 1 );
        glPopMatrix();
 
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
-
        fprintf(stderr,"lower left "); /* lower left */
-       my_Bande( -tablew+hole_r1,         tablew/2.0,        0.0,
-                 -hole_r2, tablew/2.0+bande_d, -balld/2.0,
-                 HOLE1_TAN, HOLE2_TAN, 0 );
+       my_Bande( -tablew+hole_r1, tablew/2.0, 0.0, -hole_r2, tablew/2.0+bande_d, -balld/2.0, HOLE1_TAN, HOLE2_TAN, 0 );
        fprintf(stderr,"lower right "); /* lower right */
        glScalef(1.0,-1.0,1.0);
-       my_Bande( -tablew+hole_r1,         tablew/2.0,        0.0,
-                 -hole_r2, tablew/2.0+bande_d, -balld/2.0,
-                 HOLE1_TAN, HOLE2_TAN, 1 );
+       my_Bande( -tablew+hole_r1, tablew/2.0, 0.0, -hole_r2, tablew/2.0+bande_d, -balld/2.0, HOLE1_TAN, HOLE2_TAN, 1 );
        glPopMatrix();
        fprintf(stderr,"\n");
    } else {
       fprintf(stderr,"carom: ");
       fprintf(stderr,"upper "); /* upper */
-       my_Bande( -tablew/2.0, tablel/2.0,         0.0,
-                 +tablew/2.0, tablel/2.0+bande_d, -balld/2.0,
-                 1.0, 1.0, 0 );
+       my_Bande( -tablew/2.0, tablel/2.0, 0.0, +tablew/2.0, tablel/2.0+bande_d, -balld/2.0, 1.0, 1.0, 0 );
 
        fprintf(stderr,"lower ");/* lower */
        glPushMatrix();
        glScalef(1.0,-1.0,1.0);
-       my_Bande( -tablew/2.0, tablel/2.0,        0.0,
-                 +tablew/2.0, tablel/2.0+bande_d, -balld/2.0,
-                 1.0, 1.0, 1 );
+       my_Bande( -tablew/2.0, tablel/2.0, 0.0, +tablew/2.0, tablel/2.0+bande_d, -balld/2.0, 1.0, 1.0, 1 );
        glPopMatrix();
 
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
-
        fprintf(stderr,"upper left "); /* upper left */
-       my_Bande( 0.0,      tablew/2.0,         0.0,
-                 +tablew,  tablew/2.0+bande_d, -balld/2.0,
-                 0.0, 1.0, 0 );
+       my_Bande( 0.0, tablew/2.0, 0.0, +tablew,  tablew/2.0+bande_d, -balld/2.0, 0.0, 1.0, 0 );
        fprintf(stderr,"upper right "); /* upper right */
        glScalef(1.0,-1.0,1.0);
-       my_Bande( 0.0,      tablew/2.0,         0.0,
-                 +tablew,  tablew/2.0+bande_d, -balld/2.0,
-                 0.0, 1.0, 1 );
+       my_Bande( 0.0, tablew/2.0, 0.0, +tablew,  tablew/2.0+bande_d, -balld/2.0, 0.0, 1.0, 1 );
 
        glPopMatrix();
 
        glPushMatrix();
        glRotatef( 90.0, 0.0,0.0,1.0 );
-
        fprintf(stderr,"lower left "); /* lower left */
-       my_Bande( -tablew,  tablew/2.0,         0.0,
-                 0.0,      tablew/2.0+bande_d, -balld/2.0,
-                 1.0, 0.0, 0 );
+       my_Bande( -tablew, tablew/2.0, 0.0, 0.0, tablew/2.0+bande_d, -balld/2.0, 1.0, 0.0, 0 );
        fprintf(stderr,"lower right "); /* lower right */
        glScalef(1.0,-1.0,1.0);
-       my_Bande( -tablew,  tablew/2.0,         0.0,
-                 0.0,      tablew/2.0+bande_d, -balld/2.0,
-                 1.0, 0.0, 1 );
+       my_Bande( -tablew, tablew/2.0, 0.0, 0.0, tablew/2.0+bande_d, -balld/2.0, 1.0, 0.0, 1 );
        glPopMatrix();
        fprintf(stderr,"\n");
    }
@@ -1536,6 +1681,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
 
    /* gold edges and covers */
+   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
    if(!carambol){
  	     fprintf(stderr,"Generate gold/silver edges and cover objects\n");
        if( options_bumpref        &&
@@ -1578,7 +1724,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
          glTranslatef( tablew/2.0+bande_d, 0.0, 0.0 );
          my_Cover( 9, r1coverfunc, 2.0*HOLE2_R, 1, 0.0, 1.0, 1.0 );
        glPopMatrix();
-
        if( options_bumpref        &&
            extension_multitexture &&
            extension_cubemap
@@ -1615,6 +1760,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glPopMatrix();
        /* bumpers for covers */
        glPushMatrix();
+       glDisableClientState(GL_TEXTURE_COORD_ARRAY);
          glTranslatef( tablew/2.0+bande_d, 0.0, 0.0 );
          my_CoverBumper( 9, r1coverfunc, scalefunc01, HOLE2_R*2.0, 0 );
        glPopMatrix();
@@ -1630,6 +1776,8 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        glMaterialfv(GL_FRONT, GL_SPECULAR,  hole_col_spec);
        glMaterialf (GL_FRONT, GL_SHININESS, hole_col_shin );
 #define HOLE1_BACKSEGNR 8
+       glVertexPointer(3, GL_FLOAT, 0, VertexData);
+       glNormalPointer(GL_FLOAT, 0, NormalData);
        for(j=0;j<4;j++){ /* 4 edge holes */
            xf=0.0;
            yf=0.0;
@@ -1639,33 +1787,42 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            case 2: glFrontFace(GL_CW);  xf=+1.0; yf=-1.0; break;
            case 3: glFrontFace(GL_CCW); xf=-1.0; yf=-1.0; break;
            }
-           glBegin(GL_QUAD_STRIP);
-           glNormal3f( (-1.0/SQR2)*xf,(1.0/SQR2)*yf,0.0 );
-           glVertex3f( (-TABLE_W/2.0+edge_xyoffs)*xf, (-TABLE_L/2.0-BANDE_D)*yf,  FRAME_DH );
-           glNormal3f( (0)*xf, (0)*yf,-1.0 );
-           glVertex3f( (-TABLE_W/2.0+edge_xyoffs)*xf, (-TABLE_L/2.0-BANDE_D)*yf, -0.1 );
+           n = 0;
+           o = 0;
+           NormalData[n++] = (-1.0/SQR2)*xf; NormalData[n++] = (1.0/SQR2)*yf; NormalData[n++] = 0.0;
+           VertexData[o++] = (-TABLE_W/2.0+edge_xyoffs)*xf; VertexData[o++] = (-TABLE_L/2.0-BANDE_D)*yf; VertexData[o++] = FRAME_DH;
+           NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0+edge_xyoffs)*xf; VertexData[o++] = (-TABLE_L/2.0-BANDE_D)*yf; VertexData[o++] = -0.1;
            for( i=0 ; i<HOLE1_BACKSEGNR+1 ; i++ ){
                VMfloat phi;
                phi = -M_PI/4.0-M_PI*(VMfloat)i/(VMfloat)HOLE1_BACKSEGNR;
-               glNormal3f( (-cos(phi))*xf,(-sin(phi))*yf,0.0 );
-               glVertex3f( (-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi))*xf, (-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi))*yf, FRAME_DH );
-               glNormal3f( (0)*xf, (0)*yf,-1.0 );
-               glVertex3f( (-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi))*xf, (-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi))*yf, -0.1 );
+               NormalData[n++] = (-cos(phi))*xf; NormalData[n++] = (-sin(phi))*yf; NormalData[n++] = 0.0;
+               VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi))*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi))*yf; VertexData[o++] = FRAME_DH;
+               NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+               VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS+HOLE1_R*cos(phi))*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS+HOLE1_R*sin(phi))*yf; VertexData[o++] = -0.1;
            }
-           glNormal3f( (1.0/SQR2)*xf,(-1.0/SQR2)*yf,0.0 );
-           glVertex3f( (-TABLE_W/2.0-BANDE_D)*xf, (-TABLE_L/2.0+edge_xyoffs)*yf,  FRAME_DH );
-           glNormal3f( (0)*xf,(0)*yf,-1.0 );
-           glVertex3f( (-TABLE_W/2.0-BANDE_D)*xf, (-TABLE_L/2.0+edge_xyoffs)*yf,  -0.1 );
-           glEnd();
+           NormalData[n++] = (1.0/SQR2)*xf; NormalData[n++] = (-1.0/SQR2)*yf; NormalData[n++] = 0.0;
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = (-TABLE_L/2.0+edge_xyoffs)*yf; VertexData[o++] = FRAME_DH;
+           NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = (-TABLE_L/2.0+edge_xyoffs)*yf; VertexData[o++] = -0.1;
+           glPushMatrix();
+           glDrawArrays(GL_QUAD_STRIP,0,4+((HOLE1_BACKSEGNR+1)*2));
+           glPopMatrix();
            /* black ground of hole */
-           glBegin(GL_QUADS);
-           glVertex3f( (-TABLE_W/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*xf, (-TABLE_L/2.0-HOLE1_XYOFFS)*yf,  -0.1 );
-           glVertex3f( (-TABLE_W/2.0-HOLE1_XYOFFS)*xf, (-TABLE_L/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*yf,  -0.1 );
-           glVertex3f( (-TABLE_W/2.0-HOLE1_XYOFFS+0.5)*xf, (-TABLE_L/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*yf,  -0.1 );
-           glVertex3f( (-TABLE_W/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*xf, (-TABLE_L/2.0-HOLE1_XYOFFS+0.5)*yf,  -0.1 );
-           glEnd();
+           o = 0;
+           n = 0;
+           NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS)*yf; VertexData[o++] = -0.1;
+           NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS)*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*yf; VertexData[o++] = -0.1;
+           NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS+0.5)*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*yf; VertexData[o++] = -0.1;
+           NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS+0.5)*yf; VertexData[o++] = -0.1;
+           glPushMatrix();
+           glDrawArrays(GL_QUADS,0,4);
+           glPopMatrix();
        }
-
 #define HOLE2_BACKSEGNR 8
 
        fprintf(stderr,"Generate side holes\n");
@@ -1675,36 +1832,44 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            case 0: glFrontFace(GL_CCW); xf=+1.0; break;
            case 1: glFrontFace(GL_CW);  xf=-1.0; break;
            }
-           glBegin(GL_QUAD_STRIP);
-           glNormal3s( 0, 1, 0 );
-           glVertex3f( (-TABLE_W/2.0-BANDE_D)*xf, -HOLE2_R,  FRAME_DH );
-           glNormal3s( 0, 0,-1 );
-           glVertex3f( (-TABLE_W/2.0-BANDE_D)*xf, -HOLE2_R,  -0.1 );
+           n = 0;
+           o = 0;
+           NormalData[n++] = 0.0; NormalData[n++] = 1.0; NormalData[n++] = 0.0;
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = -HOLE2_R; VertexData[o++] = FRAME_DH;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = -HOLE2_R; VertexData[o++] = -0.1;
            for( i=0 ; i<HOLE2_BACKSEGNR+1 ; i++ ){
                VMfloat phi;
                phi = -M_PI/2.0-M_PI*(VMfloat)i/(VMfloat)HOLE2_BACKSEGNR;
-               glNormal3f( (-cos(phi))*xf,-sin(phi),0.0 );
-               glVertex3f( (-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R*cos(phi))*xf, HOLE2_R*sin(phi), FRAME_DH );
-               glNormal3s( 0, 0,-1 );
-               glVertex3f( (-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R*cos(phi))*xf, HOLE2_R*sin(phi), -0.1 );
-
+               NormalData[n++] = (-cos(phi))*xf; NormalData[n++] = -sin(phi); NormalData[n++] = 0.0;
+               VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R*cos(phi))*xf; VertexData[o++] = HOLE2_R*sin(phi); VertexData[o++] = FRAME_DH ;
+               NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+               VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R*cos(phi))*xf; VertexData[o++] = HOLE2_R*sin(phi); VertexData[o++] = -0.1;
            }
-           glNormal3s( 0, -1, 0 );
-           glVertex3f( (-TABLE_W/2.0-BANDE_D)*xf, +HOLE2_R,  FRAME_DH );
-           glNormal3s( 0, 0,-1 );
-           glVertex3f( (-TABLE_W/2.0-BANDE_D)*xf, +HOLE2_R,  -0.1 );
-           glEnd();
+           NormalData[n++] = 0.0; NormalData[n++] = -1.0; NormalData[n++] = 0.0;
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = +HOLE2_R; VertexData[o++] = FRAME_DH;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = +HOLE2_R; VertexData[o++] = -0.1;
+           glPushMatrix();
+           glDrawArrays(GL_QUAD_STRIP,0,4+((HOLE2_BACKSEGNR+1)*2));
+           glPopMatrix();
            /* black ground of hole */
-           glBegin(GL_QUADS);
-           glVertex3f( (-TABLE_W/2.0-HOLE2_XYOFFS-HOLE2_R)*xf, +HOLE2_R,  -0.1 );
-           glVertex3f( (-TABLE_W/2.0-HOLE2_XYOFFS-HOLE2_R)*xf, -HOLE2_R,  -0.1 );
-           glVertex3f( (-TABLE_W/2.0-HOLE2_XYOFFS+2.5*HOLE2_R)*xf, -4*HOLE2_R,  -0.1 );
-           glVertex3f( (-TABLE_W/2.0-HOLE2_XYOFFS+2.5*HOLE2_R)*xf, +4*HOLE2_R,  -0.1 );
-           glEnd();
+           o = 0;
+           n = 0;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS-HOLE2_R)*xf; VertexData[o++] = +HOLE2_R; VertexData[o++] = -0.1;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS-HOLE2_R)*xf; VertexData[o++] = -HOLE2_R; VertexData[o++] = -0.1;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+2.5*HOLE2_R)*xf; VertexData[o++] = -4*HOLE2_R; VertexData[o++] = -0.1;
+           NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+2.5*HOLE2_R)*xf; VertexData[o++] = +4*HOLE2_R; VertexData[o++] = -0.1;
+           glPushMatrix();
+           glDrawArrays(GL_QUADS,0,4);
+           glPopMatrix();
        }
        glFrontFace(GL_CW);
    }
-
    /* wood-frame */
    fprintf(stderr,"Generate wood frame\n");
    glEnable(GL_TEXTURE_2D);
@@ -1717,7 +1882,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    glDisable(GL_TEXTURE_GEN_T);
    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
    glMaterialfv(GL_FRONT, GL_DIFFUSE,   wood_col_diff2);
-
+   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
    for(i=0;i<2;i++){
        if(i==1){
            glDisable(GL_TEXTURE_2D);
@@ -1927,27 +2092,36 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            if (k^l) glFrontFace(GL_CCW); else glFrontFace(GL_CW);
            if (k) glScalef(-1.0,1.0,1.0);
            if (l) glScalef(1.0,-1.0,1.0);
-           glBegin(GL_QUAD_STRIP);
+           n = 0;
+           o = 0;
+           glVertexPointer(3, GL_FLOAT, 0, VertexData);
+           glNormalPointer(GL_FLOAT, 0, NormalData);
            for(i=0;i<FEET_X_STEPS;i++){
-               glNormal3s( 0, -1, 0 );
-               glVertex3f( -(FEET_W/2.0 -FEET_R )/(VMfloat)FEET_X_STEPS*i, -(FEET_L/2.0),  -0.1 );
-               glVertex3f( -(FEET_W2/2.0-FEET_R2)/(VMfloat)FEET_X_STEPS*i, -(FEET_L2/2.0)-FEET_X_FUNC((VMfloat)i/(VMfloat)FEET_X_STEPS)*(FEET_L-FEET_L2)/2.0/(tableh+balld/2.0-0.1), -tableh-balld/2.0+FEET_X_FUNC((VMfloat)i/(VMfloat)FEET_X_STEPS) );
+               NormalData[n++] = 0.0; NormalData[n++] = -1.0; NormalData[n++] = 0.0;
+               NormalData[n++] = 0.0; NormalData[n++] = -1.0; NormalData[n++] = 0.0;
+               VertexData[o++] = -(FEET_W/2.0 -FEET_R )/(VMfloat)FEET_X_STEPS*i; VertexData[o++] = -(FEET_L/2.0); VertexData[o++] = -0.1;
+               VertexData[o++] = -(FEET_W2/2.0-FEET_R2)/(VMfloat)FEET_X_STEPS*i; VertexData[o++] = -(FEET_L2/2.0)-FEET_X_FUNC((VMfloat)i/(VMfloat)FEET_X_STEPS)*(FEET_L-FEET_L2)/2.0/(tableh+balld/2.0-0.1); VertexData[o++] = -tableh-balld/2.0+FEET_X_FUNC((VMfloat)i/(VMfloat)FEET_X_STEPS);
            }
            for(i=0;i<FEET_EDGE_STEPS;i++){
-               glNormal3f( -1.0/sqrt(2.0), -1.0/sqrt(2.0), 0.0 );
-               glVertex3f( -(FEET_W /2.0-FEET_R )-FEET_R *sin(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -(FEET_L/2.0- FEET_R )-FEET_R *cos(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -0.1 );
-               glVertex3f( -(FEET_W2/2.0-FEET_R2)-FEET_R2*sin(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -(FEET_L2/2.0-FEET_R2)-FEET_R2*cos(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS), -tableh-balld/2.0 );
+               NormalData[n++] = -1.0/sqrt(2.0); NormalData[n++] = -1.0/sqrt(2.0); NormalData[n++] = 0.0;
+               NormalData[n++] = -1.0/sqrt(2.0); NormalData[n++] = -1.0/sqrt(2.0); NormalData[n++] = 0.0;
+               VertexData[o++] = -(FEET_W /2.0-FEET_R )-FEET_R *sin(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS); VertexData[o++] = -(FEET_L/2.0- FEET_R )-FEET_R *cos(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS); VertexData[o++] = -0.1;
+               VertexData[o++] = -(FEET_W2/2.0-FEET_R2)-FEET_R2*sin(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS); VertexData[o++] = -(FEET_L2/2.0-FEET_R2)-FEET_R2*cos(M_PI/2.0*(VMfloat)i/(VMfloat)FEET_X_STEPS); VertexData[o++] = -tableh-balld/2.0;
            }
            for(i=1;i<FEET_Y_STEPS+1;i++){
-               glNormal3s( -1, 0, 0 );
-               glVertex3f( -(FEET_W/2.0),  -(FEET_L/2.0 -FEET_R )/(VMfloat)FEET_Y_STEPS*(FEET_Y_STEPS-i), -0.1 );
-               glVertex3f( -(FEET_W2/2.0)-FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS)*(FEET_W-FEET_W2)/2.0/(tableh+balld/2.0-0.1), -(FEET_L2/2.0-FEET_R2)/(VMfloat)FEET_Y_STEPS*(FEET_Y_STEPS-i), -tableh-balld/2.0+FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS) );
+               NormalData[n++] = -1.0; NormalData[n++] = 0.0; NormalData[n++] = 0.0;
+               NormalData[n++] = -1.0; NormalData[n++] = 0.0; NormalData[n++] = 0.0;
+               VertexData[o++] = -(FEET_W/2.0); VertexData[o++] = -(FEET_L/2.0 -FEET_R )/(VMfloat)FEET_Y_STEPS*(FEET_Y_STEPS-i); VertexData[o++] = -0.1;
+               VertexData[o++] = -(FEET_W2/2.0)-FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS)*(FEET_W-FEET_W2)/2.0/(tableh+balld/2.0-0.1); VertexData[o++] = -(FEET_L2/2.0-FEET_R2)/(VMfloat)FEET_Y_STEPS*(FEET_Y_STEPS-i); VertexData[o++] = -tableh-balld/2.0+FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS);
            }
-           glEnd();
+           glPushMatrix();
+           glDrawArrays(GL_QUAD_STRIP,0,FEET_X_STEPS*2+FEET_EDGE_STEPS*2+FEET_Y_STEPS*2+1);
+           glPopMatrix();
            glPopMatrix();
        }
    }
-
+   glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
   // for debugging only
   /* for(i=0;i<borders->holenr;i++){
        GLUquadric * qd;
@@ -1957,7 +2131,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
        gluSphere( qd, borders->hole[i].r, 8, 8 );
        glPopMatrix();
    } */
-
    glEndList();
    fprintf(stderr,"Return the new table object\n");
    return table_obj;

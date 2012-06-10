@@ -42,6 +42,15 @@
 
 #define WETAB_ALIASING
 
+/* For the future
+ * define for glu.h and OpenGL ES
+ * OpenGL = GLdouble
+ * OpenGL ES = GLfloat
+ * needed by tessalation objects
+ */
+
+#define OGL_ES_DOUBLE GLdouble
+
 /* End of compatibility section WeTab */
 
 #define options_diamond_color_gold    0xFFD566

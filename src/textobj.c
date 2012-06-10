@@ -62,23 +62,21 @@ int create_string_quad( char * str, char * fontname, int h, int * quad_id, int *
     quad_obj = glGenLists(1);
     glNewList(quad_obj, GL_COMPILE);
     glBindTexture(GL_TEXTURE_2D,texbind);
-    glBegin(GL_QUADS);
-
-    glNormal3s(0,0,1);
-
-    glTexCoord2s(0,0);
-    glVertex3f(0,1.0*fact,0);
-
-    glTexCoord2f((VMfloat)width/(VMfloat)texw,0);
-    glVertex3f((VMfloat)width/(VMfloat)height*fact,1.0*fact,0);
-
-    glTexCoord2f((VMfloat)width/(VMfloat)texw,(VMfloat)height/(VMfloat)texh);
-    glVertex3f((VMfloat)width/(VMfloat)height*fact,0,0);
-
-    glTexCoord2f(0,(VMfloat)height/(VMfloat)texh);
-    glVertex3s(0,0,0);
-
-    glEnd();
+    GLfloat VertexData[] = {0.0,1.0*fact,0.0,(GLfloat)width/(GLfloat)height*fact,1.0*fact,0.0,(GLfloat)width/(GLfloat)height*fact,0.0,0.0,0.0,0.0,0.0};
+    GLfloat TexData[] = {0.0,0.0,(GLfloat)width/(GLfloat)texw,0.0,(GLfloat)width/(GLfloat)texw,(GLfloat)height/(GLfloat)texh,0.0,(GLfloat)height/(GLfloat)texh};
+    GLshort NormalData[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+    glVertexPointer(3, GL_FLOAT, 0, VertexData);
+    glNormalPointer(GL_SHORT, 0, NormalData);
+    glPushMatrix();
+    glDrawArrays(GL_QUADS,0,4);
+    glPopMatrix();
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
     glEndList();
 
     *quad_h=fact*1.0;

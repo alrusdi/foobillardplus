@@ -221,24 +221,25 @@ void MakeLamp(void)
 #else
      DrawMesh(FACES4_COUNT, (char *)&vertexs4, (char *)&indexes4);
 #endif
-     glColor3f(1.0,1.0,1.0);
      glDisable(GL_CULL_FACE);
      glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
      glRotatef(90.0,1.0,0.0,0.0);
      glTranslatef(-1.0,0.7,0.7);
-     glBegin( GL_QUADS );
-       glVertex3s(0,0,0);
-       glVertex3s(0,12,0);
-       glVertex3s(2,12,0);
-       glVertex3s(2,0,0);
-     glEnd();
+     static const GLshort Vertices1[] = {0,0,0,0,12,0,2,12,0,2,0,0};
+     static const GLshort ColorData1[] = {1,1,1,1,1,1,1,1,1,1,1,1};
+     glEnableClientState(GL_VERTEX_ARRAY);
+     glEnableClientState(GL_COLOR_ARRAY);
+     glPushMatrix();
+     glVertexPointer(3, GL_SHORT, 0, Vertices1);
+     glColorPointer(3, GL_SHORT, 0, ColorData1);
+     glDrawArrays(GL_QUADS, 0, 4);
+     glPopMatrix();
+     glPushMatrix();
      glTranslatef(0.0,0.0,-1.4);
-     glBegin( GL_QUADS );
-       glVertex3s(0,0,0);
-       glVertex3s(0,12,0);
-       glVertex3s(2,12,0);
-       glVertex3s(2,0,0);
-     glEnd();
+     glDrawArrays(GL_QUADS, 0, 4);
+     glPopMatrix();
+     glDisableClientState(GL_VERTEX_ARRAY);
+     glDisableClientState(GL_COLOR_ARRAY);
      glPolygonMode(GL_FRONT,GL_FILL);
      glDepthMask (GL_TRUE);
      glEnable(GL_CULL_FACE);

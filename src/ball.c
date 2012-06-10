@@ -118,10 +118,8 @@ void createvertex( GLfloat * v, GLfloat * n, GLfloat tex_x, GLfloat tex_y, ElemA
     static int count;
     int pos,i,k;
     if ( array == NULL ){
-        //fprintf(stderr,"creating vertex (non-array)\n");
-        glTexCoord2f( tex_x, tex_y );
-        glNormal3fv(n);
-        glVertex3fv(v);
+        fprintf(stderr,"ERROR: creating vertex (non-array) not allowed\n");
+        sys_exit(0);
     } else {
         if(array->indnr==0) {
         	count=0;
@@ -182,11 +180,11 @@ void ball_subdivide_nonrec(GLfloat *v1, GLfloat *v2, GLfloat *v3, int depth, GLf
     otherside = ( v1[2]+v2[2]+v3[2]>0.0 );
     for( i=0; i<subdiv; i++ ){ /* make tristrips */
         if(array==NULL){
-            glBegin(GL_TRIANGLE_STRIP);
-        } else {
-            array->prim_size[array->num_prim]=2*(subdiv-i)+1;
-            (array->num_prim)++;
+            fprintf(stderr,"ERROR: Buffer without array not allowed.\n");
+            sys_exit(1);
         }
+        array->prim_size[array->num_prim]=2*(subdiv-i)+1;
+        (array->num_prim)++;
         for(j=0;j<2*(subdiv-i)+1;j++){
             if(!(j&1)){ /* even */
                 x=j/2;     y=i;
@@ -208,9 +206,6 @@ void ball_subdivide_nonrec(GLfloat *v1, GLfloat *v2, GLfloat *v3, int depth, GLf
             xt=n[0];
             yt=n[1];
             createvertex( v, n, 0.5-0.5*(otherside?xt:-xt), 0.5+0.5*yt, array);
-        }
-        if(array==NULL){
-            glEnd();
         }
     }
 //    fprintf(stderr,"back again all (depth=%d)\n",depth);
@@ -910,17 +905,24 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
 
  	    light_id = glGenLists(1);
  	    glNewList(light_id, GL_COMPILE);
-        glBegin(GL_QUADS);
-        glNormal3s( 0,0,1 );
-        glTexCoord2s(0,1);
-        glVertex3f( -SH_SZ, +SH_SZ, 0.0 );
-        glTexCoord2s(1,1);
-        glVertex3f( +SH_SZ, +SH_SZ, 0.0 );
-        glTexCoord2s(1,0);
-        glVertex3f( +SH_SZ, -SH_SZ, 0.0 );
-        glTexCoord2s(0,0);
-        glVertex3f( -SH_SZ, -SH_SZ, 0.0 );
-        glEnd();
+ 	    static const GLfloat VertexData1[] = {-SH_SZ,+SH_SZ,0.0,+SH_SZ,+SH_SZ,0.0,+SH_SZ,-SH_SZ,0.0,-SH_SZ,-SH_SZ,0.0};
+ 	    static const GLfloat TexData1[] = {0.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0};
+ 	    static const GLshort NormalData1[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+ 	   /* against shadow flicker bug */
+ 	    static const GLshort ColorData1[] = {0,0,0,0,0,0,0,0,0,0,0,0};
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
+        glTexCoordPointer(2,GL_FLOAT, 0, TexData1);
+        glVertexPointer(3, GL_FLOAT, 0, VertexData1);
+        glNormalPointer(GL_SHORT, 0, NormalData1);
+        glColorPointer(3, GL_SHORT, 0, ColorData1);
+ 	    glDrawArrays(GL_QUADS,0,4);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
         glPopMatrix();
         glEndList();
 
@@ -1123,7 +1125,6 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         col_shad[2]=col_shad[0];
         //col_shad[3] is always the same and at the function start declared
         glMaterialfv(GL_FRONT, GL_DIFFUSE, col_shad);
-        glColor3i(0,0,0);   /* against shadow flicker bug */
         if( v.x==0.0 && v.y==0.0 && v.z==0.0 ){
             v=vec_xyz(1,0,0);
         } else {
@@ -1162,14 +1163,42 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
 
 void draw_ballpath( BallType * pball)
 {
-	int i;
-	i = pball->nr;
-    glColor3f((VMfloat)(((options_col_ball[i])>>16) & 0xFF)/255.0,
-              (VMfloat)(((options_col_ball[i])>> 8) & 0xFF)/255.0,
-              (VMfloat)(((options_col_ball[i])>> 0) & 0xFF)/255.0);
-    glBegin(GL_LINE_STRIP);
-      for(i=0;i<pball->pathcnt;i++){
-        glVertex3f(pball->path[i].x,pball->path[i].y,pball->path[i].z);
-      }
-    glEnd();
+	int i,k,j;
+	GLfloat VertexData[4500];
+	GLshort NormalData[4500];
+	GLfloat ColorData[4500];
+	GLfloat r,g,b;
+
+    i = pball->nr;
+
+	r = (VMfloat)(((options_col_ball[i])>>16) & 0xFF)/255.0;
+	g = (VMfloat)(((options_col_ball[i])>> 8) & 0xFF)/255.0;
+	b = (VMfloat)(((options_col_ball[i])>> 0) & 0xFF)/255.0;
+
+    j = pball->pathcnt;
+    if (j>1500) j = 1500;
+      for(i=0,k=0;i<j;i++){
+        NormalData[k] = 0;
+        ColorData[k] = r;
+        VertexData[k++] = pball->path[i].x;
+        NormalData[k] = 0;
+        ColorData[k] = g;
+        VertexData[k++] = pball->path[i].y;
+        NormalData[k] = 1;
+        ColorData[k] = b;
+        VertexData[k++] = pball->path[i].z;
+        }
+    glVertexPointer(3,GL_FLOAT,0,VertexData);
+    glNormalPointer(GL_SHORT,0,NormalData);
+    glColorPointer(3,GL_FLOAT,0,ColorData);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glPushMatrix();
+    glDrawArrays(GL_LINE_STRIP, 0, j);
+    glPopMatrix();
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
 }

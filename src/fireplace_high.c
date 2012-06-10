@@ -76,16 +76,15 @@ void init_fireplace_high(void) {
     glRotatef(180.0,180.0,0.0,0.0);
     glTranslatef(-0.98,-1.2,4.5);
     glBindTexture(GL_TEXTURE_2D,fp2texbind);
-    glBegin(GL_QUADS);
-     glTexCoord2s(0,0);
-     glVertex3f(0.0,0.0,0.0);
-     glTexCoord2s(0,1);
-     glVertex3f(0.0,0.42,0.0);
-     glTexCoord2s(1,1);
-     glVertex3f(0.75,0.42,0.0);
-     glTexCoord2s(1,0);
-     glVertex3f(0.75,0.0,0.0);
-    glEnd();
+    static const GLfloat VertexData[] = {0.0,0.0,0.0,0.0,0.42,0.0,0.75,0.42,0.0,0.75,0.0,0.0};
+    static const GLfloat TexData[] = {0.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0};
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+    glVertexPointer(3, GL_FLOAT, 0, VertexData);
+    glDrawArrays(GL_QUADS,0,4);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
     glPopMatrix();
   glEndList();
 }

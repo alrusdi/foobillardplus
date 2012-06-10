@@ -56,20 +56,38 @@ VMfloat rfunc(VMfloat x)
 
 int create_queue(VMfloat (*rfunc)(VMfloat))
 {
-   int queue_obj, i,j;
-   int sidenr=16;
+   int queue_obj, i,j,l,m,n;
+// on touch-devices not so high cue
+#ifdef TOUCH
+   #define SEGS 16
+#else
+   #define SEGS 48
+#endif
+   /* number of segments along the cue, originally foobillard = 5 */
+#define SEGNO 1
+   int sidenr=SEGS;  // number of sides for quads around the cue
    GLfloat dl1=0.004;
    GLfloat dl2=0.001;
    VMfloat ph;
    VMvect v1,v2,n1,n2;
-   int segnr=5;  /* number of segments along the cue */
+   int segnr=SEGNO;
    VMfloat r1,r2,dr1,dr2;
-
+   GLfloat VertexData[SEGS*3*2+6];
+   GLfloat TexData[SEGS*2*2+6];
+   GLfloat NormalData[SEGS*3*2+6];
    queue_obj = glGenLists(1);
    glNewList(queue_obj, GL_COMPILE);
-
+   glPushMatrix();
+   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+   glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
+   glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+   glVertexPointer(3, GL_FLOAT, 0, VertexData);
+   glNormalPointer(GL_FLOAT, 0, NormalData);
    for(j=0;j<segnr;j++){
-       glBegin(GL_QUAD_STRIP);
+       l = 0;
+       m = 0;
+       n = 0;
 
        r1=0.5*(QUEUE_D1-(QUEUE_D1-QUEUE_D2)*(rfunc((VMfloat)j/segnr)-rfunc(0))/(rfunc(1)-rfunc(0)));
        r2=0.5*(QUEUE_D1-(QUEUE_D1-QUEUE_D2)*(rfunc((VMfloat)(j+1)/segnr)-rfunc(0))/(rfunc(1)-rfunc(0)));
@@ -78,7 +96,6 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
        dr1=(dr1-r1)/0.001;
        dr2=0.5*(QUEUE_D1-(QUEUE_D1-QUEUE_D2)*(rfunc((VMfloat)(j+1)/segnr+0.001)-rfunc(0))/(rfunc(1)-rfunc(0)));
        dr2=(dr2-r2)/0.001;
-
        for(i=0;i<sidenr+1;i++){
            ph=2.0*M_PI/(VMfloat)sidenr*i;
            v1.x = r1*cos(ph);
@@ -95,42 +112,73 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
            n2.y = sin(ph);
            n2.z = -dr2;
            n2=vec_unit(n2);
-           glNormal3f( n2.x,  n2.y,  n2.z  );
-           glTexCoord2f( 1.0-v2.z/QUEUE_L, (v2.x+QUEUE_D1/2.0)/QUEUE_D1 );
-           glVertex3f( v2.x, v2.y, v2.z );
-           glNormal3f( n1.x,  n1.y,  n1.z  );
-           glTexCoord2f( 1.0-v1.z/QUEUE_L, (v1.x+QUEUE_D1/2.0)/QUEUE_D1 );
-           glVertex3f( v1.x, v1.y, v1.z );
+           NormalData[l++] = n2.x; NormalData[l++] = n2.y; NormalData[l++] = n2.z;
+           //glNormal3f( n2.x,  n2.y,  n2.z  );
+           TexData[m++] = 1.0-v2.z/QUEUE_L; TexData[m++] = (v2.x+QUEUE_D1/2.0)/QUEUE_D1;
+           //glTexCoord2f( 1.0-v2.z/QUEUE_L, (v2.x+QUEUE_D1/2.0)/QUEUE_D1 );
+           VertexData[n++] = v2.x; VertexData[n++] = v2.y; VertexData[n++] = v2.z;
+           //glVertex3f( v2.x, v2.y, v2.z );
+           NormalData[l++] = n1.x; NormalData[l++] = n1.y; NormalData[l++] = n1.z;
+           //glNormal3f( n1.x,  n1.y,  n1.z  );
+           TexData[m++] = 1.0-v1.z/QUEUE_L; TexData[m++] = (v1.x+QUEUE_D1/2.0)/QUEUE_D1;
+           //glTexCoord2f( 1.0-v1.z/QUEUE_L, (v1.x+QUEUE_D1/2.0)/QUEUE_D1 );
+           VertexData[n++] = v1.x; VertexData[n++] = v1.y; VertexData[n++] = v1.z;
+           //glVertex3f( v1.x, v1.y, v1.z );
        }
-       glEnd();
+       //glEnd();
+       glDrawArrays(GL_QUAD_STRIP,0,SEGS*2+2);
    }
-
-   glBegin(GL_TRIANGLE_FAN);
-   glNormal3s( 0, 0,-1  );
-   glVertex3s( 0, 0, 0  );
-   for(i=0;i<sidenr+1;i++){
+   //glBegin(GL_TRIANGLE_FAN);
+   //glNormal3s(0,0,-1);
+   //glVertex3s( 0, 0, 0  );
+   n = 0;
+   m = 0;
+   l = 0;
+   glPopMatrix();
+   glPushMatrix();
+   VertexData[n++] = 0.0; VertexData[n++] = 0.0; VertexData[n++] = 0.0;
+   for(i=0;i<sidenr+2;i++){
        ph=2.0*M_PI/(VMfloat)sidenr*i;
        v2.x = QUEUE_D2/2.0*cos(ph);
        v2.y = QUEUE_D2/2.0*sin(ph);
        v2.z = dl2;
-       glTexCoord2f( 1.0-v2.z/QUEUE_L, (v2.x+QUEUE_D1/2.0)/QUEUE_D1 );
-       glVertex3f( v2.x, v2.y, v2.z );
+       VertexData[n++] = v2.x; VertexData[n++] = v2.y; VertexData[n++] = v2.z;
+       TexData[m++] = 1.0-v2.z/QUEUE_L; TexData[m++] = (v2.x+QUEUE_D1/2.0)/QUEUE_D1;
+       NormalData[l++] = 0.0; NormalData[l++] = 0.0; NormalData[l++] = -1.0;
+       //glTexCoord2f( 1.0-v2.z/QUEUE_L, (v2.x+QUEUE_D1/2.0)/QUEUE_D1 );
+       //glVertex3f( v2.x, v2.y, v2.z );
    }
-   glEnd();
-
-   glBegin(GL_TRIANGLE_FAN);
-   glNormal3s( 0, 0, 1 );
-   glVertex3f( 0.0, 0.0, QUEUE_L );
-   for(i=0;i<sidenr+1;i++){
+   // draw the top of the cue
+   glDrawArrays(GL_TRIANGLE_FAN,0,SEGS+2);
+   //glEnd();
+   //glBegin(GL_TRIANGLE_FAN);
+   glPopMatrix();
+   glPushMatrix();
+   //glNormal3s(0,0,1);
+   //glVertex3f( 0.0, 0.0, QUEUE_L );
+   n = 0;
+   m = 0;
+   l = 0;
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+   VertexData[n++] = 0.0; VertexData[n++] = 0.0; VertexData[n++] = QUEUE_L;
+   for(i=0;i<sidenr+2;i++){
        ph=2.0*M_PI-2.0*M_PI/(VMfloat)sidenr*i;
        v1.x = QUEUE_D1/2.0*cos(ph);
        v1.y = QUEUE_D1/2.0*sin(ph);
        v1.z = QUEUE_L-dl1;
-       glTexCoord2f( 1.0-v1.z/QUEUE_L, (v1.x+QUEUE_D1/2.0)/QUEUE_D1 );
-       glVertex3f( v1.x, v1.y, v1.z );
+       VertexData[n++] = v1.x; VertexData[n++] = v1.y; VertexData[n++] = v1.z;
+       TexData[m++] = 1.0-v1.z/QUEUE_L; TexData[m++] = (v1.x+QUEUE_D1/2.0)/QUEUE_D1;
+       NormalData[l++] = 0.0; NormalData[l++] = 0.0; NormalData[l++] = 1.0;
+       //glTexCoord2f( 1.0-v1.z/QUEUE_L, (v1.x+QUEUE_D1/2.0)/QUEUE_D1 );
+       //glVertex3f( v1.x, v1.y, v1.z );
    }
-   glEnd();
-
+   //glEnd();
+      // draw the back of the cue
+      glDrawArrays(GL_TRIANGLE_FAN,0,SEGS+2);
+      //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+      glDisableClientState(GL_VERTEX_ARRAY);
+      glDisableClientState(GL_NORMAL_ARRAY);
+      glPopMatrix();
    glEndList();
 
    return queue_obj;
@@ -166,7 +214,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
                  GLfloat xoffs, GLfloat yoffs, int spheretexbind, VMvect * lightpos, int lightnr )
 {
     static int init=0;
-    static int queue_obj;
+    static int queue_obj,queue_obj_reflection;
     static unsigned int queueshadowbind;
     static int queuetexw,queuetexh;
     static char * queuetexdata;
@@ -200,6 +248,29 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options_tex_min_filter);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options_tex_mag_filter);
         queue_obj=create_queue(rfunc);
+        queue_obj_reflection = glGenLists(1);
+        glNewList(queue_obj_reflection, GL_COMPILE);
+        /* draw queue-reflections */
+            glCallList( queue_obj );
+            glPolygonOffset( 0.0, -1.0 );
+            glEnable( GL_POLYGON_OFFSET_FILL );
+            glDepthMask (GL_FALSE);
+            glEnable(GL_BLEND);
+            glBlendFunc (GL_SRC_ALPHA, GL_ONE);
+            glMaterialfv(GL_FRONT, GL_DIFFUSE, queue_col_refl);
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+            glBindTexture(GL_TEXTURE_2D,spheretexbind);
+            glEnable(GL_TEXTURE_GEN_S);
+            glEnable(GL_TEXTURE_GEN_T);
+            glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glCallList( queue_obj );
+            glDisable(GL_TEXTURE_GEN_S);
+            glDisable(GL_TEXTURE_GEN_T);
+            glDisable(GL_BLEND);
+            glDepthMask (GL_TRUE);
+            glDisable( GL_POLYGON_OFFSET_FILL );
+        glEndList();
         init=1;
     }
 
@@ -218,9 +289,9 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
     if(options_anisotrop) {
        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop );
     }
-    glCallList( queue_obj );
+    glCallList(queue_obj_reflection);
     /* draw queue-reflections */
-        glPolygonOffset( 0.0, -1.0 );
+   /*     glPolygonOffset( 0.0, -1.0 ); // ### TODO ### delete this ???
         glEnable( GL_POLYGON_OFFSET_FILL );
         glDepthMask (GL_FALSE);
         glEnable(GL_BLEND);
@@ -237,7 +308,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glDisable(GL_TEXTURE_GEN_T);
         glDisable(GL_BLEND);
         glDepthMask (GL_TRUE);
-        glDisable( GL_POLYGON_OFFSET_FILL );
+        glDisable( GL_POLYGON_OFFSET_FILL ); */
     glPopMatrix();
 
     /* draw queue-shadow */
@@ -281,25 +352,43 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glPushMatrix();
 
         glBindTexture(GL_TEXTURE_2D,queueshadowbind);
-        glBegin(GL_QUADS);
-
-        glNormal3s(0,0,1);
+        //glNormal3s(0,0,1);
+        // Remove all glbegin ### TODO ###
+        GLfloat VertexData1[12];
+        static const GLshort TexData1[] = {0,0,1,0,1,1,0,1};
+        static const GLshort NormalData1[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+        VertexData1[0] = p1.x-vn.x*cue_shad_w2;
+        VertexData1[1] = p1.y-vn.y*cue_shad_w2;
+        VertexData1[2] = p1.z;
+        VertexData1[3] = p1.x+vn.x*cue_shad_w2;
+        VertexData1[4] = p1.y+vn.y*cue_shad_w2;
+        VertexData1[5] = p1.z;
+        VertexData1[6] = p2.x+vn.x*cue_shad_w2;
+        VertexData1[7] = p2.y+vn.y*cue_shad_w2;
+        VertexData1[8] = p2.z;
+        VertexData1[9] = p2.x-vn.x*cue_shad_w2;
+        VertexData1[10] = p2.y-vn.y*cue_shad_w2;
+        VertexData1[11] = p2.z;
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glTexCoordPointer(2,GL_SHORT, 0, TexData1);
+        glVertexPointer(3, GL_FLOAT, 0, VertexData1);
+        glNormalPointer(GL_SHORT, 0, NormalData1);
+        glDrawArrays(GL_QUADS,0,4);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        /*glBegin(GL_QUADS);
         glTexCoord2s(0,0);
         glVertex3f(p1.x-vn.x*cue_shad_w2,p1.y-vn.y*cue_shad_w2,p1.z);
-
-        glNormal3s(0,0,1);
         glTexCoord2s(1,0);
         glVertex3f(p1.x+vn.x*cue_shad_w2,p1.y+vn.y*cue_shad_w2,p1.z);
-
-        glNormal3s(0,0,1);
         glTexCoord2s(1,1);
         glVertex3f(p2.x+vn.x*cue_shad_w2,p2.y+vn.y*cue_shad_w2,p2.z);
-
-        glNormal3s(0,0,1);
         glTexCoord2s(0,1);
         glVertex3f(p2.x-vn.x*cue_shad_w2,p2.y-vn.y*cue_shad_w2,p2.z);
-
-        glEnd();
+        glEnd(); */
 
         glPopMatrix();
         }
@@ -338,21 +427,39 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
 
-        glColor3f(1.0,1.0,1.0);
 #ifdef WETAB_ALIASING
         if(options_antialiasing) {
           glLineWidth(1.5);
           glEnable(GL_LINE_SMOOTH);
-          glHint(GL_LINE_SMOOTH_HINT,GL_DONT_CARE);
+          glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
         }
 #endif
-        glBegin(GL_LINE_STRIP);
-           glVertex3f( hand1.x,     hand1.y,     hand1.z     );
-           glVertex3f( elbow1.x,    elbow1.y,    elbow1.z    );
-           glVertex3f( shoulder1.x, shoulder1.y, shoulder1.z );
-           glVertex3f( shoulder2.x, shoulder2.y, shoulder2.z );
-           glVertex3f( hand2.x,     hand2.y,     hand2.z     );
-        glEnd();
+        GLfloat VertexData[15];
+        static const GLfloat ColorData[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+        VertexData[0] = hand1.x;
+        VertexData[1] = hand1.y;
+        VertexData[2] = hand1.z;
+        VertexData[3] = elbow1.x;
+        VertexData[4] = elbow1.y;
+        VertexData[5] = elbow1.z;
+        VertexData[6] = shoulder1.x;
+        VertexData[7] = shoulder1.y;
+        VertexData[8] = shoulder1.z;
+        VertexData[9] = shoulder2.x;
+        VertexData[10] = shoulder2.y;
+        VertexData[11] = shoulder2.z;
+        VertexData[12] = hand2.x;
+        VertexData[13] = hand2.y;
+        VertexData[14] = hand2.z;
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
+        glVertexPointer(3, GL_FLOAT, 0, VertexData);
+        glColorPointer(3, GL_FLOAT, 0, ColorData);
+        glPushMatrix();
+        glDrawArrays(GL_LINE_STRIP, 0, 5);
+        glPopMatrix();
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
 #ifdef WETAB_ALIASING
         if(options_antialiasing) {
           glDisable(GL_LINE_SMOOTH);

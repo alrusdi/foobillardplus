@@ -1,5 +1,6 @@
 3.43 beta
 =========
+- replace glbegin/glend/glvertex and so on to vertex arrays
 - bugfixing table display
 - new default directory /usr/games
 - Package Management for debian/ubuntu distribution

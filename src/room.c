@@ -37,14 +37,13 @@
 
 void my_rect_floor(GLshort a,GLshort b,GLshort c,GLshort d,GLshort e,GLshort f,GLshort g,GLshort h,GLshort i,GLshort j,GLshort k,GLshort l,GLshort m,GLshort n,GLshort o,GLshort p)
 {
-  glTexCoord2s(a,b);
-  glVertex2s(c,d);
-  glTexCoord2s(e,f);
-  glVertex2s(g,h);
-  glTexCoord2s(i,j);
-  glVertex2s(k,l);
-  glTexCoord2s(m,n);
-  glVertex2s(o,p);
+  GLshort VertexData[] = {c,d,g,h,k,l,o,p};
+  GLshort TexData[] = {a,b,e,f,i,j,m,n};
+  GLshort NormalData[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+  glTexCoordPointer(2,GL_SHORT, 0, TexData);
+  glVertexPointer(2, GL_SHORT, 0, VertexData);
+  glNormalPointer(GL_SHORT, 0, NormalData);
+  glDrawArrays(GL_QUADS,0,4);
 }
 
 /***********************************************************************
@@ -53,16 +52,17 @@ void my_rect_floor(GLshort a,GLshort b,GLshort c,GLshort d,GLshort e,GLshort f,G
 
 void my_rect_wall(void)
 {
-  glBegin(GL_QUADS);
-  glTexCoord2s(0,0);
-  glVertex3f(-5.0, 5.0, 2.5);
-  glTexCoord2s(4,0);
-  glVertex3f( 5.0, 5.0, 2.5);
-  glTexCoord2s(4,2);
-  glVertex3s( 5, 5, 0);
-  glTexCoord2s(0,2);
-  glVertex3s(-5, 5, 0);
-  glEnd();
+  static const GLfloat VertexData[] = {-5.0,5.0,2.5,5.0,5.0,2.5,5.0,5.0,0.0,-5.0,5.0,0.0};
+  static const GLfloat TexData[] = {0.0,0.0,4.0,0.0,4.0,2.0,0.0,2.0};
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+  glVertexPointer(3, GL_FLOAT, 0, VertexData);
+  glPushMatrix();
+  glDrawArrays(GL_QUADS,0,4);
+  glPopMatrix();
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 /***********************************************************************
@@ -72,16 +72,17 @@ void my_rect_wall(void)
 void my_rect_strip(GLuint texbind)
 {
   glBindTexture(GL_TEXTURE_2D,texbind);
-  glBegin(GL_QUADS);
-  glTexCoord2s(0,0);
-  glVertex3f(-5.0, 4.998, 0.08);
-  glTexCoord2s(1,0);
-  glVertex3f( 5.0, 4.998, 0.08);
-  glTexCoord2s(1,1);
-  glVertex3f( 5.0, 4.998, 0);
-  glTexCoord2s(0,1);
-  glVertex3f(-5.0, 4.998, 0);
-  glEnd();
+  static const GLfloat VertexData[] = {-5.0,4.998,0.08,5.0,4.998,0.08,5.0,4.998,0.0,-5.0,4.998,0.0};
+  static const GLfloat TexData[] = {0.0,0.0,1.0,0.0,1.0,1.0,0.0,1.0};
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+  glVertexPointer(3, GL_FLOAT, 0, VertexData);
+  glPushMatrix();
+  glDrawArrays(GL_QUADS,0,4);
+  glPopMatrix();
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 
@@ -91,15 +92,13 @@ void my_rect_strip(GLuint texbind)
 
 void my_rect_most(GLfloat a, GLfloat b, GLfloat c, GLfloat d, GLfloat e, GLfloat f, GLfloat g, GLfloat h, GLfloat i, GLfloat j, GLfloat k, GLfloat l)
 {
-  glTexCoord2s(0,0);
-  glVertex3f(a,b,c);
-  glTexCoord2s(1,0);
-  glVertex3f(d,e,f);
-  glTexCoord2s(1,1);
-  glVertex3f(g,h,i);
-  glTexCoord2s(0,1);
-  glVertex3f(j,k,l);
-
+  GLfloat VertexData[] = {a,b,c,d,e,f,g,h,i,j,k,l};
+  static const GLshort TexData[] = {0,0,1,0,1,1,0,1};
+  glTexCoordPointer(2,GL_SHORT, 0, TexData);
+  glVertexPointer(3, GL_FLOAT, 0, VertexData);
+  glPushMatrix();
+  glDrawArrays(GL_QUADS,0,4);
+  glPopMatrix();
 }
 
 /***********************************************************************
@@ -195,13 +194,16 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     glBindTexture(GL_TEXTURE_2D,floortexbind);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-    glNormal3s( 0, 0, 1 );
-    glBegin(GL_QUADS);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glPushMatrix();
     my_rect_floor(0,0,0,0,0,1,5,0,1,1,5,-5,1,0,0,-5);
     my_rect_floor(0,0,0,5,0,1,5,5,1,1,5,0,1,0,0,0);
     my_rect_floor(0,1,-5,0,0,0,0,0,1,0,0,-5,1,1,-5,-5);
     my_rect_floor(0,1,-5,5,0,0,0,5,1,0,0,0,1,1,-5,0);
-    glEnd();
+    glPopMatrix();
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
   glEndList();
 
   if(*carpet_obj != -1 ) glDeleteLists( *carpet_obj, 1 );
@@ -212,20 +214,15 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     glEnable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,carpettexbind);
     glTranslatef(-1.0,-3.0,0.0);
-    glBegin(GL_QUADS);
-    glTexCoord2s(0,0);
-    glVertex3f(-1.35,1.25,0.001);
-
-    glTexCoord2s(0,1);
-    glVertex3f(4.0,1.25,0.001);
-
-    glTexCoord2s(1,1);
-    glVertex3f(4.0,-1.9,0.001);
-
-    glTexCoord2s(1,0);
-    glVertex3f(-1.35,-1.9,0.001);
-
-    glEnd();
+    static const GLfloat VertexData2[] = {-1.35,1.25,0.001,4.0,1.25,0.001,4.0,-1.9,0.001,-1.35,-1.9,0.001};
+    static const GLfloat TexData2[] = {0,0,0,1,1,1,1,0};
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glTexCoordPointer(2,GL_FLOAT, 0, TexData2);
+    glVertexPointer(3, GL_FLOAT, 0, VertexData2);
+    glDrawArrays(GL_QUADS,0,4);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
     glDisable(GL_BLEND);
     glPopMatrix();
   glEndList();
@@ -243,19 +240,16 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
 
     glBindTexture(GL_TEXTURE_2D,graffity2texbind);
     glEnable(GL_BLEND);
-    glBegin(GL_QUADS);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     my_rect_most(0.5,4.999,2.3,4.0,4.999,2.3,4.0,4.999,0.5,0.5,4.999,0.5);
-    glEnd();
     glDisable(GL_BLEND);
     // billiards cabinet
     glBindTexture(GL_TEXTURE_2D,cabinetbacktexbind);
-    glBegin(GL_QUADS);
     my_rect_most(-3.6,4.999,2.3,-2.4,4.999,2.3,-2.4,4.999,0.5,-3.6,4.999,0.5);
-    glEnd();
 
     glBindTexture(GL_TEXTURE_2D,cabinetframetexbind);
     //left frame
-    glBegin(GL_QUADS);
     my_rect_most(-3.6,4.8,2.3,-3.6,4.999,2.3,-3.6,4.999,0.5,-3.6,4.8,0.5);
     //bottom frame
     my_rect_most(-3.6,4.8,0.5,-3.6,4.999,0.5,-2.4,4.999,0.5,-2.4,4.8,0.5);
@@ -265,14 +259,11 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     // ### TODO ### upper frame only useful, if FREEVIEW and CUE_VIEW is ON
     // now, we disable it....... because in other views the frame is disturbing!!!!
     //my_rect_most(-3.6,4.8,2.3,-3.6,4.999,2.3,-2.4,4.999,2.3,-2.4,4.8,2.3);
-    glEnd();
     //front
     glBindTexture(GL_TEXTURE_2D,cabinetfronttexbind);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-    glBegin(GL_QUADS);
     my_rect_most(-3.6,4.8,2.3,-2.4,4.8,2.3,-2.4,4.8,0.5,-3.6,4.8,0.5);
-    glEnd();
     glDisable(GL_BLEND);
     glBlendFunc(GL_ONE,GL_ONE);
     // wall 2
@@ -282,88 +273,66 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
 
     glBindTexture(GL_TEXTURE_2D,graffity1texbind);
     glEnable(GL_BLEND);
-    glBegin(GL_QUADS);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     my_rect_most(-4.0,4.999,2.5,4.0,4.999,2.5,4.0,4.999,0.0,-4.0,4.999,0.0);
-    glEnd();
     glDisable(GL_BLEND);
     my_rect_strip(cabinetframetexbind); // carpet strip
    glEndList();
+
    if(*wall3_obj != -1 ) glDeleteLists( *wall3_obj, 1 );
    *wall3_obj = glGenLists(1);
    glNewList(*wall3_obj, GL_COMPILE);
     // wall 3
     glBindTexture(GL_TEXTURE_2D,corr2texbind);
-    glBegin(GL_QUADS);
-    glTexCoord2s(0,0);
-    glVertex3f(-5.0, 5.0, 2.5);
-    glTexCoord2s(7,0);
-    glVertex3f( 1.0, 5.0, 2.5);
-    glTexCoord2s(7,6);
-    glVertex3s( 1, 5, 0);
-    glTexCoord2s(0,6);
-    glVertex3s(-5, 5, 0);
-
-    glTexCoord2s(0,0);
-    glVertex3f(1.0, 5.0, 2.5);
-    glTexCoord2f(4.0,0.0);
-    glVertex3f( 4.0, 5.0, 2.5);
-    glTexCoord2f(4.0,0.5);
-    glVertex3f( 4.0, 5.0, 2.3);
-    glTexCoord2f(0.0,0.5);
-    glVertex3f(1.0, 5.0, 2.3);
-
-    glTexCoord2s(0,0);
-    glVertex3f(1.0, 5.0, 0.5);
-    glTexCoord2f(4.0,0.0);
-    glVertex3f( 4.0, 5.0, 0.5);
-    glTexCoord2f(4.0,1.265);
-    glVertex3f( 4.0, 5.0, 0.0);
-    glTexCoord2f(0.0,1.265);
-    glVertex3f(1.0, 5.0, 0.0);
-
-    glTexCoord2s(0,0);
-    glVertex3f(4.0, 5.0, 2.5);
-    glTexCoord2s(1,0);
-    glVertex3f( 5.0, 5.0, 2.5);
-    glTexCoord2s(1,6);
-    glVertex3s( 5, 5, 0);
-    glTexCoord2s(0,6);
-    glVertex3s(4, 5, 0);
-    glEnd();
+    static const GLfloat VertexData[] = {-5.0,5.0,2.5,1.0,5.0,2.5,1.0,5.0,0.0,-5.0,5.0,0.0,
+            1.0,5.0,2.5,4.0,5.0,2.5,4.0,5.0,2.3,1.0,5.0,2.3,
+            1.0,5.0,0.5,4.0,5.0,0.5,4.0,5.0,0.0,1.0,5.0,0.0,
+            4.0,5.0,2.5,5.0,5.0,2.5,5.0,5.0,0.0,4.0,5.0,0.0
+    };
+    static const GLfloat TexData[] = {0.0,0.0,7.0,0.0,7.0,6.0,0.0,6.0,
+            0.0,0.0,4.0,0.0,4.0,0.5,0.0,0.5,
+            0.0,0.0,4.0,0.0,4.0,1.265,0.0,1.265,
+            0.0,0.0,1.0,0.0,1.0,6.0,0.0,6.0
+    };
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glTexCoordPointer(2,GL_FLOAT, 0, TexData);
+    glVertexPointer(3, GL_FLOAT, 0, VertexData);
+    glPushMatrix();
+    glDrawArrays(GL_QUADS,0,16);
+    glPopMatrix();
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
     // frame around the stone off the big window
     glBindTexture(GL_TEXTURE_2D,stoneframetexbind);
     //upper frame
-    glBegin(GL_QUADS);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     my_rect_most(1.0,5.0,2.3,4.0,5.0,2.3,4.0,5.2,2.3,1.0,5.2,2.3);
     //left frame
     my_rect_most(1.0,5.0,2.3,1.0,5.2,2.3,1.0,5.2,0.5,1.0,5.0,0.5);
     //bottom frame
-    glTexCoord2s(0,0);
+    //glTexCoord2s(0,0);
     my_rect_most(1.0,5.2,0.5,4.0,5.2,0.5,4.0,5.0,0.5,1.0,5.0,0.5);
     // right frame
     my_rect_most(4.0,5.0,0.5,4.0,5.2,0.5,4.0,5.2,2.3,4.0,5.0,2.3);
-    glEnd();
 
     // skyline behind window
     glBindTexture(GL_TEXTURE_2D,winbacktexbind);
-    glBegin(GL_QUADS);
     my_rect_most(1.0,5.6,2.3,4.5,5.6,2.3,4.5,5.6,0.5,1.0,5.6,0.5);
-    glEnd();
     // chalk board
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,boardtexbind);
-    glBegin(GL_QUADS);
     my_rect_most(-2.0,4.999,2.0,0.0,4.999,2.0,0.0,4.999,0.7,-2.0,4.999,0.7);
-    glEnd();
     // big dark wood window
     glBindTexture(GL_TEXTURE_2D,winbig1texbind);
-    glBegin(GL_QUADS);
     my_rect_most(1.0,5.2,2.3,4.0,5.2,2.3,4.0,5.2,0.5,1.0,5.2,0.5);
-    glEnd();
     glDisable(GL_BLEND);
     my_rect_strip(cabinetframetexbind); // carpet strip
    glEndList();
+
    if(*wall4_c_obj != -1 ) glDeleteLists( *wall4_c_obj, 1 );
    *wall4_c_obj = glGenLists(1);
    glNewList(*wall4_c_obj, GL_COMPILE);
@@ -375,32 +344,30 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D,pricetexbind);
     glEnable(GL_BLEND);
-    glBegin(GL_QUADS);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     my_rect_most(3.0,4.999,2.3,4.0,4.999,2.3,4.0,4.999,0.7,3.0,4.999,0.7);
-    glEnd();
     my_rect_strip(cabinetframetexbind); // carpet strip
     // closed window
     glBindTexture(GL_TEXTURE_2D,closewindowtexbind);
-    glBegin(GL_QUADS);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     my_rect_most(0.0,4.999,2.3,3.0,4.999,2.3,3.0,4.999,0.7,0.0,4.999,0.7);
-    glEnd();
     // door
     glBindTexture(GL_TEXTURE_2D,doortexbind);
-    glBegin(GL_QUADS);
     my_rect_most(-2.0,4.997,2.3,-1.0,4.997,2.3,-1.0,4.997,0.0,-2.0,4.997,0.0);
-    glEnd();
     glDisable(GL_BLEND);
     // ceiling
     glBindTexture(GL_TEXTURE_2D,ceilingtexbind);
-    glBegin(GL_QUADS);
-    glTexCoord2s(0,0);
-    glVertex3f(-5,-5,2.5);
-    glTexCoord2s(8,0);
-    glVertex3f(5,-5,2.5);
-    glTexCoord2s(8,8);
-    glVertex3f(5,5,2.5);
-    glTexCoord2s(0,8);
-    glVertex3f(-5,5,2.5);
-    glEnd();
+    static const GLfloat VertexData1[] = {-5.0,-5.0,2.5,5.0,-5.0,2.5,5.0,5.0,2.5,-5.0,5.0,2.5};
+    static const GLshort TexData1[] = {0,0,8,0,8,8,0,8};
+
+    glTexCoordPointer(2,GL_SHORT, 0, TexData1);
+    glVertexPointer(3, GL_FLOAT, 0, VertexData1);
+    glPushMatrix();
+    glDrawArrays(GL_QUADS,0,4);
+    glPopMatrix();
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
    glEndList();
 }

@@ -94,8 +94,16 @@ static const uint8_t utf8d[] = {
 static int init_me=1;
 static FT_Library    library;   /* handle to library     */
 
+#define VERTEXCOUNTING 9000
+
+static GLfloat VertexData[VERTEXCOUNTING];  // Place for ?? vertices (how much really needed?)
+static GLshort NormalData[VERTEXCOUNTING];  // Place for ?? vertices (how much really needed?)
+static GLsizei VertexCounter;     // how much vertices to draw
+static GLuint  VertexIndex;       // Index to next value of VertexData
+static GLenum  glType;            // hold the type of vertices
+
 struct TessDataVec{
-    GLdouble d[3];
+    OGL_ES_DOUBLE d[3];
     int is_start;
     struct TessDataVec * next;
 };
@@ -117,7 +125,7 @@ struct TessData * new_tessdata(void)
     tessdata->first_call=1;
     tessdata->v=NULL;
     tessdata->tobj=gluNewTess();
-    tessdata->points_per_spline=3;
+    tessdata->points_per_spline=6;
     return(tessdata);
 }
 
@@ -292,9 +300,9 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
     } else if ( error ) {
         fprintf(stderr,"another error code means that the font file could not e opened or read, or simply that it is broken\n");
         sys_exit(1);
-    } else {
-//        fprintf(stderr,"FT_New_Face OK!\n");
-    }
+    } /* else {
+        fprintf(stderr,"FT_New_Face OK!\n");
+    } */
     //.. set character size ..
 
     error = FT_Set_Pixel_Sizes(face,   /* handle to face object   */
@@ -338,7 +346,6 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
                 // now, draw to our target surface
                 my_draw_bitmap( (char *)face->glyph->bitmap.buffer,
                                 face->glyph->bitmap.width, face->glyph->bitmap.rows,
-//                                pen_x, pen_y,
                                 pen_x + face->glyph->bitmap_left,
                                 pen_y + font_height*face->ascender/(face->ascender-face->descender) - face->glyph->bitmap_top,
                                 *data , w);
@@ -364,7 +371,9 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
     if( height != NULL ) *height = h1;
 }
 
-/***********************************************************************/
+/***********************************************************************
+ *           Write one vertex to the float vertex-array                *
+ ***********************************************************************/
 
 #ifdef __MINGW32__	//RB
   void APIENTRY my_Vertex_cb(void * data)
@@ -372,11 +381,74 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
   void my_Vertex_cb(void * data)
 #endif
 {
-    GLdouble * d;
-    d=(GLdouble *)data;
+    OGL_ES_DOUBLE * d;
+    d=(OGL_ES_DOUBLE *)data;
+    // works with normal OpenGL with type overcast from double to float here
+    NormalData[VertexCounter] = 0;
+    VertexData[VertexIndex++] = d[0];
+    NormalData[VertexCounter] = 0;
+    VertexData[VertexIndex++] = d[1];
+    NormalData[VertexCounter] = -1;
+    VertexData[VertexIndex++] = d[2];
+    VertexCounter++;
+}
 
-    glNormal3s(0,0,-1);
-    glVertex3f(d[0],d[1],d[2]);
+/***********************************************************************
+ *   Error function for the glu tessalation functions (only fprintf)   *
+ ***********************************************************************/
+
+#ifdef __MINGW32__
+  void APIENTRY my_error(GLenum errorCode)
+#else
+  void my_error(GLenum errorCode)
+#endif
+{
+   const GLubyte *estring;
+
+   estring = gluErrorString(errorCode);
+   fprintf(stderr, "Tessellation Error: %s\n", estring);
+}
+
+/***********************************************************************
+ *        Entry point for tessalation glbegin for vertex arrays        *
+ ***********************************************************************/
+
+#ifdef __MINGW32__
+  void APIENTRY my_begin(GLenum type)
+#else
+  void my_begin(GLenum type)
+#endif
+{
+  VertexCounter = 0; // set the counter of drawn vertices to 0 = start
+  VertexIndex = 0;   // set the Index also to 0 = start
+  glType = type;     // the vertex type
+}
+
+/***********************************************************************
+ *                     write the vertices to screen                    *
+ ***********************************************************************/
+
+#ifdef __MINGW32__
+  void APIENTRY my_end(void)
+#else
+  void my_end(void)
+#endif
+{
+
+  if(VertexCounter && VertexIndex) {
+     // do something only, if vertices are set
+     glEnableClientState(GL_NORMAL_ARRAY);
+     glEnableClientState(GL_VERTEX_ARRAY);
+     glVertexPointer(3,GL_FLOAT,0,VertexData);
+     glNormalPointer(GL_SHORT,0,NormalData);
+     glPushMatrix();
+     glDrawArrays(glType,0,VertexCounter);
+     glPopMatrix();
+  } else {
+     fprintf(stderr,"Unknown error in call to wrote tessalation object to screen\n");
+  }
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_NORMAL_ARRAY);
 }
 
 /***********************************************************************/
@@ -529,13 +601,16 @@ void makeGLGeometryFT(FT_GlyphSlot glyph, VMfloat depth)
     struct TessDataVec * tdv_n = NULL;
     struct TessDataVec * tdv_s = NULL;
     VMvect n2,d2;
+    GLfloat NormalData[VERTEXCOUNTING];  // Place for VERTEXCOUNTING normales (how much really needed?)
+    int i,j,k;
 
     outline=&(glyph->outline);
 
     gluTessNormal(tessdata->tobj, 0.0, 0.0, -1.0 );
-    gluTessCallback(tessdata->tobj, GLU_TESS_BEGIN, (_GLUfuncptr)glBegin);
+    gluTessCallback(tessdata->tobj, GLU_TESS_BEGIN, (_GLUfuncptr)my_begin);
     gluTessCallback(tessdata->tobj, GLU_TESS_VERTEX, (_GLUfuncptr)my_Vertex_cb);
-    gluTessCallback(tessdata->tobj, GLU_TESS_END, (_GLUfuncptr)glEnd);
+    gluTessCallback(tessdata->tobj, GLU_TESS_END, (_GLUfuncptr)my_end);
+    gluTessCallback(tessdata->tobj, GLU_TESS_ERROR, (_GLUfuncptr)my_error);
 
     funcs.move_to  = (FT_Outline_MoveToFunc)cb_tess_move_to;
     funcs.line_to  = (FT_Outline_LineToFunc)cb_tess_line_to;
@@ -565,22 +640,25 @@ void makeGLGeometryFT(FT_GlyphSlot glyph, VMfloat depth)
              }
         }
       while( tdv!=NULL ){
+        i = 0;
+        j = 0;
+        k = 0;
         tdv_s=tdv;
         tdv_p=tdv;
         while( tdv_p->next!=NULL && tdv_p->next->is_start==0 ){ tdv_p=tdv_p->next; }
-          glBegin(GL_QUADS);
            do {
              d2.x = tdv_n->d[0]-tdv->d[0];
              d2.y = tdv_n->d[1]-tdv->d[1];
              n2=vec_unit( vec_xyz(-d2.y,  d2.x, 0.0) );
-             glNormal3f( n2.x, n2.y, n2.z );
-             glVertex3f( tdv->d[0], tdv->d[1], 0.0 );
-             glNormal3f( n2.x, n2.y, n2.z );
-             glVertex3f( tdv->d[0], tdv->d[1], -depth );
-             glNormal3f( n2.x, n2.y, n2.z );
-             glVertex3f( tdv_n->d[0], tdv_n->d[1], -depth );
-             glNormal3f( n2.x, n2.y, n2.z );
-             glVertex3f( tdv_n->d[0], tdv_n->d[1], 0.0 );
+             NormalData[i++] = n2.x; NormalData[i++] = n2.y; NormalData[i++] = n2.z;
+             VertexData[j++] = tdv->d[0]; VertexData[j++] = tdv->d[1]; VertexData[j++] = 0.0;
+             NormalData[i++] = n2.x; NormalData[i++] = n2.y; NormalData[i++] = n2.z;
+             VertexData[j++] = tdv->d[0]; VertexData[j++] = tdv->d[1]; VertexData[j++] = -depth;
+             NormalData[i++] = n2.x; NormalData[i++] = n2.y; NormalData[i++] = n2.z;
+             VertexData[j++] = tdv_n->d[0]; VertexData[j++] = tdv_n->d[1]; VertexData[j++] = -depth;
+             NormalData[i++] = n2.x; NormalData[i++] = n2.y; NormalData[i++] = n2.z;
+             VertexData[j++] = tdv_n->d[0]; VertexData[j++] = tdv_n->d[1]; VertexData[j++] = 0.0;
+             k+=4;
              tdv_p=tdv;
              tdv=tdv->next;
              if(tdv!=NULL){ 
@@ -590,7 +668,17 @@ void makeGLGeometryFT(FT_GlyphSlot glyph, VMfloat depth)
                  }
              }
            } while( tdv!=NULL && tdv->is_start==0 );
-        glEnd();
+          glEnableClientState(GL_NORMAL_ARRAY);
+          glEnableClientState(GL_VERTEX_ARRAY);
+          glNormalPointer(GL_FLOAT, 0, NormalData);
+          glVertexPointer(3, GL_FLOAT, 0, VertexData);
+          glPushMatrix();
+          glDrawArrays(GL_QUADS,0,k-4);
+          glPopMatrix();
+          glDisableClientState(GL_NORMAL_ARRAY);
+          glDisableClientState(GL_VERTEX_ARRAY);
+          //fprintf(stderr,"Indices = %i\n",k);
+        //glEnd();
       }
     }
     glTranslatef(glyph->advance.x/divisor,0,0);
