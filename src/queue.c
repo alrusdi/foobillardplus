@@ -290,25 +290,6 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, options_value_anisotrop );
     }
     glCallList(queue_obj_reflection);
-    /* draw queue-reflections */
-   /*     glPolygonOffset( 0.0, -1.0 ); // ### TODO ### delete this ???
-        glEnable( GL_POLYGON_OFFSET_FILL );
-        glDepthMask (GL_FALSE);
-        glEnable(GL_BLEND);
-        glBlendFunc (GL_SRC_ALPHA, GL_ONE);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, queue_col_refl);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        glBindTexture(GL_TEXTURE_2D,spheretexbind);
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_GEN_T);
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        glCallList( queue_obj );
-        glDisable(GL_TEXTURE_GEN_S);
-        glDisable(GL_TEXTURE_GEN_T);
-        glDisable(GL_BLEND);
-        glDepthMask (GL_TRUE);
-        glDisable( GL_POLYGON_OFFSET_FILL ); */
     glPopMatrix();
 
     /* draw queue-shadow */
@@ -352,8 +333,6 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glPushMatrix();
 
         glBindTexture(GL_TEXTURE_2D,queueshadowbind);
-        //glNormal3s(0,0,1);
-        // Remove all glbegin ### TODO ###
         GLfloat VertexData1[12];
         static const GLshort TexData1[] = {0,0,1,0,1,1,0,1};
         static const GLshort NormalData1[] = {0,0,1,0,0,1,0,0,1,0,0,1};
@@ -379,17 +358,6 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);
-        /*glBegin(GL_QUADS);
-        glTexCoord2s(0,0);
-        glVertex3f(p1.x-vn.x*cue_shad_w2,p1.y-vn.y*cue_shad_w2,p1.z);
-        glTexCoord2s(1,0);
-        glVertex3f(p1.x+vn.x*cue_shad_w2,p1.y+vn.y*cue_shad_w2,p1.z);
-        glTexCoord2s(1,1);
-        glVertex3f(p2.x+vn.x*cue_shad_w2,p2.y+vn.y*cue_shad_w2,p2.z);
-        glTexCoord2s(0,1);
-        glVertex3f(p2.x-vn.x*cue_shad_w2,p2.y-vn.y*cue_shad_w2,p2.z);
-        glEnd(); */
-
         glPopMatrix();
         }
     glDisable(GL_BLEND);

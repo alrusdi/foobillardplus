@@ -3516,20 +3516,25 @@ void myRect2D_texture(void)
 {
 
   static int myrect_id= -1;             // glcompile-id
+  static const GLshort VertexData[] = {0,0,0,0,48,0,48,48,0,48,0,0};
+  static const GLshort TexData[] = {0,1,0,0,1,0,1,1};
+  static const GLfloat ColorData[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+
   if(myrect_id == -1) {
     myrect_id = glGenLists(1);
     glNewList(myrect_id, GL_COMPILE_AND_EXECUTE);
-    static const GLshort VertexData[] = {0,0,0,0,48,0,48,48,0,48,0,0};
-    static const GLshort TexData[] = {0,1,0,0,1,0,1,1};
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
     glTexCoordPointer(2,GL_SHORT, 0, TexData);
     glVertexPointer(3, GL_SHORT, 0, VertexData);
+    glColorPointer(3, GL_FLOAT, 0, ColorData);
     glPushMatrix();
     glDrawArrays(GL_QUADS,0,4);
     glPopMatrix();
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
     glEndList();
   } else {
     //fprintf(stderr,"myrect %i\n",myrect_id);
@@ -3860,39 +3865,37 @@ void Display_tournament_tree( struct TournamentState_ * ts )
       glLoadIdentity();
       glScalef(0.8,0.8,1.0);
 
-      glColor4f(0.4,0.4,0.4,0.7);
       glDisable(GL_TEXTURE_2D);
       static const GLfloat VertexData[] = {-1.0,0.98,0.0,1.0,0.98,0.0,-1.0,0.82,0.0,1.0,0.82,0.0};
       static const GLfloat VertexData1[] = {-1.0,-0.82,0.0,1.0,-0.82,0.0,-1.0,-0.98,0.0,1.0,-0.98,0.0};
-      //static const GLfloat ColorData1[] = {0.4,0.4,0.4,0.7,0.4,0.4,0.4,0.7,0.4,0.4,0.4,0.7,0.4,0.4,0.4,0.7};
+      static const GLfloat ColorData1[] = {0.4,0.4,0.4,0.7,0.4,0.4,0.4,0.7,0.4,0.4,0.4,0.7,0.4,0.4,0.4,0.7};
       glEnableClientState(GL_VERTEX_ARRAY);
-      //glEnableClientState(GL_COLOR_ARRAY);
+      glEnableClientState(GL_COLOR_ARRAY);
       glPushMatrix();
       /* top line */
       glVertexPointer(3, GL_FLOAT, 0, VertexData);
-      //glColorPointer(4, GL_FLOAT, 0, ColorData1);
+      glColorPointer(4, GL_FLOAT, 0, ColorData1);
       glDrawArrays(GL_QUAD_STRIP, 0, 4);
       /* bottom line */
       glVertexPointer(3, GL_FLOAT, 0, VertexData1);
       glDrawArrays(GL_QUAD_STRIP, 0, 4);
 
-      glColor4f(0.6,0.6,0.6,0.85);
       glBindTexture(GL_TEXTURE_2D,fblogotexbind);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
       glEnable(GL_TEXTURE_2D);
       static const GLfloat VertexData2[] = {-1.0,0.8,0.0,1.0,0.8,0.0,-1.0,-0.8,0.0,1.0,-0.8,0.0};
       static const GLfloat TexData2[] = {-0.3-0.15,0.06-0.15,1.3-0.15,0.06-0.15,-0.3+0.15,0.94+0.15,1.3+0.15,0.94+0.15};
-      //static const ColorData2[] = {0.6,0.6,0.6,0.85,0.6,0.6,0.6,0.85,0.6,0.6,0.6,0.85,0.6,0.6,0.6,0.85};
+      static const GLfloat ColorData2[] = {0.6,0.6,0.6,0.85,0.6,0.6,0.6,0.85,0.6,0.6,0.6,0.85,0.6,0.6,0.6,0.85};
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glTexCoordPointer(2,GL_FLOAT, 0, TexData2);
       glVertexPointer(3, GL_FLOAT, 0, VertexData2);
-      //glColorPointer(4, GL_FLOAT, 0, ColorData2);
+      glColorPointer(4, GL_FLOAT, 0, ColorData2);
       glDrawArrays(GL_QUAD_STRIP,0,4);
       glPopMatrix();
       glDisableClientState(GL_TEXTURE_COORD_ARRAY);
       glDisableClientState(GL_VERTEX_ARRAY);
-      //glDisableClientState(GL_COLOR_ARRAY);
+      glDisableClientState(GL_COLOR_ARRAY);
 
       glBlendFunc(GL_ZERO,GL_ONE_MINUS_SRC_COLOR);
       glEnable(GL_TEXTURE_2D);
@@ -4633,7 +4636,6 @@ void DisplayFunc( void )
         glEnable(GL_BLEND);
         glDisable (GL_LIGHTING);
         glBlendFunc (GL_ONE, GL_ONE);
-        glColor3f(0.5,0.5,0.5);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glBindTexture(GL_TEXTURE_2D,placecueballtexbind);
 #define SH_SZ 0.087
@@ -4645,11 +4647,14 @@ void DisplayFunc( void )
         };
         static const GLshort TexData[] = {0,1,1,1,1,0,0,0};
         static const GLshort NormalData[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+        static const GLfloat ColorData[] = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
         glTexCoordPointer(2,GL_SHORT, 0, TexData);
         glVertexPointer(3, GL_FLOAT, 0, VertexData);
+        glColorPointer(3, GL_FLOAT, 0, ColorData);
         glNormalPointer(GL_SHORT,0,NormalData);
         glPushMatrix();
         glDrawArrays(GL_QUADS,0,4);
@@ -4657,6 +4662,7 @@ void DisplayFunc( void )
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
         glDisable(GL_BLEND);
         glDepthMask (GL_TRUE);
 #undef SH_SZ
@@ -4745,18 +4751,22 @@ void DisplayFunc( void )
            glPushMatrix();
            glLoadIdentity();
            glDisable(GL_LIGHTING);
-
+           static GLfloat ColorData1[12]; int ci; GLfloat r,g,b;
            for(k=0;k<3;k++) {
              for(j=-1;j<20;j++){
                VMfloat zact;
                if(!options_rgstereo_on){
-                   glColor3f(1.0*(VMfloat)(k%3!=1), 1.0*(VMfloat)(k%3!=2), 1.0*(VMfloat)(k%3!=0));
+                 r = 1.0*(VMfloat)(k%3!=1); g = 1.0*(VMfloat)(k%3!=2); b = 1.0*(VMfloat)(k%3!=0);
                } else {
-                   glColor3f(0.5+0.25*(VMfloat)(k%3), 0.5+0.25*(VMfloat)(k%3), 0.5+0.25*(VMfloat)(k%3));
+                 r = 0.5+0.25*(VMfloat)(k%3); g = 0.5+0.25*(VMfloat)(k%3); b = 0.5+0.25*(VMfloat)(k%3);
                }
-
+               for(ci = 0;ci<4;ci++) {
+                   ColorData1[0+ci] = r; ColorData1[1+ci] = g; ColorData1[2+ci] = b;
+               }
                if(j==-1 && k==0){
-                   glColor3f(1.0,1.0,1.0);
+                   for(ci = 0;ci<4;ci++) {
+                       ColorData1[0+ci] = 1.0; ColorData1[1+ci] = 1.0; ColorData1[2+ci] = 1.0;
+                   }
                    glBindTexture(GL_TEXTURE_2D,lightflaretexbind);
                    zact = dpos1.z;
                    actpos = dpos1;
@@ -4791,13 +4801,16 @@ void DisplayFunc( void )
                static const GLshort TexData1[] = {0,0,1,0,1,1,0,1};
                glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                glEnableClientState(GL_VERTEX_ARRAY);
+               glEnableClientState(GL_COLOR_ARRAY);
                glTexCoordPointer(2,GL_SHORT, 0, TexData1);
                glVertexPointer(3, GL_FLOAT, 0, VertexData1);
+               glColorPointer(3, GL_FLOAT, 0, ColorData1);
                glPushMatrix();
                glDrawArrays(GL_QUADS,0,4);
                glPopMatrix();
                glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                glDisableClientState(GL_VERTEX_ARRAY);
+               glDisableClientState(GL_COLOR_ARRAY);
              }
            }
            glPushMatrix();
@@ -4950,7 +4963,7 @@ void DisplayFunc( void )
 
        if(show_disc) { // save config was choosen
          glPushMatrix();
-         glColor3f(1.0,1.0,1.0);
+         //glColor3f(1.0,1.0,1.0);
          glTranslatef(0.03,-0.94,0.0);
          glScalef(2.0/win_width,2.0/win_height,1.0);
          glBindTexture(GL_TEXTURE_2D,discbind); //disc png texture
@@ -4961,7 +4974,6 @@ void DisplayFunc( void )
        // now, set the menu bar on left, right and upper one
        if(!player[act_player].is_net && !balls_moving) {
        glPushMatrix();
-       glColor3f(1.0,1.0,1.0);
        glScalef(2.0/win_width,2.0/win_height,1.0);
 #ifdef WETAB
  #define MENUSTEP 20
@@ -4989,6 +5001,7 @@ void DisplayFunc( void )
        glTranslatef(-((VMfloat)win_width/2+180-leftcount),-(VMfloat)win_height/2+170,0.0);
        static const GLshort VertexData3[] = {0,0,0,0,535,0,215,535,0,215,0,0};
        static const GLshort TexData3[] = {0,1,0,0,1,0,1,1};
+       static const GLfloat ColorData3[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
        if( options_gamemode == options_gamemode_training ) {
           if(mleft_id == -1) {
             mleft_id = glGenLists(1);
@@ -4998,11 +5011,14 @@ void DisplayFunc( void )
             glBindTexture(GL_TEXTURE_2D,mleftbind); // left menu bar training
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_COLOR_ARRAY);
             glTexCoordPointer(2,GL_SHORT, 0, TexData3);
             glVertexPointer(3, GL_SHORT, 0, VertexData3);
+            glColorPointer(3, GL_FLOAT, 0, ColorData3);
             glDrawArrays(GL_QUADS,0,4);
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_COLOR_ARRAY);
             glPopMatrix();
             glEndList();
           } else {
@@ -5017,11 +5033,14 @@ void DisplayFunc( void )
           glBindTexture(GL_TEXTURE_2D,mleftnormalbind); // left menu bar normal
           glEnableClientState(GL_TEXTURE_COORD_ARRAY);
           glEnableClientState(GL_VERTEX_ARRAY);
+          glEnableClientState(GL_COLOR_ARRAY);
           glTexCoordPointer(2,GL_SHORT, 0, TexData3);
           glVertexPointer(3, GL_SHORT, 0, VertexData3);
+          glColorPointer(3, GL_FLOAT, 0, ColorData3);
           glDrawArrays(GL_QUADS,0,4);
           glDisableClientState(GL_TEXTURE_COORD_ARRAY);
           glDisableClientState(GL_VERTEX_ARRAY);
+          glDisableClientState(GL_COLOR_ARRAY);
           glPopMatrix();
           glEndList();
         } else {
@@ -5057,11 +5076,14 @@ void DisplayFunc( void )
          glBindTexture(GL_TEXTURE_2D,mrightbind); // right menu bar
          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
          glEnableClientState(GL_VERTEX_ARRAY);
+         glEnableClientState(GL_COLOR_ARRAY);
          glTexCoordPointer(2,GL_SHORT, 0, TexData3);
          glVertexPointer(3, GL_SHORT, 0, VertexData3);
+         glColorPointer(3, GL_FLOAT, 0, ColorData3);
          glDrawArrays(GL_QUADS,0,4);
          glDisableClientState(GL_TEXTURE_COORD_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
+         glDisableClientState(GL_COLOR_ARRAY);
          glPopMatrix();
          glEndList();
        } else {
@@ -5099,11 +5121,14 @@ void DisplayFunc( void )
          static const GLshort TexData4[] = {0,1,0,0,1,0,1,1};
          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
          glEnableClientState(GL_VERTEX_ARRAY);
+         glEnableClientState(GL_COLOR_ARRAY);
          glTexCoordPointer(2,GL_SHORT, 0, TexData4);
          glVertexPointer(3, GL_SHORT, 0, VertexData4);
+         glColorPointer(3, GL_FLOAT, 0, ColorData3);
          glDrawArrays(GL_QUADS,0,4);
          glDisableClientState(GL_TEXTURE_COORD_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
+         glDisableClientState(GL_COLOR_ARRAY);
          glPopMatrix();
          glEndList();
        } else {
@@ -5112,7 +5137,6 @@ void DisplayFunc( void )
 #endif
        } //End Menu bar left, right and upper one
        glPushMatrix();
-       glColor3f(1.0,1.0,1.0);
        glScalef(2.0/win_width,2.0/win_height,1.0);
        glTranslatef((VMfloat)win_width/2-358,(VMfloat)win_height/2-32,0.0);
        if(mscreen_id == -1) {
@@ -5123,13 +5147,17 @@ void DisplayFunc( void )
          glBindTexture(GL_TEXTURE_2D,screenbind); // screenshot button
          static const GLshort VertexData5[] = {0,0,0,0,32,0,52,32,0,52,0,0};
          static const GLshort TexData5[] = {0,1,0,0,1,0,1,1};
+         static const GLfloat ColorData5[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
          glEnableClientState(GL_VERTEX_ARRAY);
+         glEnableClientState(GL_COLOR_ARRAY);
          glTexCoordPointer(2,GL_SHORT, 0, TexData5);
          glVertexPointer(3, GL_SHORT, 0, VertexData5);
+         glColorPointer(3, GL_FLOAT, 0, ColorData5);
          glDrawArrays(GL_QUADS,0,4);
          glDisableClientState(GL_TEXTURE_COORD_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
+         glDisableClientState(GL_COLOR_ARRAY);
          glPopMatrix();
          glEndList();
        } else {
@@ -5175,7 +5203,7 @@ void DisplayFunc( void )
            //Show the control Buttons on the Screen ?
            if(options_show_buttons && !player[act_player].is_net) {
              glPushMatrix();
-             glColor3f(1.0,1.0,1.0);   // Begin draw the buttons
+             //glColor3f(1.0,1.0,1.0);   // Begin draw the buttons
              glTranslatef(-0.72,-0.72,0.0);
              glScalef(2.0/win_width,2.0/win_height,1.0);
              glGetDoublev(GL_MODELVIEW_MATRIX,b_modelview); //get the whole world OpenGL offset of the buttons
@@ -5243,14 +5271,17 @@ void DisplayFunc( void )
            vline_id = glGenLists(1);
     	      glNewList(vline_id, GL_COMPILE_AND_EXECUTE);
            glPushMatrix();
-           glColor3f(0.3,0.3,0.3);
            glLineStipple( 1, 0xF0F0 );
            glEnable(GL_LINE_STIPPLE);
            static const GLfloat VertexData6[] = {0.0,1.00,0.5,0.0,0.08,0.5};
+           static const GLfloat ColorData6[] = {0.3,0.3,0.3,0.3,0.3,0.3};
            glEnableClientState(GL_VERTEX_ARRAY);
+           glEnableClientState(GL_COLOR_ARRAY);
            glVertexPointer(3, GL_FLOAT, 0, VertexData6);
+           glColorPointer(3, GL_FLOAT, 0, ColorData6);
            glDrawArrays(GL_LINES, 0, 2);
            glDisableClientState(GL_VERTEX_ARRAY);
+           glDisableClientState(GL_COLOR_ARRAY);
            glDisable(GL_LINE_STIPPLE);
            glPopMatrix();
            glEndList();
@@ -5262,7 +5293,6 @@ void DisplayFunc( void )
        glEnable(GL_BLEND);
        glBlendFunc(GL_ONE,GL_ONE);
        glEnable(GL_TEXTURE_2D);
-       glColor3f(0.9,0.9,0.9);
 
        //Special Keys are active ?
        if(!balls_moving && !player[act_player].is_AI && !player[act_player].is_net) {
@@ -5275,17 +5305,19 @@ void DisplayFunc( void )
              glDisable(GL_BLEND);
              glDisable(GL_TEXTURE_2D);
              glLineWidth(20.0);
-             glColor3f(0.2,0.2,1.0);
              glLineStipple( 1, 0x5555 );
              glEnable(GL_LINE_STIPPLE);
              static const GLfloat VertexData7[] = {0.0,0.20,0.5,0.0,0.08,0.5};
+             static const GLfloat ColorData7[] = {0.2,0.2,1.0,0.2,0.2,1.0};
              glEnableClientState(GL_VERTEX_ARRAY);
+             glEnableClientState(GL_COLOR_ARRAY);
              glVertexPointer(3, GL_FLOAT, 0, VertexData7);
+             glColorPointer(3, GL_FLOAT, 0, ColorData7);
              glDrawArrays(GL_LINES, 0, 2);
              glDisableClientState(GL_VERTEX_ARRAY);
+             glDisableClientState(GL_COLOR_ARRAY);
              glLineWidth(1.0);
              glDisable(GL_LINE_STIPPLE);
-             glColor3f(0.9,0.9,0.9);
              glPopMatrix();
              glEnable(GL_TEXTURE_2D);
              glEnable(GL_BLEND);
@@ -5306,15 +5338,19 @@ void DisplayFunc( void )
              glBindTexture(GL_TEXTURE_2D,englishbind); //English Control if set
              static const GLshort VertexData8[] = {0,0,0,0,256,0,256,256,0,256,0,0};
              static const GLshort TexData8[] = {0,1,0,0,1,0,1,1};
+             static const GLfloat ColorData8[] = {0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9};
              glEnableClientState(GL_TEXTURE_COORD_ARRAY);
              glEnableClientState(GL_VERTEX_ARRAY);
+             glEnableClientState(GL_COLOR_ARRAY);
              glTexCoordPointer(2,GL_SHORT, 0, TexData8);
              glVertexPointer(3, GL_SHORT, 0, VertexData8);
+             glColorPointer(3, GL_FLOAT, 0, ColorData8);
              glDrawArrays(GL_QUADS,0,4);
              glDisableClientState(GL_TEXTURE_COORD_ARRAY);
              glDisableClientState(GL_VERTEX_ARRAY);
+             glDisableClientState(GL_COLOR_ARRAY);
              glEndList();
-    	      } else {
+    	   } else {
              //fprintf(stderr,"english move %i\n",english_id);
              glCallList(english_id);
            }
@@ -5497,7 +5533,6 @@ void DisplayFunc( void )
           if((introblendyanimate-=3.22) < -206.0) introblendyanimate = -206.0;
         }
         glEnable(GL_TEXTURE_2D);
-        glColor4f(0.9,0.9,0.9,1.0);
         glEnable(GL_BLEND);
         glDisable(GL_LIGHTING);
         glBlendFunc (GL_ONE, GL_ONE);
@@ -5512,13 +5547,17 @@ void DisplayFunc( void )
         VertexData9[7] = introyanimate;
         VertexData9[9] = introxanimate;
         static const GLshort TexData9[] = {0,1,0,0,1,0,1,1};
+        static const GLfloat ColorData9[] = {0.9,0.9,0.9,1.0,0.9,0.9,0.9,1.0,0.9,0.9,0.9,1.0,0.9,0.9,0.9,1.0};
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
         glTexCoordPointer(2,GL_SHORT, 0, TexData9);
         glVertexPointer(3, GL_SHORT, 0, VertexData9);
+        glColorPointer(4, GL_FLOAT, 0, ColorData9);
         glDrawArrays(GL_QUADS,0,4);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
         glPopMatrix();
         glDisable(GL_BLEND);
         glDisable(GL_TEXTURE_2D);
