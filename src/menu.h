@@ -290,8 +290,8 @@ enum optionType {
 #ifndef WETAB
     OPT_GEOMETRY,
     OPT_FULLSCREEN,
-    OPT_BROWSER,
 #endif
+    OPT_BROWSER,
 #ifdef NETWORKING
     OPT_NET_SPEED,
     OPT_NET_COMPATIBLE,

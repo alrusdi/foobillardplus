@@ -130,8 +130,6 @@ int    options_net_speed = 1;        // Speed for network gameplay (*5 = calls p
 int    options_net_speed_bak = 1;    // Speed for network for restoring after a network play
 int    options_net_compatible = 0;   // network very slow compatibility mode
 int    options_net_compatible_bak = 0;   // network very slow compatibility mode restoring after network play
-int    options_cuberef = 1;          // reflections on balls with cuberef reflections
-int    options_cuberef_res = 128;    // how much resolution
 int    options_ball_sphere = 0;      // standard sphere (0) or special (1) sphere blending on balls
 int    options_rgaim = 0;            /* 0=middle 1=right 2=left */
 int    options_bumpref   = 0;  /* bump reflection of chrome edges */
@@ -146,9 +144,12 @@ VMfloat options_tourfast = 30.0;
 
 #ifdef TOUCH
   int   options_control_kind = 1;  // behaviour of some Controlkeys 0 = toggle, 1 = set if pressed and unset if unpressed
+  int   options_cuberef = 0;          // reflections on balls with cuberef reflections
 #else
   int   options_control_kind = 0;  // behaviour of some Controlkeys 0 = toggle, 1 = set if pressed and unset if unpressed
+  int   options_cuberef = 1;          // reflections on balls with cuberef reflections
 #endif
+int    options_cuberef_res = 128;    // how much resolution
 int    options_oldmove = 0;        // old mouse movement style from original foobillard, default off
 int    options_ai_birdview = 0;    // changes to birdview if player ist AI, Standard 0=off, 1=on
 int    options_status_text = 1;    // Text of the statusline, 0 = off, !=0 is on
@@ -167,12 +168,11 @@ int    options_tronmode = 0;       // the special tron game mode
 int    options_glassballs = 0;     // play with glass balls or other to implement ball types
 int    options_deco = 1;           // special for showing deco on walls and so on (1 = on, 0 = off)
 int    options_mus_volume = 10;
+int    options_furniture = 1;      // special for showing furniture, chairs and so on (2 = high, 1 = default, 0 = off)
 
 #ifdef WETAB
-  int    options_furniture = 0;      // special for showing furniture, chairs and so on (2 = high, 1 = default, 0 = off)
   int    options_snd_volume = 100;
 #else
-  int    options_furniture = 1;      // special for showing furniture, chairs and so on (2 = high, 1 = default, 0 = off)
   int    options_snd_volume = 90;
 #endif
 GLfloat  options_maxanisotrop = 0.0;   // max. of anistropic filters

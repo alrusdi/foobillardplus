@@ -75,7 +75,9 @@ foobillardplus_SOURCES = \
    bottle.h \
    bottle.c \
    chess.h \
-   chess.c
+   chess.c \
+   getopt_long.h \
+   getopt_long.c
 else
 
 bin_PROGRAMS = foobillardplus
@@ -148,7 +150,9 @@ foobillardplus_SOURCES = \
    bottle.h \
    bottle.c \
    chess.h \
-   chess.c
+   chess.c\
+   getopt_long.h \
+   getopt_long.c
 endif
 
 SDL_CFLAGS = `sdl-config --cflags`

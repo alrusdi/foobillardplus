@@ -32,7 +32,6 @@
 #include <string.h>
 #include <math.h>
 #include <unistd.h>
-#include <getopt.h>
 
 #ifdef __APPLE__
  #include <OpenGL/gl.h>
@@ -83,9 +82,12 @@
 #include "flower.h"
 #include "bottle.h"
 #include "chess.h"
+#include <getopt.h>
 
 static struct PlayerRoster human_player_roster;
 static struct TournamentState_ tournament_state;
+
+int printhelp_val = 0; //set != 0, if help wanted
 
 /* control-flags */
 int control__updated=0;  /* just activated */
@@ -234,7 +236,6 @@ static unsigned int *cuberef_allballs_texbind = 0;
 VMvect comp_dir;
 
 static int  act_player=0;   /* 0 or 1 */
-static char * player_names[]={localeText[0],localeText[1],localeText[2],localeText[3]};  /* "Human Player","AI Player","Human Player 2","AI Player 2" */
 // the static char * are only in use with debug later in source with the following inside the line (search for it)
 // sprintf(str,"%s - %s",player[act_player].name,half_full_names
 // static char * half_full_names[]={localeText[4],localeText[5],localeText[6]}; /* "any","full","half" */
@@ -311,78 +312,78 @@ static char stbar_text[6];              // format the value for output to string
 static char * appname_str="foobillardplus";
 
 static struct option long_options[] = {
-
-    {"player1",      required_argument, (int *)localeText[7], OPT_PLAYER1},
-    {"player2",      required_argument, (int *)localeText[8], OPT_PLAYER2},
-    {"p1",           required_argument, (int *)localeText[9], OPT_PLAYER1},
-    {"p2",           required_argument, (int *)localeText[10], OPT_PLAYER2},
-    {"name1",        required_argument, (int *)localeText[11], OPT_NAME1},
-    {"name2",        required_argument, (int *)localeText[12], OPT_NAME2},
-    {"8ball",        no_argument,       (int *)localeText[13], OPT_8BALL},
-    {"9ball",        no_argument,       (int *)localeText[14], OPT_9BALL},
-    {"carambol",     no_argument,       (int *)localeText[15], OPT_CARAMBOL},
-    {"snooker",      no_argument,       (int *)localeText[16], OPT_SNOOKER},
-    {"chromeblue",   no_argument,       (int *)localeText[20], OPT_CHROMEBLUE},
-    {"goldgreen",    no_argument,       (int *)localeText[21], OPT_GOLDGREEN},
-    {"goldred",      no_argument,       (int *)localeText[22], OPT_GOLDRED},
-    {"blackbeige",   no_argument,       (int *)localeText[24], OPT_BLACKBEIGE},
-    {"tronmode",     required_argument, (int *)localeText[237], OPT_TRONMODE},
-    {"tablesize",    required_argument, (int *)localeText[25], OPT_TABLESIZE},
-    {"lensflare",    no_argument,       (int *)localeText[26], OPT_LENSFLARE},
-    {"nolensflare",  no_argument,       (int *)localeText[27], OPT_NOLENSFLARE},
-    {"poslight",     no_argument,       (int *)localeText[28], OPT_POSLIGHT},
-    {"dirlight",     no_argument,       (int *)localeText[29], OPT_DIRLIGHT},
-    {"vsync",        required_argument, (int *)localeText[17], OPT_VSYNC},
-    {"ai1err",       required_argument, (int *)localeText[30], OPT_AI1ERR},
-    {"ai2err",       required_argument, (int *)localeText[31], OPT_AI2ERR},
-    {"balldetail",   required_argument, (int *)localeText[32], OPT_BALLDETAIL},
-    {"glassball",    required_argument, (int *)localeText[46], OPT_GLASSBALL},
-    {"rgstereo",     no_argument,       (int *)localeText[33], OPT_RGSTEREO},
-    {"rgaim",        required_argument, (int *)localeText[34], OPT_RGAIM},
-    {"hostaddr",     required_argument, (int *)localeText[35], OPT_HOSTADDR},
-    {"portnum",      required_argument, (int *)localeText[36], OPT_PORTNUM},
+// don't forget to put new options into the function print_help
+    {"player1",      required_argument, NULL, OPT_PLAYER1},
+    {"player2",      required_argument, NULL, OPT_PLAYER2},
+    {"p1",           required_argument, NULL, OPT_PLAYER1},
+    {"p2",           required_argument, NULL, OPT_PLAYER2},
+    {"name1",        required_argument, NULL, OPT_NAME1},
+    {"name2",        required_argument, NULL, OPT_NAME2},
+    {"8ball",        no_argument,       NULL, OPT_8BALL},
+    {"9ball",        no_argument,       NULL, OPT_9BALL},
+    {"carambol",     no_argument,       NULL, OPT_CARAMBOL},
+    {"snooker",      no_argument,       NULL, OPT_SNOOKER},
+    {"chromeblue",   no_argument,       NULL, OPT_CHROMEBLUE},
+    {"goldgreen",    no_argument,       NULL, OPT_GOLDGREEN},
+    {"goldred",      no_argument,       NULL, OPT_GOLDRED},
+    {"blackbeige",   no_argument,       NULL, OPT_BLACKBEIGE},
+    {"tronmode",     required_argument, NULL, OPT_TRONMODE},
+    {"tablesize",    required_argument, NULL, OPT_TABLESIZE},
+    {"lensflare",    no_argument,       NULL, OPT_LENSFLARE},
+    {"nolensflare",  no_argument,       NULL, OPT_NOLENSFLARE},
+    {"poslight",     no_argument,       NULL, OPT_POSLIGHT},
+    {"dirlight",     no_argument,       NULL, OPT_DIRLIGHT},
+    {"vsync",        required_argument, NULL, OPT_VSYNC},
+    {"ai1err",       required_argument, NULL, OPT_AI1ERR},
+    {"ai2err",       required_argument, NULL, OPT_AI2ERR},
+    {"balldetail",   required_argument, NULL, OPT_BALLDETAIL},
+    {"glassball",    required_argument, NULL, OPT_GLASSBALL},
+    {"rgstereo",     no_argument,       NULL, OPT_RGSTEREO},
+    {"rgaim",        required_argument, NULL, OPT_RGAIM},
+    {"hostaddr",     required_argument, NULL, OPT_HOSTADDR},
+    {"portnum",      required_argument, NULL, OPT_PORTNUM},
 #ifndef WETAB
-    {"geometry",     required_argument, (int *)localeText[37], OPT_GEOMETRY},
-    {"fullscreen",   no_argument,       (int *)localeText[38], OPT_FULLSCREEN},
-    {"browser",      required_argument, (int *)localeText[49], OPT_BROWSER},
+    {"geometry",     required_argument, NULL, OPT_GEOMETRY},
+    {"fullscreen",   no_argument,       NULL, OPT_FULLSCREEN},
 #endif
-    {"freemove",     required_argument, (int *)localeText[39], OPT_FREEMOVE},
-    {"cuberef",      required_argument, (int *)localeText[40], OPT_CUBEREF},
-    {"cuberes",      required_argument, (int *)localeText[41], OPT_CUBERES},
-    {"ballsphere",   required_argument, (int *)localeText[17], OPT_SPHEREREF},
-    {"bumpref",      required_argument, (int *)localeText[42], OPT_BUMPREF},
-    {"bumpwood",     required_argument, (int *)localeText[43], OPT_BUMPWOOD},
-    {"balltraces",   required_argument, (int *)localeText[44], OPT_BALLTRACE},
-    {"gamemode",     required_argument, (int *)localeText[45], OPT_GAMEMODE},
-    {"avatar",       required_argument, (int *)localeText[47], OPT_AVATAR},
-    {"tourfast",     required_argument, (int *)localeText[48], OPT_TOURFAST},
-    {"showbuttons",  required_argument, (int *)localeText[17], OPT_SHOW_BUTTONS},
-    {"jumpshots",    required_argument, (int *)localeText[17], OPT_JUMP_SHOTS},
-    {"aliasing",     required_argument, (int *)localeText[17], OPT_ANTIALIASING},
-    {"aliasmax",     required_argument, (int *)localeText[460], OPT_ANTIALIASMAX},
-    {"statustext",   required_argument, (int *)localeText[17], OPT_STATUSTEXT},
-    {"language",     required_argument, (int *)localeText[469], OPT_LANG},
+    {"browser",      required_argument, NULL, OPT_BROWSER},
+    {"freemove",     required_argument, NULL, OPT_FREEMOVE},
+    {"cuberef",      required_argument, NULL, OPT_CUBEREF},
+    {"cuberes",      required_argument, NULL, OPT_CUBERES},
+    {"ballsphere",   required_argument, NULL, OPT_SPHEREREF},
+    {"bumpref",      required_argument, NULL, OPT_BUMPREF},
+    {"bumpwood",     required_argument, NULL, OPT_BUMPWOOD},
+    {"balltraces",   required_argument, NULL, OPT_BALLTRACE},
+    {"gamemode",     required_argument, NULL, OPT_GAMEMODE},
+    {"avatar",       required_argument, NULL, OPT_AVATAR},
+    {"tourfast",     required_argument, NULL, OPT_TOURFAST},
+    {"showbuttons",  required_argument, NULL, OPT_SHOW_BUTTONS},
+    {"jumpshots",    required_argument, NULL, OPT_JUMP_SHOTS},
+    {"aliasing",     required_argument, NULL, OPT_ANTIALIASING},
+    {"aliasmax",     required_argument, NULL, OPT_ANTIALIASMAX},
+    {"statustext",   required_argument, NULL, OPT_STATUSTEXT},
+    {"language",     required_argument, NULL, OPT_LANG},
 #ifdef USE_SOUND
-    {"usesound",     required_argument, (int *)localeText[17], OPT_USE_SOUND},
-    {"usemusic",     required_argument, (int *)localeText[17], OPT_USE_MUSIC},
-    {"musicvol",     required_argument, (int *)localeText[421], OPT_VOL_MUSIC},
-    {"soundvol",     required_argument, (int *)localeText[421], OPT_VOL_SOUND},
+    {"usesound",     required_argument, NULL, OPT_USE_SOUND},
+    {"usemusic",     required_argument, NULL, OPT_USE_MUSIC},
+    {"musicvol",     required_argument, NULL, OPT_VOL_MUSIC},
+    {"soundvol",     required_argument, NULL, OPT_VOL_SOUND},
 #endif
-    {"pcarambol",    required_argument, (int *)localeText[18], OPT_MAXP_CARAMBOL},
-    {"controlkind",  required_argument, (int *)localeText[17], OPT_CONTROL_KIND},
-    {"aibirdview",   required_argument, (int *)localeText[17], OPT_AI_BIRDVIEW},
-    {"anisotrop",    required_argument, (int *)localeText[17], OPT_VALUE_ANISOTROP},
-    {"mouseshoot",   required_argument, (int *)localeText[17], OPT_MSHOOT},
-    {"oldmoving",    required_argument, (int *)localeText[17], OPT_MMOVE},
-    {"auto_freemove",required_argument, (int *)localeText[17], OPT_FREEMOVE1},
-    {"fsaa",         required_argument, (int *)localeText[17], OPT_FSAA},
-    {"roomtexture",  required_argument, (int *)localeText[17], OPT_ROOM},
-    {"furnituretex", required_argument, (int *)localeText[461], OPT_FURNITURE},
+    {"pcarambol",    required_argument, NULL, OPT_MAXP_CARAMBOL},
+    {"controlkind",  required_argument, NULL, OPT_CONTROL_KIND},
+    {"aibirdview",   required_argument, NULL, OPT_AI_BIRDVIEW},
+    {"anisotrop",    required_argument, NULL, OPT_VALUE_ANISOTROP},
+    {"mouseshoot",   required_argument, NULL, OPT_MSHOOT},
+    {"oldmoving",    required_argument, NULL, OPT_MMOVE},
+    {"auto_freemove",required_argument, NULL, OPT_FREEMOVE1},
+    {"fsaa",         required_argument, NULL, OPT_FSAA},
+    {"roomtexture",  required_argument, NULL, OPT_ROOM},
+    {"furnituretex", required_argument, NULL, OPT_FURNITURE},
 #ifdef NETWORKING
-    {"netspeed",     required_argument, (int *)localeText[239], OPT_NET_SPEED},
-    {"netcompatible",required_argument, (int *)localeText[17], OPT_NET_COMPATIBLE},
+    {"netspeed",     required_argument, NULL, OPT_NET_SPEED},
+    {"netcompatible",required_argument, NULL, OPT_NET_COMPATIBLE},
 #endif
-    {"help",         no_argument,       (int *)localeText[50], OPT_HELP},
+    {"help",         no_argument,       NULL, OPT_HELP},
     {NULL,           0,                 NULL, 0}
 };
 
@@ -1471,12 +1472,10 @@ void process_option(enum optionType act_option)
        case OPT_FULLSCREEN:
            fullscreen=1;
            break;
+#endif
        case OPT_BROWSER:
-#ifndef WETAB
            strcpy(options_browser,optarg);
-#endif
            break;
-#endif
        case OPT_FREEMOVE:
           switch(optarg[1]){
              case 'f': /* off */
@@ -1587,7 +1586,7 @@ void process_option(enum optionType act_option)
 #endif
           break;
        case OPT_HELP:
-          exit(1);
+          printhelp_val = 1;
           break;
        case OPT_SHOW_BUTTONS:
           switch(optarg[1]){
@@ -1777,27 +1776,57 @@ void process_option(enum optionType act_option)
 void print_help(struct option * opt, char *appname)
 {
     int i;
-
-    fprintf(stderr,localeText[51],appname);
-    fprintf(stderr,"%s",localeText[52]);
-    for(i=0;opt[i].name!=0;i++){
-        fprintf(stderr,"--%s %s\n",opt[i].name,opt[i].has_arg?"<arg>":"");
-        fprintf(stderr,"     %s\n",(char *)(opt[i].flag));
-        opt[i].flag=NULL;
+    char *helptext[] = { localeText[7],localeText[8],localeText[9],localeText[10],
+            localeText[11],localeText[12],localeText[13],localeText[14],localeText[15],
+            localeText[16],localeText[20],localeText[21],localeText[22],localeText[24],
+            localeText[237],localeText[25],localeText[26],localeText[27],localeText[28],
+            localeText[29],localeText[17],localeText[30],localeText[31],localeText[32],
+            localeText[46],localeText[33],localeText[34],localeText[35],localeText[36],
+#ifndef WETAB
+            localeText[37],localeText[38],localeText[49],
+#endif
+            localeText[39],localeText[40],localeText[41],localeText[17],localeText[42],
+            localeText[43],localeText[44],localeText[45],localeText[47],localeText[48],
+            localeText[17],localeText[17],localeText[17],localeText[460],localeText[17],
+            localeText[469],
+#ifdef USE_SOUND
+            localeText[17],localeText[17],localeText[421],localeText[421],
+#endif
+            localeText[18],localeText[17],localeText[17],localeText[17],localeText[17],
+            localeText[17],localeText[17],localeText[17],localeText[17],localeText[461],
+#ifdef NETWORKING
+            localeText[239],localeText[17],
+#endif
+            localeText[50],NULL };
+#ifdef USE_WIN
+    char win_helptext[10000];
+    strcpy(win_helptext,helptext[0]);
+    for(i=1;helptext[i]!=NULL;i++){
+        strcat(win_helptext,"\n");
+        strcat(win_helptext,helptext[0]);
     }
-    //fprintf(stderr,"%s\n",localeText[53]);
+    MessageBox(0,"Foobillard++ Command Line Arguments",win_helptext,MB_OK);
+#else
+    printf(localeText[51],appname);
+    printf("%s",localeText[52]);
+    for(i=0;helptext[i]!=NULL;i++){
+        printf("--%s %s\n",opt[i].name,opt[i].has_arg?"<arg>":"");
+        printf("     %s\n",helptext[i]);
+    }
+    //printf(stderr,"%s\n",localeText[53]);
+#endif
 }
 
 /***********************************************************************
  *                      Load the config from file                      *
  ***********************************************************************/
 
-int load_config( char *** confv, int * confc, char ** argv, int argc )
+void load_config( char *** confv, int * confc, char ** argv, int argc )
 {
     FILE * f;
     int c,i;             // loop variables
     char * str;          // pointer to the string
-    char allstr[10000];  // place the whole config-file
+    char allstr[20000];  // place for the whole config-file
     char filename[300];  // config-filename with path
 
     *confc=1;
@@ -1811,7 +1840,7 @@ int load_config( char *** confv, int * confc, char ** argv, int argc )
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
 #endif
     fprintf(stderr,"%s\n",filename);
-    if( (f=fopen(filename,"rb")) != NULL ){
+    if( (f=fopen(filename,"rb, css=UTF-8")) != NULL ){
         do{
             str[0]='-'; str[1]='-';
             for( i=2 ; (c=fgetc(f))!='\n' && c!=EOF ; i++ ){
@@ -1835,8 +1864,8 @@ int load_config( char *** confv, int * confc, char ** argv, int argc )
         (*confv)[0]=argv[0];
         for(i=1;i<*confc;i++){
             (*confv)[i]=str;
-/*        fprintf(stderr,"confstring2:<%s>\n",(*confv)[i]);*/
-            if( i!=(*confc)-1 ){ for(;(*str)!=0;str++); str++; }
+/*        fprintf(stderr,"confstring2:<%s>\n",(*confv)[i]); */
+        if( i!=(*confc)-1 ){ for(;(*str)!=0;str++); str++; }
         }
         for(i=1;i<argc;i++){
             (*confv)[*confc+i-1]=argv[i];
@@ -1847,7 +1876,9 @@ int load_config( char *** confv, int * confc, char ** argv, int argc )
         *confc=argc;
 /*      fprintf(stderr,"no rc file found\n");*/
     }
-    return (f!=NULL);
+    if(f) {
+        fclose(f);
+    }
 }
 
 
@@ -1887,7 +1918,7 @@ void save_config(void)
 #else
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
 #endif
-    if((f=fopen(filename,"wb"))==NULL){
+    if((f=fopen(filename,"wb, css=UTF-8"))==NULL){
         //can't write to %s - check rights\n
         fprintf(stderr,localeText[54],filename);
         return;
@@ -2036,10 +2067,10 @@ void save_config(void)
                 write_rc(f,opt,NULL);
                 }
              break;
+#endif
         case OPT_BROWSER:
              write_rc(f,opt,options_browser);
              break;
-#endif
         case OPT_FREEMOVE:
              if(options_birdview_on) {
                write_rc(f,opt, old_options_free_view_on?"on":"off");
@@ -2472,10 +2503,6 @@ void init_player_roster(struct PlayerRoster * roster)
     init_player(&(roster->player[1]),1);
     init_player(&player[0],0);
     init_player(&player[1],1);
-    strcpy(roster->player[0].name,player_names[0]);
-    strcpy(roster->player[1].name,player_names[1]);
-    strcpy(player[0].name,player_names[0]);
-    strcpy(player[1].name,player_names[1]);
 #ifdef __MINGW32__
     if(getenv("USERNAME"))
         strcpy(roster->player[0].name,getenv("USERNAME"));
@@ -7860,24 +7887,32 @@ int main( int argc, char *argv[] )
    /* Initialize browser to use */
    init_browser();
    fprintf(stderr,"Browser initialized for history-functions\n");
-#ifdef _MSC_VER //RB For only Windows-MSVC
-#else
-   print_help(long_options,appname_str);
-#endif
    /* Initialize all player variables for two players */
    init_player_roster(&human_player_roster);
    fprintf(stderr,"Player variables initialized\n");
    /* config file */
    load_config( &confv, &confc, argv, argc );
    fprintf(stderr,"Base-Configuration initialized\n");
-   while( ( act_option = getopt_long_only(confc, confv, "+", long_options, &option_index) ) >= 0){
+   while( ( act_option = getopt_long(confc, confv, "", long_options, &option_index) ) >= 0){
        fprintf(stderr,"processing option %d=%s\n",act_option,optarg);
        process_option(act_option);
    }
-   fprintf(stderr,"Configuration processing\n");
+   fprintf(stderr,"Configuration processed\n");
    /* Initialize Language and folders */
    init_language();
+   if(printhelp_val) {
+     print_help(long_options,appname_str);
+     exit(1);
+   }
    fprintf(stderr,"Language initialized\n");
+   if(strlen(human_player_roster.player[1].name) <1) {
+       strcpy(human_player_roster.player[1].name,localeText[1]);
+       strcpy(human_player_roster.player[1].name,localeText[1]);
+   }
+   if(strlen(human_player_roster.player[0].name) <1) {
+       strcpy(human_player_roster.player[0].name,localeText[0]);
+       strcpy(human_player_roster.player[0].name,localeText[0]);
+   }
    /* Initialize history system */
    init_history();
    fprintf(stderr,"History system initialized\n");
