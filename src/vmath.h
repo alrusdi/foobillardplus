@@ -42,8 +42,8 @@ typedef __declspec(align(16)) float VMfloat;
 typedef __declspec(align(16)) double VMfloat;
 #endif
 #else
-#ifdef VMATH_SINGLE_PRECISION
 #define MATH_ALIGN16 __attribute__ ((aligned (16)))
+#ifdef VMATH_SINGLE_PRECISION
 typedef __attribute__ ((aligned (16))) float VMfloat;
 #else
 typedef __attribute__ ((aligned (16))) double VMfloat;
