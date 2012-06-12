@@ -50,6 +50,7 @@
 
 #ifdef __MINGW32__ //RB
    void ( APIENTRY * glActiveTextureARB)( GLenum );
+   #include <windows.h>
 #endif
 #include "language.h"
 #include "billard.h"
@@ -82,7 +83,7 @@
 #include "flower.h"
 #include "bottle.h"
 #include "chess.h"
-#include <getopt.h>
+#include "getopt_long.h"
 
 static struct PlayerRoster human_player_roster;
 static struct TournamentState_ tournament_state;
@@ -1802,10 +1803,13 @@ void print_help(struct option * opt, char *appname)
     char win_helptext[10000];
     strcpy(win_helptext,helptext[0]);
     for(i=1;helptext[i]!=NULL;i++){
-        strcat(win_helptext,"\n");
-        strcat(win_helptext,helptext[0]);
+        strcat(win_helptext,"\n--");
+        strcat(win_helptext,opt[i].name);
+        strcat(win_helptext," ");
+        strcat(win_helptext,opt[i].has_arg?"<arg> : ":" : ");
+        strcat(win_helptext,helptext[i]);
     }
-    MessageBox(0,"Foobillard++ Command Line Arguments",win_helptext,MB_OK);
+    MessageBox(0,win_helptext,"Foobillard++ Command Line Arguments",MB_OK);
 #else
     printf(localeText[51],appname);
     printf("%s",localeText[52]);
@@ -1840,7 +1844,7 @@ void load_config( char *** confv, int * confc, char ** argv, int argc )
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
 #endif
     fprintf(stderr,"%s\n",filename);
-    if( (f=fopen(filename,"rb, css=UTF-8")) != NULL ){
+    if( (f=fopen(filename,"rb")) != NULL ){
         do{
             str[0]='-'; str[1]='-';
             for( i=2 ; (c=fgetc(f))!='\n' && c!=EOF ; i++ ){
@@ -1918,7 +1922,7 @@ void save_config(void)
 #else
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
 #endif
-    if((f=fopen(filename,"wb, css=UTF-8"))==NULL){
+    if((f=fopen(filename,"wb"))==NULL){
         //can't write to %s - check rights\n
         fprintf(stderr,localeText[54],filename);
         return;
@@ -7893,7 +7897,7 @@ int main( int argc, char *argv[] )
    /* config file */
    load_config( &confv, &confc, argv, argc );
    fprintf(stderr,"Base-Configuration initialized\n");
-   while( ( act_option = getopt_long(confc, confv, "", long_options, &option_index) ) >= 0){
+   while( ( act_option = getopt_long_new(confc, confv, "", long_options, &option_index) ) >= 0){
        fprintf(stderr,"processing option %d=%s\n",act_option,optarg);
        process_option(act_option);
    }

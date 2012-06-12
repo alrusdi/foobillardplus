@@ -31,7 +31,7 @@
    to options and options following filenames is not quite right, allso
    minimal error checking is provided
    */
-int getopt_long(int argc,char * const argv[],
+int getopt_long_new(int argc,char * const argv[],
                 const char *optstring,
                 const struct option *longopts,int *longindex)
 {
