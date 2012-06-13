@@ -177,7 +177,7 @@ Goal of the game are %i points
 next:%d
 red
 col
-yellow"
+yellow
 green
 brown
 blue

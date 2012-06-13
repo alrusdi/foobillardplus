@@ -48,7 +48,7 @@
   #include <SDL/SDL_net.h>
 #endif
 
-#ifdef __MINGW32__ //RB
+#ifdef USE_WIN //RB
    void ( APIENTRY * glActiveTextureARB)( GLenum );
    #include <windows.h>
 #endif
@@ -1836,7 +1836,7 @@ void load_config( char *** confv, int * confc, char ** argv, int argc )
     *confc=1;
     str=allstr;
 
-#ifdef __MINGW32__ //HS
+#ifdef USE_WIN //HS
     sprintf(filename,"%s\\.foobillardrc",getenv("USERPROFILE"));
 #elif defined(__APPLE__)
     sprintf(filename,"%s/Library/Preferences/org.foobillard.Foobillard--",getenv("HOME"));
@@ -1915,7 +1915,7 @@ void save_config(void)
     char filename[512];
     char str[256];
 
-#ifdef __MINGW32__ //HS
+#ifdef USE_WIN //HS
     sprintf(filename,"%s\\.foobillardrc",getenv("USERPROFILE"));
 #elif defined(__APPLE__)
     sprintf(filename,"%s/Library/Preferences/org.foobillard.Foobillard--",getenv("HOME"));
@@ -2473,26 +2473,26 @@ void init_ai_player_roster(struct PlayerRoster * roster)
             roster->player[i].err=0.9;
         } else if (i==10) {
             strcpy(roster->player[i].name,PLAYER11);
-            roster->player[i].err=0.10;
+            roster->player[i].err=1.0; //0.10;
         } else if (i==11) {
             strcpy(roster->player[i].name,PLAYER12);
-            roster->player[i].err=0.11;
+            roster->player[i].err=1.11; //0.11;
         } else if (i==12) {
             strcpy(roster->player[i].name,PLAYER13);
-            roster->player[i].err=0.12;
+            roster->player[i].err=1.2; //0.12;
         } else if (i==13) {
             strcpy(roster->player[i].name,PLAYER14);
-            roster->player[i].err=0.15;
+            roster->player[i].err=1.5; //0.15;
         } else if (i==14) {
             strcpy(roster->player[i].name,PLAYER15);
-            roster->player[i].err=0.19;
+            roster->player[i].err=1.9; //0.19;
         } else {
             //sprintf(str,"dumb for %d",i-13);
             sprintf(str,localeText[57],i-13);
             strcpy(roster->player[i].name,str);
             roster->player[i].err=0.1*(VMfloat)(i-13);
         }
-        roster->player[i].text = textObj_new(roster->player[i].name, options_roster_fontname, 20); //28 old
+        roster->player[i].text = textObj_new(roster->player[i].name, options_roster_fontname, 20);
     }
 }
 
@@ -2507,7 +2507,7 @@ void init_player_roster(struct PlayerRoster * roster)
     init_player(&(roster->player[1]),1);
     init_player(&player[0],0);
     init_player(&player[1],1);
-#ifdef __MINGW32__
+#ifdef USE_WIN
     if(getenv("USERNAME"))
         strcpy(roster->player[0].name,getenv("USERNAME"));
         strcpy(player[0].name,getenv("USERNAME"));
@@ -2602,7 +2602,11 @@ void tournament_state_setup_next_round( struct TournamentState_ * ts )
         } else if(ts->game[ts->round_ind][0].winner==1){
             ts->overall_winner=ts->game[ts->round_ind][0].roster_player2;
         } else {
-            fprintf(stderr,"error: nobody won the tournament !?\n");
+#ifdef USE_WIN
+            MessageBox(0,"Error: nobody won the tournament !?","Foobillard++ Error",MB_OK);
+#else
+            fprintf(stderr,"Error: nobody won the tournament !?\n");
+#endif
             sys_exit(1);
         }
     } else {
@@ -2612,7 +2616,11 @@ void tournament_state_setup_next_round( struct TournamentState_ * ts )
             } else if(ts->game[ts->round_ind-1][i].winner==1){
                 players[i]=ts->game[ts->round_ind-1][i].roster_player2;
             } else {
-                fprintf(stderr,"error: sbdy didnt win one of the last matches !?\n");
+#ifdef USE_WIN
+                MessageBox(0,"Error: somebody didn't win one of the last matches !?","Foobillard++ Error",MB_OK);
+#else
+                fprintf(stderr,"Error: sbdy didnt win one of the last matches !?\n");
+#endif
                 sys_exit(1);
             }
         }
@@ -2834,7 +2842,7 @@ void shoot( int ani )
 #endif
     other_player = (act_player==0) ? 1 : 0 ;
     if ( player[other_player].is_net ){
-       // other player is net
+       //  ### TODO ### other player is net
     }
 
     if( ani ){
@@ -4117,7 +4125,11 @@ void DisplayFunc( void )
            bhitstrength = 1.75 * (0.3 * bhitstrength / CUEBALL_MAXSPEED + 0.7 * bhitstrength*bhitstrength / CUEBALL_MAXSPEED / CUEBALL_MAXSPEED);
            if(bhitstrength!=0.0){
              if( toffs>TIMESTEP || toffs<0.0 ){
+#ifdef USE_WIN
+                MessageBox(0,"Error: toffs>TIMESTEP || toffs<0.0","Foobillard++ Error",MB_OK);
+#else
                 fprintf(stderr,"Error: toffs>TIMESTEP || toffs<0.0\n");
+#endif
                 sys_exit(0);
              }
              if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
@@ -4870,32 +4882,16 @@ void DisplayFunc( void )
        GLfloat VertexData2[23];
            p1=vec_add(p,vec_scale(bx,-0.01));
            p2=vec_add(p,vec_scale(bx,+0.01));
-           VertexData2[0] = p.x;
-           VertexData2[1] = p.y;
-           VertexData2[2] = p.z;
-           VertexData2[3] = p1.x;
-           VertexData2[4] = p1.y;
-           VertexData2[5] = p1.z;
-           VertexData2[6] = p.x;
-           VertexData2[7] = p.y;
-           VertexData2[8] = p.z;
-           VertexData2[9] = p2.x;
-           VertexData2[10] = p2.y;
-           VertexData2[11] = p2.z;
+           VertexData2[0] = p.x; VertexData2[1] = p.y; VertexData2[2] = p.z;
+           VertexData2[3] = p1.x; VertexData2[4] = p1.y; VertexData2[5] = p1.z;
+           VertexData2[6] = p.x; VertexData2[7] = p.y; VertexData2[8] = p.z;
+           VertexData2[9] = p2.x; VertexData2[10] = p2.y; VertexData2[11] = p2.z;
            p1=vec_add(p,vec_scale(by,-0.01));
            p2=vec_add(p,vec_scale(by,+0.01));
-           VertexData2[12] = p.x;
-           VertexData2[13] = p.y;
-           VertexData2[14] = p.z;
-           VertexData2[15] = p1.x;
-           VertexData2[16] = p1.y;
-           VertexData2[17] = p1.z;
-           VertexData2[18] = p.x;
-           VertexData2[19] = p.y;
-           VertexData2[20] = p.z;
-           VertexData2[21] = p2.x;
-           VertexData2[22] = p2.y;
-           VertexData2[23] = p2.z;
+           VertexData2[12] = p.x; VertexData2[13] = p.y; VertexData2[14] = p.z;
+           VertexData2[15] = p1.x; VertexData2[16] = p1.y; VertexData2[17] = p1.z;
+           VertexData2[18] = p.x; VertexData2[19] = p.y; VertexData2[20] = p.z;
+           VertexData2[21] = p2.x; VertexData2[22] = p2.y; VertexData2[23] = p2.z;
            glEnableClientState(GL_VERTEX_ARRAY);
            glVertexPointer(3, GL_FLOAT, 0, VertexData2);
            glPushMatrix();
@@ -5401,7 +5397,7 @@ void DisplayFunc( void )
              myRect2D_texture();
              glPopMatrix();
              glEndList();
-  	        } else {
+  	       } else {
              //fprintf(stderr,"english move %i\n",english1_id);
              glCallList(english1_id);
            }
@@ -5417,7 +5413,7 @@ void DisplayFunc( void )
              myRect2D_texture();
              glPopMatrix();
              glEndList();
-	          } else {
+	       } else {
              //fprintf(stderr,"mouse shoot %i\n",shoot_id);
              glCallList(shoot_id);
            }
@@ -5433,7 +5429,7 @@ void DisplayFunc( void )
              myRect2D_texture();
              glPopMatrix();
              glEndList();
-	          } else {
+	       } else {
              //fprintf(stderr,"cue butt up/down %i\n",cuebutt_id);
              glCallList(cuebutt_id);
            }
@@ -5449,7 +5445,7 @@ void DisplayFunc( void )
              myRect2D_texture();
              glPopMatrix();
              glEndList();
-	          } else {
+	       } else {
              //fprintf(stderr,"place cue ball %i\n",cueball1_id);
              glCallList(cueball1_id);
            }
@@ -5465,7 +5461,7 @@ void DisplayFunc( void )
              myRect2D_texture();
              glPopMatrix();
              glEndList();
-	          } else {
+	       } else {
              //fprintf(stderr,"FOV %i\n",fov_id);
              glCallList(fov_id);
            }
@@ -5751,10 +5747,10 @@ void restart_game_common(void)
         }
 #endif
     if(gametype==GAME_CARAMBOL) {
-       emptyworkstring();
-       sprintf(statusstr,localeText[175],options_maxp_carambol);
-       concatworkstring(statusstr);
-       setst_text();
+      emptyworkstring();
+      sprintf(statusstr,localeText[175],options_maxp_carambol);
+      concatworkstring(statusstr);
+      setst_text();
       player[0].cue_ball=0;
       player[1].cue_ball=1;
     } else {
@@ -7365,7 +7361,7 @@ void menu_cb( int id, void * arg , VMfloat value)
           }
         }
 #endif
-    	   break;
+    	break;
     case MENU_ID_VSYNC_OFF:
     	   options_vsync = 0;
 #if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
@@ -7405,11 +7401,11 @@ void menu_cb( int id, void * arg , VMfloat value)
         options_lensflare=0;
         break;
     case MENU_ID_RESTART:
-    	   save_config();
-    	   SDL_Delay(1000); //wait a second
-    	   sdl_exit(); //only quit SDL before new restart!!!
-    	   execl(get_prog(),appname_str,(char *)0);
-    	   fprintf(stderr,"Return not expected. Must be an execv error.\n");
+    	save_config();
+    	SDL_Delay(1000); //wait a second
+    	sdl_exit(); //only quit SDL before new restart!!!
+    	execl(get_prog(),appname_str,(char *)0);
+    	fprintf(stderr,"Return not expected. Must be an execv error.\n");
         break;
     case MENU_ID_CONTROL_KIND_ON:
         options_control_kind = 1;
@@ -7869,7 +7865,7 @@ int main( int argc, char *argv[] )
    net_send_data = net_send_data_hard;
    net_get_data = net_get_data_hard;
 #endif
-#ifdef __MINGW32__	//RB
+#ifdef USE_WIN 	//RB
 	  glActiveTextureARB = 0;
 #endif
 
@@ -7928,7 +7924,7 @@ int main( int argc, char *argv[] )
    fprintf(stderr,"OpenGL context initialized\n");
    /* initialize random seed */
    srand(SDL_GetTicks());
-#ifdef __MINGW32__	//RB
+#ifdef USE_WIN //RB
 	  glActiveTextureARB = (void *) SDL_GL_GetProcAddress("glActiveTextureARB");
 #endif
 #ifndef WETAB

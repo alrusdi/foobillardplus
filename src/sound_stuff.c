@@ -22,7 +22,9 @@
 **
 */
 #ifdef USE_SOUND
-
+#ifdef USE_WIN
+   #include <windows.h>
+#endif
 #include "options.h"
 #include "sys_stuff.h"
 
@@ -199,7 +201,11 @@ void init_sound(void)
     int i,j,k,dummy;
     /* ball-ball sounds from samuele catuzzi's kbilliards - thanx */
     if((f=fopen("ball_ball.raw", "rb"))==NULL){
-        fprintf(stderr,"couldn't open ball_ball.raw\n");
+#ifdef USE_WIN
+        MessageBox(0,"Couldn't open ball_ball.raw. Terminating!","Foobillard++ Error",MB_OK);
+#else
+        fprintf(stderr,"Couldn't open ball_ball.raw\n");
+#endif
         sys_exit(1);
     }
     fseek(f, 0L, SEEK_END);

@@ -132,7 +132,7 @@ inline float fastsqrt(float n) {
  *            fast sinus/cosinus lookup build table                    *
  ***********************************************************************/
 
-#define MAX_CIRCLE_ANGLE 512
+#define MAX_CIRCLE_ANGLE 8192
 #define HALF_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE/2)
 #define QUARTER_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE/4)
 #define MASK_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE - 1)
@@ -140,7 +140,7 @@ inline float fastsqrt(float n) {
 static float fast_cossin_table[MAX_CIRCLE_ANGLE];           // Declare table of fast cosinus and sinus
 
 void initlookup_cossin_table(void) {
-	 long i;
+  long i;
   // Build cossin table
   for (i = 0; i < MAX_CIRCLE_ANGLE ; i++) {
      fast_cossin_table[i] = (float)sin((double)i * M_PI / HALF_MAX_CIRCLE_ANGLE);

@@ -45,7 +45,7 @@
 	#define glActiveTexture glActiveTextureARB
 #endif
 
-#ifdef __MINGW32__
+#ifdef USE_WIN
 	extern void ( APIENTRY * glActiveTextureARB)( GLenum );
 #endif
 
@@ -1262,9 +1262,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
    if(carambol){
-       //tablew=TABLE_W+2.0*BANDE_D;
-       //tablel=TABLE_L+2.0*BANDE_D;
-       // see some lines above. Is this right here?
        tablew=TABLE_W;
        tablel=TABLE_L;
        area_w = TABLE_W+2.0*BANDE_D;
@@ -1316,11 +1313,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    }
    glDrawArrays(GL_QUADS,0,4*AREA_SUBDIV_Y*AREA_SUBDIV_X);
    glPopMatrix();
-   // the following lines are wrong here? set this a few lines before, because can't find a reason that it's here
-   //if(carambol){
-   //    tablew=TABLE_W;
-   //    tablel=TABLE_L;
-   //}
 
    if(!carambol){
        /* holes */

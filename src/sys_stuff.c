@@ -211,12 +211,19 @@ void sys_create_display(int width,int height,int _fullscreen)
   /* First, initialize SDL's video subsystem. */
 #ifdef USE_SOUND
   if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0 ) {
-    fprintf( stderr, "Video or Audio initialization failed: %s\n",
+#ifdef USE_WIN
+    MessageBox(0,"Video or Audio initialization failed. Terminating!","Foobillard++ Error",MB_OK);
+#else
+    fprintf( stderr, "Video or Audio initialization failed: %s\n",SDL_GetError());
+#endif
 #else
   if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 ) {
-    fprintf( stderr, "Video initialization failed: %s\n",
+#ifdef USE_WIN
+    MessageBox(0,"Video initialization failed. Terminating!","Foobillard++ Error",MB_OK);
+#else
+    fprintf( stderr, "Video initialization failed: %s\n",SDL_GetError());
 #endif
-    SDL_GetError( ) );
+#endif
     sys_exit(1);
   }
 
@@ -227,8 +234,11 @@ void sys_create_display(int width,int height,int _fullscreen)
   
   if( !info ) {
     /* This should probably never happen. */
-    fprintf( stderr, "Video query failed: %s\n",
-    SDL_GetError( ) );
+#ifdef USE_WIN
+    MessageBox(0,"Video query failed. Terminating!","Foobillard++ Error",MB_OK);
+#else
+    fprintf( stderr, "Video query failed: %s\n",SDL_GetError());
+#endif
     sys_exit(1);
   }
   
@@ -344,7 +354,11 @@ void sys_create_display(int width,int height,int _fullscreen)
 #endif
    if((vid_surface=SDL_SetVideoMode( width, height, vidmode_bpp, vidmode_flags )) == NULL) {
     if(!options_fsaa_value) {
+#ifdef USE_WIN
+    MessageBox(0,"Video mode set failed. Please restart Foobillard++","Foobillard++ Error",MB_OK);
+#else
      fprintf( stderr, "Video mode set failed: %s\nPlease restart Foobillard++\n", SDL_GetError());
+#endif
      sys_exit(1);
     }
 #ifndef WETAB
@@ -432,7 +446,11 @@ void sys_fullscreen( int fullscr )
     }
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
     if(screen == NULL) {
+#ifdef USE_WIN
+           MessageBox(0,"Video-Error on set full-screen/windowed mode. Terminating!","Foobillard++ Error",MB_OK);
+#else
     	   fprintf(stderr,"Video-Error on set full-screen/windowed mode. Terminating\n");
+#endif
     	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
     }
 #endif
@@ -648,7 +666,11 @@ void sys_resize( int width, int height, int callfrom )
     }
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
     if(screen == NULL) {
+#ifdef USE_WIN
+           MessageBox(0,"Video-Error on window resize. Terminating!","Foobillard++ Error",MB_OK);
+#else
     	   fprintf(stderr,"Video-Error on window resize. Terminating\n");
+#endif
     	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
     }
     ResizeWindow(width,height);

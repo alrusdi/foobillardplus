@@ -27,7 +27,9 @@
 #else
 #define COMPILE_PNG_CODE 0
 #endif
-
+#ifdef USE_WIN
+   #include <windows.h>
+#endif
 #if COMPILE_PNG_CODE
 	#include <png.h>
 #else
@@ -73,25 +75,36 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
 
     fp = fopen(file_name, "rb");
     if (!fp){
+#ifdef USE_WIN
+        MessageBox(0,"Cannot load required png-file. Terminating!","Foobillard++ Error",MB_OK);
+#else
         fprintf(stderr,"Cannot load required png-file (%s). Terminating!\n",file_name);
-        sys_exit(0);
+#endif
+        sys_exit(1);
     }
 
     png_ptr = png_create_read_struct
        (PNG_LIBPNG_VER_STRING, (png_voidp)NULL/*user_error_ptr*/,
         NULL/*user_error_fn*/, NULL/*user_warning_fn*/);
     if (!png_ptr) {
-     fprintf(stderr,"Error png-ptr png-file (%s). Terminating!\n",file_name);
-     sys_exit(0);
+#ifdef USE_WIN
+        MessageBox(0,"Error png-ptr png-file. Terminating!","Foobillard++ Error",MB_OK);
+#else
+        fprintf(stderr,"Error png-ptr png-file (%s). Terminating!\n",file_name);
+#endif
+        sys_exit(1);
      }
 
     info_ptr = png_create_info_struct(png_ptr);
     if (!info_ptr)
     {
-        png_destroy_read_struct(&png_ptr,
-           (png_infopp)NULL, (png_infopp)NULL);
-        fprintf(stderr,"Eror create info struct png-file (%s). Terminating!\n",file_name);
-        sys_exit(0);
+        png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
+#ifdef USE_WIN
+        MessageBox(0,"Error create info struct png-file. Terminating!","Foobillard++ Error",MB_OK);
+#else
+        fprintf(stderr,"Error create info struct png-file (%s). Terminating!\n",file_name);
+#endif
+        sys_exit(1);
 
     }
 

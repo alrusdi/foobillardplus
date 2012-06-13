@@ -22,6 +22,9 @@
 **
 */
 
+#ifdef USE_WIN
+   #include <windows.h>
+#endif
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,7 +47,7 @@
 #include "vmath.h"
 #include "png_loader.h"
 
-#ifdef __MINGW32__
+#ifdef USE_WIN
 	extern void ( APIENTRY * glActiveTextureARB)( GLenum );
 #endif
 
@@ -118,7 +121,11 @@ void createvertex( GLfloat * v, GLfloat * n, GLfloat tex_x, GLfloat tex_y, ElemA
     static int count;
     int pos,i,k;
     if ( array == NULL ){
+#ifdef USE_WIN
+        MessageBox(0,"ERROR: creating vertex (non-array) not allowed","Foobillard++ Error",MB_OK);
+#else
         fprintf(stderr,"ERROR: creating vertex (non-array) not allowed\n");
+#endif
         sys_exit(0);
     } else {
         if(array->indnr==0) {
@@ -180,7 +187,11 @@ void ball_subdivide_nonrec(GLfloat *v1, GLfloat *v2, GLfloat *v3, int depth, GLf
     otherside = ( v1[2]+v2[2]+v3[2]>0.0 );
     for( i=0; i<subdiv; i++ ){ /* make tristrips */
         if(array==NULL){
+#ifdef USE_WIN
+            MessageBox(0,"ERROR: Buffer without array not allowed.","Foobillard++ Error",MB_OK);
+#else
             fprintf(stderr,"ERROR: Buffer without array not allowed.\n");
+#endif
             sys_exit(1);
         }
         array->prim_size[array->num_prim]=2*(subdiv-i)+1;

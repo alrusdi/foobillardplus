@@ -31,7 +31,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
 
-#ifdef __MINGW32__ //RB
+#ifdef USE_WIN //RB
    #include <winsock2.h>
 #else
 	  #include <sys/socket.h>
@@ -87,7 +87,7 @@ void net_close_listener(TCPsocket socket)
   SDLNet_TCP_Close(socket);
 }
 
-#ifndef __MINGW32__	// RB
+#ifndef USE_WIN // RB
 
 /***********************************************************************
  *     resolve one ip-address of the host                              *

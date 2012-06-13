@@ -207,7 +207,7 @@ VMvect ai_get_stroke_dir_8ball( BallsType * balls, BordersType * walls, struct P
         r_hit = vec_diff(bhit->r,bcue->r);
     }
 
-    r_hit=vec_add(r_hit,vec_scale(vec_xyz(my_rand01()-0.5,my_rand01()-0.5,my_rand01()-0.5),0.02*ai_err/vec_abs(r_hit)));
+    r_hit=vec_add(r_hit,vec_scale(vec_xyz(my_rand01()-0.5,my_rand01()-0.5,my_rand01()-0.5),0.02*ai_err)); ///vec_abs(r_hit)));
 
     return vec_unit(r_hit);
 #undef full_half
@@ -260,7 +260,7 @@ VMvect ai_get_stroke_dir_9ball( BallsType * balls, BordersType * walls, struct P
         r_hit = vec_diff(bhit->r,bcue->r);
     }
 
-    r_hit=vec_add(r_hit,vec_scale(vec_xyz(my_rand01()-0.5,my_rand01()-0.5,my_rand01()-0.5),0.02*ai_err*vec_abs(r_hit)));
+    r_hit=vec_add(r_hit,vec_scale(vec_xyz(my_rand01()-0.5,my_rand01()-0.5,my_rand01()-0.5),0.02*ai_err)); //*vec_abs(r_hit)));
 
     return vec_unit(r_hit);
 }
@@ -397,7 +397,7 @@ VMvect ai_get_stroke_dir_snooker( BallsType * balls, BordersType * walls, struct
         }
     }
 
-    r_hit=vec_add(r_hit,vec_scale(vec_xyz(my_rand01()-0.5,my_rand01()-0.5,my_rand01()-0.5),0.02*ai_err/vec_abs(r_hit)));
+    r_hit=vec_add(r_hit,vec_scale(vec_xyz(my_rand01()-0.5,my_rand01()-0.5,my_rand01()-0.5),0.02*ai_err)); ///vec_abs(r_hit)));
 
     //(fprintf(stderr,"aiplayer: done\n");
     return vec_unit(r_hit);
