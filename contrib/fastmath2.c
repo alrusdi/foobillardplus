@@ -161,7 +161,7 @@ float fastatan2(float y, float x) {
 }
 
 
-#define MAX_CIRCLE_ANGLE      512
+#define MAX_CIRCLE_ANGLE      8192
 #define HALF_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE/2)
 #define QUARTER_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE/4)
 #define MASK_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE - 1)

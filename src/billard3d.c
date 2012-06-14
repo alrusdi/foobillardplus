@@ -2403,96 +2403,60 @@ void init_ai_player_roster(struct PlayerRoster * roster)
     int i;
     char str[256];
 
-    for(i=0;i<roster->nr;i++){
-#ifdef WETAB
-  #define PLAYER1  "Arthur Dent"
-  #define PLAYER2  "Ford Prefect"
-  #define PLAYER3  "Zaphod Beeblebrox"
-  #define PLAYER4  "Trillian McMillan"
-  #define PLAYER5  "Slartibartfast"
-  #define PLAYER6  "Marvin"
-  #define PLAYER7  "Questular Rontok"
-  #define PLAYER8  "Deep Thought"
-  #define PLAYER9  "The Guide"
-  #define PLAYER10 "Humma Kavula"
-  #define PLAYER11 "Eddie the Computer"
-  #define PLAYER12 "Jeltz"
-  #define PLAYER13 "Fook"
-  #define PLAYER14 "Lunkwill"
-  #define PLAYER15 "Gag Halfrunt"
-#else
-  #define PLAYER1  "Billardo Bill"
-  #define PLAYER2  "Suzy Cue"
-  #define PLAYER3  "Pooledo Pete"
-  #define PLAYER4  "Billie Ball"
-  #define PLAYER5  "Snookie"
-  #define PLAYER6  "Diamond Dan"
-  #define PLAYER7  "Tom Tuxedo"
-  #define PLAYER8  "Sally Silver"
-  #define PLAYER9  "Wicked Wendy"
-  #define PLAYER10 "Bald Ben"
-  #define PLAYER11 "Badino Buck"
-  #define PLAYER12 "Worse Will"
-  #define PLAYER13 "Rita Rookie"
-  #define PLAYER14 "Don Dumb"
-  #define PLAYER15 "Dana Dummy"
-#endif
-        init_player(&(roster->player[i]),1);
+    #ifdef WETAB
+     #define PLAYER1 "Arthur Dent"
+     #define PLAYER2 "Ford Prefect"
+     #define PLAYER3 "Zaphod Beeblebrox"
+     #define PLAYER4 "Trillian McMillan"
+     #define PLAYER5 "Slartibartfast"
+     #define PLAYER6 "Marvin"
+     #define PLAYER7 "Questular Rontok"
+     #define PLAYER8 "Deep Thought"
+     #define PLAYER9 "The Guide"
+     #define PLAYER10 "Humma Kavula"
+     #define PLAYER11 "Eddie the Computer"
+     #define PLAYER12 "Jeltz"
+     #define PLAYER13 "Fook"
+     #define PLAYER14 "Lunkwill"
+     #define PLAYER15 "Gag Halfrunt"
+    #else
+     #define PLAYER1 "Billardo Bill"
+     #define PLAYER2 "Suzy Cue"
+     #define PLAYER3 "Pooledo Pete"
+     #define PLAYER4 "Billie Ball"
+     #define PLAYER5 "Snookie"
+     #define PLAYER6 "Diamond Dan"
+     #define PLAYER7 "Tom Tuxedo"
+     #define PLAYER8 "Sally Silver"
+     #define PLAYER9 "Wicked Wendy"
+     #define PLAYER10 "Bald Ben"
+     #define PLAYER11 "Badino Buck"
+     #define PLAYER12 "Worse Will"
+     #define PLAYER13 "Rita Rookie"
+     #define PLAYER14 "Don Dumb"
+     #define PLAYER15 "Dana Dummy"
+    #endif
 
-        if (i==roster->nr-1) { /* human player */
-            roster->player[i]=human_player_roster.player[0];
-        } else if (i==0){
-            strcpy(roster->player[i].name,PLAYER1);
-            roster->player[i].err=0.0;
-        } else if (i==1) {
-            strcpy(roster->player[i].name,PLAYER2);
-            roster->player[i].err=0.02;
-        } else if (i==2) {
-            strcpy(roster->player[i].name,PLAYER3);
-            roster->player[i].err=0.05;
-        } else if (i==3) {
-            strcpy(roster->player[i].name,PLAYER4);
-            roster->player[i].err=0.1;
-        } else if (i==4) {
-            strcpy(roster->player[i].name,PLAYER5);
-            roster->player[i].err=0.2;
-        } else if (i==5) {
-            strcpy(roster->player[i].name,PLAYER6);
-            roster->player[i].err=0.4;
-        } else if (i==6) {
-            strcpy(roster->player[i].name,PLAYER7);
-            roster->player[i].err=0.6;
-        } else if (i==7) {
-            strcpy(roster->player[i].name,PLAYER8);
-            roster->player[i].err=0.7;
-        } else if (i==8) {
-            strcpy(roster->player[i].name,PLAYER9);
-            roster->player[i].err=0.8;
-        } else if (i==9) {
-            strcpy(roster->player[i].name,PLAYER10);
-            roster->player[i].err=0.9;
-        } else if (i==10) {
-            strcpy(roster->player[i].name,PLAYER11);
-            roster->player[i].err=1.0; //0.10;
-        } else if (i==11) {
-            strcpy(roster->player[i].name,PLAYER12);
-            roster->player[i].err=1.11; //0.11;
-        } else if (i==12) {
-            strcpy(roster->player[i].name,PLAYER13);
-            roster->player[i].err=1.2; //0.12;
-        } else if (i==13) {
-            strcpy(roster->player[i].name,PLAYER14);
-            roster->player[i].err=1.5; //0.15;
-        } else if (i==14) {
-            strcpy(roster->player[i].name,PLAYER15);
-            roster->player[i].err=1.9; //0.19;
-        } else {
+    char *playername[] = {PLAYER1,PLAYER2,PLAYER3,PLAYER4,PLAYER5,PLAYER6,PLAYER7,PLAYER8,PLAYER8,PLAYER10,PLAYER11,PLAYER12,PLAYER13,PLAYER14,PLAYER15};
+    float player_error[] = {0.0,0.02,0.05,0.1,0.2,0.4,0.6,0.7,0.8,0.9,1.0,1.11,1.2,1.5,1.9};
+
+    for(i=0;i<roster->nr;i++) {
+       init_player(&(roster->player[i]),1);
+
+       if (i==roster->nr-1) { /* human player */
+          roster->player[i]=human_player_roster.player[0];
+       } else {
+          if (i >14) {
             //sprintf(str,"dumb for %d",i-13);
             sprintf(str,localeText[57],i-13);
             strcpy(roster->player[i].name,str);
             roster->player[i].err=0.1*(VMfloat)(i-13);
-        }
-        roster->player[i].text = textObj_new(roster->player[i].name, options_roster_fontname, 20);
+          } else {
+            strcpy(roster->player[i].name,playername[i]);
+            roster->player[i].err=player_error[i];
+          }
+       }
+       roster->player[i].text = textObj_new(roster->player[i].name, options_roster_fontname, 20);
     }
 }
 

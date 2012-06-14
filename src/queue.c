@@ -226,12 +226,13 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
     VMvect dir,nx,ny,hitpoint,pos;
     VMvect shoulder1, shoulder2, shoulder_dir, hand1, hand2, elbow1, elbow2, xdir, ydir; //Avatar
     VMfloat x1,x; //Avatar
-
+    if(Xrot < -87.0) Xrot = -87.0;  // ### TODO ### ugly for cue not in table
     dir = vec_xyz(sin(Zrot*M_PI/180.0)*sin(Xrot*M_PI/180.0),
                   cos(Zrot*M_PI/180.0)*sin(Xrot*M_PI/180.0),
                   cos(Xrot*M_PI/180.0));
     nx = vec_unit(vec_cross(vec_ez(),dir));  /* parallel to table */
     ny = vec_unit(vec_cross(nx,dir));        /* orthogonal to dir and nx */
+    //fprintf(stderr,"%f %f %f\n",dir.x,dir.y,dir.z);
     hitpoint = vec_add(vec_scale(nx,xoffs),vec_scale(ny,yoffs));
     pos = vec_add(pos0,hitpoint);
     pos = vec_add(pos,vec_scale(dir,zoffs));
