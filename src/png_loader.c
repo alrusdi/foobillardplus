@@ -27,9 +27,6 @@
 #else
 #define COMPILE_PNG_CODE 0
 #endif
-#ifdef USE_WIN
-   #include <windows.h>
-#endif
 #if COMPILE_PNG_CODE
 	#include <png.h>
 #else
@@ -75,11 +72,7 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
 
     fp = fopen(file_name, "rb");
     if (!fp){
-#ifdef USE_WIN
-        MessageBox(0,"Cannot load required png-file. Terminating!","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"Cannot load required png-file (%s). Terminating!\n",file_name);
-#endif
+        error_print("Cannot load required png-file (%s). Terminating!",file_name);
         sys_exit(1);
     }
 
@@ -87,11 +80,7 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
        (PNG_LIBPNG_VER_STRING, (png_voidp)NULL/*user_error_ptr*/,
         NULL/*user_error_fn*/, NULL/*user_warning_fn*/);
     if (!png_ptr) {
-#ifdef USE_WIN
-        MessageBox(0,"Error png-ptr png-file. Terminating!","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"Error png-ptr png-file (%s). Terminating!\n",file_name);
-#endif
+        error_print("Error png-ptr png-file (%s). Terminating!",file_name);
         sys_exit(1);
      }
 
@@ -99,13 +88,8 @@ int load_png(char * file_name, int * w, int * h, int * depth, char ** data)
     if (!info_ptr)
     {
         png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
-#ifdef USE_WIN
-        MessageBox(0,"Error create info struct png-file. Terminating!","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"Error create info struct png-file (%s). Terminating!\n",file_name);
-#endif
+        error_print("Error create info struct png-file (%s). Terminating!",file_name);
         sys_exit(1);
-
     }
 
     png_init_io(png_ptr, fp);
@@ -225,19 +209,19 @@ void Snapshot(int width, int height)
     strcat(file_name,randomname);
 
     if((fp = fopen(file_name, "wb"))==NULL) {
-       fprintf(stderr,"[write_png_file] File %s could not be opened for writing\n", file_name);
+       error_print("[write_png_file] File %s could not be opened for writing", file_name);
        return;
     }
 
     if((png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL))==NULL) {
-       fprintf(stderr,"[write_png_file] png_create_write_struct failed\n");
+       error_print("[write_png_file] png_create_write_struct failed",NULL);
        fclose(fp);
        remove(file_name);
        return;
     }
 
     if((info_ptr = png_create_info_struct(png_ptr))==NULL) {
-        fprintf(stderr,"[write_png_file] png_create_info_struct failed\n");
+        error_print("[write_png_file] png_create_info_struct failed",NULL);
         fclose(fp);
         remove(file_name);
 #ifdef  png_infopp_NULL

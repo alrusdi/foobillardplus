@@ -161,6 +161,7 @@ extern GLfloat   options_maxanisotrop;    // max. of anistropic filters
 extern VMfloat   options_value_anisotrop; // the vaule for anisotropic filtering if supported and < maxanisotrop
 
 extern char    options_browser[20];     // the variable to hold the standard Browser for the Manual
+extern int dialog  ;                    // hold the index of the dialog prog, if found with get_dialogprog()
 
 /* queries for OpenGL extensions */
 extern int extension_cubemap;

@@ -104,7 +104,7 @@ static char *find_localized_file(const char *base_name)
     snprintf(full_path, sizeof(full_path), "%sen/%s", exe_path, base_name);
     if (file_exists(full_path)) return full_path;
 
-    fprintf(stderr,"Locale file not found: %s\n",full_path);
+    error_print("Locale file not found: %s\n",full_path);
 
     return NULL;
 }
@@ -123,7 +123,7 @@ static void load_language_file()
 
     if (language_file) fp = fopen(language_file, "r");
     if (!language_file || !fp) {
-        fprintf(stderr, "Cannot open language file - terminating.\n");
+        error_print("ERROR: Cannot open language file - terminating.",NULL);
         exit(1);
     }
 

@@ -1,5 +1,6 @@
 3.43 beta
 =========
+- zenity (gnome), kdialog (kde), xmessage (X11), MS Windows error dialogs
 - replace glbegin/glend/glvertex and so on to vertex arrays
 - bugfixing table display
 - new default directory /usr/games

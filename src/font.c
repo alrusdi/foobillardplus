@@ -21,9 +21,7 @@
 **    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 **
 */
-#ifdef USE_WIN
-   #include <windows.h>
-#endif
+
 #include "options.h"
 #include "sys_stuff.h"
 #include <ft2build.h>
@@ -289,11 +287,7 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
     if(init_me){
         error = FT_Init_FreeType( &library );
         if ( error ) {
-#ifdef USE_WIN
-            MessageBox(0,"FT_Init_FreeType error","Foobillard++ Error",MB_OK);
-#else
-            fprintf(stderr,"FT_Init_FreeType error\n");
-#endif
+            error_print("FT_Init_FreeType error",NULL);
             sys_exit(1);
         }
         init_me=0;
@@ -301,18 +295,10 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
 //.. create face object ..
     error = FT_New_Face( library, fontname, 0, &face );
     if ( error == FT_Err_Unknown_File_Format ){
-#ifdef USE_WIN
-        MessageBox(0,"The font file could be opened and read, but it appears that its font format is unsupported","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"The font file could be opened and read, but it appears that its font format is unsupported\n");
-#endif
+        error_print("The font file could be opened and read, but it appears that its font format is unsupported",NULL);
         sys_exit(1);
     } else if ( error ) {
-#ifdef USE_WIN
-        MessageBox(0,"Another error code means that the font file could not e opened or read, or simply that it is broken","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"Another error code means that the font file could not e opened or read, or simply that it is broken\n");
-#endif
+        error_print("Another error code means that the font file could not e opened or read, or simply that it is broken",NULL);
         sys_exit(1);
     } /* else {
         fprintf(stderr,"FT_New_Face OK!\n");
@@ -351,22 +337,14 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
             // load glyph image into the slot (erase previous one)
             error = FT_Load_Glyph( face, glyph_index, FT_LOAD_DEFAULT );
             if (error) {
-#ifdef USE_WIN
-                MessageBox(0,"FT_Load_Glyph error","Foobillard++ Error",MB_OK);
-#else
-                fprintf(stderr,"FT_Load_Glyph:error#%X\n",error);
-#endif
+                error_print("FT_Load_Glyph:error#%X",error);
                 sys_exit(1);
             }
 
             // convert to an anti-aliased bitmap
             error = FT_Render_Glyph( face->glyph, FT_RENDER_MODE_NORMAL );
             if (error) {
-#ifdef USE_WIN
-                MessageBox(0,"FT_Render_Glyph error","Foobillard++ Error",MB_OK);
-#else
-                fprintf(stderr,"FT_Render_Glyph:error#%X\n",error);
-#endif
+                error_print("FT_Render_Glyph:error#%X",error);
                 sys_exit(1);
             }
              
@@ -388,11 +366,7 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
 
     error = FT_Done_Face(face);
     if ( error ) {
-#ifdef USE_WIN
-        MessageBox(0,"FT_Done_Face error","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"FT_Done_Face error# %d\n",error);
-#endif
+        error_print("FT_Done_Face error# %d",error);
         sys_exit(1);
     }
     //fprintf(stderr,"FT_Done_FreeType ready\n");
@@ -477,7 +451,7 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
      glDrawArrays(glType,0,VertexCounter);
      glPopMatrix();
   } else {
-     fprintf(stderr,"Unknown error in call to wrote tessalation object to screen\n");
+     fprintf(stderr,"Unknown error in call to wrote tessellation object to screen\n");
   }
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_NORMAL_ARRAY);
@@ -732,11 +706,7 @@ GLuint getStringGLListFT (char *str, char *fontname, VMfloat font_height, float 
     if(init_me){
         error = FT_Init_FreeType( &library );
         if ( error ) {
-#ifdef USE_WIN
-            MessageBox(0,"FT_Init_Freetype error","Foobillard++ Error",MB_OK);
-#else
-            fprintf(stderr,"FT_Init_FreeType error\n");
-#endif
+            error_print("FT_Init_FreeType error",NULL);
             sys_exit(1);
         }
         init_me=0;
@@ -744,18 +714,10 @@ GLuint getStringGLListFT (char *str, char *fontname, VMfloat font_height, float 
     error = FT_New_Face( library, fontname, 0, &face );
 
     if ( error == FT_Err_Unknown_File_Format ){
-#ifdef USE_WIN
-        MessageBox(0,"The font file could be opened and read, but it appears that its font format is unsupported","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"The font file could be opened and read, but it appears that its font format is unsupported\n");
-#endif
+        error_print("The font file could be opened and read, but it appears that its font format is unsupported",NULL);
         sys_exit(1);
     } else if ( error ) {
-#ifdef USE_WIN
-        MessageBox(0,"Another error code means that the font file could not be opened or read, or simply that it is broken","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"Another error code means that the font file could not be opened or read, or simply that it is broken\n");
-#endif
+        error_print("Another error code means that the font file could not be opened or read, or simply that it is broken",NULL);
         sys_exit(1);
     }
     //.. set character size ..
@@ -784,18 +746,17 @@ GLuint getStringGLListFT (char *str, char *fontname, VMfloat font_height, float 
 
         // load glyph image into the slot (erase previous one)
         error = FT_Load_Glyph( face, glyph_index, FT_LOAD_DEFAULT );
-        if (error) { fprintf(stderr,"FT_Load_Glyph:error#%X\n",error); exit(1); }
+        if (error) {
+            error_print("FT_Load_Glyph:error#%X",error);
+            sys_exit(1);
+        }
         makeGLGeometryFT(face->glyph, depth);
         if (width!=NULL) (*width) += (VMfloat)(face->glyph->advance.x)/divisor;
     }
 
     error = FT_Done_Face(face);
     if ( error ) {
-#ifdef USE_WIN
-        MessageBox(0,"FT_Done_Face error","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"FT_Done_Face error# %d\n",error);
-#endif
+        error_print("FT_Done_Face error# %d",error);
         sys_exit(1);
     }
     //fprintf(stderr,"FT_Done_FreeType ready\n");

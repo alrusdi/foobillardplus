@@ -146,7 +146,7 @@ void PlayNextSong (void) {
 	   	 if(give_up >= songs) {
 	   	 	 give_up = 0;
 	   	 	 options_use_music = 0;
-	   	 	 fprintf(stderr,"background-music failed too many times. Give up.\n");
+	   	 	 error_print("background-music failed too many times. Give up.",NULL);
 	   	 	 return;
 	   	 }
 	     if(music) {
@@ -183,7 +183,7 @@ Mix_Chunk* loadsound (char *filename) {
 
 	   Mix_Chunk *chunkname;
     if(!(chunkname = Mix_LoadWAV(filename))) {
- 	    fprintf(stderr,"Initializing %s failed. No sound in game.\n",filename);
+        error_print("Initializing %s failed. No sound in game.",filename);
  	    options_use_sound=0;
     }
     return (chunkname);
@@ -201,11 +201,7 @@ void init_sound(void)
     int i,j,k,dummy;
     /* ball-ball sounds from samuele catuzzi's kbilliards - thanx */
     if((f=fopen("ball_ball.raw", "rb"))==NULL){
-#ifdef USE_WIN
-        MessageBox(0,"Couldn't open ball_ball.raw. Terminating!","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"Couldn't open ball_ball.raw\n");
-#endif
+        error_print("Couldn't open ball_ball.raw. Terminating!",NULL);
         sys_exit(1);
     }
     fseek(f, 0L, SEEK_END);
@@ -229,7 +225,7 @@ void init_sound(void)
     create_cue_sound(&ball_cue_snd.data, &ball_cue_snd.len,2640,0.6,0.4,20.0,220.0); //length 2*2*3*220
 
     if(Mix_OpenAudio(22050, AUDIO_S16, 2, 1024)) {
-      fprintf(stderr,"Unable to open audio!\n");
+      error_print("Unable to open audio!",NULL);
       options_use_sound=0;
       options_use_music=0;
     } else {
@@ -249,7 +245,7 @@ void init_sound(void)
     	     if((initted&flags) != flags) {
      	       fprintf(stderr,"Mix_Init: Failed to init required ogg support!\n");
      	       fprintf(stderr,"Mix_Init: %s\n", Mix_GetError());
-    	        options_use_music=0;
+    	       options_use_music=0;
     	     }
     	 }
 #endif
@@ -264,15 +260,15 @@ void init_sound(void)
     	 wave_outball = loadsound ("balloutoftable.wav");
     	 wave_ooh = loadsound ("ooh.wav");
     	 if(!(ball_sound = Mix_QuickLoad_RAW((Uint8*)ball_ball_snd.data,ball_ball_snd.len))) {
-    	 	fprintf(stderr,"Initializing internal ball-sound failed. No sound in game\n");
+    	    error_print("Initializing internal ball-sound failed. No sound in game",NULL);
     	 	options_use_sound=0;
     	 }
     	 if(!(wall_sound = Mix_QuickLoad_RAW((Uint8*)ball_wall_snd.data,ball_wall_snd.len))) {
-    	 	fprintf(stderr,"Initializing internal wall-sound failed. No sound in game\n");
+    	    error_print("Initializing internal wall-sound failed. No sound in game",NULL);
     	 	options_use_sound=0;
     	 }
     	 if(!(cue_sound = Mix_QuickLoad_RAW((Uint8*)ball_cue_snd.data,ball_cue_snd.len))) {
-    	 	fprintf(stderr,"Initializing internal cue-sound failed. No sound in game\n");
+    	    error_print("Initializing internal cue-sound failed. No sound in game",NULL);
     	 	options_use_sound=0;
     	 }
 
@@ -321,8 +317,8 @@ void init_sound(void)
    	    	 options_use_music=0;
    	    }
     	 } else {
-   	     fprintf(stderr,"Initializing background-music failed. No background-music in game\n");
-   	     options_use_music=0;
+           error_print("Initializing background-music failed. No background-music in game",NULL);
+           options_use_music=0;
     	 }
 #if SDL_MIXER_MAJOR_VERSION > 2 || (SDL_MIXER_MINOR_VERSION == 2 && SDL_MIXER_PATCHLEVEL > 9)
     	 }

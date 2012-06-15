@@ -121,12 +121,8 @@ void createvertex( GLfloat * v, GLfloat * n, GLfloat tex_x, GLfloat tex_y, ElemA
     static int count;
     int pos,i,k;
     if ( array == NULL ){
-#ifdef USE_WIN
-        MessageBox(0,"ERROR: creating vertex (non-array) not allowed","Foobillard++ Error",MB_OK);
-#else
-        fprintf(stderr,"ERROR: creating vertex (non-array) not allowed\n");
-#endif
-        sys_exit(0);
+        error_print("ERROR: creating vertex (non-array) not allowed",NULL);
+        sys_exit(1);
     } else {
         if(array->indnr==0) {
         	count=0;
@@ -187,11 +183,7 @@ void ball_subdivide_nonrec(GLfloat *v1, GLfloat *v2, GLfloat *v3, int depth, GLf
     otherside = ( v1[2]+v2[2]+v3[2]>0.0 );
     for( i=0; i<subdiv; i++ ){ /* make tristrips */
         if(array==NULL){
-#ifdef USE_WIN
-            MessageBox(0,"ERROR: Buffer without array not allowed.","Foobillard++ Error",MB_OK);
-#else
-            fprintf(stderr,"ERROR: Buffer without array not allowed.\n");
-#endif
+            error_print("ERROR: Buffer without array not allowed.",NULL);
             sys_exit(1);
         }
         array->prim_size[array->num_prim]=2*(subdiv-i)+1;

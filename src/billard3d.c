@@ -50,7 +50,6 @@
 
 #ifdef USE_WIN //RB
    void ( APIENTRY * glActiveTextureARB)( GLenum );
-   #include <windows.h>
 #endif
 #include "language.h"
 #include "billard.h"
@@ -1843,7 +1842,7 @@ void load_config( char *** confv, int * confc, char ** argv, int argc )
 #else
     sprintf(filename,"%s/.foobillardrc",getenv("HOME"));
 #endif
-    fprintf(stderr,"%s\n",filename);
+    fprintf(stderr,"Use config-file: %s\n",filename);
     if( (f=fopen(filename,"rb")) != NULL ){
         do{
             str[0]='-'; str[1]='-';
@@ -1924,7 +1923,7 @@ void save_config(void)
 #endif
     if((f=fopen(filename,"wb"))==NULL){
         //can't write to %s - check rights\n
-        fprintf(stderr,localeText[54],filename);
+        error_print(localeText[54],filename);
         return;
     }
 
@@ -2566,11 +2565,7 @@ void tournament_state_setup_next_round( struct TournamentState_ * ts )
         } else if(ts->game[ts->round_ind][0].winner==1){
             ts->overall_winner=ts->game[ts->round_ind][0].roster_player2;
         } else {
-#ifdef USE_WIN
-            MessageBox(0,"Error: nobody won the tournament !?","Foobillard++ Error",MB_OK);
-#else
-            fprintf(stderr,"Error: nobody won the tournament !?\n");
-#endif
+            error_print("Error: nobody won the tournament !?",NULL);
             sys_exit(1);
         }
     } else {
@@ -2580,11 +2575,7 @@ void tournament_state_setup_next_round( struct TournamentState_ * ts )
             } else if(ts->game[ts->round_ind-1][i].winner==1){
                 players[i]=ts->game[ts->round_ind-1][i].roster_player2;
             } else {
-#ifdef USE_WIN
-                MessageBox(0,"Error: somebody didn't win one of the last matches !?","Foobillard++ Error",MB_OK);
-#else
-                fprintf(stderr,"Error: sbdy didnt win one of the last matches !?\n");
-#endif
+                error_print("Error: somebody didn't win one of the last matches !?",NULL);
                 sys_exit(1);
             }
         }
@@ -4089,12 +4080,8 @@ void DisplayFunc( void )
            bhitstrength = 1.75 * (0.3 * bhitstrength / CUEBALL_MAXSPEED + 0.7 * bhitstrength*bhitstrength / CUEBALL_MAXSPEED / CUEBALL_MAXSPEED);
            if(bhitstrength!=0.0){
              if( toffs>TIMESTEP || toffs<0.0 ){
-#ifdef USE_WIN
-                MessageBox(0,"Error: toffs>TIMESTEP || toffs<0.0","Foobillard++ Error",MB_OK);
-#else
-                fprintf(stderr,"Error: toffs>TIMESTEP || toffs<0.0\n");
-#endif
-                sys_exit(0);
+                error_print("Error: toffs>TIMESTEP || toffs<0.0",NULL);
+                sys_exit(1);
              }
              if(options_gamemode==options_gamemode_tournament && player[0].is_AI && player[1].is_AI) {
                //nosound
@@ -7842,9 +7829,10 @@ int main( int argc, char *argv[] )
 	  fprintf(stderr,"sqrt table lookup initialized\n");
 #endif
 
-   /* initialize hostname with a default address */
-   strcpy(options_net_hostname,"192.168.1.1");
-
+#ifndef USE_WIN
+   // check for dialog program (only without windows used)
+   dialog = get_dialogprog();
+#endif
    /* chdir into data directory */
    enter_data_dir();
    fprintf(stderr,"Data dir entry\n");
@@ -7902,7 +7890,7 @@ int main( int argc, char *argv[] )
    fprintf(stderr,"Status-line initialized\n");
 
    create_human_player_roster_text(&human_player_roster);
-   fprintf(stderr,"Player construce initialized\n");
+   fprintf(stderr,"Player initialized\n");
    create_players_text();
    fprintf(stderr,"Players text initialized\n");
 

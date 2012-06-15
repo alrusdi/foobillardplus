@@ -26,7 +26,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <getopt.h>
 #include <string.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
@@ -46,6 +45,7 @@
  #include <OpenGL/gl.h>
  #include <OpenGL/glu.h>
  #include <OpenGL/glext.h>
+ #include <CoreFoundation/CoreFoundation.h>
 #else
  #include <GL/gl.h>
  #include <GL/glu.h>
@@ -79,6 +79,124 @@ char *replace(char *st, char *orig, char *repl) {
   sprintf(buffer+(ch-st), "%s%s", repl, ch+strlen(orig));
   return buffer;
   }
+
+/***************************************************
+ *          Split a string with delimeter          *
+ ***************************************************/
+struct split
+{
+  char *pointers[512];
+  int count;
+};
+
+struct split split (char *in, char delim)
+{
+  struct split sp;
+  sp.count = 1;
+  sp.pointers[0] = in;
+
+  while (*++in) {
+    if (*in == delim) {
+      *in = 0;
+      sp.pointers[sp.count++] = in+1;
+    }
+  }
+  return sp;
+}
+
+/***************************************************
+ * Get dialog program (deal with path environment  *
+ * return index to the program array               *
+ * -1 = error                                      *
+ * 0 = gnome zenity                                *
+ * 1 = kde kdialog                                 *
+ * 2 = X11 xmessage                                *
+ ***************************************************/
+
+int get_dialogprog(void) {
+    char path[2048];
+    char file[1024];
+    int i;
+    struct split sp;
+
+    strcpy(path,getenv("PATH"));
+    fprintf(stderr,"Check for Dialog-Program\n");
+    if(path!=NULL) {
+      // extract every path and check for zenity or kdialog
+      sp = split(path, ':');
+      for (i=0; i<sp.count; i++) {
+        snprintf(file,sizeof(file),"%s/%s",sp.pointers[i],"zenity");
+        if(file_exists(file)) {
+            fprintf(stderr,"Dialog Program zenity found\n");
+            return(0);
+        }
+        snprintf(file,sizeof(file),"%s/%s",sp.pointers[i],"kdialog");
+        if(file_exists(file)) {
+            fprintf(stderr,"Dialog Program kdialog found\n");
+            return(1);
+        }
+      }
+      // extract every path and check last for xmessage
+      sp = split(path, ':');
+      for (i=0; i<sp.count; i++) {
+        snprintf(file,sizeof(file),"%s/%s",sp.pointers[i],"xmessage");
+        if(file_exists(file)) {
+            fprintf(stderr,"Only Dialog Program xmessage found\n");
+            return(2);
+        }
+      }
+    }
+    return(-1);
+}
+
+/***************************************************
+ *  print an error string (max. 2048 Bytes long)   *
+ ***************************************************/
+
+void error_print(char *error_message, char *error_extend) {
+
+char message[2048];
+
+  if(error_extend) {
+    snprintf(message,sizeof(message),error_message,error_extend);
+  } else {
+    snprintf(message,sizeof(message),"%s",error_message);
+  }
+  fprintf(stderr,"%s\n",message); // print error to stderr every time
+#ifdef USE_WIN
+  MessageBox(0,message,"Foobillard++ Error",MB_OK);
+#else
+#ifdef __APPLE__
+  // needs -framework CoreFoundation
+  SInt32 nRes = 0;
+  CFUserNotificationRef pDlg = NULL;
+  const void* keys[] = { kCFUserNotificationAlertHeaderKey,
+  kCFUserNotificationAlertMessageKey };
+  const void* vals[] = {
+  CFSTR("Foobillard++ Error"),
+  CFSTR(message)
+  };
+  if(!sys_get_fullscreen()) {
+  // display a dialog window only if fullscreen is not active
+  CFDictionaryRef dict = CFDictionaryCreate(0, keys, vals,
+                  sizeof(keys)/sizeof(*keys),
+                  &kCFTypeDictionaryKeyCallBacks,
+                  &kCFTypeDictionaryValueCallBacks);
+  pDlg = CFUserNotificationCreate(kCFAllocatorDefault, 0,
+                       kCFUserNotificationPlainAlertLevel,
+                       &nRes, dict);
+  }
+#else
+  char *dialog_prog[] = {"zenity --error --text=\"%s\"","kdialog --error \"%s\"","xmessage -center %s"};
+  char newmessage[2048];
+  // display a dialog window only if fullscreen is not active
+  if(dialog>=0 && dialog < 2 && !sys_get_fullscreen()) {
+    snprintf(newmessage,sizeof(newmessage),dialog_prog[dialog],message);
+    system(newmessage);
+  }
+#endif
+#endif
+}
 
 /***********************************************************************
  *                    copy binary a file                               *
@@ -185,6 +303,7 @@ void sdl_exit()
         SDLNet_Quit();  //in case of open Netgame
   #endif
         SDL_Quit();
+        sdl_on = 0;
     }
   }
 /***********************************************************************
@@ -211,18 +330,10 @@ void sys_create_display(int width,int height,int _fullscreen)
   /* First, initialize SDL's video subsystem. */
 #ifdef USE_SOUND
   if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0 ) {
-#ifdef USE_WIN
-    MessageBox(0,"Video or Audio initialization failed. Terminating!","Foobillard++ Error",MB_OK);
-#else
-    fprintf( stderr, "Video or Audio initialization failed: %s\n",SDL_GetError());
-#endif
+    error_print("Video or Audio initialization failed: %s",SDL_GetError());
 #else
   if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 ) {
-#ifdef USE_WIN
-    MessageBox(0,"Video initialization failed. Terminating!","Foobillard++ Error",MB_OK);
-#else
-    fprintf( stderr, "Video initialization failed: %s\n",SDL_GetError());
-#endif
+    error_print("Video initialization failed: %s",SDL_GetError());
 #endif
     sys_exit(1);
   }
@@ -234,11 +345,7 @@ void sys_create_display(int width,int height,int _fullscreen)
   
   if( !info ) {
     /* This should probably never happen. */
-#ifdef USE_WIN
-    MessageBox(0,"Video query failed. Terminating!","Foobillard++ Error",MB_OK);
-#else
-    fprintf( stderr, "Video query failed: %s\n",SDL_GetError());
-#endif
+    error_print("Video query failed: %s",SDL_GetError());
     sys_exit(1);
   }
   
@@ -354,12 +461,8 @@ void sys_create_display(int width,int height,int _fullscreen)
 #endif
    if((vid_surface=SDL_SetVideoMode( width, height, vidmode_bpp, vidmode_flags )) == NULL) {
     if(!options_fsaa_value) {
-#ifdef USE_WIN
-    MessageBox(0,"Video mode set failed. Please restart Foobillard++","Foobillard++ Error",MB_OK);
-#else
-     fprintf( stderr, "Video mode set failed: %s\nPlease restart Foobillard++\n", SDL_GetError());
-#endif
-     sys_exit(1);
+       error_print("Video mode set failed. Please restart Foobillard++",NULL);
+       sys_exit(1);
     }
 #ifndef WETAB
     fprintf( stderr, "Video mode set failed: %s\nSwitch to other mode\n", SDL_GetError());
@@ -435,23 +538,19 @@ void sys_fullscreen( int fullscr )
     flags = screen->flags; /* Save the current flags in case toggling fails */
     SDL_EnableKeyRepeat( 0, 0 );
     if ( fullscr!=0 && (screen->flags & SDL_FULLSCREEN)==0 ){
-    	   screen = SDL_SetVideoMode( 0, 0, 0, screen->flags | SDL_FULLSCREEN );
+    	screen = SDL_SetVideoMode( 0, 0, 0, screen->flags | SDL_FULLSCREEN );
     } else if( fullscr==0 && (screen->flags & SDL_FULLSCREEN)!=0 ){
-    	   screen = SDL_SetVideoMode( 0, 0, 0, screen->flags & ~SDL_FULLSCREEN);
+    	screen = SDL_SetVideoMode( 0, 0, 0, screen->flags & ~SDL_FULLSCREEN);
     }
     if(screen == NULL) {
-    	   screen = SDL_SetVideoMode(0, 0, 0, flags); /* If toggle FullScreen failed, then switch back */
+    	screen = SDL_SetVideoMode(0, 0, 0, flags); /* If toggle FullScreen failed, then switch back */
     } else {
-    	   fullscreen = fullscr;
+    	fullscreen = fullscr;
     }
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
     if(screen == NULL) {
-#ifdef USE_WIN
-           MessageBox(0,"Video-Error on set full-screen/windowed mode. Terminating!","Foobillard++ Error",MB_OK);
-#else
-    	   fprintf(stderr,"Video-Error on set full-screen/windowed mode. Terminating\n");
-#endif
-    	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
+        error_print("Video-Error on set full-screen/windowed mode. Terminating",NULL);
+    	sys_exit(1); /* If you can't switch back for some reason, then epic fail */
     }
 #endif
 }
@@ -463,9 +562,9 @@ void sys_fullscreen( int fullscr )
 void sys_toggle_fullscreen( void )
 {
     if (fullscreen){
-        sys_fullscreen( 0 );
+        sys_fullscreen(0);
     } else {
-        sys_fullscreen( 1 );
+        sys_fullscreen(1);
     }
 }
 
@@ -666,12 +765,8 @@ void sys_resize( int width, int height, int callfrom )
     }
     SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
     if(screen == NULL) {
-#ifdef USE_WIN
-           MessageBox(0,"Video-Error on window resize. Terminating!","Foobillard++ Error",MB_OK);
-#else
-    	   fprintf(stderr,"Video-Error on window resize. Terminating\n");
-#endif
-    	   sys_exit(1); /* If you can't switch back for some reason, then epic fail */
+        error_print("Video-Error on window resize. Terminating!",NULL);
+    	sys_exit(1); /* If you can't switch back for some reason, then epic fail */
     }
     ResizeWindow(width,height);
 #endif

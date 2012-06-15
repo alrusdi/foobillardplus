@@ -123,7 +123,7 @@ int    options_col_ball_snooker[]={
                           };
 
 int    *options_col_ball /*= options_col_ball_pool*/;
-char   options_net_hostname [1024];  // initialized in billard3d.c
+char   options_net_hostname[1024] = "192.168.1.1";  // default initialized for network game
 char   options_language [3] = "00";         // language, 00 = uninitialized
 int    options_net_portnum = 56341;
 int    options_net_speed = 1;        // Speed for network gameplay (*5 = calls per second)
@@ -179,6 +179,7 @@ GLfloat  options_maxanisotrop = 0.0;   // max. of anistropic filters
 VMfloat  options_value_anisotrop = 0.0;    // the vaule for anisotropic filtering if supported and < maxanisotrop (default 0.0)
 
 char   options_browser[20] = "firefox";  // the variable to hold the standard Browser for the Manual
+int dialog = -1;                    // hold the index of the dialog prog, if found with get_dialogprog()
 
 /* queries for OpenGL extensions */
 int extension_cubemap      = 0;

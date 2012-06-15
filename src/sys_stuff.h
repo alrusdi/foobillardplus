@@ -100,6 +100,8 @@ void enter_data_dir();
 const char *get_data_dir();
 const char *get_prog();
 int file_exists(const char *path);
+void error_print(char *error_message, char *error_extend);
+int get_dialogprog(void);
 
 int launch_command(const char *command);
 
