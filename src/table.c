@@ -1475,13 +1475,13 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
                x=-TABLE_W/2.0-HOLE2_XYOFFS+HOLE2_R*sin(phi);
                y=HOLE2_R*cos(phi);
                if(k!=0) x=-x;
-               TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+               TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
                NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
                VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0 ;
                x=-TABLE_W/2.0-HOLE2_XYOFFS+(HOLE2_R-HOLE2_PHASE)*sin(phi);
                y=(HOLE2_R-HOLE2_PHASE)*cos(phi);
                if(k!=0) x=-x;
-               TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+               TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
                NormalData[n++] = -sin(phi); NormalData[n++] = (k==0)?-cos(phi):cos(phi); NormalData[n++] = 0.0;
                VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0-HOLE2_PHASE ;
            }
@@ -1501,7 +1501,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
                x=-TABLE_W/2.0-BANDE_D*BANDE_D2RATIO; y=-HOLE2_R-BANDE_D*HOLE2_TAN;
                if(j!=0) y=-y;
                if(k!=0) x=-x;
-               TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+               TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
                VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0 ;
                for(i=0;i<HOLE2_SEGNR_2/2+1;i++){
                    phi=(VMfloat)i*M_PI/HOLE2_SEGNR_2;
@@ -1509,7 +1509,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
                    y=-HOLE2_R*cos(phi);
                    if(j!=0) y=-y;
                    if(k!=0) x=-x;
-                   TexData[m++] = TABLETEXCOORD_X(x,y), TABLETEXCOORD_Y(x,y);
+                   TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
                    VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0 ;
                    NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = 1.0;
                }

@@ -35,6 +35,7 @@ int getopt_long_new(int argc,char * const argv[],
                 const char *optstring,
                 const struct option *longopts,int *longindex)
 {
+  //parameter longindex not used. Only here for compatibility reasons to the gnu getopt_long
   int i;   /* for looping through options */
   int l;   /* for length */
 

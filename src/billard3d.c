@@ -50,6 +50,7 @@
 
 #ifdef USE_WIN //RB
    void ( APIENTRY * glActiveTextureARB)( GLenum );
+   #include <windows.h>
 #endif
 #include "language.h"
 #include "billard.h"

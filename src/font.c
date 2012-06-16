@@ -337,14 +337,14 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
             // load glyph image into the slot (erase previous one)
             error = FT_Load_Glyph( face, glyph_index, FT_LOAD_DEFAULT );
             if (error) {
-                error_print("FT_Load_Glyph:error#%X",error);
+                error_print("FT_Load_Glyph:error",NULL);
                 sys_exit(1);
             }
 
             // convert to an anti-aliased bitmap
             error = FT_Render_Glyph( face->glyph, FT_RENDER_MODE_NORMAL );
             if (error) {
-                error_print("FT_Render_Glyph:error#%X",error);
+                error_print("FT_Render_Glyph:error",NULL);
                 sys_exit(1);
             }
              
@@ -366,7 +366,7 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
 
     error = FT_Done_Face(face);
     if ( error ) {
-        error_print("FT_Done_Face error# %d",error);
+        error_print("FT_Done_Face error",NULL);
         sys_exit(1);
     }
     //fprintf(stderr,"FT_Done_FreeType ready\n");
@@ -747,7 +747,7 @@ GLuint getStringGLListFT (char *str, char *fontname, VMfloat font_height, float 
         // load glyph image into the slot (erase previous one)
         error = FT_Load_Glyph( face, glyph_index, FT_LOAD_DEFAULT );
         if (error) {
-            error_print("FT_Load_Glyph:error#%X",error);
+            error_print("FT_Load_Glyph:error",NULL);
             sys_exit(1);
         }
         makeGLGeometryFT(face->glyph, depth);
@@ -756,7 +756,7 @@ GLuint getStringGLListFT (char *str, char *fontname, VMfloat font_height, float 
 
     error = FT_Done_Face(face);
     if ( error ) {
-        error_print("FT_Done_Face error# %d",error);
+        error_print("FT_Done_Face error",NULL);
         sys_exit(1);
     }
     //fprintf(stderr,"FT_Done_FreeType ready\n");

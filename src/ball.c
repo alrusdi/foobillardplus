@@ -46,6 +46,7 @@
 #include "font.h"
 #include "vmath.h"
 #include "png_loader.h"
+#include "sys_stuff.h"
 
 #ifdef USE_WIN
 	extern void ( APIENTRY * glActiveTextureARB)( GLenum );
