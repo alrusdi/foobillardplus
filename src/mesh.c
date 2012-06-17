@@ -124,9 +124,9 @@ void MakeSofa(void)
    }
    sofa_id = glGenLists(1);
    glNewList(sofa_id, GL_COMPILE);
-	  glBindTexture(GL_TEXTURE_2D,sofatexbind);
+   glBindTexture(GL_TEXTURE_2D,sofatexbind);
 #ifdef USE_BINDBUFFER
-	  DrawMesh(vbo, vinx, FACES_COUNT);
+   DrawMesh(vbo, vinx, FACES_COUNT);
 #else
    DrawMesh(FACES_COUNT, (char *)&vertexs, (char *)&indexes);
 #endif
