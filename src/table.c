@@ -102,16 +102,17 @@ void autonormalize_quad( VMvect v1, VMvect v2, VMvect v3, VMvect v4, int order, 
     NormalData[6] = n.x; NormalData[7] = n.y; NormalData[8] = n.z;
     NormalData[9] = n.x; NormalData[10] = n.y; NormalData[11] = n.z;
     if( !order ) {
-        VertexData[0] = v4.x; VertexData[1] = v4.y; VertexData[2] = v4.z;
-        VertexData[3] = v3.x; VertexData[4] = v3.y; VertexData[5] = v3.z;
-        VertexData[6] = v2.x; VertexData[7] = v2.y; VertexData[8] = v2.z;
-        VertexData[9] = v1.x; VertexData[10] = v1.y; VertexData[11] = v1.z;
-    } else {
-        VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
-        VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
-        VertexData[6] = v3.x; VertexData[7] = v3.y; VertexData[8] = v3.z;
-        VertexData[9] = v4.x; VertexData[10] = v4.y; VertexData[11] = v4.z;
-    }
+                VertexData[0] = v4.x; VertexData[1] = v4.y; VertexData[2] = v4.z;
+                VertexData[3] = v3.x; VertexData[4] = v3.y; VertexData[5] = v3.z;
+                VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
+                VertexData[6] = v1.x; VertexData[7] = v1.y; VertexData[8] = v1.z;
+
+            } else {
+                VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+                VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
+                VertexData[9] = v3.x; VertexData[10] = v3.y; VertexData[11] = v3.z;
+                VertexData[6] = v4.x; VertexData[7] = v4.y; VertexData[8] = v4.z;
+            }
 }
 
 /***********************************************************************/
@@ -372,7 +373,7 @@ void my_Edge( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*r2)(VMfloat), int or
         glVertexPointer(3, GL_FLOAT, 0, VertexData);
         glNormalPointer(GL_FLOAT, 0, NormalData);
         glPushMatrix();
-        glDrawArrays(GL_QUAD_STRIP,0,12);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,12);
         glPopMatrix();
         /* for debugging
         glBegin(GL_LINES);
@@ -477,7 +478,7 @@ void my_EdgeBumper( int segnr, VMfloat  (*r1)(VMfloat), VMfloat (*sc)(VMfloat), 
         glVertexPointer(3, GL_FLOAT, 0, VertexData);
         glNormalPointer(GL_FLOAT, 0, NormalData);
         glPushMatrix();
-        glDrawArrays(GL_QUAD_STRIP,0,8);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,8);
         glPopMatrix();
         /* for debugging
         glBegin(GL_LINES);
@@ -625,7 +626,7 @@ void my_Cover( int segnr, VMfloat (*r1)(VMfloat), VMfloat l, int order, VMfloat 
         glNormalPointer(GL_FLOAT, 0, NormalData);
         glTexCoordPointer(2,GL_FLOAT, 0, TexData);
         glPushMatrix();
-        glDrawArrays(GL_QUAD_STRIP,0,12);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,12);
         glPopMatrix();
     }
 }
@@ -783,7 +784,7 @@ void my_Cover2func( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*r2)(VMfloat), V
         glVertexPointer(3, GL_FLOAT, 0, VertexData);
         glNormalPointer(GL_FLOAT, 0, NormalData);
         glTexCoordPointer(2,GL_FLOAT, 0, TexData);
-        glDrawArrays(GL_QUAD_STRIP,0,12);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,12);
     }
 }
 
@@ -871,7 +872,7 @@ void my_CoverBumper( int segnr, VMfloat (*r1)(VMfloat), VMfloat (*sc)(VMfloat), 
         }
         glVertexPointer(3, GL_FLOAT, 0, VertexData);
         glNormalPointer(GL_FLOAT, 0, NormalData);
-        glDrawArrays(GL_QUAD_STRIP,0,8);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,8);
      /* for debugging
         glBegin(GL_LINES);
             glVertex3f(v1.x,v1.y,v1.z); v1=vec_add(v1,vec_scale(n1,0.01)); glVertex3f(v1.x,v1.y,v1.z);
@@ -934,23 +935,23 @@ void my_Bande( VMfloat x1, VMfloat y1, VMfloat z1,    /* inside up */
            NormalData[27] = 0.0; NormalData[28] = -sin1; NormalData[29] = cos1;
            VertexData[27] = p[11].x; VertexData[28] = p[11].y; VertexData[29] = p[11].z;
            NormalData[30] = 0.0; NormalData[31] = -cos2; NormalData[32] = -sin2;
-           VertexData[30] = p[2].x; VertexData[31] = p[2].y; VertexData[32] = p[2].z;
+           VertexData[33] = p[2].x; VertexData[34] = p[2].y; VertexData[35] = p[2].z;
            NormalData[33] = 0.0; NormalData[34] = -cos2; NormalData[35] = -sin2;
-           VertexData[33] = p[1].x; VertexData[34] = p[1].y; VertexData[35] = p[1].z;
+           VertexData[30] = p[1].x; VertexData[31] = p[1].y; VertexData[32] = p[1].z;
        }else{
            NormalData[24] = 0.0; NormalData[25] = -cos2; NormalData[26] = -sin2;
            VertexData[24] = p[1].x; VertexData[25] = p[1].y; VertexData[26] = p[1].z;
            NormalData[27] = 0.0; NormalData[28] = -cos2; NormalData[29] = -sin2;
            VertexData[27] = p[2].x; VertexData[28] = p[2].y; VertexData[29] = p[2].z;
            NormalData[30] = 0.0; NormalData[31] = -sin1; NormalData[32] = cos1;
-           VertexData[30] = p[11].x; VertexData[31] = p[11].y; VertexData[32] = p[11].z;
+           VertexData[33] = p[11].x; VertexData[34] = p[11].y; VertexData[35] = p[11].z;
            NormalData[33] = 0.0; NormalData[34] = -sin1; NormalData[35] = cos1;
-           VertexData[33] = p[10].x; VertexData[34] = p[10].y; VertexData[35] = p[10].z;
+           VertexData[30] = p[10].x; VertexData[31] = p[10].y; VertexData[32] = p[10].z;
        }
     glVertexPointer(3, GL_FLOAT, 0, VertexData);
     glNormalPointer(GL_FLOAT, 0, NormalData);
     glPushMatrix();
-    glDrawArrays(GL_QUADS,0,12);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,12);
 
     autonormalize_triangle(p[1],p[10],p[0],order,&VertexData[0],&NormalData[0]);
     autonormalize_triangle(p[2],p[3],p[11],order,&VertexData[9],&NormalData[9]);
@@ -1078,7 +1079,7 @@ void my_HoleTuch( int xfact, int yfact )
            VertexData[l++] = x; VertexData[l++] = y; VertexData[l++] = -BALL_D/2.0-0.005;
        }
        glPushMatrix();
-       glDrawArrays(GL_QUAD_STRIP,0,1+HOLE1_SEGNR_4*2*2);
+       glDrawArrays(GL_TRIANGLE_STRIP,0,1+HOLE1_SEGNR_4*2*2);
        glPopMatrix();
        //glDisableClientState are defined inside the calling function
 }
@@ -1303,15 +1304,15 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            x=-area_w/2.0+i*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
            TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
            VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -balld/2.0;
-           x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
+           x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+j*area_l/jmax;
            TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
            VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -balld/2.0;
-           x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+j*area_l/jmax;
+           x=-area_w/2.0+(i+1)*area_w/imax; y=-area_l/2.0+(j+1)*area_l/jmax;
            TexData[m++] = TABLETEXCOORD_X(x,y); TexData[m++] = TABLETEXCOORD_Y(x,y);
            VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -balld/2.0;
        }
    }
-   glDrawArrays(GL_QUADS,0,4*AREA_SUBDIV_Y*AREA_SUBDIV_X);
+   glDrawArrays(GL_TRIANGLE_STRIP,0,4*AREA_SUBDIV_Y*AREA_SUBDIV_X);
    glPopMatrix();
 
    if(!carambol){
@@ -1364,7 +1365,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            TexData[m++] = TABLETEXCOORD_Y((TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(-1.0),(-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0));
            VertexData[o++] = (TABLE_W/2.0-edge_xyoffs-BANDE_D*HOLE1_TAN)*(-1.0); VertexData[o++] = (-TABLE_L/2.0-BANDE_D*BANDE_D2RATIO)*(i==0?1.0:-1.0); VertexData[o++] = -BALL_D/2.0;
            glPushMatrix();
-           glDrawArrays(GL_QUAD_STRIP,0,(4+(AREA_SUBDIV_X*2-1)));
+           glDrawArrays(GL_TRIANGLE_STRIP,0,(4+(AREA_SUBDIV_X*2-1)));
            glPopMatrix();
        }
        /* some middle pocket triangles */
@@ -1435,7 +1436,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            TexData[m++] = TABLETEXCOORD_Y((-area_w/2.0)*(fx),(-area_l/2.0)*(fy));
            VertexData[o++] = (-area_w/2.0)*(fx); VertexData[o++] = (-area_l/2.0)*(fy); VertexData[o++] = -BALL_D/2.0;
            glPushMatrix();
-           glDrawArrays(GL_QUAD_STRIP,0,4+AREA_SUBDIV_Y-1);
+           glDrawArrays(GL_TRIANGLE_STRIP,0,4+AREA_SUBDIV_Y-1);
            glPopMatrix();
            m = 0;
            o = 0;
@@ -1486,7 +1487,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
                VertexData[o++] = x; VertexData[o++] = y; VertexData[o++] = -BALL_D/2.0-HOLE2_PHASE ;
            }
            glPushMatrix();
-           glDrawArrays(GL_QUAD_STRIP,0,HOLE2_SEGNR_2*2+1);
+           glDrawArrays(GL_TRIANGLE_STRIP,0,HOLE2_SEGNR_2*2+1);
            glPopMatrix();
        }
 
@@ -1798,7 +1799,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
            VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = (-TABLE_L/2.0+edge_xyoffs)*yf; VertexData[o++] = -0.1;
            glPushMatrix();
-           glDrawArrays(GL_QUAD_STRIP,0,4+((HOLE1_BACKSEGNR+1)*2));
+           glDrawArrays(GL_TRIANGLE_STRIP,0,4+((HOLE1_BACKSEGNR+1)*2));
            glPopMatrix();
            /* black ground of hole */
            o = 0;
@@ -1808,11 +1809,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
            VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS)*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*yf; VertexData[o++] = -0.1;
            NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS+0.5)*yf; VertexData[o++] = -0.1;
            VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS+0.5)*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*yf; VertexData[o++] = -0.1;
            NormalData[n++] = (0)*xf; NormalData[n++] = (0)*yf; NormalData[n++] = -1.0;
-           VertexData[o++] = (-TABLE_W/2.0-HOLE1_XYOFFS-HOLE1_R*sqrt(2.0))*xf; VertexData[o++] = (-TABLE_L/2.0-HOLE1_XYOFFS+0.5)*yf; VertexData[o++] = -0.1;
            glPushMatrix();
-           glDrawArrays(GL_QUADS,0,4);
+           glDrawArrays(GL_TRIANGLE_STRIP,0,4);
            glPopMatrix();
        }
 #define HOLE2_BACKSEGNR 8
@@ -1843,7 +1844,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
            VertexData[o++] = (-TABLE_W/2.0-BANDE_D)*xf; VertexData[o++] = +HOLE2_R; VertexData[o++] = -0.1;
            glPushMatrix();
-           glDrawArrays(GL_QUAD_STRIP,0,4+((HOLE2_BACKSEGNR+1)*2));
+           glDrawArrays(GL_TRIANGLE_STRIP,0,4+((HOLE2_BACKSEGNR+1)*2));
            glPopMatrix();
            /* black ground of hole */
            o = 0;
@@ -1853,11 +1854,11 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
            NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
            VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS-HOLE2_R)*xf; VertexData[o++] = -HOLE2_R; VertexData[o++] = -0.1;
            NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
+           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+2.5*HOLE2_R)*xf; VertexData[o++] = +4*HOLE2_R; VertexData[o++] = -0.1;
            VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+2.5*HOLE2_R)*xf; VertexData[o++] = -4*HOLE2_R; VertexData[o++] = -0.1;
            NormalData[n++] = 0.0; NormalData[n++] = 0.0; NormalData[n++] = -1.0;
-           VertexData[o++] = (-TABLE_W/2.0-HOLE2_XYOFFS+2.5*HOLE2_R)*xf; VertexData[o++] = +4*HOLE2_R; VertexData[o++] = -0.1;
            glPushMatrix();
-           glDrawArrays(GL_QUADS,0,4);
+           glDrawArrays(GL_TRIANGLE_STRIP,0,4);
            glPopMatrix();
        }
        glFrontFace(GL_CW);
@@ -2107,7 +2108,7 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
                VertexData[o++] = -(FEET_W2/2.0)-FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS)*(FEET_W-FEET_W2)/2.0/(tableh+balld/2.0-0.1); VertexData[o++] = -(FEET_L2/2.0-FEET_R2)/(VMfloat)FEET_Y_STEPS*(FEET_Y_STEPS-i); VertexData[o++] = -tableh-balld/2.0+FEET_Y_FUNC((VMfloat)i/(VMfloat)FEET_Y_STEPS);
            }
            glPushMatrix();
-           glDrawArrays(GL_QUAD_STRIP,0,FEET_X_STEPS*2+FEET_EDGE_STEPS*2+FEET_Y_STEPS*2+1);
+           glDrawArrays(GL_TRIANGLE_STRIP,0,FEET_X_STEPS*2+FEET_EDGE_STEPS*2+FEET_Y_STEPS*2+1);
            glPopMatrix();
            glPopMatrix();
        }

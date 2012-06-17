@@ -575,6 +575,7 @@ void menu_draw( menuType * menu )
         all_height+=menu->entry[i].fontsize;
     }
     glPushMatrix();
+    glPushAttrib(GL_CURRENT_BIT);
     glTranslatef(0,all_height/2,0);
     for(i=0;i<menu->nr;i++){
         /* hilight the entry with id=*p_select_id */
@@ -622,6 +623,7 @@ void menu_draw( menuType * menu )
 
         glTranslatef(0,-menu->entry[i].fontsize,0);
     }
+    glPopAttrib();
     glPopMatrix();
 }
 

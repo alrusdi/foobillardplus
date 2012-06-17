@@ -126,7 +126,7 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
            //glVertex3f( v1.x, v1.y, v1.z );
        }
        //glEnd();
-       glDrawArrays(GL_QUAD_STRIP,0,SEGS*2+2);
+       glDrawArrays(GL_TRIANGLE_STRIP,0,SEGS*2+2);
    }
    //glBegin(GL_TRIANGLE_FAN);
    //glNormal3s(0,0,-1);
@@ -335,7 +335,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
 
         glBindTexture(GL_TEXTURE_2D,queueshadowbind);
         GLfloat VertexData1[12];
-        static const GLshort TexData1[] = {0,0,1,0,1,1,0,1};
+        static const GLshort TexData1[] = {0,0,1,0,0,1,1,1};
         static const GLshort NormalData1[] = {0,0,1,0,0,1,0,0,1,0,0,1};
         VertexData1[0] = p1.x-vn.x*cue_shad_w2;
         VertexData1[1] = p1.y-vn.y*cue_shad_w2;
@@ -343,19 +343,19 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         VertexData1[3] = p1.x+vn.x*cue_shad_w2;
         VertexData1[4] = p1.y+vn.y*cue_shad_w2;
         VertexData1[5] = p1.z;
-        VertexData1[6] = p2.x+vn.x*cue_shad_w2;
-        VertexData1[7] = p2.y+vn.y*cue_shad_w2;
-        VertexData1[8] = p2.z;
-        VertexData1[9] = p2.x-vn.x*cue_shad_w2;
-        VertexData1[10] = p2.y-vn.y*cue_shad_w2;
+        VertexData1[9] = p2.x+vn.x*cue_shad_w2;
+        VertexData1[10] = p2.y+vn.y*cue_shad_w2;
         VertexData1[11] = p2.z;
+        VertexData1[6] = p2.x-vn.x*cue_shad_w2;
+        VertexData1[7] = p2.y-vn.y*cue_shad_w2;
+        VertexData1[8] = p2.z;
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
         glTexCoordPointer(2,GL_SHORT, 0, TexData1);
         glVertexPointer(3, GL_FLOAT, 0, VertexData1);
         glNormalPointer(GL_SHORT, 0, NormalData1);
-        glDrawArrays(GL_QUADS,0,4);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);

@@ -661,9 +661,9 @@ void makeGLGeometryFT(FT_GlyphSlot glyph, VMfloat depth)
              NormalData[i++] = n2.x; NormalData[i++] = n2.y; NormalData[i++] = n2.z;
              VertexData[j++] = tdv->d[0]; VertexData[j++] = tdv->d[1]; VertexData[j++] = -depth;
              NormalData[i++] = n2.x; NormalData[i++] = n2.y; NormalData[i++] = n2.z;
+             VertexData[j++] = tdv_n->d[0]; VertexData[j++] = tdv_n->d[1]; VertexData[j++] = 0.0;
              VertexData[j++] = tdv_n->d[0]; VertexData[j++] = tdv_n->d[1]; VertexData[j++] = -depth;
              NormalData[i++] = n2.x; NormalData[i++] = n2.y; NormalData[i++] = n2.z;
-             VertexData[j++] = tdv_n->d[0]; VertexData[j++] = tdv_n->d[1]; VertexData[j++] = 0.0;
              k+=4;
              tdv_p=tdv;
              tdv=tdv->next;
@@ -679,7 +679,7 @@ void makeGLGeometryFT(FT_GlyphSlot glyph, VMfloat depth)
           glNormalPointer(GL_FLOAT, 0, NormalData);
           glVertexPointer(3, GL_FLOAT, 0, VertexData);
           glPushMatrix();
-          glDrawArrays(GL_QUADS,0,k-4);
+          glDrawArrays(GL_TRIANGLE_STRIP,0,k-4);
           glPopMatrix();
           glDisableClientState(GL_NORMAL_ARRAY);
           glDisableClientState(GL_VERTEX_ARRAY);

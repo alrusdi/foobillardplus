@@ -2437,7 +2437,7 @@ void init_ai_player_roster(struct PlayerRoster * roster)
      #define PLAYER15 "Dana Dummy"
     #endif
 
-    char *playername[] = {PLAYER1,PLAYER2,PLAYER3,PLAYER4,PLAYER5,PLAYER6,PLAYER7,PLAYER8,PLAYER8,PLAYER10,PLAYER11,PLAYER12,PLAYER13,PLAYER14,PLAYER15};
+    char *playername[] = {PLAYER1,PLAYER2,PLAYER3,PLAYER4,PLAYER5,PLAYER6,PLAYER7,PLAYER8,PLAYER9,PLAYER10,PLAYER11,PLAYER12,PLAYER13,PLAYER14,PLAYER15};
     float player_error[] = {0.0,0.02,0.05,0.1,0.2,0.4,0.6,0.7,0.8,0.9,1.0,1.11,1.2,1.5,1.9};
 
     for(i=0;i<roster->nr;i++) {
@@ -3511,8 +3511,8 @@ void myRect2D_texture(void)
 {
 
   static int myrect_id= -1;             // glcompile-id
-  static const GLshort VertexData[] = {0,0,0,0,48,0,48,48,0,48,0,0};
-  static const GLshort TexData[] = {0,1,0,0,1,0,1,1};
+  static const GLshort VertexData[] = {0,0,0,0,48,0,48,0,0,48,48,0};
+  static const GLshort TexData[] = {0,1,0,0,1,1,1,0};
   static const GLfloat ColorData[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
 
   if(myrect_id == -1) {
@@ -3525,7 +3525,7 @@ void myRect2D_texture(void)
     glVertexPointer(3, GL_SHORT, 0, VertexData);
     glColorPointer(3, GL_FLOAT, 0, ColorData);
     glPushMatrix();
-    glDrawArrays(GL_QUADS,0,4);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glPopMatrix();
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
@@ -3543,14 +3543,14 @@ void myRect2D_texture(void)
 
 void myRect2D( VMfloat x1, VMfloat y1, VMfloat x2, VMfloat y2, VMfloat color_strength, VMfloat standard )
 {
-    GLfloat VertexData[] = {x1,y1,-0.5,x1,y2,-0.5,x2,y2,-0.5,x2,y1,-0.5};
+    GLfloat VertexData[] = {x1,y1,-0.5,x1,y2,-0.5,x2,y1,-0.5,x2,y2,-0.5};
     GLfloat ColorData[] = {standard, standard + color_strength * 1, standard,standard,standard + color_strength * 1 , standard,standard + color_strength * 1, standard, standard,standard + color_strength * 1, standard, standard};
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
     glColorPointer(3,GL_FLOAT, 0, ColorData);
     glVertexPointer(3, GL_FLOAT, 0, VertexData);
     glPushMatrix();
-    glDrawArrays(GL_QUADS,0,4);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glPopMatrix();
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
@@ -3718,16 +3718,17 @@ void create_cuberef_maps(VMvect cam_pos)
 
  static const struct vertex_cuberef_struct cuberef_vertex[]= {
 
-    {0.18, 0.15, 1.0},{0.18, 0.76, 1.0},{-0.18, 0.76, 1.0},{-0.18, 0.15, 1.0},
-    {-0.18, -0.15, 1.0},{-0.18, -0.76, 1.0},{0.18, -0.76, 1.0},{0.18, -0.15, 1.0},
+    {0.18, 0.15, 1.0},{0.18, 0.76, 1.0},{-0.18, 0.15, 1.0},{-0.18, 0.76, 1.0},
+    {-0.18, -0.15, 1.0},{-0.18, -0.76, 1.0},{0.18, -0.15, 1.0},{0.18, -0.76, 1.0},
 
-    {0.20, 0.13, 1.001},{0.20, 0.78, 1.001},{-0.20, 0.78, 1.001},{-0.20, 0.13, 1.001},
-    {-0.20, -0.13, 1.001},{-0.20, -0.78, 1.001},{0.20, -0.78, 1.001},{0.20, -0.13, 1.001},
+    {0.20, 0.13, 1.001},{0.20, 0.78, 1.001},{-0.20, 0.13, 1.001},{-0.20, 0.78, 1.001},
+    {-0.20, -0.13, 1.001},{-0.20, -0.78, 1.001},{0.20, -0.13, 1.001},{0.20, -0.78, 1.001},
 
-    {0.28,-0.86, 1.002},{0.28, 0.86, 1.002},{-0.28, 0.86, 1.002},{-0.28,-0.86, 1.002},
+    {0.28,-0.86, 1.002},{0.28, 0.86, 1.002},{-0.28,-0.86, 1.002},{-0.28, 0.86, 1.002},
 
-    {0.38,-0.96, 1.004},{0.38, 0.96, 1.004},{-0.38, 0.96, 1.004},{-0.38,-0.96, 1.004}
+    {0.38,-0.96, 1.004},{0.38, 0.96, 1.004},{-0.38,-0.96, 1.004},{-0.38, 0.96, 1.004}
  };
+
 
     int i, w, level, ballnr;
     int xpos, ypos;
@@ -3802,7 +3803,7 @@ void create_cuberef_maps(VMvect cam_pos)
                     glEnableClientState(GL_COLOR_ARRAY);
                     glColorPointer(4, GL_FLOAT, sizeof (struct color_cuberef_struct), cuberef_color);
                     glPushMatrix();
-                    glDrawArrays(GL_QUADS,0,24);
+                    glDrawArrays(GL_TRIANGLE_STRIP,0,24);
                     glPopMatrix();
                     glDisableClientState(GL_VERTEX_ARRAY);
                     glDisableClientState(GL_COLOR_ARRAY);
@@ -3870,10 +3871,10 @@ void Display_tournament_tree( struct TournamentState_ * ts )
       /* top line */
       glVertexPointer(3, GL_FLOAT, 0, VertexData);
       glColorPointer(4, GL_FLOAT, 0, ColorData1);
-      glDrawArrays(GL_QUAD_STRIP, 0, 4);
+      glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
       /* bottom line */
       glVertexPointer(3, GL_FLOAT, 0, VertexData1);
-      glDrawArrays(GL_QUAD_STRIP, 0, 4);
+      glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
       glBindTexture(GL_TEXTURE_2D,fblogotexbind);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -3886,7 +3887,7 @@ void Display_tournament_tree( struct TournamentState_ * ts )
       glTexCoordPointer(2,GL_FLOAT, 0, TexData2);
       glVertexPointer(3, GL_FLOAT, 0, VertexData2);
       glColorPointer(4, GL_FLOAT, 0, ColorData2);
-      glDrawArrays(GL_QUAD_STRIP,0,4);
+      glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
       glPopMatrix();
       glDisableClientState(GL_TEXTURE_COORD_ARRAY);
       glDisableClientState(GL_VERTEX_ARRAY);
@@ -4428,7 +4429,7 @@ void DisplayFunc( void )
    glPushMatrix();
    glCallList(floor_obj); // draw floor
    Zrot_check = Zrot+Zrot_offs;
-   if(options_deco) {     // draw room if option on
+   if(options_deco && !options_tronmode) {     // draw room if option on
      glCallList(wall1_2_obj);  // room
      glRotatef(90.0,0.0,0.0,1.1);
      if(Zrot_check>50.0 && Zrot_check<320.0) {
@@ -4637,10 +4638,10 @@ void DisplayFunc( void )
         GLfloat VertexData[] = {
                 balls.ball[cue_ball].r.x-SH_SZ, balls.ball[cue_ball].r.y+SH_SZ, balls.ball[cue_ball].r.z-balls.ball[cue_ball].d/2.02,
                 balls.ball[cue_ball].r.x+SH_SZ, balls.ball[cue_ball].r.y+SH_SZ, balls.ball[cue_ball].r.z-balls.ball[cue_ball].d/2.02,
-                balls.ball[cue_ball].r.x+SH_SZ, balls.ball[cue_ball].r.y-SH_SZ, balls.ball[cue_ball].r.z-balls.ball[cue_ball].d/2.02,
-                balls.ball[cue_ball].r.x-SH_SZ, balls.ball[cue_ball].r.y-SH_SZ, balls.ball[cue_ball].r.z-balls.ball[cue_ball].d/2.02
+                balls.ball[cue_ball].r.x-SH_SZ, balls.ball[cue_ball].r.y-SH_SZ, balls.ball[cue_ball].r.z-balls.ball[cue_ball].d/2.02,
+                balls.ball[cue_ball].r.x+SH_SZ, balls.ball[cue_ball].r.y-SH_SZ, balls.ball[cue_ball].r.z-balls.ball[cue_ball].d/2.02
         };
-        static const GLshort TexData[] = {0,1,1,1,1,0,0,0};
+        static const GLshort TexData[] = {0,1,1,1,0,0,1,0};
         static const GLshort NormalData[] = {0,0,1,0,0,1,0,0,1,0,0,1};
         static const GLfloat ColorData[] = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -4652,7 +4653,7 @@ void DisplayFunc( void )
         glColorPointer(3, GL_FLOAT, 0, ColorData);
         glNormalPointer(GL_SHORT,0,NormalData);
         glPushMatrix();
-        glDrawArrays(GL_QUADS,0,4);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
         glPopMatrix();
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
@@ -4787,13 +4788,13 @@ void DisplayFunc( void )
                VertexData1[3] = actpos.x+up.x+right.x;
                VertexData1[4] = actpos.y+up.y+right.y;
                VertexData1[5] = actpos.z+up.z+right.z;
-               VertexData1[6] = actpos.x-up.x+right.x;
-               VertexData1[7] = actpos.y-up.y+right.y;
-               VertexData1[8] = actpos.z-up.z+right.z;
-               VertexData1[9] = actpos.x-up.x-right.x;
-               VertexData1[10] = actpos.y-up.y-right.y;
-               VertexData1[11] = actpos.z-up.z-right.z;
-               static const GLshort TexData1[] = {0,0,1,0,1,1,0,1};
+               VertexData1[9] = actpos.x-up.x+right.x;
+               VertexData1[10] = actpos.y-up.y+right.y;
+               VertexData1[11] = actpos.z-up.z+right.z;
+               VertexData1[6] = actpos.x-up.x-right.x;
+               VertexData1[7] = actpos.y-up.y-right.y;
+               VertexData1[8] = actpos.z-up.z-right.z;
+               static const GLshort TexData1[] = {0,0,1,0,0,1,1,1};
                glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                glEnableClientState(GL_VERTEX_ARRAY);
                glEnableClientState(GL_COLOR_ARRAY);
@@ -4801,7 +4802,7 @@ void DisplayFunc( void )
                glVertexPointer(3, GL_FLOAT, 0, VertexData1);
                glColorPointer(3, GL_FLOAT, 0, ColorData1);
                glPushMatrix();
-               glDrawArrays(GL_QUADS,0,4);
+               glDrawArrays(GL_TRIANGLE_STRIP,0,4);
                glPopMatrix();
                glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                glDisableClientState(GL_VERTEX_ARRAY);
@@ -4978,8 +4979,8 @@ void DisplayFunc( void )
        if(leftcount <0) { leftcount = 0; leftmenu = 0; next_leftmenu = 0.0; }
        if(leftcount > MENUCOUNT) { leftcount = MENUCOUNT; leftmenu = 2; }
        glTranslatef(-((VMfloat)win_width/2+180-leftcount),-(VMfloat)win_height/2+170,0.0);
-       static const GLshort VertexData3[] = {0,0,0,0,535,0,215,535,0,215,0,0};
-       static const GLshort TexData3[] = {0,1,0,0,1,0,1,1};
+       static const GLshort VertexData3[] = {0,0,0,0,535,0,215,0,0,215,535,0};
+       static const GLshort TexData3[] = {0,1,0,0,1,1,1,0};
        static const GLfloat ColorData3[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
        if( options_gamemode == options_gamemode_training ) {
           if(mleft_id == -1) {
@@ -4994,7 +4995,7 @@ void DisplayFunc( void )
             glTexCoordPointer(2,GL_SHORT, 0, TexData3);
             glVertexPointer(3, GL_SHORT, 0, VertexData3);
             glColorPointer(3, GL_FLOAT, 0, ColorData3);
-            glDrawArrays(GL_QUADS,0,4);
+            glDrawArrays(GL_TRIANGLE_STRIP,0,4);
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             glDisableClientState(GL_VERTEX_ARRAY);
             glDisableClientState(GL_COLOR_ARRAY);
@@ -5016,7 +5017,7 @@ void DisplayFunc( void )
           glTexCoordPointer(2,GL_SHORT, 0, TexData3);
           glVertexPointer(3, GL_SHORT, 0, VertexData3);
           glColorPointer(3, GL_FLOAT, 0, ColorData3);
-          glDrawArrays(GL_QUADS,0,4);
+          glDrawArrays(GL_TRIANGLE_STRIP,0,4);
           glDisableClientState(GL_TEXTURE_COORD_ARRAY);
           glDisableClientState(GL_VERTEX_ARRAY);
           glDisableClientState(GL_COLOR_ARRAY);
@@ -5059,7 +5060,7 @@ void DisplayFunc( void )
          glTexCoordPointer(2,GL_SHORT, 0, TexData3);
          glVertexPointer(3, GL_SHORT, 0, VertexData3);
          glColorPointer(3, GL_FLOAT, 0, ColorData3);
-         glDrawArrays(GL_QUADS,0,4);
+         glDrawArrays(GL_TRIANGLE_STRIP,0,4);
          glDisableClientState(GL_TEXTURE_COORD_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
          glDisableClientState(GL_COLOR_ARRAY);
@@ -5096,15 +5097,15 @@ void DisplayFunc( void )
          glEnable(GL_TEXTURE_2D);
          glEnable(GL_BLEND);
          glBindTexture(GL_TEXTURE_2D,volumebind); // upper menu bar
-         static const GLshort VertexData4[] = {0,0,0,0,209,0,416,209,0,416,0,0};
-         static const GLshort TexData4[] = {0,1,0,0,1,0,1,1};
+         static const GLshort VertexData4[] = {0,0,0,0,209,0,416,0,0,416,209,0};
+         static const GLshort TexData4[] = {0,1,0,0,1,1,1,0};
          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
          glEnableClientState(GL_VERTEX_ARRAY);
          glEnableClientState(GL_COLOR_ARRAY);
          glTexCoordPointer(2,GL_SHORT, 0, TexData4);
          glVertexPointer(3, GL_SHORT, 0, VertexData4);
          glColorPointer(3, GL_FLOAT, 0, ColorData3);
-         glDrawArrays(GL_QUADS,0,4);
+         glDrawArrays(GL_TRIANGLE_STRIP,0,4);
          glDisableClientState(GL_TEXTURE_COORD_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
          glDisableClientState(GL_COLOR_ARRAY);
@@ -5124,8 +5125,8 @@ void DisplayFunc( void )
          glEnable(GL_TEXTURE_2D);
          glEnable(GL_BLEND);
          glBindTexture(GL_TEXTURE_2D,screenbind); // screenshot button
-         static const GLshort VertexData5[] = {0,0,0,0,32,0,52,32,0,52,0,0};
-         static const GLshort TexData5[] = {0,1,0,0,1,0,1,1};
+         static const GLshort VertexData5[] = {0,0,0,0,32,0,52,0,0,52,32,0};
+         static const GLshort TexData5[] = {0,1,0,0,1,1,1,0};
          static const GLfloat ColorData5[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
          glEnableClientState(GL_VERTEX_ARRAY);
@@ -5133,7 +5134,7 @@ void DisplayFunc( void )
          glTexCoordPointer(2,GL_SHORT, 0, TexData5);
          glVertexPointer(3, GL_SHORT, 0, VertexData5);
          glColorPointer(3, GL_FLOAT, 0, ColorData5);
-         glDrawArrays(GL_QUADS,0,4);
+         glDrawArrays(GL_TRIANGLE_STRIP,0,4);
          glDisableClientState(GL_TEXTURE_COORD_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
          glDisableClientState(GL_COLOR_ARRAY);
@@ -5315,8 +5316,8 @@ void DisplayFunc( void )
              glTranslatef(-0.95,0.15,0.0);
              glScalef(2.0/win_width,2.0/win_height,1.0);
              glBindTexture(GL_TEXTURE_2D,englishbind); //English Control if set
-             static const GLshort VertexData8[] = {0,0,0,0,256,0,256,256,0,256,0,0};
-             static const GLshort TexData8[] = {0,1,0,0,1,0,1,1};
+             static const GLshort VertexData8[] = {0,0,0,0,256,0,256,0,0,256,256,0};
+             static const GLshort TexData8[] = {0,1,0,0,1,1,1,0};
              static const GLfloat ColorData8[] = {0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9};
              glEnableClientState(GL_TEXTURE_COORD_ARRAY);
              glEnableClientState(GL_VERTEX_ARRAY);
@@ -5324,7 +5325,7 @@ void DisplayFunc( void )
              glTexCoordPointer(2,GL_SHORT, 0, TexData8);
              glVertexPointer(3, GL_SHORT, 0, VertexData8);
              glColorPointer(3, GL_FLOAT, 0, ColorData8);
-             glDrawArrays(GL_QUADS,0,4);
+             glDrawArrays(GL_TRIANGLE_STRIP,0,4);
              glDisableClientState(GL_TEXTURE_COORD_ARRAY);
              glDisableClientState(GL_VERTEX_ARRAY);
              glDisableClientState(GL_COLOR_ARRAY);
@@ -5522,10 +5523,10 @@ void DisplayFunc( void )
         // Introsequenz graphic
         GLshort VertexData9[] = {0,0,0,0,0,0,0,0,0,0,0,0};
         VertexData9[4] = introyanimate;
-        VertexData9[6] = introxanimate;
-        VertexData9[7] = introyanimate;
         VertexData9[9] = introxanimate;
-        static const GLshort TexData9[] = {0,1,0,0,1,0,1,1};
+        VertexData9[10] = introyanimate;
+        VertexData9[6] = introxanimate;
+        static const GLshort TexData9[] = {0,1,0,0,1,1,1,0};
         static const GLfloat ColorData9[] = {0.9,0.9,0.9,1.0,0.9,0.9,0.9,1.0,0.9,0.9,0.9,1.0,0.9,0.9,0.9,1.0};
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -5533,7 +5534,7 @@ void DisplayFunc( void )
         glTexCoordPointer(2,GL_SHORT, 0, TexData9);
         glVertexPointer(3, GL_SHORT, 0, VertexData9);
         glColorPointer(4, GL_FLOAT, 0, ColorData9);
-        glDrawArrays(GL_QUADS,0,4);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
@@ -7749,7 +7750,7 @@ static void Init( void )
     glFogi (GL_FOG_MODE, GL_LINEAR);
     glHint (GL_FOG_HINT, GL_FASTEST);
     glFogf (GL_FOG_START, 0.0);
-    if(options_deco){
+    if(options_deco && !options_tronmode){
       glFogf (GL_FOG_END, 16.0);
     } else {
       glFogf (GL_FOG_END, 12.5);

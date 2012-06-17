@@ -1,5 +1,6 @@
 3.43 beta
 =========
+- replace gl_quads, gl_quad_strip with gl_triangle_strip
 - zenity (gnome), kdialog (kde), xmessage (X11), MS Windows error dialogs
 - replace glbegin/glend/glvertex and so on to vertex arrays
 - bugfixing table display

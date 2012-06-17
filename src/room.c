@@ -37,13 +37,13 @@
 
 void my_rect_floor(GLshort a,GLshort b,GLshort c,GLshort d,GLshort e,GLshort f,GLshort g,GLshort h,GLshort i,GLshort j,GLshort k,GLshort l,GLshort m,GLshort n,GLshort o,GLshort p)
 {
-  GLshort VertexData[] = {c,d,g,h,k,l,o,p};
-  GLshort TexData[] = {a,b,e,f,i,j,m,n};
+  GLshort VertexData[] = {c,d,g,h,o,p,k,l};
+  GLshort TexData[] = {a,b,e,f,m,n,i,j};
   GLshort NormalData[] = {0,0,1,0,0,1,0,0,1,0,0,1};
   glTexCoordPointer(2,GL_SHORT, 0, TexData);
   glVertexPointer(2, GL_SHORT, 0, VertexData);
   glNormalPointer(GL_SHORT, 0, NormalData);
-  glDrawArrays(GL_QUADS,0,4);
+  glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 }
 
 /***********************************************************************
@@ -52,14 +52,14 @@ void my_rect_floor(GLshort a,GLshort b,GLshort c,GLshort d,GLshort e,GLshort f,G
 
 void my_rect_wall(void)
 {
-  static const GLfloat VertexData[] = {-5.0,5.0,2.5,5.0,5.0,2.5,5.0,5.0,0.0,-5.0,5.0,0.0};
-  static const GLfloat TexData[] = {0.0,0.0,4.0,0.0,4.0,2.0,0.0,2.0};
+  static const GLfloat VertexData[] = {-5.0,5.0,2.5,5.0,5.0,2.5,-5.0,5.0,0.0,5.0,5.0,0.0};
+  static const GLfloat TexData[] = {0.0,0.0,4.0,0.0,0.0,2.0,4.0,2.0};
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnableClientState(GL_VERTEX_ARRAY);
   glTexCoordPointer(2,GL_FLOAT, 0, TexData);
   glVertexPointer(3, GL_FLOAT, 0, VertexData);
   glPushMatrix();
-  glDrawArrays(GL_QUADS,0,4);
+  glDrawArrays(GL_TRIANGLE_STRIP,0,4);
   glPopMatrix();
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
@@ -72,14 +72,14 @@ void my_rect_wall(void)
 void my_rect_strip(GLuint texbind)
 {
   glBindTexture(GL_TEXTURE_2D,texbind);
-  static const GLfloat VertexData[] = {-5.0,4.998,0.08,5.0,4.998,0.08,5.0,4.998,0.0,-5.0,4.998,0.0};
-  static const GLfloat TexData[] = {0.0,0.0,1.0,0.0,1.0,1.0,0.0,1.0};
+  static const GLfloat VertexData[] = {-5.0,4.998,0.08,5.0,4.998,0.08,-5.0,4.998,0.0,5.0,4.998,0.0};
+  static const GLfloat TexData[] = {0.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0,};
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnableClientState(GL_VERTEX_ARRAY);
   glTexCoordPointer(2,GL_FLOAT, 0, TexData);
   glVertexPointer(3, GL_FLOAT, 0, VertexData);
   glPushMatrix();
-  glDrawArrays(GL_QUADS,0,4);
+  glDrawArrays(GL_TRIANGLE_STRIP,0,4);
   glPopMatrix();
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
@@ -92,12 +92,12 @@ void my_rect_strip(GLuint texbind)
 
 void my_rect_most(GLfloat a, GLfloat b, GLfloat c, GLfloat d, GLfloat e, GLfloat f, GLfloat g, GLfloat h, GLfloat i, GLfloat j, GLfloat k, GLfloat l)
 {
-  GLfloat VertexData[] = {a,b,c,d,e,f,g,h,i,j,k,l};
-  static const GLshort TexData[] = {0,0,1,0,1,1,0,1};
+  GLfloat VertexData[] = {a,b,c,d,e,f,j,k,l,g,h,i};
+  static const GLshort TexData[] = {0,0,1,0,0,1,1,1};
   glTexCoordPointer(2,GL_SHORT, 0, TexData);
   glVertexPointer(3, GL_FLOAT, 0, VertexData);
   glPushMatrix();
-  glDrawArrays(GL_QUADS,0,4);
+  glDrawArrays(GL_TRIANGLE_STRIP,0,4);
   glPopMatrix();
 }
 
@@ -214,13 +214,13 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     glEnable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,carpettexbind);
     glTranslatef(-1.0,-3.0,0.0);
-    static const GLfloat VertexData2[] = {-1.35,1.25,0.001,4.0,1.25,0.001,4.0,-1.9,0.001,-1.35,-1.9,0.001};
-    static const GLfloat TexData2[] = {0,0,0,1,1,1,1,0};
+    static const GLfloat VertexData2[] = {-1.35,1.25,0.001,4.0,1.25,0.001,-1.35,-1.9,0.001,4.0,-1.9,0.001};
+    static const GLfloat TexData2[] = {0,0,0,1,1,0,1,1};
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
     glTexCoordPointer(2,GL_FLOAT, 0, TexData2);
     glVertexPointer(3, GL_FLOAT, 0, VertexData2);
-    glDrawArrays(GL_QUADS,0,4);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisable(GL_BLEND);
@@ -285,22 +285,32 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
    glNewList(*wall3_obj, GL_COMPILE);
     // wall 3
     glBindTexture(GL_TEXTURE_2D,corr2texbind);
-    static const GLfloat VertexData[] = {-5.0,5.0,2.5,1.0,5.0,2.5,1.0,5.0,0.0,-5.0,5.0,0.0,
-            1.0,5.0,2.5,4.0,5.0,2.5,4.0,5.0,2.3,1.0,5.0,2.3,
-            1.0,5.0,0.5,4.0,5.0,0.5,4.0,5.0,0.0,1.0,5.0,0.0,
-            4.0,5.0,2.5,5.0,5.0,2.5,5.0,5.0,0.0,4.0,5.0,0.0
+    static const GLfloat VertexData[] = {-5.0,5.0,2.5,1.0,5.0,2.5,-5.0,5.0,0.0,1.0,5.0,0.0,
+            1.0,5.0,2.5,4.0,5.0,2.5,1.0,5.0,2.3,4.0,5.0,2.3,
+            1.0,5.0,0.5,4.0,5.0,0.5,1.0,5.0,0.0,4.0,5.0,0.0,
+            4.0,5.0,2.5,5.0,5.0,2.5,4.0,5.0,0.0,5.0,5.0,0.0
     };
-    static const GLfloat TexData[] = {0.0,0.0,7.0,0.0,7.0,6.0,0.0,6.0,
-            0.0,0.0,4.0,0.0,4.0,0.5,0.0,0.5,
-            0.0,0.0,4.0,0.0,4.0,1.265,0.0,1.265,
-            0.0,0.0,1.0,0.0,1.0,6.0,0.0,6.0
+    static const GLfloat TexData[] = {0.0,0.0,7.0,0.0,0.0,6.0,7.0,6.0,
+            0.0,0.0,4.0,0.0,0.0,0.5,4.0,0.5,
+            0.0,0.0,4.0,0.0,0.0,1.265,4.0,1.265,
+            0.0,0.0,1.0,0.0,0.0,6.0,1.0,6.0
     };
+
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
     glTexCoordPointer(2,GL_FLOAT, 0, TexData);
     glVertexPointer(3, GL_FLOAT, 0, VertexData);
     glPushMatrix();
-    glDrawArrays(GL_QUADS,0,16);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    glVertexPointer(3, GL_FLOAT, 0, &VertexData[12]);
+    glTexCoordPointer(2,GL_FLOAT, 0, &TexData[8]);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    glVertexPointer(3, GL_FLOAT, 0, &VertexData[24]);
+    glTexCoordPointer(2,GL_FLOAT, 0, &TexData[16]);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    glVertexPointer(3, GL_FLOAT, 0, &VertexData[36]);
+    glTexCoordPointer(2,GL_FLOAT, 0, &TexData[24]);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glPopMatrix();
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
@@ -359,13 +369,13 @@ void create_room(int *floor_obj, int *wall1_2_obj, int *wall3_obj, int *wall4_c_
     glDisable(GL_BLEND);
     // ceiling
     glBindTexture(GL_TEXTURE_2D,ceilingtexbind);
-    static const GLfloat VertexData1[] = {-5.0,-5.0,2.5,5.0,-5.0,2.5,5.0,5.0,2.5,-5.0,5.0,2.5};
-    static const GLshort TexData1[] = {0,0,8,0,8,8,0,8};
+    static const GLfloat VertexData1[] = {-5.0,-5.0,2.5,5.0,-5.0,2.5,-5.0,5.0,2.5,5.0,5.0,2.5};
+    static const GLshort TexData1[] = {0,0,8,0,0,8,8,8};
 
     glTexCoordPointer(2,GL_SHORT, 0, TexData1);
     glVertexPointer(3, GL_FLOAT, 0, VertexData1);
     glPushMatrix();
-    glDrawArrays(GL_QUADS,0,4);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glPopMatrix();
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);

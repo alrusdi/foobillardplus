@@ -26,7 +26,6 @@
 #include "font.h"
 #include "textobj.h"
 #include "options.h"
-#include "config.h"
 #include "language.h"
 
 static int help_screen_obj = -1;

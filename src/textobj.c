@@ -62,8 +62,8 @@ int create_string_quad( char * str, char * fontname, int h, int * quad_id, int *
     quad_obj = glGenLists(1);
     glNewList(quad_obj, GL_COMPILE);
     glBindTexture(GL_TEXTURE_2D,texbind);
-    GLfloat VertexData[] = {0.0,1.0*fact,0.0,(GLfloat)width/(GLfloat)height*fact,1.0*fact,0.0,(GLfloat)width/(GLfloat)height*fact,0.0,0.0,0.0,0.0,0.0};
-    GLfloat TexData[] = {0.0,0.0,(GLfloat)width/(GLfloat)texw,0.0,(GLfloat)width/(GLfloat)texw,(GLfloat)height/(GLfloat)texh,0.0,(GLfloat)height/(GLfloat)texh};
+    GLfloat VertexData[] = {0.0,1.0*fact,0.0,(GLfloat)width/(GLfloat)height*fact,1.0*fact,0.0,0.0,0.0,0.0,(GLfloat)width/(GLfloat)height*fact,0.0,0.0};
+    GLfloat TexData[] = {0.0,0.0,(GLfloat)width/(GLfloat)texw,0.0,0.0,(GLfloat)height/(GLfloat)texh,(GLfloat)width/(GLfloat)texw,(GLfloat)height/(GLfloat)texh};
     GLshort NormalData[] = {0,0,1,0,0,1,0,0,1,0,0,1};
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -72,7 +72,7 @@ int create_string_quad( char * str, char * fontname, int h, int * quad_id, int *
     glVertexPointer(3, GL_FLOAT, 0, VertexData);
     glNormalPointer(GL_SHORT, 0, NormalData);
     glPushMatrix();
-    glDrawArrays(GL_QUADS,0,4);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glPopMatrix();
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);

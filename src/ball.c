@@ -909,8 +909,8 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
 
  	    light_id = glGenLists(1);
  	    glNewList(light_id, GL_COMPILE);
- 	    static const GLfloat VertexData1[] = {-SH_SZ,+SH_SZ,0.0,+SH_SZ,+SH_SZ,0.0,+SH_SZ,-SH_SZ,0.0,-SH_SZ,-SH_SZ,0.0};
- 	    static const GLfloat TexData1[] = {0.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0};
+        static const GLfloat VertexData1[] = {-SH_SZ,+SH_SZ,0.0,+SH_SZ,+SH_SZ,0.0,-SH_SZ,-SH_SZ,0.0,+SH_SZ,-SH_SZ,0.0};
+        static const GLfloat TexData1[] = {0.0,1.0,1.0,1.0,0.0,0.0,1.0,0.0};
  	    static const GLshort NormalData1[] = {0,0,1,0,0,1,0,0,1,0,0,1};
  	   /* against shadow flicker bug */
  	    static const GLshort ColorData1[] = {0,0,0,0,0,0,0,0,0,0,0,0};
@@ -922,7 +922,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         glVertexPointer(3, GL_FLOAT, 0, VertexData1);
         glNormalPointer(GL_SHORT, 0, NormalData1);
         glColorPointer(3, GL_SHORT, 0, ColorData1);
- 	    glDrawArrays(GL_QUADS,0,4);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);
