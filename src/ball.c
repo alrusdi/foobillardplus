@@ -872,6 +872,12 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
     static int blended_id = -1;           // blended glcompile-id
     static int drawball1_id = -1;         // draw ball glcompile-id
     static int drawball2_id = -1;         // draw ball glcompile-id
+    static GLfloat stretch_matrix[16]={
+      0.0,0.0,0.0,0.0,
+      0.0,0.0,0.0,0.0,
+      0.0,0.0,0.0,0.0,
+      0.0,0.0,0.0,0.0
+    }; //init all to zero and static, because most is without change
 
 #define SH_SZ 0.040
 #define SH_FACT 0.32
@@ -879,7 +885,6 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
     int i,j;
     VMfloat fact;
     VMvect v,vn;
-    GLfloat stretch_matrix[16]={0.0}; //init all to zero
     GLfloat mat[16],x,y,w;
     GLfloat texmat[16];
     GLfloat dummy;
@@ -1195,14 +1200,8 @@ void draw_ballpath( BallType * pball)
     glVertexPointer(3,GL_FLOAT,0,VertexData);
     glNormalPointer(GL_SHORT,0,NormalData);
     glColorPointer(3,GL_FLOAT,0,ColorData);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
     glPushMatrix();
     glDrawArrays(GL_LINE_STRIP, 0, j);
     glPopMatrix();
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
 
 }

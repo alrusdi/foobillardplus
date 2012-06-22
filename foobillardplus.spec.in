@@ -67,6 +67,8 @@ make
 %changelog
 
 * Sun May 27 2012 Holger Schaekel <foobillardplus@go4more.de>
+- collision detection for cue in table
+- new pause function with key p on game with AI player
 - replace gl_quads, gl_quad_strip with gl_triangle_strip
 - zenity (gnome), kdialog (kde), xmessage (X11), MS Windows error dialogs
 - replace glbegin/glend/glvertex and so on to vertex arrays

@@ -2283,13 +2283,58 @@ VMfloat angle_pm360(VMfloat ang)
 }
 
 /***********************************************************************
+ *               check cue position (german: queue)                    *
+ *                       not in ball or table                          *
+************************************************************************/
+
+void check_cue(void) {
+
+   int cue_ball = CUE_BALL_IND; // index cue-ball
+   VMvect dir,cue_start,/* cue_end,*/ nx,ny,pos,hitpoint;
+   VMfloat x,y;
+
+   if(queue_view) { //change nothing, if not in cue view
+       return;
+   }
+   dir = vec_xyz(MATH_SIN(Zque*M_PI/180.0)*MATH_SIN(Xque*M_PI/180.0),
+                 MATH_COS(Zque*M_PI/180.0)*MATH_SIN(Xque*M_PI/180.0),
+                 MATH_COS(Xque*M_PI/180.0));
+   nx = vec_unit(vec_cross(vec_ez(),dir));  /* parallel to table */
+   ny = vec_unit(vec_cross(nx,dir));        /* orthogonal to dir and nx */
+   hitpoint = vec_add(vec_scale(nx,queue_point_x),vec_scale(ny,queue_point_y));
+   pos = vec_add(balls.ball[cue_ball].r,hitpoint);
+   cue_start = vec_add(pos,vec_scale(dir,0.4)); // start for cue check front
+   pos = vec_add(balls.ball[cue_ball].r,vec_scale(dir,queue_offs));
+   //cue_end = vec_add(pos,vec_scale(dir,QUEUE_L)); // end of cue
+   if(Xque < -87.0) Xque = -87.0;  //cue not under this values allowed/possible
+   if(fabs(cue_start.x) > TABLE_W/2.0) {
+       x = -74.0-((TABLE_W/2.0-(fabs(balls.ball[cue_ball].r.x)+BALL_D/2.0))*40.0);
+       if(x > -77.5 && queue_point_y > 0.0) {
+          queue_point_y = 0.0;
+       }
+       if(Xque < x) {
+         Xque = x;
+       }
+   } else if(fabs(cue_start.y) > TABLE_L/2.0 ) {
+       y = -74.0-((TABLE_L/2.0-(fabs(balls.ball[cue_ball].r.y)+BALL_D/2.0))*40.0);
+       if(y > -77.5 && queue_point_y > 0.0) {
+          queue_point_y = 0.0;
+       }
+       if(Xque < y) {
+         Xque = y;
+       }
+   }
+
+}
+
+/***********************************************************************
  *              Toggle the cue view (german: queue)                    *
  ***********************************************************************/
 
 void toggle_queue_view(void)
 {
     VMfloat th, ph;
-    queue_view = (queue_view==0)?1:0;
+    queue_view ^= 1;
     if( queue_view ){
         Xrot_offs=angle_pm180(Xrot-Xque);
         Xrot=Xque;
@@ -2301,6 +2346,7 @@ void toggle_queue_view(void)
         free_view_pos_aim = vec_scale(vec_xyz(MATH_SIN(th)*MATH_SIN(ph),MATH_SIN(th)*MATH_COS(ph),MATH_COS(th)), cam_dist);
         free_view_pos_aim = vec_add( free_view_pos_aim, CUE_BALL_XYPOS );
         free_view_pos = free_view_pos_aim ;
+        check_cue();  // check for correct cue position and set if neccessary
     }
 }
 
@@ -2378,7 +2424,7 @@ void init_player(struct Player * player, int ai)
     player->half_full=BALL_ANY;
     //ai?"AI-Player":"Human"
     strcpy(player->name,ai?localeText[55]:localeText[56]);
-    player->Xque=-83.0;
+    player->Xque=-87.0;
     player->Zque=0.0;
     player->cue_x=0.0;
     player->cue_y=0.0;
@@ -2726,15 +2772,19 @@ void queue_shot(void) {
 void do_computer_move( int doit )
 {
     VMvect dir;
-
     //fprintf(stderr,"do_computermove: begin ai_get_strike_dir\n");
-
+    if(options_pause) { // game is pause
+       displaystring("PAUSE");
+       g_shot_due=1;
+       return;
+    }
     ai_set_err(player[act_player].err);
     dir = ai_get_stroke_dir(&balls,&walls,&player[act_player]);
 
     //fprintf(stderr,"do_computermove: end ai_get_strike_dir\n");
 
     Zque = atan2(dir.x,dir.y)/M_PI*180.0;  // don't change the atan2 here to fastmath
+    check_cue();
     if(doit){
         shoot( !queue_view );
     }
@@ -3354,6 +3404,7 @@ void MouseMotion(int x, int y)
                 yv=vec_xyz(-dy*MATH_SIN(Zrot/180.0*M_PI),-dy*MATH_COS(Zrot/180.0*M_PI),0.0);
                 whitepos=balls.ball[cue_ball].r;
                 ball_displace_clip( &(balls.ball[cue_ball].r), vec_add(xv,yv));
+                check_cue(); // check here for correct cue position to ball table border
                 for(i=0;i<balls.nr;i++){
                   if(i!=cue_ball){
                      move_ok = move_ok &&
@@ -3410,13 +3461,16 @@ void MouseMotion(int x, int y)
             setenglish((x-scaling_start2)*0.0005, (y-scaling_start)*0.0005);
             scaling_start = y;
             scaling_start2 = x;
+            check_cue(); // check here for correct cue position to ball table border
         } else if (control__cue_butt_updown){
             if(queue_view) toggle_queue_view();
             Xoffs =  (VMfloat)(y-start_y)*0.02*acc;
             Xoffs +=  (VMfloat)(y-start_y)*fabs(y-start_y)*0.01*acc;
-            if( Xque-Xoffs < -90.0  ) Xoffs=-90.0-Xque;
-            if( Xque-Xoffs >   0.0  ) Xoffs=  0.0-Xque;
             Xque-=Xoffs;
+            check_cue(); // check here for correct cue position to ball table border
+            if ( Xque > 0.0  ) {
+               Xque = 0.0;
+            }
         } else if (control__fov){ //special key handling FOV
             setfov((y-scaling_start)*0.05);
         }
@@ -4170,6 +4224,7 @@ void DisplayFunc( void )
              old_actplayer = act_player; // save the state of the actual player for network game and history function
              //fprintf(stderr,"evaluate_last_move is called\n");
              evaluate_last_move( player, &act_player, &balls, &queue_view, &Xque );
+             Xque = -87.0;  // reset the cue-pos ### TODO ### if this works, remove all changing Xque from evaluate.c and the player struct itself and network set!
              if(old_actplayer != act_player) {
              	  roundcounter++;
 #ifdef NETWORKING
@@ -4675,9 +4730,15 @@ void DisplayFunc( void )
       glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
      }
 #endif
+     glEnableClientState(GL_VERTEX_ARRAY);
+     glEnableClientState(GL_NORMAL_ARRAY);
+     glEnableClientState(GL_COLOR_ARRAY);
      for(m=0;m<balls.nr;m++) {
         draw_ballpath(&balls.ball[m]);
      }
+     glDisableClientState(GL_VERTEX_ARRAY);
+     glDisableClientState(GL_NORMAL_ARRAY);
+     glDisableClientState(GL_COLOR_ARRAY);
 #ifdef WETAB_ALIASING
     if(options_antialiasing) {
       glDisable(GL_LINE_SMOOTH);
@@ -5249,7 +5310,7 @@ void DisplayFunc( void )
        if (vline_on && queue_view && !balls_moving ) {
     	    if(vline_id == -1) {
            vline_id = glGenLists(1);
-    	      glNewList(vline_id, GL_COMPILE_AND_EXECUTE);
+    	   glNewList(vline_id, GL_COMPILE_AND_EXECUTE);
            glPushMatrix();
            glLineStipple( 1, 0xF0F0 );
            glEnable(GL_LINE_STIPPLE);
@@ -5715,7 +5776,7 @@ void restart_game_common(void)
     Xrot = -70.0;
     Yrot = 0.0;
     Zrot = 0.0;
-    Xque = -83.0;
+    Xque = -87.0;
     Zque = 0.0;
     Xrot_offs=0.0;
     Yrot_offs=0.0;
@@ -6004,12 +6065,15 @@ void Key( int key, int modifiers ) {
              step += CUESTEP;
              if(step > CUESTEPMAX) step = CUESTEPMAX;
              if(Xque < -90.0) Xque = -90.0;
+             check_cue(); // check here for correct cue position to ball table border
            //place cue ball
            } else if (control__place_cue_ball && player[act_player].place_cue_ball && !balls_moving && !player[act_player].is_AI && !player[act_player].is_net) {
                setcueball(&balls.ball[cue_ball].r, 0.0, -0.01, cue_ball);
+               check_cue(); // check here for correct cue position to ball table border
            //set shoot angle
            } else if (control__english && !player[act_player].is_AI && !player[act_player].is_net) {
                setenglish(0.0, 0.001);
+               check_cue(); // check here for correct cue position to ball table border
            //set front of view
            } else if(control__fov) {
                setfov(-0.5);
@@ -6025,9 +6089,11 @@ void Key( int key, int modifiers ) {
            //place cue ball
            } else if (control__place_cue_ball && player[act_player].place_cue_ball && !balls_moving && !player[act_player].is_AI && !player[act_player].is_net) {
                setcueball(&balls.ball[cue_ball].r, 0.0, +0.01, cue_ball);
+               check_cue(); // check here for correct cue position to ball table border
            //english set
            } else if (control__english && !player[act_player].is_AI && !player[act_player].is_net) {
                setenglish(0.0, -0.001);
+               check_cue(); // check here for correct cue position to ball table border
            //set front of view
            } else if(control__fov) {
                setfov(0.5);
@@ -6037,18 +6103,22 @@ void Key( int key, int modifiers ) {
            //place cue ball
            if (control__place_cue_ball && player[act_player].place_cue_ball && !balls_moving && !player[act_player].is_AI && !player[act_player].is_net) {
              setcueball(&balls.ball[cue_ball].r, -0.01, 0.0, cue_ball);
+             check_cue(); // check here for correct cue position to ball table border
            //english set
            } else  if (control__english && !player[act_player].is_AI && !player[act_player].is_net) {
              setenglish(-0.001,0.0);
+             check_cue(); // check here for correct cue position to ball table border
            }
            break;
         case KSYM_RIGHT:
            //place cue ball
            if (control__place_cue_ball && player[act_player].place_cue_ball && !balls_moving && !player[act_player].is_AI && !player[act_player].is_net) {
              setcueball(&balls.ball[cue_ball].r, +0.01, 0.0, cue_ball);
+             check_cue(); // check here for correct cue position to ball table border
            //english set
            } else  if (control__english && !player[act_player].is_AI && !player[act_player].is_net) {
              setenglish(0.001,0.0);
+             check_cue(); // check here for correct cue position to ball table border
            }
            break;
       }
@@ -6269,6 +6339,9 @@ void Key( int key, int modifiers ) {
       case '2':
           //zooming out
           zoom_in_out(+20);
+         break;
+      case 'p': /* toggle pause the game */
+          options_pause ^= 1;
          break;
 #ifdef USE_SOUND
       case '3':

@@ -65,7 +65,7 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
 #endif
    /* number of segments along the cue, originally foobillard = 5 */
 #define SEGNO 1
-   int sidenr=SEGS;  // number of sides for quads around the cue
+   int sidenr=SEGS;  // number of sides for triangles around the cue
    GLfloat dl1=0.004;
    GLfloat dl2=0.001;
    VMfloat ph;
@@ -113,24 +113,14 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
            n2.z = -dr2;
            n2=vec_unit(n2);
            NormalData[l++] = n2.x; NormalData[l++] = n2.y; NormalData[l++] = n2.z;
-           //glNormal3f( n2.x,  n2.y,  n2.z  );
            TexData[m++] = 1.0-v2.z/QUEUE_L; TexData[m++] = (v2.x+QUEUE_D1/2.0)/QUEUE_D1;
-           //glTexCoord2f( 1.0-v2.z/QUEUE_L, (v2.x+QUEUE_D1/2.0)/QUEUE_D1 );
            VertexData[n++] = v2.x; VertexData[n++] = v2.y; VertexData[n++] = v2.z;
-           //glVertex3f( v2.x, v2.y, v2.z );
            NormalData[l++] = n1.x; NormalData[l++] = n1.y; NormalData[l++] = n1.z;
-           //glNormal3f( n1.x,  n1.y,  n1.z  );
            TexData[m++] = 1.0-v1.z/QUEUE_L; TexData[m++] = (v1.x+QUEUE_D1/2.0)/QUEUE_D1;
-           //glTexCoord2f( 1.0-v1.z/QUEUE_L, (v1.x+QUEUE_D1/2.0)/QUEUE_D1 );
            VertexData[n++] = v1.x; VertexData[n++] = v1.y; VertexData[n++] = v1.z;
-           //glVertex3f( v1.x, v1.y, v1.z );
        }
-       //glEnd();
        glDrawArrays(GL_TRIANGLE_STRIP,0,SEGS*2+2);
    }
-   //glBegin(GL_TRIANGLE_FAN);
-   //glNormal3s(0,0,-1);
-   //glVertex3s( 0, 0, 0  );
    n = 0;
    m = 0;
    l = 0;
@@ -145,17 +135,11 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
        VertexData[n++] = v2.x; VertexData[n++] = v2.y; VertexData[n++] = v2.z;
        TexData[m++] = 1.0-v2.z/QUEUE_L; TexData[m++] = (v2.x+QUEUE_D1/2.0)/QUEUE_D1;
        NormalData[l++] = 0.0; NormalData[l++] = 0.0; NormalData[l++] = -1.0;
-       //glTexCoord2f( 1.0-v2.z/QUEUE_L, (v2.x+QUEUE_D1/2.0)/QUEUE_D1 );
-       //glVertex3f( v2.x, v2.y, v2.z );
    }
    // draw the top of the cue
    glDrawArrays(GL_TRIANGLE_FAN,0,SEGS+2);
-   //glEnd();
-   //glBegin(GL_TRIANGLE_FAN);
    glPopMatrix();
    glPushMatrix();
-   //glNormal3s(0,0,1);
-   //glVertex3f( 0.0, 0.0, QUEUE_L );
    n = 0;
    m = 0;
    l = 0;
@@ -169,13 +153,10 @@ int create_queue(VMfloat (*rfunc)(VMfloat))
        VertexData[n++] = v1.x; VertexData[n++] = v1.y; VertexData[n++] = v1.z;
        TexData[m++] = 1.0-v1.z/QUEUE_L; TexData[m++] = (v1.x+QUEUE_D1/2.0)/QUEUE_D1;
        NormalData[l++] = 0.0; NormalData[l++] = 0.0; NormalData[l++] = 1.0;
-       //glTexCoord2f( 1.0-v1.z/QUEUE_L, (v1.x+QUEUE_D1/2.0)/QUEUE_D1 );
-       //glVertex3f( v1.x, v1.y, v1.z );
    }
-   //glEnd();
       // draw the back of the cue
       glDrawArrays(GL_TRIANGLE_FAN,0,SEGS+2);
-      //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+      glDisableClientState(GL_TEXTURE_COORD_ARRAY);
       glDisableClientState(GL_VERTEX_ARRAY);
       glDisableClientState(GL_NORMAL_ARRAY);
       glPopMatrix();
@@ -226,10 +207,10 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
     VMvect dir,nx,ny,hitpoint,pos;
     VMvect shoulder1, shoulder2, shoulder_dir, hand1, hand2, elbow1, elbow2, xdir, ydir; //Avatar
     VMfloat x1,x; //Avatar
-    if(Xrot < -87.0) Xrot = -87.0;  // ### TODO ### ugly for cue not in table
-    dir = vec_xyz(sin(Zrot*M_PI/180.0)*sin(Xrot*M_PI/180.0),
-                  cos(Zrot*M_PI/180.0)*sin(Xrot*M_PI/180.0),
-                  cos(Xrot*M_PI/180.0));
+    //we don't need to optimize sin/cos calculation here, because the cue is only drawn in uncritical program places
+    dir = vec_xyz(MATH_SIN(Zrot*M_PI/180.0)*MATH_SIN(Xrot*M_PI/180.0),
+                  MATH_COS(Zrot*M_PI/180.0)*MATH_SIN(Xrot*M_PI/180.0),
+                  MATH_COS(Xrot*M_PI/180.0));
     nx = vec_unit(vec_cross(vec_ez(),dir));  /* parallel to table */
     ny = vec_unit(vec_cross(nx,dir));        /* orthogonal to dir and nx */
     //fprintf(stderr,"%f %f %f\n",dir.x,dir.y,dir.z);
