@@ -37,7 +37,7 @@
 // functions inside
 
 void spot_snooker_ball(BallsType *balls,int nr);
-void (* evaluate_last_move)( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque ) = evaluate_last_move_8ball;
+void (* evaluate_last_move)( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view ) = evaluate_last_move_8ball;
 
 // Macros
 
@@ -85,7 +85,7 @@ static char workstring2[256] = "\0";   // workstring for the 2. optinal statusli
 
 /***********************************************************************/
 
-void evaluate_last_move_8ball( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque )
+void evaluate_last_move_8ball( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view)
 {
 #define act_player (*pact_player)
 #define balls      (*pballs)
@@ -253,7 +253,6 @@ void evaluate_last_move_8ball( struct Player * player, int * pact_player, BallsT
         player[act_player].queue_view=*pqueue_view;
         act_player = (act_player==1) ? 0 : 1 ;
         if( foul ) player[act_player].place_cue_ball=1;
-        *pXque=player[act_player].Xque;
         *pqueue_view=player[act_player].queue_view;
         if(!winner) {
            if(strlen(player[act_player].name) > 0) {
@@ -281,7 +280,7 @@ void evaluate_last_move_8ball( struct Player * player, int * pact_player, BallsT
 
 /***********************************************************************/
 
-void evaluate_last_move_9ball( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque )
+void evaluate_last_move_9ball( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view)
 {
 #define act_player (*pact_player)
     int nextplayer=1;
@@ -373,7 +372,6 @@ void evaluate_last_move_9ball( struct Player * player, int * pact_player, BallsT
         player[act_player].queue_view=*pqueue_view;
         act_player = (act_player==1) ? 0 : 1 ;
         if( foul ) player[act_player].place_cue_ball=1;
-        *pXque=player[act_player].Xque;
         *pqueue_view=player[act_player].queue_view;
         if(!winner) {
            if(strlen(player[act_player].name)>0) {
@@ -399,7 +397,7 @@ void evaluate_last_move_9ball( struct Player * player, int * pact_player, BallsT
 
 /***********************************************************************/
 
-void evaluate_last_move_carambol( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque )
+void evaluate_last_move_carambol( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view)
 {
 #define act_player (*pact_player)
 #define CUE_BALL_IND (player[act_player].cue_ball)
@@ -488,7 +486,6 @@ void evaluate_last_move_carambol( struct Player * player, int * pact_player, Bal
     if(nextplayer){
         player[act_player].queue_view=*pqueue_view;
         act_player = (act_player==1) ? 0 : 1 ;
-        *pXque=player[act_player].Xque;
         *pqueue_view=player[act_player].queue_view;
         if(strlen(player[act_player].name)>0) {
            // Player %s court
@@ -517,7 +514,7 @@ void evaluate_last_move_carambol( struct Player * player, int * pact_player, Bal
 
 /***********************************************************************/
 
-void evaluate_last_move_snooker( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque )
+void evaluate_last_move_snooker( struct Player * player, int * pact_player, BallsType * pballs, int * pqueue_view)
 {
 #define act_player (*pact_player)
 #define IS_RED(x) ( x==1 || x>=8 )
@@ -704,7 +701,6 @@ void evaluate_last_move_snooker( struct Player * player, int * pact_player, Ball
           }
         player[act_player].queue_view=*pqueue_view;
         act_player = other_player;
-        *pXque=player[act_player].Xque;
         *pqueue_view=player[act_player].queue_view;
         if(strlen(player[act_player].name)>0) {
            //player %s court
@@ -751,7 +747,7 @@ void evaluate_last_move_snooker( struct Player * player, int * pact_player, Ball
 
 /***********************************************************************/
 
-void setfunc_evaluate_last_move(void (* eval_func)( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque ) )
+void setfunc_evaluate_last_move(void (* eval_func)( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view))
 {
     evaluate_last_move=eval_func;
 }

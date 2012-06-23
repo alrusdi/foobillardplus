@@ -124,7 +124,7 @@ static int frametime_ms = 40;
 
 static MATH_ALIGN16 GLuint table_obj = 0;
 static MATH_ALIGN16 GLfloat Xrot = -70.0, Yrot = 0.0, Zrot = 0.0, Zrot_check = 0.0;
-static MATH_ALIGN16 GLfloat Xque = -83.0, Zque = 0.0;
+static MATH_ALIGN16 GLfloat Xque = -87.0, Zque = 0.0;
 static MATH_ALIGN16 GLfloat Xrot_offs=0.0, Yrot_offs=0.0, Zrot_offs=0.0;
 
 int b1_hold = 0;
@@ -2290,7 +2290,8 @@ VMfloat angle_pm360(VMfloat ang)
 void check_cue(void) {
 
    int cue_ball = CUE_BALL_IND; // index cue-ball
-   VMvect dir,cue_start,/* cue_end,*/ nx,ny,pos,hitpoint;
+   int i; //loop
+   VMvect dir,cue_start,cue_start_bande,cue_start_ball,nx,ny,pos,hitpoint;
    VMfloat x,y;
 
    if(queue_view) { //change nothing, if not in cue view
@@ -2303,28 +2304,47 @@ void check_cue(void) {
    ny = vec_unit(vec_cross(nx,dir));        /* orthogonal to dir and nx */
    hitpoint = vec_add(vec_scale(nx,queue_point_x),vec_scale(ny,queue_point_y));
    pos = vec_add(balls.ball[cue_ball].r,hitpoint);
-   cue_start = vec_add(pos,vec_scale(dir,0.4)); // start for cue check front
-   pos = vec_add(balls.ball[cue_ball].r,vec_scale(dir,queue_offs));
+   //pos = vec_add(balls.ball[cue_ball].r,vec_scale(dir,queue_offs));
+   cue_start_bande = vec_add(pos,vec_scale(dir,0.4)); // start for cue check for bande
+   //cue_start_ball = vec_add(pos,vec_scale(dir,QUEUE_L/2)); // start for cue check for ball (half length)
+   //cue_start = vec_add(pos,vec_scale(dir,0.1)); // start for cue check for cue in ball
+   //cue_start = vec_add(pos,dir); // start for cue check for cue in ball
    //cue_end = vec_add(pos,vec_scale(dir,QUEUE_L)); // end of cue
-   if(Xque < -87.0) Xque = -87.0;  //cue not under this values allowed/possible
-   if(fabs(cue_start.x) > TABLE_W/2.0) {
-       x = -74.0-((TABLE_W/2.0-(fabs(balls.ball[cue_ball].r.x)+BALL_D/2.0))*40.0);
+   if(Xque-queue_point_y*20.0 < -87.0) Xque = -87.0+queue_point_y*20.0;  //cue not under this values allowed/possible
+   if(fabs(cue_start_bande.x)+fabs(queue_point_y*20.0) > TABLE_W/2.0) {
+       x = -74.0-((TABLE_W/2.0-(fabs(balls.ball[cue_ball].r.x)+BALL_D/2.0))*55.0);
        if(x > -77.5 && queue_point_y > 0.0) {
           queue_point_y = 0.0;
+       }
+       if(fabs(queue_point_y) > 0.0) {
+           x += queue_point_y*500.0;
        }
        if(Xque < x) {
          Xque = x;
        }
-   } else if(fabs(cue_start.y) > TABLE_L/2.0 ) {
-       y = -74.0-((TABLE_L/2.0-(fabs(balls.ball[cue_ball].r.y)+BALL_D/2.0))*40.0);
+   } else if(fabs(cue_start_bande.y)+fabs(queue_point_y*20.0) > TABLE_L/2.0 ) {
+       y = -74.0-((TABLE_L/2.0-(fabs(balls.ball[cue_ball].r.y)+BALL_D/2.0))*55.0);
        if(y > -77.5 && queue_point_y > 0.0) {
           queue_point_y = 0.0;
+       }
+       if(fabs(queue_point_y) > 0.0) {
+           y += queue_point_y*500.0;
        }
        if(Xque < y) {
          Xque = y;
        }
    }
-
+   //check collision for cue in ball
+   //fprintf(stderr,"cue s %f %f\n",cue_start_ball.x,cue_start_ball.y);
+   //fprintf(stderr,"cue m %f %f\n",cue_start_ball.x,cue_start_ball.y);
+   for(i=0;i<balls.nr;i++) {
+      if(i!=cue_ball) {
+         //if(vec_abs(vec_diff(balls.ball[cue_ball].r,balls.ball[i].r))>(balls.ball[cue_ball].d+balls.ball[i].d)/2.0 || (!balls.ball[i].in_game)) {
+         if(fabs(cue_start_bande.x) > fabs(balls.ball[i].r.x)) {
+             //fprintf(stderr,"Ball %f %f\n",balls.ball[i].r.x,balls.ball[i].r.y);
+        }
+     }
+   }
 }
 
 /***********************************************************************
@@ -2397,8 +2417,7 @@ void player_copy(struct Player * player, struct Player src)
     player->is_net         = src.is_net;
     player->half_full      = src.half_full;
     strcpy(player->name,src.name);
-    player->Xque           = src.Xque;
-    player->Zque           = src.Zque;
+  //player->Zque           = src.Zque;
     player->cue_x          = src.cue_x;
     player->cue_y          = src.cue_y;
     player->strength       = src.strength;
@@ -2424,8 +2443,7 @@ void init_player(struct Player * player, int ai)
     player->half_full=BALL_ANY;
     //ai?"AI-Player":"Human"
     strcpy(player->name,ai?localeText[55]:localeText[56]);
-    player->Xque=-87.0;
-    player->Zque=0.0;
+    //player->Zque=0.0;
     player->cue_x=0.0;
     player->cue_y=0.0;
     player->strength=0.7;
@@ -4039,7 +4057,6 @@ void DisplayFunc( void )
   static int dt;
   static int t_prev=-1;
   static int frametime_rest=0;
-  //static int dt_rest=0;    // ### TODO ### for what is this variable?
   static int count=0;
   static VMfloat dt_s_rest=0.0;
   static int flame_frame = 0;       // the fire flame-frame to show
@@ -4102,7 +4119,6 @@ void DisplayFunc( void )
     if( frametime_ms<1 ) frametime_ms=1;
     if( frametime_ms>frametime_ms_max ) frametime_ms=frametime_ms_max;
     dt=0;
-    //dt_rest+=frametime_ms; // ### TODO ### for what is this variable ?
   }
 
  //    fprintf(stderr,"dt=%d\n",dt);
@@ -4223,8 +4239,8 @@ void DisplayFunc( void )
          if(options_gamemode!=options_gamemode_training){
              old_actplayer = act_player; // save the state of the actual player for network game and history function
              //fprintf(stderr,"evaluate_last_move is called\n");
-             evaluate_last_move( player, &act_player, &balls, &queue_view, &Xque );
-             Xque = -87.0;  // reset the cue-pos ### TODO ### if this works, remove all changing Xque from evaluate.c and the player struct itself and network set!
+             evaluate_last_move( player, &act_player, &balls, &queue_view);
+             Xque = -87.0;  // reset the cue-pos
              if(old_actplayer != act_player) {
              	  roundcounter++;
 #ifdef NETWORKING

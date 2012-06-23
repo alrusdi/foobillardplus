@@ -31,12 +31,12 @@
 #include "menu.h"
 #include "vmath.h"
 
-extern void (* evaluate_last_move)( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque );
-void evaluate_last_move_8ball    ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque );
-void evaluate_last_move_9ball    ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque );
-void evaluate_last_move_carambol ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque );
-void evaluate_last_move_snooker  ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque );
-void setfunc_evaluate_last_move(void (* eval_func)( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view, GLfloat * pXque ) );
+extern void (* evaluate_last_move)( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view);
+void evaluate_last_move_8ball    ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view);
+void evaluate_last_move_9ball    ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view);
+void evaluate_last_move_carambol ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view);
+void evaluate_last_move_snooker  ( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view);
+void setfunc_evaluate_last_move(void (* eval_func)( struct Player * player, int * actual_player, BallsType * pballs, int * pqueue_view));
 void drawstatustext(int win_width, int win_height);  // draw the statusline
 void drawstatuswocheck(int win_width, int win_height); // draw the statusline without any checks
 void initstatustext();  // initialize the statusline

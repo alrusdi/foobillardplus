@@ -34,8 +34,7 @@ struct Player{
     int queue_view;
     int place_cue_ball;
     int winner;
-    VMfloat Zque;
-    VMfloat Xque;
+    //VMfloat Zque;
     VMfloat cue_x;
     VMfloat cue_y;
     VMfloat strength;
