@@ -2283,6 +2283,26 @@ VMfloat angle_pm360(VMfloat ang)
 }
 
 /***********************************************************************
+ *      Angle inside 90 to 0 to 90 degrees / 7.0 (left/right)          *
+ ***********************************************************************/
+VMfloat angle_pm90lr(VMfloat ang)
+{
+    while ( ang >  180.0 ) ang-=180.0;
+    if(ang > 90.0) ang = fabs(ang-180.0);
+    return fabs(ang-90.0)/7.0;
+}
+
+/***********************************************************************
+ *       Angle inside 0 to 90 to 0 degrees / 7.0 (up/down)             *
+ ***********************************************************************/
+VMfloat angle_pm90ud(VMfloat ang)
+{
+    while ( ang >  180.0 ) ang-=180.0;
+    if(ang > 90.0) ang = fabs(ang-180.0);
+    return ang/7.0;
+}
+
+/***********************************************************************
  *               check cue position (german: queue)                    *
  *                       not in ball or table                          *
 ************************************************************************/
@@ -2294,9 +2314,9 @@ void check_cue(void) {
    VMvect dir,cue_start,cue_start_bande,cue_start_ball,nx,ny,pos,hitpoint;
    VMfloat x,y;
 
-   if(queue_view) { //change nothing, if not in cue view
-       return;
-   }
+   //if(queue_view) { //change nothing, if not in cue view (don't activate this. Only for debugging)
+   //    return;
+   //}
    dir = vec_xyz(MATH_SIN(Zque*M_PI/180.0)*MATH_SIN(Xque*M_PI/180.0),
                  MATH_COS(Zque*M_PI/180.0)*MATH_SIN(Xque*M_PI/180.0),
                  MATH_COS(Xque*M_PI/180.0));
@@ -2310,24 +2330,30 @@ void check_cue(void) {
    //cue_start = vec_add(pos,vec_scale(dir,0.1)); // start for cue check for cue in ball
    //cue_start = vec_add(pos,dir); // start for cue check for cue in ball
    //cue_end = vec_add(pos,vec_scale(dir,QUEUE_L)); // end of cue
-   if(Xque-queue_point_y*20.0 < -87.0) Xque = -87.0+queue_point_y*20.0;  //cue not under this values allowed/possible
-   if(fabs(cue_start_bande.x)+fabs(queue_point_y*20.0) > TABLE_W/2.0) {
+   if(Xque-queue_point_y*15.0 < -87.0) Xque = -87.0+queue_point_y*15.0;  //cue not under this values allowed/possible
+   if(fabs(cue_start_bande.x)+fabs(queue_point_y*15.0) > TABLE_W/2.0) {
        x = -74.0-((TABLE_W/2.0-(fabs(balls.ball[cue_ball].r.x)+BALL_D/2.0))*55.0);
-       if(x > -77.5 && queue_point_y > 0.0) {
+       if(x > -78.5 && queue_point_y > 0.0) {
           queue_point_y = 0.0;
        }
-       if(fabs(queue_point_y) > 0.0) {
+       x -= angle_pm90lr(Zque);
+       if(queue_point_y > 0.0) {
+           x += queue_point_y*((TABLE_W/2.0-fabs(balls.ball[cue_ball].r.x))*1450.0);
+       } else {
            x += queue_point_y*500.0;
        }
        if(Xque < x) {
          Xque = x;
        }
-   } else if(fabs(cue_start_bande.y)+fabs(queue_point_y*20.0) > TABLE_L/2.0 ) {
+   } else if(fabs(cue_start_bande.y)+fabs(queue_point_y*15.0) > TABLE_L/2.0 ) {
        y = -74.0-((TABLE_L/2.0-(fabs(balls.ball[cue_ball].r.y)+BALL_D/2.0))*55.0);
-       if(y > -77.5 && queue_point_y > 0.0) {
+       if(y > -78.5 && queue_point_y > 0.0) {
           queue_point_y = 0.0;
        }
-       if(fabs(queue_point_y) > 0.0) {
+       y -= angle_pm90ud(Zque);
+       if(queue_point_y > 0.0) {
+           y += queue_point_y*((TABLE_L/2.0-fabs(balls.ball[cue_ball].r.y))*1450.0);
+       } else {
            y += queue_point_y*500.0;
        }
        if(Xque < y) {
@@ -3426,8 +3452,8 @@ void MouseMotion(int x, int y)
                 for(i=0;i<balls.nr;i++){
                   if(i!=cue_ball){
                      move_ok = move_ok &&
-                               ( vec_abs(vec_diff(balls.ball[cue_ball].r,balls.ball[i].r))>(balls.ball[cue_ball].d+balls.ball[i].d)/2.0 ||
-                               (!balls.ball[i].in_game) );
+                               (vec_abs(vec_diff(balls.ball[cue_ball].r,balls.ball[i].r))>(balls.ball[cue_ball].d+balls.ball[i].d)/2.0 ||
+                               (!balls.ball[i].in_game));
                      }
                   }
                 if(!move_ok) balls.ball[cue_ball].r=whitepos;
@@ -3553,7 +3579,7 @@ void MouseMotion(int x, int y)
             for(i=0;i<balls.nr;i++){
               if(i!=cue_ball){
                  move_ok = move_ok &&
-                           ( vec_abs(vec_diff(balls.ball[cue_ball].r,balls.ball[i].r))>(balls.ball[cue_ball].d+balls.ball[i].d)/2.0 ||
+                           (vec_abs(vec_diff(balls.ball[cue_ball].r,balls.ball[i].r))>(balls.ball[cue_ball].d+balls.ball[i].d)/2.0 ||
                            (!balls.ball[i].in_game) );
                  }
               }
@@ -3671,7 +3697,7 @@ void draw_3D_winner_tourn_text(void)
 #ifdef USE_SOUND
     if(!playonce) {
       if(!(player[player[0].winner?0:1].is_AI || player[player[0].winner?0:1].is_net)) {
-      	 PLAY_NOISE(wave_applause,options_snd_volume);
+      	PLAY_NOISE(wave_applause,options_snd_volume);
       } else {
        	PLAY_NOISE(wave_ooh,options_snd_volume);
       }
@@ -3726,7 +3752,7 @@ void draw_3D_winner_text(void)
 #ifdef USE_SOUND
     if(!playonce && options_gamemode!=options_gamemode_tournament) {
       if(!(player[player[0].winner?0:1].is_AI || player[player[0].winner?0:1].is_net)) {
-      	 PLAY_NOISE(wave_applause,options_snd_volume);
+      	PLAY_NOISE(wave_applause,options_snd_volume);
       } else {
        	PLAY_NOISE(wave_ooh,options_snd_volume);
       }
@@ -4537,9 +4563,9 @@ void DisplayFunc( void )
        glPushMatrix();
        glScalef(0.5,1.0,0.7);
        glCallList(bartable_id); //table window
-    	  if(options_tronmode) {
+       if(options_tronmode) {
         glDisable(GL_TEXTURE_2D);
-    	  }
+       }
        glPopMatrix();
      }
      glTranslatef(2.0,0.0,0.0);
@@ -4579,9 +4605,9 @@ void DisplayFunc( void )
      glScalef(1.1,1.1,1.7);
      if(Zrot_check<190.0) {
    	   glCallList(bartable_id); //bar table
-    	  if(options_tronmode) {
+       if(options_tronmode) {
         glDisable(GL_TEXTURE_2D);
-    	  }
+   	   }
      }
      glTranslatef(-5.5,0.6,-0.2);
      glScalef(1.0,1.3,1.0);
@@ -4623,10 +4649,10 @@ void DisplayFunc( void )
        if(Zrot_check<110.0 || Zrot_check>250.0) {
          display_cartoonguy(); //cartoon guy
        }
-    	  if(options_tronmode) {
+       if(options_tronmode) {
          glDisable(GL_COLOR_MATERIAL);
-    	  }
-    	  if(Zrot_check>50 && Zrot_check<320) {
+       }
+       if(Zrot_check>50 && Zrot_check<320) {
          display_flower(); // flower
        }
        if(Zrot_check<190.0) {

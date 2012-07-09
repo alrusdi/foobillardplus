@@ -97,7 +97,7 @@ static FT_Library    library;   /* handle to library     */
 #define VERTEXCOUNTING 9000
 
 static GLfloat VertexData[VERTEXCOUNTING];  // Place for ?? vertices (how much really needed?)
-static GLshort NormalData[VERTEXCOUNTING];  // Place for ?? vertices (how much really needed?)
+static GLfloat NormalData[VERTEXCOUNTING];  // Place for ?? vertices (how much really needed?)
 static GLsizei VertexCounter;     // how much vertices to draw
 static GLuint  VertexIndex;       // Index to next value of VertexData
 static GLenum  glType;            // hold the type of vertices
@@ -390,11 +390,11 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
     OGL_ES_DOUBLE * d;
     d=(OGL_ES_DOUBLE *)data;
     // works with normal OpenGL with type overcast from double to float here
-    NormalData[VertexCounter] = 0;
+    NormalData[VertexIndex] = 0.0;
     VertexData[VertexIndex++] = d[0];
-    NormalData[VertexCounter] = 0;
+    NormalData[VertexIndex] = 0.0;
     VertexData[VertexIndex++] = d[1];
-    NormalData[VertexCounter] = -1;
+    NormalData[VertexIndex] = -1.0;
     VertexData[VertexIndex++] = d[2];
     VertexCounter++;
 }
@@ -446,7 +446,7 @@ void getStringPixmapFT(char *str, char *fontname, int font_height, char ** data,
      glEnableClientState(GL_NORMAL_ARRAY);
      glEnableClientState(GL_VERTEX_ARRAY);
      glVertexPointer(3,GL_FLOAT,0,VertexData);
-     glNormalPointer(GL_SHORT,0,NormalData);
+     glNormalPointer(GL_FLOAT,0,NormalData);
      glPushMatrix();
      glDrawArrays(glType,0,VertexCounter);
      glPopMatrix();

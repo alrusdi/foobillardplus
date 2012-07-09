@@ -916,7 +916,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
  	    glNewList(light_id, GL_COMPILE);
         static const GLfloat VertexData1[] = {-SH_SZ,+SH_SZ,0.0,+SH_SZ,+SH_SZ,0.0,-SH_SZ,-SH_SZ,0.0,+SH_SZ,-SH_SZ,0.0};
         static const GLfloat TexData1[] = {0.0,1.0,1.0,1.0,0.0,0.0,1.0,0.0};
- 	    static const GLshort NormalData1[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+ 	    static const GLfloat NormalData1[] = {0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0};
  	   /* against shadow flicker bug */
  	    static const GLshort ColorData1[] = {0,0,0,0,0,0,0,0,0,0,0,0};
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -925,7 +925,7 @@ void draw_balls( BallsType balls, myvec cam_pos, GLfloat cam_FOV, int win_width,
         glEnableClientState(GL_COLOR_ARRAY);
         glTexCoordPointer(2,GL_FLOAT, 0, TexData1);
         glVertexPointer(3, GL_FLOAT, 0, VertexData1);
-        glNormalPointer(GL_SHORT, 0, NormalData1);
+        glNormalPointer(GL_FLOAT, 0, NormalData1);
         glColorPointer(3, GL_SHORT, 0, ColorData1);
         glDrawArrays(GL_TRIANGLE_STRIP,0,4);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -1174,7 +1174,7 @@ void draw_ballpath( BallType * pball)
 {
 	int i,k,j;
 	GLfloat VertexData[4500];
-	GLshort NormalData[4500];
+	GLfloat NormalData[4500];
 	GLfloat ColorData[4500];
 	GLfloat r,g,b;
 
@@ -1187,18 +1187,18 @@ void draw_ballpath( BallType * pball)
     j = pball->pathcnt;
     if (j>1500) j = 1500;
       for(i=0,k=0;i<j;i++){
-        NormalData[k] = 0;
+        NormalData[k] = 0.0;
         ColorData[k] = r;
         VertexData[k++] = pball->path[i].x;
-        NormalData[k] = 0;
+        NormalData[k] = 0.0;
         ColorData[k] = g;
         VertexData[k++] = pball->path[i].y;
-        NormalData[k] = 1;
+        NormalData[k] = 1.0;
         ColorData[k] = b;
         VertexData[k++] = pball->path[i].z;
         }
     glVertexPointer(3,GL_FLOAT,0,VertexData);
-    glNormalPointer(GL_SHORT,0,NormalData);
+    glNormalPointer(GL_FLOAT,0,NormalData);
     glColorPointer(3,GL_FLOAT,0,ColorData);
     glPushMatrix();
     glDrawArrays(GL_LINE_STRIP, 0, j);

@@ -1239,7 +1239,6 @@ int create_table( int reflect_bind, BordersType *borders, int carambol ) {
    fprintf(stderr,"Initialize new table GL object\n");
    table_obj = glGenLists(1);
    glNewList(table_obj, GL_COMPILE);
-   glShadeModel(GL_SMOOTH);
    glMaterialfv(GL_FRONT, GL_DIFFUSE,   tab_col_diff);
    glMaterialfv(GL_FRONT, GL_AMBIENT,   tab_col_amb);
    glMaterialfv(GL_FRONT, GL_SPECULAR,  tab_col_spec);

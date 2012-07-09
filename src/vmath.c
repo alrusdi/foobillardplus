@@ -353,7 +353,7 @@ struct Vect vec_unit( struct Vect v )
 #else
      static struct Vect vr1;
    	   vr1.v = _mm_set1_ps(l);
-	      vr.v = _mm_div_ps(v.v,vr1.v);
+       vr.v = _mm_div_ps(v.v,vr1.v);
     } else {
        vr.v = _mm_setzero_ps ();
     }
@@ -419,8 +419,8 @@ void rot_ax( struct Vect ax, struct Vect *v, int nr, VMfloat phi )
       bx = vec_unit( vec_diff( nax, vec_scale(bz,vec_mul(nax,bz)) ) );
       by = vec_cross(bz,bx);
 
-      sinphi=sin(phi);
-      cosphi=cos(phi);
+      sinphi=MATH_SIN(phi);
+      cosphi=MATH_COS(phi);
 
       for( i=0; i<nr; i++ ){
          // transform into axis-system

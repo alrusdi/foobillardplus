@@ -64,13 +64,13 @@ int create_string_quad( char * str, char * fontname, int h, int * quad_id, int *
     glBindTexture(GL_TEXTURE_2D,texbind);
     GLfloat VertexData[] = {0.0,1.0*fact,0.0,(GLfloat)width/(GLfloat)height*fact,1.0*fact,0.0,0.0,0.0,0.0,(GLfloat)width/(GLfloat)height*fact,0.0,0.0};
     GLfloat TexData[] = {0.0,0.0,(GLfloat)width/(GLfloat)texw,0.0,0.0,(GLfloat)height/(GLfloat)texh,(GLfloat)width/(GLfloat)texw,(GLfloat)height/(GLfloat)texh};
-    GLshort NormalData[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+    GLfloat NormalData[] = {0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0};
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glTexCoordPointer(2,GL_FLOAT, 0, TexData);
     glVertexPointer(3, GL_FLOAT, 0, VertexData);
-    glNormalPointer(GL_SHORT, 0, NormalData);
+    glNormalPointer(GL_FLOAT, 0, NormalData);
     glPushMatrix();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glPopMatrix();
@@ -212,13 +212,14 @@ void textObj_draw_centered( textObj * obj )
     if(! obj->is_3D){
         glPushMatrix();
         glTranslatef( -(VMfloat)(obj->quad_w)/2.0, -(VMfloat)(obj->quad_h)/2.0, 0.0 );
-        if( obj->quad_id != 0 )
+        if( obj->quad_id != 0 ) {
             glCallList( obj->quad_id );
+        }
         glPopMatrix();
     } else {
         glPushMatrix();
         glTranslatef( -(VMfloat)(obj->obj3D_w)/2.0, -(VMfloat)(obj->obj3D_h)/2.0, (VMfloat)(obj->depth3D)/2.0 );
-        if( obj->obj3D_id != 0 ){
+        if( obj->obj3D_id != 0 ) {
             glCallList( obj->obj3D_id );
         }
         glPopMatrix();

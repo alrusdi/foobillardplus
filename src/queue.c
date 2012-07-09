@@ -317,7 +317,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glBindTexture(GL_TEXTURE_2D,queueshadowbind);
         GLfloat VertexData1[12];
         static const GLshort TexData1[] = {0,0,1,0,0,1,1,1};
-        static const GLshort NormalData1[] = {0,0,1,0,0,1,0,0,1,0,0,1};
+        static const GLfloat NormalData1[] = {0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,1.0};
         VertexData1[0] = p1.x-vn.x*cue_shad_w2;
         VertexData1[1] = p1.y-vn.y*cue_shad_w2;
         VertexData1[2] = p1.z;
@@ -335,7 +335,7 @@ void draw_queue( VMvect pos0, GLfloat Xrot, GLfloat Zrot, GLfloat zoffs,
         glEnableClientState(GL_NORMAL_ARRAY);
         glTexCoordPointer(2,GL_SHORT, 0, TexData1);
         glVertexPointer(3, GL_FLOAT, 0, VertexData1);
-        glNormalPointer(GL_SHORT, 0, NormalData1);
+        glNormalPointer(GL_FLOAT, 0, NormalData1);
         glDrawArrays(GL_TRIANGLE_STRIP,0,4);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);

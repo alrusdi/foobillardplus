@@ -495,6 +495,7 @@ void sys_create_display(int width,int height,int _fullscreen)
   glPolygonMode(GL_BACK,GL_LINE);   // only lines for back (better seeing on zooming)
   glCullFace(GL_BACK);              // Standards for rendering only front of textures
   glEnable(GL_CULL_FACE);
+  glShadeModel(GL_SMOOTH);
 }
 
 /***********************************************************************
