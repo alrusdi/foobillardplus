@@ -71,7 +71,6 @@ void init_fire(void) {
          glDrawArrays(GL_TRIANGLE_STRIP,0,4);
          glBlendFunc (GL_ONE, GL_SRC_ALPHA);
          glBindTexture(GL_TEXTURE_2D,firemeshtexbind);
-         glTexCoordPointer(2,GL_FLOAT, 0, TexData);
          glVertexPointer(3, GL_FLOAT, 0, VertexData1);
          glDrawArrays(GL_TRIANGLE_STRIP,0,4);
          glDisableClientState(GL_VERTEX_ARRAY);
@@ -95,7 +94,6 @@ void init_fire(void) {
            glDrawArrays(GL_TRIANGLE_STRIP,0,4);
            glBlendFunc (GL_ONE, GL_SRC_ALPHA);
            glBindTexture(GL_TEXTURE_2D,firemeshtexbind);
-           glTexCoordPointer(2,GL_FLOAT, 0, TexData);
            glVertexPointer(3, GL_FLOAT, 0, VertexData2);
            glDrawArrays(GL_TRIANGLE_STRIP,0,4);
            glDisableClientState(GL_VERTEX_ARRAY);

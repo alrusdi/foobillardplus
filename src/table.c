@@ -102,17 +102,16 @@ void autonormalize_quad( VMvect v1, VMvect v2, VMvect v3, VMvect v4, int order, 
     NormalData[6] = n.x; NormalData[7] = n.y; NormalData[8] = n.z;
     NormalData[9] = n.x; NormalData[10] = n.y; NormalData[11] = n.z;
     if( !order ) {
-                VertexData[0] = v4.x; VertexData[1] = v4.y; VertexData[2] = v4.z;
-                VertexData[3] = v3.x; VertexData[4] = v3.y; VertexData[5] = v3.z;
-                VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
-                VertexData[6] = v1.x; VertexData[7] = v1.y; VertexData[8] = v1.z;
-
-            } else {
-                VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
-                VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
-                VertexData[9] = v3.x; VertexData[10] = v3.y; VertexData[11] = v3.z;
-                VertexData[6] = v4.x; VertexData[7] = v4.y; VertexData[8] = v4.z;
-            }
+       VertexData[0] = v4.x; VertexData[1] = v4.y; VertexData[2] = v4.z;
+       VertexData[3] = v3.x; VertexData[4] = v3.y; VertexData[5] = v3.z;
+       VertexData[9] = v2.x; VertexData[10] = v2.y; VertexData[11] = v2.z;
+       VertexData[6] = v1.x; VertexData[7] = v1.y; VertexData[8] = v1.z;
+    } else {
+       VertexData[0] = v1.x; VertexData[1] = v1.y; VertexData[2] = v1.z;
+       VertexData[3] = v2.x; VertexData[4] = v2.y; VertexData[5] = v2.z;
+       VertexData[9] = v3.x; VertexData[10] = v3.y; VertexData[11] = v3.z;
+       VertexData[6] = v4.x; VertexData[7] = v4.y; VertexData[8] = v4.z;
+    }
 }
 
 /***********************************************************************/
@@ -927,31 +926,33 @@ void my_Bande( VMfloat x1, VMfloat y1, VMfloat z1,    /* inside up */
     r2=sqrt((y2-y1)*BANDE_D2RATIO*(y2-y1)*BANDE_D2RATIO+(z1-z2)*(z1-z2));
     sin2=fabs((y2-y1)*BANDE_D2RATIO/r2);
     cos2=fabs((z1-z2)/r2);
-       autonormalize_quad(p[10],p[11],p[9],p[8],order,&VertexData[0],&NormalData[0]);
-       autonormalize_quad(p[5],p[6],p[2],p[1],order,&VertexData[12],&NormalData[12]);
-       if(!order){
-           NormalData[24] = 0.0; NormalData[25] = -sin1; NormalData[26] = cos1;
-           VertexData[24] = p[10].x; VertexData[25] = p[10].y; VertexData[26] = p[10].z;
-           NormalData[27] = 0.0; NormalData[28] = -sin1; NormalData[29] = cos1;
-           VertexData[27] = p[11].x; VertexData[28] = p[11].y; VertexData[29] = p[11].z;
-           NormalData[30] = 0.0; NormalData[31] = -cos2; NormalData[32] = -sin2;
-           VertexData[33] = p[2].x; VertexData[34] = p[2].y; VertexData[35] = p[2].z;
-           NormalData[33] = 0.0; NormalData[34] = -cos2; NormalData[35] = -sin2;
-           VertexData[30] = p[1].x; VertexData[31] = p[1].y; VertexData[32] = p[1].z;
-       }else{
-           NormalData[24] = 0.0; NormalData[25] = -cos2; NormalData[26] = -sin2;
-           VertexData[24] = p[1].x; VertexData[25] = p[1].y; VertexData[26] = p[1].z;
-           NormalData[27] = 0.0; NormalData[28] = -cos2; NormalData[29] = -sin2;
-           VertexData[27] = p[2].x; VertexData[28] = p[2].y; VertexData[29] = p[2].z;
-           NormalData[30] = 0.0; NormalData[31] = -sin1; NormalData[32] = cos1;
-           VertexData[33] = p[11].x; VertexData[34] = p[11].y; VertexData[35] = p[11].z;
-           NormalData[33] = 0.0; NormalData[34] = -sin1; NormalData[35] = cos1;
-           VertexData[30] = p[10].x; VertexData[31] = p[10].y; VertexData[32] = p[10].z;
-       }
+    autonormalize_quad(p[10],p[11],p[9],p[8],order,&VertexData[0],&NormalData[0]);
+    autonormalize_quad(p[5],p[6],p[2],p[1],order,&VertexData[12],&NormalData[12]);
+    if(!order){
+        NormalData[24] = 0.0; NormalData[25] = -sin1; NormalData[26] = cos1;
+        VertexData[24] = p[10].x; VertexData[25] = p[10].y; VertexData[26] = p[10].z;
+        NormalData[27] = 0.0; NormalData[28] = -sin1; NormalData[29] = cos1;
+        VertexData[27] = p[11].x; VertexData[28] = p[11].y; VertexData[29] = p[11].z;
+        NormalData[30] = 0.0; NormalData[31] = -cos2; NormalData[32] = -sin2;
+        VertexData[33] = p[2].x; VertexData[34] = p[2].y; VertexData[35] = p[2].z;
+        NormalData[33] = 0.0; NormalData[34] = -cos2; NormalData[35] = -sin2;
+        VertexData[30] = p[1].x; VertexData[31] = p[1].y; VertexData[32] = p[1].z;
+    } else {
+        NormalData[24] = 0.0; NormalData[25] = -cos2; NormalData[26] = -sin2;
+        VertexData[24] = p[1].x; VertexData[25] = p[1].y; VertexData[26] = p[1].z;
+        NormalData[27] = 0.0; NormalData[28] = -cos2; NormalData[29] = -sin2;
+        VertexData[27] = p[2].x; VertexData[28] = p[2].y; VertexData[29] = p[2].z;
+        NormalData[30] = 0.0; NormalData[31] = -sin1; NormalData[32] = cos1;
+        VertexData[33] = p[11].x; VertexData[34] = p[11].y; VertexData[35] = p[11].z;
+        NormalData[33] = 0.0; NormalData[34] = -sin1; NormalData[35] = cos1;
+        VertexData[30] = p[10].x; VertexData[31] = p[10].y; VertexData[32] = p[10].z;
+    }
     glVertexPointer(3, GL_FLOAT, 0, VertexData);
     glNormalPointer(GL_FLOAT, 0, NormalData);
     glPushMatrix();
-    glDrawArrays(GL_TRIANGLE_STRIP,0,12);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    glDrawArrays(GL_TRIANGLE_STRIP,4,4);
+    glDrawArrays(GL_TRIANGLE_STRIP,8,4);
 
     autonormalize_triangle(p[1],p[10],p[0],order,&VertexData[0],&NormalData[0]);
     autonormalize_triangle(p[2],p[3],p[11],order,&VertexData[9],&NormalData[9]);
