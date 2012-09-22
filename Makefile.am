@@ -22,6 +22,7 @@ dist-hook:
 	cp -p $(srcdir)/README $(distdir)
 	cp -p $(srcdir)/ChangeLog $(distdir)
 	cp -p $(srcdir)/TODO $(distdir)
+	cp -p $(srcdir)/OFL.txt $(distdir)
 	cp -p $(srcdir)/foobillardplus.desktop $(distdir)
 	cp -p $(srcdir)/foobillardplus.desktop /usr/share/applications
 	cp -p $(srcdir)/foobillardplus.png $(distdir)
@@ -37,6 +38,7 @@ install-data-hook:
 	cp -p $(srcdir)/README $(prefix)
 	cp -p $(srcdir)/ChangeLog $(prefix)
 	cp -p $(srcdir)/TODO $(prefix)
+	cp -p $(srcdir)/OFL.txt $(prefix)
 	cp -p $(srcdir)/foobillardplus.desktop $(prefix)
 	cp -p $(srcdir)/foobillardplus.desktop /usr/share/applications
 	cp -p $(srcdir)/foobillardplus.png $(prefix)
