@@ -167,28 +167,28 @@ What is FooBillard++ ?
    After unpacking the sourceball change to the foobillardplus directory and
    type the follwing commands.
 
-   aclocal --force
-   autoconf -f
-   autoheader -f
-   automake -a -c -f
+    aclocal --force  
+    autoconf -f  
+    autoheader -f  
+    automake -a -c -f  
 
    simply type in main-directory (for standard-installation):
 
-   ./configure
-   make
-   make install
+    ./configure  
+    make  
+    make install  
    
    A special very fast version is build with
    
-   ./configure --enable-special
-   make
-   make install
+    ./configure --enable-special  
+    make  
+    make install  
 
    if you want to enable the special WeTab Version type:
 
-   ./configure --enable-wetab
-   make
-   make install
+    ./configure --enable-wetab  
+    make  
+    make install  
 
    That version would be run only on a WeTab Tablet-PC
 
@@ -197,55 +197,55 @@ What is FooBillard++ ?
    On problems in compiling change to the foobillardplus directory
    and type again
 
-   aclocal --force
-   autoconf -f
-   autoheader -f
-   automake -a -c -f
+    aclocal --force  
+    autoconf -f  
+    autoheader -f  
+    automake -a -c -f  
    
    There are some special options for ./configure:
    -----------------------------------------------
    
-   --enable-wetab
+    --enable-wetab
    
    This builds a version for the german tablet WeTab (and only for that!!)
    Please don't use other optimization flags discussed later in this document,
    because this option is the only one you need!!
    
-   --enable-touch
+    --enable-touch
    
    This build a special version for generic touch-devices. It is set too with the
    --enable-wetab and also needed there.
    
-   --enable-mathsingle=ARG
+    --enable-mathsingle=ARG
    
    compile math single precision (default=yes). if you use "no" it is compiled for
    math double precision. Clients with mixed single or double precision are not
    compatible in network games!!!
 
-   --enable-fastmath
+    --enable-fastmath
    
    compile fast math routine in (default=yes). With set this configure option, special
    optimized math-routines for cosine, sine, tangens are used. it has nothing to do
    with sse intrinsincs. The fast math routines are not nearly as accurate as the
    standard routines, but enough for the game.
 
-   --enable-sse=ARG
+    --enable-sse=ARG
    
    compile with intrinsics SSE commands and use. With enabled SSE, the use of
    enable-mathsingle defaults to yes. Double precision are automatically disabled.
    Use sse only on Intel or AMD based CPU systems!
 
    
-   --enable-network=ARG
+    --enable-network=ARG
    
    compile for IP-network game support (default=yes). With no as argument, all
    network support is not compiled.
    
-   --enable-sound=ARG
+    --enable-sound=ARG
    
    enable sound (default=yes). With no as argument sound support is not compiled.
    
-   --enable-win
+    --enable-win
    
    if set the source is compiling for ms-windows (32 and 64 Bit). You have to use
    as runtime environment MinGW/Msys under MS-Windows.
@@ -267,16 +267,16 @@ What is FooBillard++ ?
    
    With the configure script the following switches are available
    
-   --enable-standard
+    --enable-standard
    
    Here are the gcc optimizations CFLAGS from the systems are used. The default is no.
    
-   --enable-special
+    --enable-special
    
    This switch uses some special level of optimizations and will produce hopefully a
    stable program. Default is no.
    
-   --enable-optimization
+    --enable-optimization
    
    With this switch the highest optimization level is used. Be carefull. There is no
    guarantee from the author, that this produce a stable program. But a very quick
