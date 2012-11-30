@@ -275,30 +275,30 @@ ESC - отмена
 Просмотр со скоростью 10x
 Просмотр со скоростью 15x
 Просмотр со скоростью 30x
-Bumpmapping on the wooden edge on
-Bumpmapping on the wooden edge off
-Bumpmapping at the table corners on 
-Bumpmapping at the table corners off
-Low representation of reflections on the balls
-Middle reflections on the balls
-High reflections on the balls
-Very high reflections on the balls
-Simple spherical reflection on balls
-Rendered intensive reflections on the balls
-Glass balls on or off (spherical or rendered)
-Render and types of glass balls on or off
-Reflection and quality of ball presentation
-Bumpmapping of the table corners
-Bumpmapping of the wooden edge
-Positional light method
-Direct light
-Switch to full screen display
-Set to window mode
-Anti-aliasing on (restart required)
-Anti-aliasing off (restart required)
-Angle to middle set
-Angle to the left eye set
-Angle to the right eye set
+Бампмапинг на деревянной кромке стола вкл
+Бампмапинг на деревянной кромке стола выкл
+Бампмапинг на деревянной уголках стола вкл 
+Бампмапинг на деревянной уголках стола выкл 
+Низкое качество отражений на шарах
+Среднее качество отражений на шарах
+Высокое качество отражений на шарах
+Очень высокое качество отражений на шарах
+Сферические отражения на шарах
+Качество отрисовки отражений на шарах 
+Вкл/выкл тип отрисовки отражений на шарах
+Тип и качество отрисовки шаров
+Отражения и качество отрисовки шаров
+Бампмапинг на деревянной уголках стола
+Бампмапинг на деревянной кромке стола
+Точечное освещение
+Направленное освещение
+Переключиться в полноэкранный режим
+Переключиться в оконный режим
+Сглаживание вкл (понадобится рестарт)
+Сглаживание выкл (понадобится рестарт)
+Угол центральной области видения
+Угол видения левым глазом
+Угол видения правым глазом
 Stereo mode (3D) on. Red/Green glasses required
 Stereo mode off (3D)
 3D stereo menu. 3D Red/Green glasses required
@@ -309,27 +309,27 @@ Very low visual quality of the balls
 Middle visual quality of the balls
 High quality of the balls
 Very high image quality of the balls
-Table decorations in gold and green
-Table decor in red and gold
-Table decor in blue and chrome
-Table decor in black and silver
-Table representation modeled after the movie Tron (On/Off)
-Show control switch on the screen
-Hide Control switch on the screen
-Balls may fall off the pool table
-Balls can not fall off the pool table
+Оформление стола в золото/зеленый
+Оформление стола в красно/золотой
+Оформление стола в сине/хром
+Оформление стола в черно/серебрянный
+Оформление стора в стиле фильма Трон (Вкл/Выкл)
+Показывать элемены управления на экране
+Скрывать элемены управления на экране
+Шары могут вылетать за пределы стола
+Шары не могут вылетать за пределы стола
 Specified keys have an on/off function (Recommended)
 Specified key must be pressed and hold for their function
-Player avatar on
-Player avatar off
-Show this status line
-Hide this status line
-Show Ball traces on move
-Hide Ball traces
-After a shot back to the settings-mode (Recommended)
-After a shot, stay with the last current setting
-Computer/Network player ever in bird's-eye view
-Computer/Network player ever in the regular table view
+Аватар вкл
+Аватар выкл
+Показывать стоку состояния
+Не показывать стоку состояния
+Показывать траектории движения шаров
+Не показывать траектории движения шаров
+После удара возвращаться в настройки (рекомендуем)
+После удара оставаться с предыдущими настройками
+AI/Сетевой игрок всегда показывается видом стола сверху
+AI/Сетевой игрок всегда показывается обычным видом стола
 Показать вертикальную линию прицеливания
 Скрыть вертикальную линию прицеливания
 Самый маленький стол 7 футов
@@ -402,18 +402,18 @@ IPv4 адрес соперника по сетевой игре
 Супер! Поиграем еще
 Переиграть
 Все настройки игрока
-Game type, table size, touch, play behavior, time-lapse ..
-3D, table themes, browser, text settings, details ....
-Options for look and feel of the graphics
+Тип игры, размер стола, подержка тач устройств, настройки времени ..
+3D, стиль столов, браузер, настройки отображения текста, детализация ....
+Настройки внешнего вида и качества графики
 Вкл/выкл звук
 Показать коротенькую справку прямо здесь
 Показать подробные инструкции во внешнем браузере
-Stop playing with demand
-Player switched from human -> computer
-Player switched from computer -> human
+Стоп игры с задержкой
+Игрок переключится Человек -> AI
+Игрок переключится AI -> Человек
 Эта функция сейчас недоступна
-Ball marks are now active
-Ball marks are no longer active
+Вспомогательная иформация о шарах включена
+Вспомогательная иформация о шарах выключена 
 Выполнен удар предложенный AI
 Текстуры стен : 
 Вкл выкл текстуры стен
