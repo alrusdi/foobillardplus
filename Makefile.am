@@ -1,6 +1,6 @@
-SUBDIRS  = src 
+SUBDIRS  = src
 
-RPMSPECS = foobillardplus.spec  
+RPMSPECS = foobillardplus.spec
 
 EXTRA_DIST = $(RPMSPECS)
 
@@ -30,20 +30,23 @@ dist-hook:
 	cp -p $(srcdir)/foobillardplus.xbm $(distdir)
 
 install-data-hook:
-	mkdir -p $(datadir)
-	cp -p $(srcdir)/data/* $(datadir) -R
-	cp -p $(srcdir)/AUTHORS $(prefix)
-	cp -p $(srcdir)/COPYING $(prefix)
-	cp -p $(srcdir)/INSTALL $(prefix)
-	cp -p $(srcdir)/README $(prefix)
-	cp -p $(srcdir)/ChangeLog $(prefix)
-	cp -p $(srcdir)/TODO $(prefix)
-	cp -p $(srcdir)/OFL.txt $(prefix)
-	cp -p $(srcdir)/foobillardplus.desktop $(prefix)
-	cp -p $(srcdir)/foobillardplus.desktop /usr/share/applications
-	cp -p $(srcdir)/foobillardplus.png $(prefix)
-	cp -p $(srcdir)/foobillardplus.png /usr/share/icons
-	cp -p $(srcdir)/foobillardplus.xbm $(prefix)
+	mkdir -p $(deb_share_dir)$(prefix)/data
+	cp -p $(srcdir)/data/* $(deb_share_dir)$(prefix)/data -R
+	cp -p $(srcdir)/AUTHORS $(deb_share_dir)$(prefix)
+	cp -p $(srcdir)/COPYING $(deb_share_dir)$(prefix)
+	cp -p $(srcdir)/INSTALL $(deb_share_dir)$(prefix)
+	cp -p $(srcdir)/README $(deb_share_dir)$(prefix)
+	cp -p $(srcdir)/ChangeLog $(deb_share_dir)$(prefix)
+	cp -p $(srcdir)/TODO $(deb_share_dir)$(prefix)
+	cp -p $(srcdir)/OFL.txt $(deb_share_dir)$(prefix)
+	cp -p $(srcdir)/foobillardplus.desktop $(deb_share_dir)$(prefix)
+	mkdir -p $(deb_root_dir)/usr/share/applications
+	cp -p $(srcdir)/foobillardplus.desktop $(deb_root_dir)/usr/share/applications
+	cp -p $(srcdir)/foobillardplus.png $(deb_share_dir)$(prefix)
+	mkdir -p $(deb_root_dir)/usr/share/icons
+	cp -p $(srcdir)/foobillardplus.png $(deb_root_dir)/usr/share/icons
+	cp -p $(srcdir)/foobillardplus.xbm $(deb_share_dir)$(prefix)
 
 uninstall-hook:
 	rm $(prefix) -R
+
