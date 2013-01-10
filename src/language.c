@@ -1,7 +1,7 @@
 /* language.c
 **
 **    code for Language / Localisation
-**    Copyright (C) 2010/2011  Holger Schaekel
+**    Copyright (C) 2010 - 2013  Holger Schaekel
 **
 **    This program is free software; you can redistribute it and/or modify
 **    it under the terms of the GNU General Public License Version 2 as

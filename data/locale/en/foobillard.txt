@@ -471,3 +471,7 @@ Change language
 Change the language. Reboot required!
 German
 English
+Russian
+Game paused
+Pause next move on
+Pause next move off

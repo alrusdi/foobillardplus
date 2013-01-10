@@ -1,5 +1,6 @@
 3.43 beta
 =========
+- russian localisation from Alrusdi
 - collision detection for cue in table
 - new pause function with key p on game with AI player
 - replace gl_quads, gl_quad_strip with gl_triangle_strip

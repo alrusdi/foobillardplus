@@ -5,7 +5,7 @@
 **    Email: harpin_floh@yahoo.de, florian.berger@jk.uni-linz.ac.at
 **
 **    Updated Version foobillard++ started at 12/2010
-**    Copyright (C) 2010/2011 Holger Schaekel (foobillardplus@go4more.de)
+**    Copyright (C) 2010 - 2013 Holger Schaekel (foobillardplus@go4more.de)
 **
 **    This program is free software; you can redistribute it and/or modify
 **    it under the terms of the GNU General Public License Version 2 as
@@ -149,6 +149,8 @@ static int mleftnormal_id= -1;       // left menu bar glcompile-id (normal)
 static int mright_id= -1;            // right menu bar glcompile-id
 static int mupper_id= -1;            // upper menu bar glcompile-id
 static int mscreen_id= -1;           // screenshot button glcompile-id
+static int pscreen_id[2]= {-1,-1};   // pause button glcompile-id
+static int breakscreen_id= -1;       // break button glcompile-id
 static int english1_id= -1;          // english move glcompile-id
 static int shoot_id= -1;             // mouse-shoot glcompile-id
 static int cuebutt_id= -1;           // cue butt up/down glcompile-id
@@ -220,6 +222,9 @@ static GLuint mleftnormalbind;
 static GLuint mrightbind;
 static GLuint volumebind;
 static GLuint screenbind;
+static GLuint cancelbind;
+static GLuint pausebind;
+static GLuint pausebind1;
 static GLuint networkbind;
 static GLuint sbind;
 static GLuint bbind;
@@ -2818,7 +2823,7 @@ void do_computer_move( int doit )
     VMvect dir;
     //fprintf(stderr,"do_computermove: begin ai_get_strike_dir\n");
     if(options_pause) { // game is pause
-       displaystring("PAUSE");
+       displaystring(localeText[474]);
        g_shot_due=1;
        return;
     }
@@ -3140,6 +3145,20 @@ void MouseEvent(MouseButtonEnum button,MouseButtonState state, int x, int y)
                     if(newx_int > 309 && newx_int < 355 && y > 0 && y < 28) {
                       Key1('0'); // yes, please
                     }
+#ifdef NETWORKING
+                    // Make pause on next player ?
+                    if(network_game == no_network) {
+#endif
+                    if(newx_int > 309-60 && newx_int < 355-60 && y > 0 && y < 28) {
+                      Key1('p'); // yes, please
+                    }
+                    // Break the game (ESC)
+                    if(newx_int > 309-120 && newx_int < 355-120 && y > 0 && y < 28) {
+                      Key1(27); // yes, please
+                    }
+#ifdef NETWORKING
+                    }
+#endif
                     if(!player[act_player].is_net && !balls_moving) {
 #ifdef USE_SOUND
                     switch(uppermenu) {
@@ -4277,8 +4296,18 @@ void DisplayFunc( void )
 #endif
              }
              if(!tournament_state.wait_for_next_match && options_gamemode==options_gamemode_tournament && (player[0].winner || player[1].winner)) {
-               tournament_evaluate_last_match( &tournament_state );
-               tournament_state.wait_for_next_match=1;
+               // Change of snooker no end problem. Fix from Émeric Dupont
+               //tournament_evaluate_last_match( &tournament_state );
+               //tournament_state.wait_for_next_match=1;
+               if ( player[0].winner == player[1].winner ) { // Draw
+                  restart_game_common();
+                  player[0].winner=0;
+                  player[1].winner=0;
+               }  else {
+                  tournament_evaluate_last_match( &tournament_state );
+                  tournament_state.wait_for_next_match=1;
+               }
+               // change end
              }
          } else {
              player[act_player].place_cue_ball=1;
@@ -5246,6 +5275,90 @@ void DisplayFunc( void )
        } else {
          glCallList(mscreen_id);
        }
+       /* Pause Button not in network-game */
+#ifdef NETWORKING
+       if(network_game == no_network) {
+#endif
+          glPushMatrix();
+          glScalef(2.0/win_width,2.0/win_height,1.0);
+          glTranslatef((VMfloat)win_width/2-358+60,(VMfloat)win_height/2-32,0.0);
+          if(pscreen_id[0] == -1) {
+              pscreen_id[0] = glGenLists(1);
+              glNewList(pscreen_id[0], GL_COMPILE);
+              glEnable(GL_TEXTURE_2D);
+              glEnable(GL_BLEND);
+              glBindTexture(GL_TEXTURE_2D,pausebind); // pause button
+              static const GLshort VertexData10[] = {0,0,0,0,32,0,52,0,0,52,32,0};
+              static const GLshort TexData10[] = {0,1,0,0,1,1,1,0};
+              static const GLfloat ColorData10[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+              glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+              glEnableClientState(GL_VERTEX_ARRAY);
+              glEnableClientState(GL_COLOR_ARRAY);
+              glTexCoordPointer(2,GL_SHORT, 0, TexData10);
+              glVertexPointer(3, GL_SHORT, 0, VertexData10);
+              glColorPointer(3, GL_FLOAT, 0, ColorData10);
+              glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+              glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+              glDisableClientState(GL_VERTEX_ARRAY);
+              glDisableClientState(GL_COLOR_ARRAY);
+              glPopMatrix();
+              glEndList();
+          }
+          if(pscreen_id[1] == -1) {
+              pscreen_id[1] = glGenLists(1);
+              glNewList(pscreen_id[1], GL_COMPILE);
+              glEnable(GL_TEXTURE_2D);
+              glEnable(GL_BLEND);
+              glBindTexture(GL_TEXTURE_2D,pausebind1); // pause button
+              static const GLshort VertexData11[] = {0,0,0,0,32,0,52,0,0,52,32,0};
+              static const GLshort TexData11[] = {0,1,0,0,1,1,1,0};
+              static const GLfloat ColorData11[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+              glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+              glEnableClientState(GL_VERTEX_ARRAY);
+              glEnableClientState(GL_COLOR_ARRAY);
+              glTexCoordPointer(2,GL_SHORT, 0, TexData11);
+              glVertexPointer(3, GL_SHORT, 0, VertexData11);
+              glColorPointer(3, GL_FLOAT, 0, ColorData11);
+              glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+              glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+              glDisableClientState(GL_VERTEX_ARRAY);
+              glDisableClientState(GL_COLOR_ARRAY);
+              glPopMatrix();
+              glEndList();
+          }
+          glCallList(pscreen_id[options_pause]);
+
+          glPushMatrix();
+          glScalef(2.0/win_width,2.0/win_height,1.0);
+          glTranslatef((VMfloat)win_width/2-358+120,(VMfloat)win_height/2-32,0.0);
+          if(breakscreen_id == -1) {
+              breakscreen_id = glGenLists(1);
+              glNewList(breakscreen_id, GL_COMPILE_AND_EXECUTE);
+              glEnable(GL_TEXTURE_2D);
+              glEnable(GL_BLEND);
+              glBindTexture(GL_TEXTURE_2D,cancelbind); // break button
+              static const GLshort VertexData12[] = {0,0,0,0,32,0,52,0,0,52,32,0};
+              static const GLshort TexData12[] = {0,1,0,0,1,1,1,0};
+              static const GLfloat ColorData12[] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+              glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+              glEnableClientState(GL_VERTEX_ARRAY);
+              glEnableClientState(GL_COLOR_ARRAY);
+              glTexCoordPointer(2,GL_SHORT, 0, TexData12);
+              glVertexPointer(3, GL_SHORT, 0, VertexData12);
+              glColorPointer(3, GL_FLOAT, 0, ColorData12);
+              glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+              glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+              glDisableClientState(GL_VERTEX_ARRAY);
+              glDisableClientState(GL_COLOR_ARRAY);
+              glPopMatrix();
+              glEndList();
+          } else {
+              glCallList(breakscreen_id);
+          }
+
+#ifdef NETWORKING
+       }
+#endif
 #undef MENUSTEP
        glDisable(GL_LIGHTING);
        glDisable(GL_TEXTURE_2D);
@@ -6383,7 +6496,16 @@ void Key( int key, int modifiers ) {
           zoom_in_out(+20);
          break;
       case 'p': /* toggle pause the game */
+#ifdef NETWORKING
+       if(network_game == no_network) {
+#endif
           options_pause ^= 1;
+          displaystring(localeText[476-options_pause]);
+#ifdef NETWORKING
+       } else {
+          options_pause == 0;
+       }
+#endif
          break;
 #ifdef USE_SOUND
       case '3':
@@ -7008,6 +7130,9 @@ void menu_cb( int id, void * arg , VMfloat value)
         break;
     case MENU_ID_LANG_EN:
     	   strncpy(options_language,"en", sizeof(options_language));
+        break;
+    case MENU_ID_LANG_RU:
+           strncpy(options_language,"ru", sizeof(options_language));
         break;
     case MENU_ID_MSHOOT_NEW:
         options_mouseshoot = 1;
@@ -7855,6 +7980,9 @@ static void Init( void )
     create_png_texbind("network.png", &networkbind, 3, GL_RGBA);
     create_png_texbind("volume.png", &volumebind, 3, GL_RGBA);
     create_png_texbind("screenshot.png", &screenbind, 3, GL_RGBA);
+    create_png_texbind("cancel.png", &cancelbind, 3, GL_RGBA);
+    create_png_texbind("pause.png", &pausebind, 3, GL_RGBA);
+    create_png_texbind("start.png", &pausebind1, 3, GL_RGBA);
 #ifdef WETAB
     create_png_texbind("mright-wetab.png", &mrightbind, 3, GL_RGBA);
 #else

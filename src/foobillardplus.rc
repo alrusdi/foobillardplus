@@ -11,7 +11,7 @@ BEGIN
       VALUE "FileDescription", "An OpenGL Billiard Game\0"
       VALUE "FileVersion", "3.43beta\0"
       VALUE "InternalName", "Foobillard++\0"
-      VALUE "LegalCopyright", "(c) 2011/2012 Holger Schaekel\0"
+      VALUE "LegalCopyright", "(c) 2011-2013 Holger Schaekel\0"
       VALUE "OriginalFilename", "foobillardplus.exe\0"
       VALUE "ProductName", "Foobillard++\0"
       VALUE "ProductVersion", "3.43beta\0"

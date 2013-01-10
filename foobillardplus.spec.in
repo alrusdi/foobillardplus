@@ -66,7 +66,9 @@ make
 
 %changelog
 
-* Sun May 27 2012 Holger Schaekel <foobillardplus@go4more.de>
+* Sun Dec 30 2012 Alrusdi, Émeric Dupont, Holger Schaekel <foobillardplus@go4more.de>
+- russian localisation from Alrusdi
+- Émeric Dupont - Patches and fixes
 - collision detection for cue in table
 - new pause function with key p on game with AI player
 - replace gl_quads, gl_quad_strip with gl_triangle_strip

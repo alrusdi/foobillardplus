@@ -5,7 +5,7 @@
 **    Email: harpin_floh@yahoo.de, florian.berger@jk.uni-linz.ac.at
 **
 **    Updated Version foobillard++ started at 12/2010
-**    Copyright (C) 2010/2011 Holger Schaekel (foobillardplus@go4more.de)
+**    Copyright (C) 2010 - 2013 Holger Schaekel (foobillardplus@go4more.de)
 **
 **    This program is free software; you can redistribute it and/or modify
 **    it under the terms of the GNU General Public License Version 2 as
@@ -726,6 +726,12 @@ void evaluate_last_move_snooker( struct Player * player, int * pact_player, Ball
             player[act_player].winner=0;
             player[other_player].winner=1;
           }
+        // Change of snooker no end problem. Fix from Émeric Dupont
+        if(player[act_player].score==player[other_player].score) {
+            player[act_player].winner=1;
+            player[other_player].winner=1;
+        }
+        // end change
         // game over, clear statusline
         emptyworkstring();
         setst_text();

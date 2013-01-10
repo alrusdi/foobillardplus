@@ -1,33 +1,33 @@
-Player 1
-4tiitoo
-Player 2
-4tiitoo
-Any
-Full
-Half
+Игрок 1
+Комп 1
+Игрок 2
+Комп 2
+Любой
+Сплошной
+Полосатый
 arg=ai|human set player1 ai/human
 arg=ai|human set player2 ai/human
 arg=ai|human set player1 ai/human
 arg=ai|human set player2 ai/human
-Set name of player1
-Set name of player2
-8ball pool game
-9ball pool game
-Carambol billard game
-Snooker billard game
-arg=on|off
+Задать имя игрока1
+Задать имя игрока2
+Пул восьмерка
+Пул девятка
+Карамболь
+Снукер
+arg=вкл|выкл
 arg=5-100
-Browser: %s
-Blue table with chrome edges
-Green table with gold edges
-Red table with gold edges
-Black table with white frame
-Beige table with black metal
-Table size (length) in foot (default=7.0)
-Turn on lens flare
-Turn off lens flare
-Use positional light
-Use directional light
+Браузер: %s
+Синий стол с хромированными бортами
+Зеленый стол с золотыми бортами
+Красный стол Задать имя игрока
+Черный стол с белыми бортами
+Бежевый стол с черными бортами
+Размер стола (длина) в футах (по умолчанию=7.0)
+Включить отблески
+Выключить отблески
+Точечный свет
+Направленный свет
 To err is artificial (player1 error 0..1)
 To err is artificial (player2 error 0..1)
 Set ball detail l[ow] m[edium] h[igh] or v[eryhigh]
@@ -36,269 +36,269 @@ arg=left|right|middle for aiming eye position
 arg=IP-address for TCP/IP connection
 arg=port# for TCP/IP connection
 <width>x<height> window geometry
-Play in fullscreen mode
-arg=on|off free move in external view mode
-arg=on|off rendered cubemap reflections
+Играть в полноэкранном режиме
+arg=вкл|выкл free move in external view mode
+arg=вкл|выкл rendered cubemap reflections
 arg=<texture size for cuberef> (must be power of 2)
-arg=on|off bumpmap reflections of edges
-arg=on|off bumpmap of wood covers
-arg=on|off trace lines of balls
+arg=вкл|выкл bumpmap reflections of edges
+arg=вкл|выкл bumpmap of wood covers
+arg=вкл|выкл trace lines of balls
 arg=match|training|tournament
-arg=on|off Glassballs on or off
-arg=on|off enable/disable avatar
+arg=вкл|выкл Glassballs on or off
+arg=вкл|выкл enable/disable avatar
 arg=1.0..10.0 AI fast motion ratio for tournament
 arg= browsername in path (default: firefox)
-This help
+Справка
 Usage: %s [--option [<arg>]]\n
   Options:\n
 The color <0xrrggbb> means one byte for each red, green, blue\n
-Can't write to %s - check rights\n
-4tiitoo
-Human
-AI for %d
-Human player %d
-Tournament Run %d/4
-<Fire> to continue
-<not available>
-More >
-< Back
-on
-off
+Не удалось записать в %s - проверьте права доступа\n
+Комп
+Человек
+AI за %d
+Человек за %d
+Этап турнира %d/4
+<Пробел> чтобы продолжить
+<не доступно>
+Еще >
+< Назад
+вкл
+выкл
 Spheremap
 Rendered
 Glassball On/Off
-low
-medium
-high
-very high
-middle
-left
-right
-rg on
-rg off
+низкое
+среднее
+высокое
+очень высокое
+средн.
+лев.
+прав.
+rg вкл
+rg выкл
 enable
 aim eye
-on
-off
-Fullscreen
-window
-7 foot
-8 foot
-9 foot
-12 foot
-gold-green
-gold-red
-chrome-blue
-black-white
-black-beige
-8 ball
-9 ball
-Carom
-Snooker
-Table size
-Help line
-Game type
-Resolution
-View mode
-red/green stereo
-Lens flare
-Ball detail
-Reflections
-Bump reflections
-Bumpy wood frame
-Table theme
-Ball traces
-YES  out'a here
-NO  continue
-Excellent
-Good
-Medium
-Bad
-Worse
-P2 Type
-P2 Skill
-Single match + Player options
-Tournament
-Training
-P1 Name: %s
-P2 Name: %s
-Port: %d
-Start Game
+вкл
+выкл
+Полноэкранный
+Оконный
+7 футов
+8 футов
+9 футов
+12 футов
+золото-зеленый
+золото-красный
+хром-синий
+черно-белый
+черно-бежевый
+Восьмерка
+Девятка
+Карамболь
+Снукер
+Размер стола
+Подсказка
+Тип игры
+Разрешение
+Режим просмотра
+Стерео очки
+Отблески
+Детализация шаров
+Отражения
+Эффекты выдавливания тектур
+Фигурная деревянная рамка стола
+Вид стола
+Траектории шаров
+ДА ухожу
+НЕТ продолжу
+Отличное
+Хорошее
+Среднее
+Так себе
+Плохое
+P2 Тип
+P2 Мастерство
+Отдельная игра + Настройка игрока
+Турнир
+Тренировка
+P1 Имя: %s
+P2 Имя: %s
+Порт: %d
+Начать игру
 IP: %s
-As Host
-Join
-Player1
-Player2
-Start Tournament
-Start Training
-Mode
-Restart Game
-Network game
-Display
-Sound
-Game
-Resume
-Game Menu
-Graphic
-Help
-Quit
-wins
-Hallo
-P1 Type
-P1 Skill
-FooBillard++ WeTab - Help
- <ESC> ... Popup menu
- <F1> ... Toggle this help screen
- <F2> ... Birdview (same as <F3>+<F4>+centered pos)
- <F3> or <b2>after<b1> (no move) ... Toggle cue/external view
- <F4> ... Toggle free move mode in ext view
- <F5> ... save config
- <F6> ... Toggle actual player AI/Human
- <F8> ... Toggle the shoot help line
- <F9> ... Suggest AI-shot
- <F10> ... Start a new game
- <left><right><up><down> or <button1>+<mousemotion> ... Rotate
- <1><2> or <button2>+<mousemotion> ... Radial move
- <space> or <enter> or <button3> ... Shoot
- <m>+<Cursor keys> or <shift>+<b1> or <b2>after<b1> ... Place cue ball
- <e>+<Cursor keys>, <e>+<mousemotion> ... English adj.
- <shift>+<b2> or <b1>after<b2> and <mousemotion>... English adj.
- <ctrl>+<b2> or <f>+<cursor up/down> ... set front of view (FOV)
- <s> or <ctrl>+<button1> ... Direct mouse-cue-shot
- <pg-up><pg-down> ... Strength adj.
- <r> ... Toggle simpler reflections
- <b>+<mouse> or <b>+<Cursor keys> ... Cue butt up/down
- <u> ... Undo last move (training mode)
- <TAB> ... Change cueball (training mode)
+Хостить
+Присоединться
+Игрок1
+Игрок2
+Начать турнир
+Начать тренировку
+Режим
+Рестарт
+Сетевая игра
+Экран
+Звук
+Игра
+Продолжить
+Игровое меню
+Графика
+Справка
+Выход
+подедил(а)
+Привет
+P1 Тип
+P1 Мастерство
+Справка по FooBillard++
  
- (c) 2001 F. Berger, FB++ 2011 H. Schaekel. licensed under GPL
-Wins Tournament
-Goal of the game are %i points
-next:%d
-red
-col
-yellow"
-green
-brown
-blue
-pink
-black
-Foreign ball first alluded. 
-Played 8 ball first. 
-First ball played in the penalty. 
-Half ball pocketed - good. 
-Full ball pocketed - good. 
-No ball hit. 
-Game ball lost. 
-Player %s court. 
-Player %d court. 
-Player remains on course. 
-Wrong ball is played. 
-Player remains on course. 
-White cue ball is lost. 
-Yellow cue ball is lost. 
-Red ball lost. 
-Good hit - make the next. 
-Game ball lost. 
-Red ball was required. 
-Red ball - good. 
-Colored ball was required. 
-Colored ball - good. 
-%s was required. 
-%s holed - well done. 
-Rendering
-Resolution
-Positional
-Direct
-1-2 Player Game
-Points: %i
-Status text
-Avatar
-Jump Shots
-Anisothropic filter
-Antialiasing
-Lights
-Restart game
-Player
-View options
-Sound
-Manual
-NoName
-Keys Toggle S B E M F
-Birdview on AI/Net-Player
-Control buttons (HUD)
+ (ESC) ... Меню
+ (F1)  ... Справка
+ (F2)  ... Вид сверху
+ (F3)  ... Вид со стороны или от кия
+ (F4)  ... Свободное вращение камеры при виде со стороны
+ (F5)  ... Сохранить
+ (F6)  ... Текущий игрок AI/Человекы
+ (F7)  ... Траектории шаров
+ (F8)  ... Вертикальная полоска
+ (F9)  ... Вариант удара от AI
+ (F10) ... Новая игра
+ (M)+(◀ ▶ ▲▼) or (M)+(Мышь) ... Установить биток
+ (E)+(◀ ▶ ▲▼) or (E)+(Мышь) ... Нецентральный удар
+ (F)+(▲▼) bzw. (F)+(Мышь ▲▼)... FOV
+ (S)+(Мышь ▲▼)  ... Удар мышкой
+ (B)+(Мышь ▲▼) or (B)+(◀ ▶ ▲▼) ... Queue hoch/runter
+ (U) ... Отмена последнего удара (в тренировке)
+ (TAB) ... Сменить биток (в тренировке)
+ (◀ ▶ ▲▼) or (Мышь ... Вращение камеры
+ (◀)(▶) ... Сила удара
+ (yellow/white ▲)(yellow/white ▼) ... Зум +/-
+ (Red button) or (yellow button) ... Удар
+ © 2001 F. Berger, FB++ 2011 H. Schaekel. license GPL
+ 
+Победитель турнира
+Цель игры %i очков
+след:%d
+красный
+цветной
+желтый
+зеленый
+коричневый
+синий
+розовый
+черный
+Первое касание было к чужому шару. 
+Сначала упала восьмерка. 
+Первое касание ошибочное. 
+Полосатый в лузе - хорошо. 
+Сплошной в лузе - хорошо.
+Не было касания шара. 
+Прицельный шар за пределами стола. 
+Игрок %s у стола. 
+Игрок %d у  стола. 
+Игрок продолжает. 
+Сыграно не по тому шару. 
+Игрок продолжает. 
+Забит белый биток. 
+Забит желтый биток. 
+Красный шар за пределами стола. 
+Хороший удар - ждем еще. 
+Прицельный шар за пределами стола.  
+Нужен был красный шар. 
+Красный шар - хорошо. 
+Нужен был цветной шар. 
+Цветной шар - хорошо. 
+Нужен был %s 
+%s в лузе - отлично! 
+Отрисовка
+Разрешение
+Точечное
+Направленное
+Игра на 1-2 игрока
+Очков: %i
+Статусная строка
+Аватар
+Джампы
+Фильтрация
+Сглаживание
+Освещение
+Рестарт игры
+Игрок
+Настройки внешнего вида
+Звук
+Подробные инструкции
+Нонейм
+Переключение кнопок S B E M F
+Вид сверху при игре оппонента
+Кнопки управления на экране
 Tournament timelapse
-Normal
-Slow
-Anisotrop * %01.0f
-Fingershoot
-new
-classic
-Auto free view
-Toggle Tron Mode
-IP-Addresses Server
-arg=1-5 Network-Speed slow to high
-Network-speed
-Slow
-Normal
-Middle
-High
-Menu - cancel
-Network error: received bad packet error
-Network error: wrong packet size sent
-Network error: no listener available
-Network error: First package failed to client
-Network error: the first response packet from the client incorrectly
-Network error: wrong client
-Network error: connection speed transmission
-Connected Client
-Network error: Incorrect receive packet size
-Network error: the first response packet from the server incorrectly
-Network error: First package to the server failed
-Network error: get incorrect settings
-Timer error: No more waiting for possible connection
-Network error: failed server socket connection
-Server connection established
-No Billiars partner found
-Network mode ends
-Only the Server can finish a network game
-Server / client are mathematically incompatible
-Network Compatibility Mode
-Exit to previous menu
-Compatible video modes
-Previous page
-Next page
-Shot by moving the mouse in the direction of the cue
-Shot by moving the mouse up or down
-Click to follow in real time
-Click to follow in double speed
-Click to follow in 10-fold speed
-Click to follow in 15-fold speed
-Click to follow in 30-fold speed
-Bumpmapping on the wooden edge on
-Bumpmapping on the wooden edge off
-Bumpmapping at the table corners on 
-Bumpmapping at the table corners off
-Low representation of reflections on the balls
-Middle reflections on the balls
-High reflections on the balls
-Very high reflections on the balls
-Simple spherical reflection on balls
-Rendered intensive reflections on the balls
-Glass balls on or off (spherical or rendered)
-Render and types of glass balls on or off
-Reflection and quality of ball presentation
-Bumpmapping of the table corners
-Bumpmapping of the wooden edge
-Positional light method
-Direct light
-Switch to full screen display
-Set to window mode
-Anti-aliasing on (restart required)
-Anti-aliasing off (restart required)
-Angle to middle set
-Angle to the left eye set
-Angle to the right eye set
+Нормальное
+Медленное
+Анизотропия * %01.0f
+Удар мышкой
+новый
+классический
+Автоматически вкл свободная камера
+Переключить Tron-режим
+Сервер IP-адресов
+arg=1-5 Скорость сети маленькая/высокая
+Скорость сети
+Медленная
+Нормальная
+Средняя
+Высокая
+ESC - отмена
+Сетевая ошибка: получен битый пакет
+Сетевая ошибка: отправлен пакет некорректного размера
+Сетевая ошибка: нет слушателя событий
+Сетевая ошибка: Пакет не достик клиента
+Сетевая ошибка: некорректный ответ клиента в первом пакете
+Сетевая ошибка: некорректный клиент
+Сетевая ошибка: проблема со скоростью переддачи данных
+Подсоидененный клиент
+Сетевая ошибка: Некорректный размер полученного пакета
+Сетевая ошибка: некорректный ответ сервера
+Сетевая ошибка: Провалилась отправка первого пакета на сервер
+Сетевая ошибка: некорректные настройки
+Ошибка: Превышен таймаут ожидания соединения
+Сетевая ошибка: не удалось установить сокет-соединение с серверомы
+Установлено соединение с сервером
+Не найдено желающих поиграть
+Зетевой режим завершен
+Только сервер может завершить игру
+Несовместимые сервер и клиент
+Режим соместимости сетевой игры
+Вернуться в предыдущее меню
+Поддерживаемые видеорежимы
+Предыдущая стр
+Следующая стр
+Удар движением мыши в сторону нужного шара
+Удар движением мыши вверх/вниз
+Просмотр в режиме реального времени
+Просмотр с удвоенной скоростью
+Просмотр со скоростью 10x
+Просмотр со скоростью 15x
+Просмотр со скоростью 30x
+Бампмапинг на деревянной кромке стола вкл
+Бампмапинг на деревянной кромке стола выкл
+Бампмапинг на деревянной уголках стола вкл 
+Бампмапинг на деревянной уголках стола выкл 
+Низкое качество отражений на шарах
+Среднее качество отражений на шарах
+Высокое качество отражений на шарах
+Очень высокое качество отражений на шарах
+Сферические отражения на шарах
+Качество отрисовки отражений на шарах 
+Вкл/выкл тип отрисовки отражений на шарах
+Тип и качество отрисовки шаров
+Отражения и качество отрисовки шаров
+Бампмапинг на деревянной уголках стола
+Бампмапинг на деревянной кромке стола
+Точечное освещение
+Направленное освещение
+Переключиться в полноэкранный режим
+Переключиться в оконный режим
+Сглаживание вкл (понадобится рестарт)
+Сглаживание выкл (понадобится рестарт)
+Угол центральной области видения
+Угол видения левым глазом
+Угол видения правым глазом
 Stereo mode (3D) on. Red/Green glasses required
 Stereo mode off (3D)
 3D stereo menu. 3D Red/Green glasses required
@@ -309,153 +309,169 @@ Very low visual quality of the balls
 Middle visual quality of the balls
 High quality of the balls
 Very high image quality of the balls
-Table decorations in gold and green
-Table decor in red and gold
-Table decor in blue and chrome
-Table decor in black and silver
-Table representation modeled after the movie Tron (On/Off)
-Show control switch on the screen
-Hide Control switch on the screen
-Balls may fall off the pool table
-Balls can not fall off the pool table
+Оформление стола в золото/зеленый
+Оформление стола в красно/золотой
+Оформление стола в сине/хром
+Оформление стола в черно/серебрянный
+Оформление стора в стиле фильма Трон (Вкл/Выкл)
+Показывать элемены управления на экране
+Скрывать элемены управления на экране
+Шары могут вылетать за пределы стола
+Шары не могут вылетать за пределы стола
 Specified keys have an on/off function (Recommended)
 Specified key must be pressed and hold for their function
-Player avatar on
-Player avatar off
-Show this status line
-Hide this status line
-Show Ball traces on move
-Hide Ball traces
-After a shot back to the settings-mode (Recommended)
-After a shot, stay with the last current setting
-Computer/Network player ever in bird's-eye view
-Computer/Network player ever in the regular table view
-Show the Help-line on the cue ball
-Hide the Help-line on the cue ball
-The smallest pool table with 7 feet
-8 foot pool table set
-Medium with 9 foot billiard table
-Largest pool table in 12 foot representation
-Slow network compatibility mode switch
-Changes to the fast network mode (Recommended)
-Network packets at a safe size (Standard)
-Network packets at regular size (Recommended)
-Network packets in a medium size (good cable necessary)
-Large network packets (very good line required)
-Enter the player name for player 1
-Enter the player name for player 2
-Port (both computer games must have the same values)
-Network game server as a start
-IP version 4 address of the partner (not your own)
-Participate in existing network game
-A network game
-Join to an existing network game
-Network packet size, speed or adjust
-Network compatibility mode on or off
-A local normal game for 1-2 players start
-A local one player tournament start
-Other settings for network play and start
-Start the training mode
-Number of points to be achieved in the game (1-100)
-Options for an 8 ball pool game and start
-Options for a 9 ball pool game and start
-Options for a carom billiards and start
-Options for a snooker game and start
-Selecting the type of game: 8Ball, 9Ball, Snooker or Carom
-Choose the size of the table
-Change the display control switch
-Change the behaviour of the ball physics
-Types of mouse-shot set
-View mode after a shot
-Key behavior for the specified key set
-View mode for computer and network players
-Speed of a shot of the computer in tournament
-Settings for 3D mode (Red/Green glasses needed)
-Settings for lensflare effect
-Settings for the detail of the ball presentation
-Table theme and color
-Settings to Cue Ball help-line
-Settings for the display of ball marks
-Settings for this status text
-Settings for a simple representation of a player
-Selection of the browser for the manual
-Anisotropic filtering on the textures
-Options for antialiasing
-Video mode select
-Select representation of the game on the screen
-Reflection Options
-Light source or type set of incoming light
-Enable sound output
-Sound off
-An excellent computer player
-A good computer player
-Middle Gamer
-A rather poor gamer
-A very vile, extremely poor gamer
-Player is controlled by the computer
-The player are you ......
-Computer or human player
-A player's skill level
-Settings to Player 1
-Settings to player 2
-This will leave the program - shame ..
-Thank you very much, you want to play more
-Starts the game in progress from scratch
-All options for the player settings
-Game type, table size, touch, play behavior, time-lapse ..
-3D, table themes, browser, text settings, details ....
-Options for look and feel of the graphics
-Sound output on or off
-Show a short help
-Launch the manual in the browser
-Stop playing with demand
-Player switched from human -> computer
-Player switched from computer -> human
-The function is currently not allowed
-Ball marks are now active
-Ball marks are no longer active
-Computer-shot proposal confirmed by shot
-Room-textures : 
-turn room-textures on or off
-Furniture-textures : 
-turn furniture-textures on or off
-Volume 0-128
-Music
-Sound turned on
-Sound turned off
-Music turned on
-Music turned off
-Music volume %i
-Sound volume %i
-Screenshot created
-Skip music track
-I do nothing ;-)
-eightball
-nineball
-caromball
-snookerball
-Game History
-Date
-Winner
-Strokes
-Rounds
-Show game history in external browser
-Show tournament game history in external browser
-Game history
-Tournament history
-Game No.
-Tournament Date
-Round
-Default
-Default ball rendering
-Vertical Sync on / off (you must restart the program)
-Vertical refresh sync
-Turn on vertical synchronization
-Vertical synchronization off
-Max. FSAA: 
-Smaller value = fast program. Greater value = good graphics. Default is 2-fold
-1 fold
-2 fold
-4 fold
-8 fold
-fsaa value 1,2,4,8
+Аватар вкл
+Аватар выкл
+Показывать стоку состояния
+Не показывать стоку состояния
+Показывать траектории движения шаров
+Не показывать траектории движения шаров
+После удара возвращаться в настройки (рекомендуем)
+После удара оставаться с предыдущими настройками
+AI/Сетевой игрок всегда показывается видом стола сверху
+AI/Сетевой игрок всегда показывается обычным видом стола
+Показать вертикальную линию прицеливания
+Скрыть вертикальную линию прицеливания
+Самый маленький стол 7 футов
+Восьмифутовый стол
+Средний стол 9 футов
+Самый большой стол 12 футов
+Настройки для медленной сети
+Настройки для быстрой сети (рекомендуем)
+Безопасные пакеты (стандарт)
+Обычные пакеты (рекомендуем)
+Средние пакеты (нужно неплохое соединение)
+Толстые пакеты (нужно очень хорошее соединение)
+Присоединиться к существующей сетевой игре 1
+Ввести имя игрока 2
+Порт (у соперника должен быть выставлен этот же)
+Адрес игрового сервера
+IPv4 адрес соперника по сетевой игре
+Присоединиться к существующей сетевой игре
+Сетевая игра
+Присоединиться к существующей сетевой игре
+Настройки передачи пакетов по сети
+Вкл/выкл ежим сетевой совместимости
+Локальная игра на 1-2 человек
+Однопользовательский локальный турнир
+Другие настройки серевой игры
+Начать тренировку
+Количество очков до которых ведется игра (1-100)
+Настройки восьмерки
+Настройки девятки
+Настройки карамболя
+Настройки снукера
+Выбор типа игры: восьмерка, девятка, снукер или карамболь
+Выбор размера стола
+Настройки отображения элеметов управления
+Настройка механики движения шаров
+Настройки удара с помошью мыши
+Режим камеры после выполнения удала
+Настройки поведения кнопок
+Режим просмотра компьтерных и сетевых игроков 
+Скорость выполнения ударов компьютерными соперниками в турнире
+Настройки 3D видения (понадобятся специальные очки)
+Настройки отблеска
+Настройки детализации шаров
+Внешний вид и цвет стола
+Настройки отображения вертикальной вспомогательной линии
+Настройки отображения информации о шарах
+Настройки строки состояния
+Настройки игрока
+Выбор браузера
+Сглаживание текстур
+Настройки сглаживания графики
+Выбор видеорежима
+Настройки внешнего вида игры
+Настройки отражений
+Источнк света или тип освещения
+Включить звук
+Звук выключен
+Мастер
+Хороший игрок
+Игрок средненго уровня
+Слабенький игрок
+Совсем новичок
+За игрока выступает AI
+Игрок ......
+Комп или человек
+Мастерство игрока
+Настройки игрока 1
+Настройки игрока 2
+Уходишь? Как жаль...
+Супер! Поиграем еще
+Переиграть
+Все настройки игрока
+Тип игры, размер стола, подержка тач устройств, настройки времени ..
+3D, стиль столов, браузер, настройки отображения текста, детализация ....
+Настройки внешнего вида и качества графики
+Вкл/выкл звук
+Показать коротенькую справку прямо здесь
+Показать подробные инструкции во внешнем браузере
+Стоп игры с задержкой
+Игрок переключится Человек -> AI
+Игрок переключится AI -> Человек
+Эта функция сейчас недоступна
+Вспомогательная иформация о шарах включена
+Вспомогательная иформация о шарах выключена 
+Выполнен удар предложенный AI
+Текстуры стен : 
+Вкл выкл текстуры стен
+Текстуры обстановки : 
+Вкл выкл текстуры обстановки
+Громкость 0-128
+Музыка
+Звук включен
+Звук выключен
+Музыка включена
+Музыка выключена
+Громкость %i
+Уровень звука %i
+Скриншот сохранен
+Пропустить трек
+Я ничего не делаю ;-)
+восьмерка
+девятка
+карамболь
+снукер
+История игр
+Дата
+Победитель
+Ударов
+Туров
+Показывает историю игр во внешнем браузере
+Показывает историю турниров во внешнем браузере
+История игр
+История турниров
+Игра №
+Дата проведения турнира
+Тур
+По умолчанию
+Отрисовка шаров по умолчанию
+Вертикальная синхронизация вкл / выкл (понадобится рестарт игры)
+Вертикальная синхронизация
+Включить вертикальную синхронизация
+Выключить вертикальную синхронизация
+Макс. FSAA: 
+Меньше значение = работает быстрее. Больше значение = лучше отрисовка. По умолч 2x
+1x
+2x
+4x
+8x
+значение fsaa 1,2,4,8
+Доп. текстуры: 0 = выкл, 1 = по умолч., 2 = высок.
+Выкл.
+По умолчанию
+Высокий
+Управление мышью по горизонтали новым способом
+Управление мышью по горизонтали старым способом
+Управление мышью
+Реакция управления на движения мыши в горизонтальном направлении
+Изменить язык
+Изменение языка. Понадобится перезапуск программы!
+Немецкий
+Английский
+Русский
+Game paused
+Pause next move on
+Pause next move off

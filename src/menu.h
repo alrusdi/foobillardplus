@@ -5,7 +5,7 @@
 **    Email: harpin_floh@yahoo.de, florian.berger@jk.uni-linz.ac.at
 **
 **    Updated Version foobillard++ started at 12/2010
-**    Copyright (C) 2010/2011 Holger Schaekel (foobillardplus@go4more.de)
+**    Copyright (C) 2010 - 2013 Holger Schaekel (foobillardplus@go4more.de)
 **
 **    This program is free software; you can redistribute it and/or modify
 **    it under the terms of the GNU General Public License Version 2 as
@@ -251,6 +251,7 @@ enum menu_ID {
 
     MENU_ID_LANG_DE,
     MENU_ID_LANG_EN,
+    MENU_ID_LANG_RU,
 
     MENU_ID_AUTOFREEMOVE_ON,
     MENU_ID_AUTOFREEMOVE_OFF,
