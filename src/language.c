@@ -97,8 +97,7 @@ static char *find_localized_file(const char *base_name)
     strcat(exe_path,"\\data\\locale\\");
 #endif
 
-    snprintf(full_path, sizeof(full_path), "%s%s/%s",
-        exe_path,charlang, base_name);
+    snprintf(full_path, sizeof(full_path), "%s%s/%s", exe_path, charlang, base_name);
     if (file_exists(full_path)) return full_path;
 
     snprintf(full_path, sizeof(full_path), "%sen/%s", exe_path, base_name);

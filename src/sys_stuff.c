@@ -965,12 +965,20 @@ void enter_data_dir() {
 
         success = 1;
     } while (0);
-
     if (!success) {
-        fprintf(stderr,
+        //check for Linux Default Directory if possible
+#ifdef USE_DEBIAN
+        if(!chdir(DATA_DIRECTORY)){
+           strncpy(data_dir, DATA_DIRECTORY, sizeof(data_dir));
+        } else {
+#endif
+           fprintf(stderr,
             "Foobillard++ seems not to be correctly installed\n"
             "Cannot find valid data directory\n"
             "(assuming the current directory contains the data)\n");
+#ifdef USE_DEBIAN
+        }
+#endif
     }
 }
 

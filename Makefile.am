@@ -1,6 +1,6 @@
-SUBDIRS  = src
+SUBDIRS  = src 
 
-RPMSPECS = foobillardplus.spec
+RPMSPECS = foobillardplus.spec  
 
 EXTRA_DIST = $(RPMSPECS)
 
@@ -30,23 +30,22 @@ dist-hook:
 	cp -p $(srcdir)/foobillardplus.xbm $(distdir)
 
 install-data-hook:
-	mkdir -p $(deb_share_dir)$(prefix)/data
-	cp -p $(srcdir)/data/* $(deb_share_dir)$(prefix)/data -R
-	cp -p $(srcdir)/AUTHORS $(deb_share_dir)$(prefix)
-	cp -p $(srcdir)/COPYING $(deb_share_dir)$(prefix)
-	cp -p $(srcdir)/INSTALL $(deb_share_dir)$(prefix)
-	cp -p $(srcdir)/README $(deb_share_dir)$(prefix)
-	cp -p $(srcdir)/ChangeLog $(deb_share_dir)$(prefix)
-	cp -p $(srcdir)/TODO $(deb_share_dir)$(prefix)
-	cp -p $(srcdir)/OFL.txt $(deb_share_dir)$(prefix)
-	cp -p $(srcdir)/foobillardplus.desktop $(deb_share_dir)$(prefix)
-	mkdir -p $(deb_root_dir)/usr/share/applications
-	cp -p $(srcdir)/foobillardplus.desktop $(deb_root_dir)/usr/share/applications
-	cp -p $(srcdir)/foobillardplus.png $(deb_share_dir)$(prefix)
-	mkdir -p $(deb_root_dir)/usr/share/icons
-	cp -p $(srcdir)/foobillardplus.png $(deb_root_dir)/usr/share/icons
-	cp -p $(srcdir)/foobillardplus.xbm $(deb_share_dir)$(prefix)
+	mkdir -p $(datadir)
+	cp -p $(srcdir)/data/* $(datadir) -R
+	cp -p $(srcdir)/AUTHORS $(datarootdir)
+	cp -p $(srcdir)/COPYING $(datarootdir)
+	cp -p $(srcdir)/INSTALL $(datarootdir)
+	cp -p $(srcdir)/README $(datarootdir)
+	cp -p $(srcdir)/ChangeLog $(datarootdir)
+	cp -p $(srcdir)/TODO $(datarootdir)
+	cp -p $(srcdir)/OFL.txt $(datarootdir)
+	cp -p $(srcdir)/foobillardplus.desktop $(datarootdir)
+	cp -p $(srcdir)/foobillardplus.png $(datarootdir)
+	cp -p $(srcdir)/foobillardplus.png /usr/share/icons
+	cp -p $(srcdir)/foobillardplus.xbm $(datarootdir)
+	echo -e "[Desktop Entry]\nVersion=1.0\nType=Application\nTerminal=false\nIcon=/usr/share/icons/foobillardplus.png\nName=Foobillard++\nExec=$(bindir)/foobillardplus\nComment=OpenGL Billiard Game\nGenericName=OpenGL Billiard Game\n" >/usr/share/applications/foobillardplus.desktop
 
 uninstall-hook:
-	rm $(prefix) -R
-
+	rm $(datarootdir) -R
+	rm /usr/share/icons/foobillardplus.png
+	rm /usr/share/applications/foobillardplus.desktop

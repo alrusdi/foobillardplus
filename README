@@ -252,6 +252,12 @@ What is FooBillard++ ?
    as runtime environment MinGW/Msys under MS-Windows.
    http://sourceforge.net/projects/mingw 
    
+   --enable-debian
+   
+   if set, the whole program is compiled for debian like distributions (Linux filesystem).
+   the binary is installed under /usr/games, the data under /usr/share/games/foobillardplus.
+   Please don't use other directory-switches with this switch. 
+   
    Optimization problem of the gcc-suite (don't use with WeTab compiling!)
    -----------------------------------------------------------------------
    
