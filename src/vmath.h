@@ -108,16 +108,16 @@ struct Mesh{
 typedef struct Mesh VMmesh;
 
 
-struct Point{
+struct VMPoint{
     struct Vect pos;
-    struct Point * next;
+    struct VMPoint * next;
 };
-typedef struct Point VMpoint;
+typedef struct VMPoint VMpoint;
 
 
 struct PolyPoint{
     int pnr;
-    struct Point pointlist;
+    struct VMPoint pointlist;
     struct PolyPoint * next;
 };
 typedef struct PolyPoint VMpolypoint;
