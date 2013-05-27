@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D0CBD24175332EA00CD8178 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0CBD21175332EA00CD8178 /* libfreetype.a */; };
+		8D0CBD25175332EA00CD8178 /* libpng15.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0CBD22175332EA00CD8178 /* libpng15.a */; };
+		8D0CBD26175332EA00CD8178 /* libSDL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0CBD23175332EA00CD8178 /* libSDL.a */; };
 		8DA3128617523190008969CA /* getopt_long.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA3128417523190008969CA /* getopt_long.c */; };
 		B9390E38151D57D5009AB2F2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9390E37151D57D5009AB2F2 /* OpenGL.framework */; };
 		B993FE02151D08DD00A63F21 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B993FE01151D08DD00A63F21 /* Cocoa.framework */; };
@@ -41,14 +44,10 @@
 		B9C61957151D09FD00591836 /* table.c in Sources */ = {isa = PBXBuildFile; fileRef = B9C61933151D09FD00591836 /* table.c */; };
 		B9C61958151D09FD00591836 /* textobj.c in Sources */ = {isa = PBXBuildFile; fileRef = B9C61935151D09FD00591836 /* textobj.c */; };
 		B9C61959151D09FD00591836 /* vmath.c in Sources */ = {isa = PBXBuildFile; fileRef = B9C61937151D09FD00591836 /* vmath.c */; };
-		B9E82DBC1524DF090042F738 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E82DBB1524DF090042F738 /* SDL.framework */; };
-		B9E82DBE1524DF5C0042F738 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E82DBD1524DF5C0042F738 /* libfreetype.a */; };
 		B9E82DC51524DFF10042F738 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E82DC41524DFF10042F738 /* SDLMain.m */; };
 		B9E82DC71524E08D0042F738 /* data in Resources */ = {isa = PBXBuildFile; fileRef = B9E82DC61524E08D0042F738 /* data */; };
-		B9E82DC91524E1460042F738 /* libpng15.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E82DC81524E1460042F738 /* libpng15.a */; };
 		B9E82DCB1524E4860042F738 /* config.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E82DCA1524E4860042F738 /* config.m */; };
 		B9E82DCD1524EAED0042F738 /* foobillardplus.icns in Resources */ = {isa = PBXBuildFile; fileRef = B9E82DCC1524EAED0042F738 /* foobillardplus.icns */; };
-		B9E82DD2152506AC0042F738 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B9E82DBB1524DF090042F738 /* SDL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,13 +57,15 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B9E82DD2152506AC0042F738 /* SDL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8D0CBD21175332EA00CD8178 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = homebrew/Cellar/freetype/2.4.11/lib/libfreetype.a; sourceTree = "<group>"; };
+		8D0CBD22175332EA00CD8178 /* libpng15.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng15.a; path = homebrew/Cellar/libpng/1.5.14/lib/libpng15.a; sourceTree = "<group>"; };
+		8D0CBD23175332EA00CD8178 /* libSDL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL.a; path = homebrew/Cellar/sdl/1.2.15/lib/libSDL.a; sourceTree = "<group>"; };
 		8DA3128417523190008969CA /* getopt_long.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getopt_long.c; sourceTree = "<group>"; };
 		8DA3128517523190008969CA /* getopt_long.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getopt_long.h; sourceTree = "<group>"; };
 		B9390E37151D57D5009AB2F2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -143,12 +144,9 @@
 		B9C61936151D09FD00591836 /* textobj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = textobj.h; sourceTree = "<group>"; };
 		B9C61937151D09FD00591836 /* vmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vmath.c; sourceTree = "<group>"; };
 		B9C61938151D09FD00591836 /* vmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vmath.h; sourceTree = "<group>"; };
-		B9E82DBB1524DF090042F738 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
-		B9E82DBD1524DF5C0042F738 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetype.a; sourceTree = "<group>"; };
 		B9E82DC31524DFF10042F738 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
 		B9E82DC41524DFF10042F738 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
 		B9E82DC61524E08D0042F738 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
-		B9E82DC81524E1460042F738 /* libpng15.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng15.a; sourceTree = "<group>"; };
 		B9E82DCA1524E4860042F738 /* config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = config.m; sourceTree = "<group>"; };
 		B9E82DCC1524EAED0042F738 /* foobillardplus.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = foobillardplus.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,11 +156,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D0CBD24175332EA00CD8178 /* libfreetype.a in Frameworks */,
+				8D0CBD25175332EA00CD8178 /* libpng15.a in Frameworks */,
+				8D0CBD26175332EA00CD8178 /* libSDL.a in Frameworks */,
 				B993FE02151D08DD00A63F21 /* Cocoa.framework in Frameworks */,
 				B9390E38151D57D5009AB2F2 /* OpenGL.framework in Frameworks */,
-				B9E82DBC1524DF090042F738 /* SDL.framework in Frameworks */,
-				B9E82DBE1524DF5C0042F738 /* libfreetype.a in Frameworks */,
-				B9E82DC91524E1460042F738 /* libpng15.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,9 +194,9 @@
 		B993FE00151D08DD00A63F21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B9E82DC81524E1460042F738 /* libpng15.a */,
-				B9E82DBD1524DF5C0042F738 /* libfreetype.a */,
-				B9E82DBB1524DF090042F738 /* SDL.framework */,
+				8D0CBD21175332EA00CD8178 /* libfreetype.a */,
+				8D0CBD22175332EA00CD8178 /* libpng15.a */,
+				8D0CBD23175332EA00CD8178 /* libSDL.a */,
 				B9390E37151D57D5009AB2F2 /* OpenGL.framework */,
 				B993FE01151D08DD00A63F21 /* Cocoa.framework */,
 				B993FE03151D08DD00A63F21 /* Other Frameworks */,
@@ -301,6 +299,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B993FE1B151D08DD00A63F21 /* Build configuration list for PBXNativeTarget "Foobillard++" */;
 			buildPhases = (
+				8D0CBD2017532BA000CD8178 /* Fetch Dependencies */,
 				B993FDF9151D08DD00A63F21 /* Sources */,
 				B993FDFA151D08DD00A63F21 /* Frameworks */,
 				B993FDFB151D08DD00A63F21 /* Resources */,
@@ -352,6 +351,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8D0CBD2017532BA000CD8178 /* Fetch Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Fetch Dependencies";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -d \"${SOURCE_ROOT}/homebrew\" ]\nthen\n    git clone git://github.com/mxcl/homebrew.git \"${SOURCE_ROOT}/homebrew\"\nfi\ncd \"${SOURCE_ROOT}/homebrew\"\ngit pull\n\n\n\"${SOURCE_ROOT}/homebrew/bin/brew\" install freetype libpng sdl\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B993FDF9151D08DD00A63F21 /* Sources */ = {
@@ -456,11 +473,13 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../src\"",
 					"\"$(SRCROOT)\"/**",
+					"\"$(SOURCE_ROOT)/homebrew/include\"/**",
 				);
 				INFOPLIST_FILE = "Foobillard++-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SOURCE_ROOT)/homebrew/lib\"/**",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)";
@@ -476,11 +495,13 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../src\"",
 					"\"$(SRCROOT)\"/**",
+					"\"$(SOURCE_ROOT)/homebrew/include\"/**",
 				);
 				INFOPLIST_FILE = "Foobillard++-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SOURCE_ROOT)/homebrew/lib\"/**",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)";
