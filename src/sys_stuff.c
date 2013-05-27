@@ -174,7 +174,7 @@ char message[2048];
   kCFUserNotificationAlertMessageKey };
   const void* vals[] = {
   CFSTR("Foobillard++ Error"),
-  CFSTR(message)
+  CFStringCreateWithCString(NULL, message, kCFStringEncodingMacRoman)
   };
   if(!sys_get_fullscreen()) {
   // display a dialog window only if fullscreen is not active
