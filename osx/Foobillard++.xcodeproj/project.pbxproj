@@ -422,7 +422,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lz";
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -444,7 +444,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "-lz";
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
