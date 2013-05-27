@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8DA3128617523190008969CA /* getopt_long.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DA3128417523190008969CA /* getopt_long.c */; };
 		B9390E38151D57D5009AB2F2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9390E37151D57D5009AB2F2 /* OpenGL.framework */; };
 		B993FE02151D08DD00A63F21 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B993FE01151D08DD00A63F21 /* Cocoa.framework */; };
 		B9C61939151D09FD00591836 /* aiplayer.c in Sources */ = {isa = PBXBuildFile; fileRef = B9C618F3151D09FD00591836 /* aiplayer.c */; };
@@ -64,6 +65,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8DA3128417523190008969CA /* getopt_long.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getopt_long.c; sourceTree = "<group>"; };
+		8DA3128517523190008969CA /* getopt_long.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getopt_long.h; sourceTree = "<group>"; };
 		B9390E37151D57D5009AB2F2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		B993FDFD151D08DD00A63F21 /* Foobillard++.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foobillard++.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B993FE01151D08DD00A63F21 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -251,6 +254,8 @@
 				B9C61913151D09FD00591836 /* flower.h */,
 				B9C61914151D09FD00591836 /* font.c */,
 				B9C61915151D09FD00591836 /* font.h */,
+				8DA3128417523190008969CA /* getopt_long.c */,
+				8DA3128517523190008969CA /* getopt_long.h */,
 				B9C61917151D09FD00591836 /* helpscreen.c */,
 				B9C61918151D09FD00591836 /* helpscreen.h */,
 				B9C61919151D09FD00591836 /* history.c */,
@@ -386,6 +391,7 @@
 				B9C61959151D09FD00591836 /* vmath.c in Sources */,
 				B9E82DC51524DFF10042F738 /* SDLMain.m in Sources */,
 				B9E82DCB1524E4860042F738 /* config.m in Sources */,
+				8DA3128617523190008969CA /* getopt_long.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
