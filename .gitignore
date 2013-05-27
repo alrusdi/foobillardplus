@@ -37,3 +37,8 @@ src/config.h
 src/config.h.in
 src/foobillardplus
 src/stamp-h1
+
+# Mac specific things
+.DS_Store
+xcuserdata/
+homebrew/
