@@ -3,6 +3,7 @@
 ## License
 
 Copyright (C) 2001 Florian Berger (foobillard)
+
 Copyright (C) 2010/2011 Holger Schaekel (foobillard++)
 
 email: foobillardplus@go4more.de
