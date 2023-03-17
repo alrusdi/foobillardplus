@@ -26,6 +26,9 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 FooBillard++ is a free OpenGL-billiard game for Linux and based on the
 original foobillard 3.0a source from `Florian Berger`. 
 
+[!opening](screenshots/foobilliards.png)
+[!green](screenshots/foobilliards1.png)
+
 ### Why foo?
 
 Well, actually he had this logo (F.B.-Florian Berger) and then foo sounds a
