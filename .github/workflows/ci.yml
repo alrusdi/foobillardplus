@@ -38,5 +38,5 @@ jobs:
       - name : Install
         run : |
           sudo make install
-      - name : Test smoke
+      - name : Smoke test
         run : ldd /usr/games/foobillardplus/bin/foobillardplus 
