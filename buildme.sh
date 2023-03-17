@@ -3,3 +3,4 @@ aclocal --force
 autoconf -f   
 autoheader -f   
 automake -a -c -f
+./configure && make
