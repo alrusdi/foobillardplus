@@ -23,6 +23,7 @@ dist-hook:
 	cp -p $(srcdir)/ChangeLog $(distdir)
 	cp -p $(srcdir)/TODO $(distdir)
 	cp -p $(srcdir)/OFL.txt $(distdir)
+	echo -e "[Desktop Entry]\nVersion=1.0\nType=Application\nTerminal=false\nIcon=/usr/share/icons/foobillardplus.png\nName=Foobillard++\nExec=$(bindir)/foobillardplus\nComment=OpenGL Billiard Game\nGenericName=OpenGL Billiard Game\n" > foobillardplus.desktop
 	cp -p $(srcdir)/foobillardplus.desktop $(distdir)
 	cp -p $(srcdir)/foobillardplus.desktop /usr/share/applications
 	cp -p $(srcdir)/foobillardplus.png $(distdir)
@@ -39,11 +40,11 @@ install-data-hook:
 	cp -p $(srcdir)/ChangeLog $(datarootdir)
 	cp -p $(srcdir)/TODO $(datarootdir)
 	cp -p $(srcdir)/OFL.txt $(datarootdir)
+	echo -e "[Desktop Entry]\nVersion=1.0\nType=Application\nTerminal=false\nIcon=/usr/share/icons/foobillardplus.png\nName=Foobillard++\nExec=$(bindir)/foobillardplus\nComment=OpenGL Billiard Game\nGenericName=OpenGL Billiard Game\n" > foobillardplus.desktop
 	cp -p $(srcdir)/foobillardplus.desktop $(datarootdir)
 	cp -p $(srcdir)/foobillardplus.png $(datarootdir)
 	cp -p $(srcdir)/foobillardplus.png /usr/share/icons
 	cp -p $(srcdir)/foobillardplus.xbm $(datarootdir)
-	echo -e "[Desktop Entry]\nVersion=1.0\nType=Application\nTerminal=false\nIcon=/usr/share/icons/foobillardplus.png\nName=Foobillard++\nExec=$(bindir)/foobillardplus\nComment=OpenGL Billiard Game\nGenericName=OpenGL Billiard Game\n" >/usr/share/applications/foobillardplus.desktop
 
 uninstall-hook:
 	rm $(datarootdir) -R
