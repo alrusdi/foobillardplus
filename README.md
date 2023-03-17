@@ -1,27 +1,27 @@
-## FooBillard++
-                      based on foobillard 3.0a
-                       --==##############==--
+## FooBillard++ - based on [foobillard 3.0a](https://en.wikipedia.org/wiki/FooBillard) by Florian Berger
 
-           Copyright (C) 2001 Florian Berger (foobillard)
-          Copyright (C) 2010/2011 Holger Schaekel (foobillard++)
+## License
 
-                   http://foobillardplus.sourceforge.net
-                   
-                      email: foobillardplus@go4more.de
-                             
+	Copyright (C) 2001 Florian Berger (foobillard)
+	Copyright (C) 2010/2011 Holger Schaekel (foobillard++)
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License Version 2 as
-    published by the Free Software Foundation;
+		http://foobillardplus.sourceforge.net
+		
+		    email: foobillardplus@go4more.de
+			    
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License Version 2 as
+published by the Free Software Foundation;
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 ## Prerequisites:
    - 100% OpenGL compatible graphic card drivers for your operating system.
@@ -39,7 +39,7 @@ Many thanks to the band `Zentriert ins Antlitz`, specially Marc Friedrich,
 for the music in the game! Have a look on their great site at: http://www.zentriertinsantlitz.de
 
 
-The project is powered by the following amazing FOSS:
+## The project is powered by the following amazing FOSS:
 
 - OpenGL 1
 - GNU C Compiler
@@ -58,8 +58,7 @@ The project is powered by the following amazing FOSS:
 - google code for announcement
 - youtube as hoster for the video samples
 
-## What is FooBillard++ ?
---------------------
+## What is FooBillard++?
 
 FooBillard++ is a free OpenGL-billiard game for Linux and based on the
 original foobillard 3.0a source from `Florian Berger`. 
