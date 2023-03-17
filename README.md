@@ -2,14 +2,11 @@
 
 ## License
 
-	Copyright (C) 2001 Florian Berger (foobillard)
-	Copyright (C) 2010/2011 Holger Schaekel (foobillard++)
+Copyright (C) 2001 Florian Berger (foobillard)
+Copyright (C) 2010/2011 Holger Schaekel (foobillard++)
 
-		http://foobillardplus.sourceforge.net
-		
-		    email: foobillardplus@go4more.de
+email: foobillardplus@go4more.de
 			    
-
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License Version 2 as
 published by the Free Software Foundation;
@@ -32,12 +29,10 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    - Linux, WeTab, Mac OS 10.6.x or Windows OS (32 or 64 Bit) with a minimum of 10 MB
    free system memory at runtime.
    
-
 ## Credits && Thanks 
 
 Many thanks to the band `Zentriert ins Antlitz`, specially Marc Friedrich,
 for the music in the game! Have a look on their great site at: http://www.zentriertinsantlitz.de
-
 
 ## The project is powered by the following amazing FOSS:
 
@@ -112,7 +107,7 @@ And `freetype2` is used for font rendering.
 - Tron like game mode
 - Glass balls, if you like
 
-Press <F1> in game for a quick help !
+Press <F1> in game for a quick help!
 
 ### red-green stereo:
 
