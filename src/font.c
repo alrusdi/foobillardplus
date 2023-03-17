@@ -24,7 +24,7 @@
 
 #include "options.h"
 #include "sys_stuff.h"
-#include <freetype2/ft2build.h>
+#include <ft2build.h>
 #include FT_FREETYPE_H
 #include <stdio.h>
 #include <stdlib.h>

@@ -158,8 +158,8 @@ endif
 SDL_CFLAGS = `sdl-config --cflags`
 SDL_LIBS   = `sdl-config --libs`
 
-FREETYPE_CFLAGS = `freetype-config --cflags`
-FREETYPE_LIBS   = `freetype-config --libs`
+FREETYPE_CFLAGS = `pkg-config --cflags freetype2`
+FREETYPE_LIBS   = `pkg-config --libs freetype2`
 
 if USE_MATHSINGLE
 MATH_CFLAGS = -DVMATH_SINGLE_PRECISION
