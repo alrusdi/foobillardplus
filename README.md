@@ -21,6 +21,33 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+## What is FooBillard++?
+
+FooBillard++ is a free OpenGL-billiard game for Linux and based on the
+original foobillard 3.0a source from `Florian Berger`. 
+
+### Why foo?
+
+Well, actually he had this logo (F.B.-Florian Berger) and then foo sounds a
+bit like pool (Somehow he wasn't quite attracted by the name `FoolBillard`)
+
+If you are a billiard-pro and you're missing some physics,
+please tell us. Cause I've implemented it like I think it should work,
+which might differ from reality. Please contact us over sourceforge.net
+
+Started at 12/2010 an advanced version is in progress with foobillard++.
+It's not really a new game, but an advanced with a lot of fixes, new
+options, graphics and features until the last version of foobillard (2007).
+At this point it's started with a special version for the Touch-PC WeTab.
+
+### Dependencies
+
+You need to have `SDL` installed on your system.
+Furthermore `libpng` has to be installed for loading the textures.
+And `freetype2` is used for font rendering.
+`SDL_net` is used for the networking mode
+`SDL_mixer` for sound and music
+
 ## Prerequisites:
    - 100% OpenGL compatible graphic card drivers for your operating system.
    
@@ -54,90 +81,7 @@ for the music in the game! Have a look on their great site at: http://www.zentri
 - google code for announcement
 - youtube as hoster for the video samples
 
-## What is FooBillard++?
 
-FooBillard++ is a free OpenGL-billiard game for Linux and based on the
-original foobillard 3.0a source from `Florian Berger`. 
-
-### Why foo?
-
-Well, actually he had this logo (F.B.-Florian Berger) and then foo sounds a
-bit like pool (Somehow he wasn't quite attracted by the name `FoolBillard`)
-If you are a billiard-pro and you're missing some physics,
-please tell us. Cause I've implemented it like I think it should work,
-which might differ from reality. Please contact us over sourceforge.net
-
-Started at 12/2010 an advanced version is in progress with foobillard++.
-It's not really a new game, but an advanced with a lot of fixes, new
-options, graphics and features until the last version of foobillard (2007).
-At this point it's started with a special version for the Touch-PC WeTab.
-
-### Dependencies
-
-You need to have `SDL` installed on your system.
-Furthermore `libpng` has to be installed for loading the textures.
-And `freetype2` is used for font rendering.
-`SDL_net` is used for the networking mode
-`SDL_mixer` for sound and music
-
-### Features
-- Wood paneled table with gold covers and gold diamonds
-- Reflections on balls
-- Shadow pixmaps
-- Detail switching of balls according to distance
-- Zoom in/out - hold right mouse button
-- FOV +/- - hold right mouse button + `CTRL`
-- Rotate - hold left mouse button
-- Animated cue
-- Simple billiard rules for 8 and 9-ball
-- Simple AI-Player
-- Strength adjustment
-- Eccentric hit adjustment (button2 + Shift)
-- Lens flare
-- CLI options
-- Config file (~/.foobillardrc)
-- Lightweight red/green stereo !!!!
-- Sound and music (using SDL)
-- Status line for info in gameplay
-- Advanced hud
-- Jump shots
-- Advanced snipping mode
-- Tournament for all games
-- Basic OpenGL improvements (anisotropic, antialias)
-- Full playable in bird's eye view
-- Tron like game mode
-- Glass balls, if you like
-
-Press <F1> in game for a quick help!
-
-### red-green stereo:
-
-One picture is drawn on red channel only, the other one on the other both channels (green, blue) so you can use either a green or blue or cyan filter for one eye (left), and a red one for the other eye (right).
-
-
-### Network game
-
-IP network support is possible. Now with IPv4. IPv6 is supported in the future.
-This function is heavily BETA.
-
-
-### config file (.foobillardrc):
-
-You can place a config file named ".foobillardrc" in your home directory.
-Windows hold the file in the directory associated with the content of the
-environment variable `USERPROFILE`.
-
-This file can contain all possible CLI arguments (without the "-" prefix; one line for each argument).
-CLI arguments are parsed last, so they override the ".foobillardrc" settings. 
-
-
-### KNOWN BUGS:
-
-- Intel integrated graphic chips
-- On some Intel integrated graphic chips (GMA) the game is not playable with Linux.
-
-**You need really 100% OpenGL compatible graphic card drivers.**
-    
 ### BUILDING:
 
 
@@ -181,7 +125,6 @@ That version would be only run on a WeTab Tablet-PC
 
 
 ### configure options
------------------------------------------------
 
 `--enable-wetab`:
 
@@ -226,6 +169,58 @@ If set to yes, the source is compiling for ms-windows (32 and 64 Bit). You have 
 as runtime environment MinGW/Msys under MS-Windows.
 http://sourceforge.net/projects/mingw
 
+
+### config file (.foobillardrc):
+
+You can place a config file named ".foobillardrc" in your home directory.
+Windows hold the file in the directory associated with the content of the
+environment variable `USERPROFILE`.
+
+This file can contain all possible CLI arguments (without the "-" prefix; one line for each argument).
+CLI arguments are parsed last, so they override the ".foobillardrc" settings. 
+
+### Features
+
+- Wood paneled table with gold covers and gold diamonds
+- Reflections on balls
+- Shadow pixmaps
+- Detail switching of balls according to distance
+- Zoom in/out - hold right mouse button
+- FOV +/- - hold right mouse button + `CTRL`
+- Rotate - hold left mouse button
+- Animated cue
+- Simple billiard rules for 8 and 9-ball
+- Simple AI-Player
+- Strength adjustment
+- Eccentric hit adjustment (button2 + Shift)
+- Lens flare
+- CLI options
+- Config file (~/.foobillardrc)
+- Lightweight red/green stereo !!!!
+- Sound and music (using SDL)
+- Status line for info in gameplay
+- Advanced hud
+- Jump shots
+- Advanced snipping mode
+- Tournament for all games
+- Basic OpenGL improvements (anisotropic, antialias)
+- Full playable in bird's eye view
+- Tron like game mode
+- Glass balls, if you like
+
+Press <F1> in game for a quick help!
+
+### red-green stereo:
+
+One picture is drawn on red channel only, the other one on the other both channels (green, blue) so you can use either a green or blue or cyan filter for one eye (left), and a red one for the other eye (right).
+
+
+### Network game
+
+IP network support is possible. Now with IPv4. IPv6 is supported in the future.
+This function is heavily BETA.
+
+
 Optimization problem of the GCC suite (don't use with WeTab compiling!)
 -----------------------------------------------------------------------
 
@@ -247,3 +242,11 @@ The `--enable-optimization` switch uses some special level of optimisations and 
 
 With this switch the highest optimisation level is used. Be careful: there is no
 guarantee from the author that this will produce a stable program but does quicken the build time.
+
+### KNOWN BUGS:
+
+- Intel integrated graphic chips
+- On some Intel integrated graphic chips (GMA) the game is not playable with Linux.
+
+**You need really 100% OpenGL compatible graphic card drivers.**
+    
