@@ -302,7 +302,7 @@ AC_ARG_ENABLE(fastmath,
                    export FAST_MATH=yes
                 fi
               ],
-              [export FAST_MATH=yes])
+              [export FAST_MATH=no])
 
 ### generic touch wanted. Also used with WeTab, default = no
 AC_ARG_ENABLE(touch,
