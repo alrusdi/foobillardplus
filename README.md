@@ -48,7 +48,7 @@ And `freetype2` is used for font rendering.
 `SDL_net` is used for the networking mode
 `SDL_mixer` for sound and music
 
-## Prerequisites:
+### Prerequisites:
    - 100% OpenGL compatible graphic card drivers for your operating system.
    
    - The graphic card must have 50 to 80 Megabyte Video-RAM! If the driver can't
@@ -57,12 +57,12 @@ And `freetype2` is used for font rendering.
    - Linux, WeTab, Mac OS 10.6.x or Windows OS (32 or 64 Bit) with a minimum of 10 MB
    free system memory at runtime.
    
-## Credits && Thanks 
+### Credits && Thanks 
 
 Many thanks to the band `Zentriert ins Antlitz`, specially Marc Friedrich,
 for the music in the game! Have a look on their great site at: http://www.zentriertinsantlitz.de
 
-## The project is powered by the following amazing FOSS:
+### The project is powered by the following amazing FOSS:
 
 - OpenGL 1
 - GNU C Compiler
@@ -82,10 +82,10 @@ for the music in the game! Have a look on their great site at: http://www.zentri
 - youtube as hoster for the video samples
 
 
-### BUILDING:
+### BUILDING
 
 
-#### UNIX based platforms:
+#### UNIX based platforms
 
 Building for sound support and no Nvidia-related specs are standard.
 Please don't use `--enable-nvidia` (it's only for testing.....)
@@ -101,7 +101,7 @@ autoheader -f
 automake -a -c -f  
 ```
 
-#### OS X:
+#### OS X
 For Mac OS are special files inside the directory OSX from root. There is also a
 project file. `Frretype` and `SDL` are included there.
  simply type in main-directory (for standard-installation):
@@ -170,9 +170,9 @@ as runtime environment MinGW/Msys under MS-Windows.
 http://sourceforge.net/projects/mingw
 
 
-### config file (.foobillardrc):
+### config file (~/.foobillardrc)
 
-You can place a config file named ".foobillardrc" in your home directory.
+You can place a config file named `.foobillardrc` in your home directory.
 Windows hold the file in the directory associated with the content of the
 environment variable `USERPROFILE`.
 
@@ -210,7 +210,7 @@ CLI arguments are parsed last, so they override the ".foobillardrc" settings.
 
 Press <F1> in game for a quick help!
 
-### red-green stereo:
+### red-green stereo
 
 One picture is drawn on red channel only, the other one on the other both channels (green, blue) so you can use either a green or blue or cyan filter for one eye (left), and a red one for the other eye (right).
 
@@ -221,8 +221,7 @@ IP network support is possible. Now with IPv4. IPv6 is supported in the future.
 This function is heavily BETA.
 
 
-Optimization problem of the GCC suite (don't use with WeTab compiling!)
------------------------------------------------------------------------
+### Optimization problem of the GCC suite (don't use with WeTab compiling!)
 
 On some systems certain `gcc` optimisations may result in unstable code. To
 To output possible optimisations on the target arch, invoke:
@@ -243,7 +242,7 @@ The `--enable-optimization` switch uses some special level of optimisations and 
 With this switch the highest optimisation level is used. Be careful: there is no
 guarantee from the author that this will produce a stable program but does quicken the build time.
 
-### KNOWN BUGS:
+### KNOWN BUGS
 
 - Intel integrated graphic chips
 - On some Intel integrated graphic chips (GMA) the game is not playable with Linux.
