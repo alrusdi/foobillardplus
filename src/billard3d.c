@@ -2316,7 +2316,8 @@ void check_cue(void) {
 
    int cue_ball = CUE_BALL_IND; // index cue-ball
    int i; //loop
-   VMvect dir,cue_start,cue_start_bande,cue_start_ball,nx,ny,pos,hitpoint;
+   VMvect dir,cue_start_bande,nx,ny,pos,hitpoint;
+   //VMvect dir,cue_start,cue_start_bande,cue_start_ball,nx,ny,pos,hitpoint;
    VMfloat x,y;
 
    //if(queue_view) { //change nothing, if not in cue view (don't activate this. Only for debugging)
@@ -2567,13 +2568,15 @@ void init_player_roster(struct PlayerRoster * roster)
     init_player(&player[0],0);
     init_player(&player[1],1);
 #ifdef USE_WIN
-    if(getenv("USERNAME"))
+    if(getenv("USERNAME")){
         strcpy(roster->player[0].name,getenv("USERNAME"));
         strcpy(player[0].name,getenv("USERNAME"));
+    }
 #else
-    if(getenv("USER"))
+    if(getenv("USER")){
         strcpy(roster->player[0].name,getenv("USER"));
         strcpy(player[0].name,getenv("USER"));
+    }
 #endif
     roster->player[0].err=(VMfloat)0/10.0;
     roster->player[1].err=(VMfloat)0.30; //now medium
@@ -6503,7 +6506,7 @@ void Key( int key, int modifiers ) {
           displaystring(localeText[476-options_pause]);
 #ifdef NETWORKING
        } else {
-          options_pause == 0;
+          options_pause = 0;
        }
 #endif
          break;
