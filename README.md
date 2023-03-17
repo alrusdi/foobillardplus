@@ -27,7 +27,6 @@ FooBillard++ is a free OpenGL-billiard game for Linux and based on the
 original foobillard 3.0a source from `Florian Berger`. 
 
 ![opening](screenshots/foobilliards.png)
-![green](screenshots/foobilliards1.png)
 
 ### Why foo?
 
@@ -222,6 +221,13 @@ One picture is drawn on red channel only, the other one on the other both channe
 
 IP network support is possible. Now with IPv4. IPv6 is supported in the future.
 This function is heavily BETA.
+
+### Screen images
+
+
+![green](screenshots/foobilliards1.png)
+![snooker](screenshots/foobilliards-snooker.png)
+![snooker1](screenshots/foobilliards-snooker1.png)
 
 
 ### Optimization problem of the GCC suite (don't use with WeTab compiling!)
