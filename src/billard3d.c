@@ -285,8 +285,8 @@ VMfloat g_motion_ratio=1.0;  /* a shot to be due at the beginning */
   static char *ip_adresses;          // hold the 0 terminated IP-Addresses of the Host/Client
   static char *ipptr[9];             // pointer to ip_adresses, max. 9
   static VMfloat queue_offs_sik;     // for quick converting double to float and the pointer bug in some gcc
-  SDL_TimerID net_id=NULL;           // hold a SDL-Timer Event in network play in initialization
-  SDL_TimerID active_net_timer=NULL; // timer on !=NULL, NULL = off for network game
+  SDL_TimerID net_id=0;           // hold a SDL-Timer Event in network play in initialization
+  SDL_TimerID active_net_timer=0; // timer on !=NULL, NULL = off for network game
   static char *dst;                  // to put send or get data into variables and the pointer bug in some gcc
   #ifndef VMATH_SINGLE_PRECISION
     VMfloat xpointer,zpointer;     // to switch between double and float
@@ -1192,7 +1192,7 @@ static void play_network(void)
        init_netclient = 0;
        if(net_id) {
           SDL_RemoveTimer(net_id);
-          net_id=NULL;
+          net_id=0;
        }
      join_network_game();
    }
@@ -1200,13 +1200,13 @@ static void play_network(void)
      init_netserver = 0;
      if(net_id) {
         SDL_RemoveTimer(net_id);
-        net_id=NULL;
+        net_id=0;
      }
      host_network_game();
    }
    //!active_game end
  } else {
-     if(active_net_timer == NULL) {
+     if(active_net_timer == 0) {
         if(player[act_player].is_net) {
           netorder = 0;
           active_net_timer = SDL_AddTimer(200/options_net_speed,net_get_timer,NULL);
@@ -1221,17 +1221,17 @@ static void play_network(void)
      }
      if(get_data) {
         net_get_data();
-        if(netorder && active_net_timer !=NULL) {
+        if(netorder && active_net_timer !=0) {
          SDL_RemoveTimer(active_net_timer);
-         active_net_timer = NULL;
+         active_net_timer = 0;
          //fprintf(stderr,"After last move network read\n");
         }
         get_data = 0;
      } else if(send_data) {
         net_send_data();
-        if(netorder && active_net_timer !=NULL) {
+        if(netorder && active_net_timer !=0) {
          SDL_RemoveTimer(active_net_timer);
-         active_net_timer = NULL;
+         active_net_timer = 0;
          //fprintf(stderr,"After last move network write\n");
         }
         send_data = 0;
@@ -2552,7 +2552,7 @@ void init_ai_player_roster(struct PlayerRoster * roster)
             roster->player[i].err=player_error[i];
           }
        }
-       roster->player[i].text = textObj_new(roster->player[i].name, options_roster_fontname, 20);
+       roster->player[i].text = textObj_new(roster->player[i].name, options_status_fontname, 20);
     }
 }
 
@@ -2595,7 +2595,7 @@ void create_human_player_roster_text(struct PlayerRoster * roster)
 
     for(i=0;i<roster->nr;i++){
         if(roster->player[i].text == 0){
-            roster->player[i].text = textObj_new(roster->player[i].name, options_roster_fontname, 28);
+            roster->player[i].text = textObj_new(roster->player[i].name, options_status_fontname, 28);
         } else {
             textObj_setText(roster->player[i].text, roster->player[i].name);
         }
@@ -2737,10 +2737,10 @@ void tournament_state_setup_next_match( struct TournamentState_ * ts )
 
 void create_players_text(void)
 {
-    player[0].text = textObj_new(player[0].name, options_player_fontname, 28);
-    player[1].text = textObj_new(player[1].name, options_player_fontname, 28);
-    player[0].score_text = textObj_new("0", options_score_fontname, 20);
-    player[1].score_text = textObj_new("0", options_score_fontname, 20);
+    player[0].text = textObj_new(player[0].name, options_status_fontname, 28);
+    player[1].text = textObj_new(player[1].name, options_status_fontname, 28);
+    player[0].score_text = textObj_new("0", options_status_fontname, 24);
+    player[1].score_text = textObj_new("0", options_status_fontname, 24);
 }
 
 /***********************************************************************
@@ -4335,6 +4335,7 @@ void DisplayFunc( void )
              case GAME_8BALL:
                  str[0]= '0';
                  str[1] = 0;
+                 sprintf( str, "Pocketed: %d", player[i].score );
                  break;
              case GAME_9BALL:
                  minballnr=15;
@@ -4359,7 +4360,7 @@ void DisplayFunc( void )
            }
            textObj_setText( player[i].score_text, str );
          }
-         // after shoot switch back to freeview if set
+         // after the shot, switch back to freeview if set
          if(options_auto_freemove && !queue_view && !balls_moving && !(player[act_player].is_net || player[act_player].is_AI)) {
                if(options_birdview_on) {
                   birdview();
@@ -5023,17 +5024,19 @@ void DisplayFunc( void )
        // draw statusline
        if(!(player[0].winner || player[1].winner)) {
          drawstatustext(win_width, win_height);
-         }
+       }
        /* act player */
        glPushMatrix();
        glTranslatef(-0.94,-0.94,-1.0);
        glScalef(2.0/win_width,2.0/win_height,1.0);
        if( player[act_player].text != 0 ){
-           textObj_draw( player[act_player].text );
+           textObj_draw(player[act_player].text);
        }
        glTranslatef(0,30,0);
        switch(gametype) {
         case GAME_8BALL:
+	   textObj_draw(player[act_player].score_text);
+	   glTranslatef(0,30,0);
            switch(player[act_player].half_full){
               case BALL_HALF:
                 glBindTexture(GL_TEXTURE_2D,halfsymboltexbind);
@@ -5046,6 +5049,7 @@ void DisplayFunc( void )
                 break;
            }
            myRect2D_texture();
+
            break;
         case GAME_9BALL:
            if( player[act_player].next_9ball != 8 ){
@@ -5064,7 +5068,7 @@ void DisplayFunc( void )
        glPopMatrix();
        /* 2nd player */
        glPushMatrix();
-       glColor3f(0.0,0.0,1.0);
+       glColor4f(1.0f, 0.5f, 0.0f, 0.0f);
        glTranslatef(0.94,-0.94,-1.0);
        glScalef(2.0/win_width,2.0/win_height,1.0);
        if( player[act_player?0:1].text != 0 ){
@@ -5076,7 +5080,7 @@ void DisplayFunc( void )
        }
        glPopMatrix();
 
-       if(show_disc) { // save config was choosen
+       if(show_disc) { // save config was chosen
          glPushMatrix();
          //glColor3f(1.0,1.0,1.0);
          glTranslatef(0.03,-0.94,0.0);
@@ -5390,7 +5394,7 @@ void DisplayFunc( void )
            gluProject(0.5,-0.675,0.0,b_modelview,b_projection,b_viewport,&x_strengthbar_end,&y_strengthbar_end,&z_dummy);
            glPopMatrix();
            //percent on the strength bar
-           sprintf(stbar_text,"%03u%%",(unsigned int)(queue_strength*100));
+           sprintf(stbar_text,"%u%%",(unsigned int)(queue_strength*100));
            textObj_setText(stbar_text_obj,stbar_text);
            glEnable(GL_TEXTURE_2D);
            glPushMatrix();
@@ -7010,12 +7014,12 @@ void close_listener(void)
 {
      if(net_id) {
       SDL_RemoveTimer(net_id);
-      net_id = NULL;
+      net_id = 0;
      }
      wait_seconds = 0;
      if(active_net_timer) {
       SDL_RemoveTimer(active_net_timer);
-      active_net_timer = NULL;
+      active_net_timer = 0;
       SDL_Delay(20);
      }
      wait_key = 0;
@@ -7131,8 +7135,11 @@ void menu_cb( int id, void * arg , VMfloat value)
     case MENU_ID_LANG_DE:
     	   strncpy(options_language,"de", sizeof(options_language));
         break;
-    case MENU_ID_LANG_EN:
-    	   strncpy(options_language,"en", sizeof(options_language));
+    case MENU_ID_LANG_EN_UK:
+    	   strncpy(options_language,"en_uk", sizeof(options_language));
+        break;
+    case MENU_ID_LANG_EN_US:
+    	   strncpy(options_language,"en_us", sizeof(options_language));
         break;
     case MENU_ID_LANG_RU:
            strncpy(options_language,"ru", sizeof(options_language));
@@ -8174,7 +8181,7 @@ int main( int argc, char *argv[] )
        tourn_winner_obj = textObj3D_new(localeText[174], options_winner_fontname, 0.2, 0.05);
    }
 
-   stbar_text_obj = textObj_new("0", options_status_fontname, 16);  // the percent in the strength bar
+   stbar_text_obj = textObj_new("0", options_status_fontname, 28);  // the percent in the strength bar
    seconds_text_obj = textObj_new("0", options_score_fontname, 100);   // show a countdown for network connections
    for(i=0;i<9;i++) {
     ip_text_obj[i] = textObj_new("0", options_help_fontname, 16);   // shows the possible ip-adresses for network play
