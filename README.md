@@ -44,7 +44,7 @@ At this point it's started with a special version for the Touch-PC WeTab.
 
 ### Dependencies
 
-You need to have `SDL` installed on your system.
+You need to have `SDL 1` installed on your system.
 Furthermore `libpng` has to be installed for loading the textures.
 And `freetype2` is used for font rendering.
 `SDL_net` is used for the networking mode
@@ -69,7 +69,7 @@ for the music in the game! Have a look on their great site at: http://www.zentri
 - OpenGL 1
 - GNU C Compiler
 - GNU `Autotools`
-- The `SDL` Simple Media Library
+- The `SDL 1` Simple Media Library
 - Eclipse C/C++ IDE
 - Gimp Image Manipulation Program
 - Blender 3D
@@ -105,7 +105,7 @@ automake -a -c -f
 
 #### OS X
 For Mac OS are special files inside the directory OSX from root. There is also a
-project file. `Frretype` and `SDL` are included there.
+project file. `Freetype` and `SDL` are included there.
  simply type in main-directory (for standard-installation):
 
 

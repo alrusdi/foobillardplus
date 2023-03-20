@@ -7136,10 +7136,10 @@ void menu_cb( int id, void * arg , VMfloat value)
     	   strncpy(options_language,"de", sizeof(options_language));
         break;
     case MENU_ID_LANG_EN_UK:
-    	   strncpy(options_language,"en_uk", sizeof(options_language));
+    	   strncpy(options_language,"en-uk", sizeof(options_language));
         break;
     case MENU_ID_LANG_EN_US:
-    	   strncpy(options_language,"en_us", sizeof(options_language));
+    	   strncpy(options_language,"en-us", sizeof(options_language));
         break;
     case MENU_ID_LANG_RU:
            strncpy(options_language,"ru", sizeof(options_language));
