@@ -124,7 +124,7 @@ int    options_col_ball_snooker[]={
 
 int    *options_col_ball /*= options_col_ball_pool*/;
 char   options_net_hostname[1024] = "192.168.1.1";  // default initialized for network game
-char   options_language [3] = "00";         // language, 00 = uninitialized
+char   options_language [6] = "00";         // language, 00 = uninitialized
 int    options_net_portnum = 56341;
 int    options_net_speed = 1;        // Speed for network gameplay (*5 = calls per second)
 int    options_net_speed_bak = 1;    // Speed for network for restoring after a network play
