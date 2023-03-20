@@ -91,7 +91,7 @@ int check_xml(char *filecheck) {
  ***********************************************************************/
 
 void show_history(char * historyfile) {
-	  char workstring[1024];
+	  char workstring[2048];
 	  // build the browser call string
 #ifdef __APPLE__
 	  sprintf(workstring,"%s/html/%s",file_name,historyfile);
