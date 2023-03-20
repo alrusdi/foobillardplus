@@ -146,13 +146,13 @@ typedef struct PolyPoint VMpolypoint;
 
 void initlookup_cossin_table(void);
 void initlookup_sqrt_table(void);
-inline double fastexp(const double y);
-inline float fastsqrt(float number);
-inline double fastpow(double a, double b);
-inline float fastcos(float n);
-inline float fastsin(float n);
-inline float fastatan2(float y, float x);
-inline float fastatan(float x);
+double fastexp(const double y);
+float fastsqrt(float number);
+double fastpow(double a, double b);
+float fastcos(float n);
+float fastsin(float n);
+float fastatan2(float y, float x);
+float fastatan(float x);
 
 struct Vect  vec_cross ( struct Vect v1, struct Vect v2 );
 VMfloat      vec_mul   ( struct Vect v1, struct Vect v2 );
