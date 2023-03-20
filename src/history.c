@@ -269,7 +269,7 @@ void init_history(void) {
 #define ARRAYLEN 8
    char directorycheck[1024];
    char directorycheck1[1024];
-   char copy_file[1024];
+   char copy_file[1100];
    int i, checktournament, checkhistory;
 
 #ifdef USE_WIN
