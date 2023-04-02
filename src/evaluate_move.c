@@ -170,11 +170,13 @@ void evaluate_last_move_8ball( struct Player * player, int * pact_player, BallsT
     if( player[act_player].half_full==BALL_HALF && out_half!=0 ){
         nextplayer=0;
         //Half ball pocketed - good.
+	player[act_player].score++;
         concatworkstring(localeText[188]);
     }
     if( player[act_player].half_full==BALL_FULL && out_full!=0 ){
         nextplayer=0;
         //Full ball pocketed - good.
+	player[act_player].score++;
         concatworkstring(localeText[189]);
     }
 
@@ -247,8 +249,9 @@ void evaluate_last_move_8ball( struct Player * player, int * pact_player, BallsT
 
     if( player[act_player].place_cue_ball ) player[act_player].place_cue_ball=0;
 
-    if(foul) nextplayer=1;
-
+    if(foul) {
+	nextplayer=1;
+    }
     if(nextplayer){
         player[act_player].queue_view=*pqueue_view;
         act_player = (act_player==1) ? 0 : 1 ;
@@ -866,8 +869,8 @@ void displaystring (char *statusstr) {
 
 void snooker_color(char *nextcolor, int pscore, int player_no, int loop) {
   if(st.to_play == SN_DONE || player_no!=loop) { //game over or not actual player
-    sprintf( nextcolor, "%+04d", pscore);
+    sprintf( nextcolor, "%+d", pscore);
   } else {
-    sprintf( nextcolor, "%+04d  %s", pscore, localeText[177+st.to_play]);
+    sprintf( nextcolor, "%+d  %s", pscore, localeText[177+st.to_play]);
   }
 }

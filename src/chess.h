@@ -21,7 +21,7 @@
 */
 
 #ifndef CHESS_H
-#define CHESSS_H
+#define CHESS_H
 
 #ifdef __APPLE__
  #include <OpenGL/gl.h>

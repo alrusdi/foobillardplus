@@ -25,8 +25,8 @@
 #include "options.h"
 #include "sys_stuff.h"
 #include <ft2build.h>
+#include <freetype/ftoutln.h>
 #include FT_FREETYPE_H
-#include FT_OUTLINE_H
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef __APPLE__

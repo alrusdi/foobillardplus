@@ -35,7 +35,7 @@
 char localeText[MAX_TEXT_ENTRIES][MAX_TEXT_ENTRY_LEN];
 
 static int saved_manual_available = 0;
-static char charlang[3]; // system locale code
+static char charlang[6]; // system locale code
 
 /***********************************************************************
  *          Find the systems locale and store it in charlang           *
@@ -85,7 +85,7 @@ static void find_system_locale()
 
 static char *find_localized_file(const char *base_name)
 {
-    static char full_path[512];
+    static char full_path[1024];
     char exe_path[512] = "locale/";
 
 #ifdef USE_WIN

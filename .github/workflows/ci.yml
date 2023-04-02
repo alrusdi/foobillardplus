@@ -1,0 +1,42 @@
+name: GitHub CI
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    shell: 'bash -Eeuo pipefail -x {0}'
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [clang-12, gcc-10]
+    env:
+      CC: ${{ matrix.compiler }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            build-essential \
+            pkg-config \
+            clang-12 \
+            gcc-10 \
+            libglu1-mesa-dev \
+            libfreetype6-dev \
+            libpng-dev \
+            libsdl1.2-dev \
+            libsdl-net1.2-dev \
+            libsdl-mixer1.2-dev
+      - name : Build
+        run: ./buildme.sh ${{ matrix.confargs }}
+      - name : Install
+        run : |
+          sudo make install
+      - name : Smoke test
+        run : ldd /usr/games/foobillardplus/bin/foobillardplus 

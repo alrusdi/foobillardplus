@@ -91,7 +91,7 @@ int check_xml(char *filecheck) {
  ***********************************************************************/
 
 void show_history(char * historyfile) {
-	  char workstring[1024];
+	  char workstring[2048];
 	  // build the browser call string
 #ifdef __APPLE__
 	  sprintf(workstring,"%s/html/%s",file_name,historyfile);
@@ -269,7 +269,7 @@ void init_history(void) {
 #define ARRAYLEN 8
    char directorycheck[1024];
    char directorycheck1[1024];
-   char copy_file[1024];
+   char copy_file[1100];
    int i, checktournament, checkhistory;
 
 #ifdef USE_WIN

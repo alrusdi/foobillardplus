@@ -20,7 +20,7 @@
 **
 */
 #ifndef FIRE_H
-#define FIREH_H
+#define FIRE_H
 
 #define MAX_FIRE_TEXTURES 14
 

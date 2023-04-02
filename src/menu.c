@@ -266,7 +266,7 @@ void menu_add_exit( menuType * menu, char *text, char * help_line)
 
 void menu_entry_set_settingtext( menuEntry * entry, char * text )
 {
-    char str[256];
+    char str[1024];
     strcpy( entry->settingtext, text );
     if( entry->text_obj != (textObj *)0 ){
         if( entry->show_subsetting && entry->settingtext[0]!=0 ){
@@ -284,7 +284,7 @@ void menu_entry_set_settingtext( menuEntry * entry, char * text )
 
 void menu_create_textobj( menuEntry * entry )
 {
-    char str[256];
+    char str[1024];
     if( entry->text_obj == (textObj *)0 ){
 
 
@@ -1903,8 +1903,10 @@ void init_menu(void)
     language_menu = menu_new( menu_cb );
     //German
     menu_add_entry(language_menu, localeText[471] , MENU_ID_LANG_DE,localeText[470]);
-    //English
-    menu_add_entry(language_menu, localeText[472], MENU_ID_LANG_EN,localeText[470]);
+    //UK English
+    menu_add_entry(language_menu, localeText[477], MENU_ID_LANG_EN_UK,localeText[470]);
+    //US English
+    menu_add_entry(language_menu, localeText[472], MENU_ID_LANG_EN_US,localeText[470]);
     //Russian
     menu_add_entry(language_menu, localeText[473], MENU_ID_LANG_RU,localeText[470]);
     //Back

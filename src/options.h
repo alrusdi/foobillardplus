@@ -117,7 +117,7 @@ extern int     options_col_ball_pool[];
 extern int     options_col_ball_carambol[];
 extern int     options_col_ball_snooker[];
 extern char    options_net_hostname[];
-extern char    options_language [3];         // language, 00 = uninitialized
+extern char    options_language [6];         // language, 00 = uninitialized
 extern int     options_net_portnum;
 extern int     options_net_compatible;           // network very slow compatibility mode
 extern int     options_net_compatible_bak;       // network very slow compatibility mode restoring after network play

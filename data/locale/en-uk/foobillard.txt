@@ -13,8 +13,8 @@ Set name of player1
 Set name of player2
 8ball pool game
 9ball pool game
-Carambol billard game
-Snooker billard game
+Carambol billiard game
+Snooker billiard game
 arg=on|off
 arg=5-100
 Browser: %s
@@ -36,7 +36,7 @@ arg=left|right|middle for aiming eye position
 arg=IP-address for TCP/IP connection
 arg=port# for TCP/IP connection
 <width>x<height> window geometry
-Play in fullscreen mode
+Play in full-screen mode
 arg=on|off free move in external view mode
 arg=on|off rendered cubemap reflections
 arg=<texture size for cuberef> (must be power of 2)
@@ -51,7 +51,7 @@ arg= browsername in path (default: firefox)
 This help
 Usage: %s [--option [<arg>]]\n
   Options:\n
-The color <0xrrggbb> means one byte for each red, green, blue\n
+The colour <0xrrggbb> means one byte for each red, green, blue\n
 Can't write to %s - check rights\n
 Computer
 Human
@@ -108,8 +108,8 @@ Bump reflections
 Bumpy wood frame
 Table theme
 Ball traces
-YES  out'a here
-NO  continue
+Yes
+No, my bad
 Excellent
 Good
 Medium
@@ -190,8 +190,8 @@ Half ball pocketed - good.
 Full ball pocketed - good. 
 No ball hit. 
 Game ball lost. 
-Player %s court. 
-Player %d court. 
+%s's shot.
+%d's shot. 
 Player remains on course. 
 Wrong ball is played. 
 Player remains on course. 
@@ -202,8 +202,8 @@ Good hit - make the next.
 Game ball lost. 
 Red ball was required. 
 Red ball - good. 
-Colored ball was required. 
-Colored ball - good. 
+coloured ball was required. 
+coloured ball - good. 
 %s was required. 
 %s holed - well done. 
 Rendering
@@ -227,7 +227,7 @@ NoName
 Keys Toggle S B E M F
 Birdview on AI/Net-Player
 Control buttons (HUD)
-Tournament timelapse
+Tournament time lapse
 Normal
 Slow
 Anisotrop * %01.0f
@@ -259,7 +259,7 @@ Network error: get incorrect settings
 Timer error: No more waiting for possible connection
 Network error: failed server socket connection
 Server connection established
-No Billiars partner found
+No Billiards partner found
 Network mode ends
 Only the Server can finish a network game
 Server / client are mathematically incompatible
@@ -373,7 +373,7 @@ Speed of a shot of the computer in tournament
 Settings for 3D mode (Red/Green glasses needed)
 Settings for lensflare effect
 Settings for the detail of the ball presentation
-Table theme and color
+Table theme and colour
 Settings to Cue Ball help-line
 Settings for the display of ball marks
 Settings for this status text
@@ -470,8 +470,9 @@ Attitude towards the behavior of the mouse movement in the horizontal direction
 Change language
 Change the language. Reboot required!
 German
-English
+US English
 Russian
 Game paused
 Pause next move on
 Pause next move off
+UK English
