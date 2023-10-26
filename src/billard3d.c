@@ -2314,6 +2314,7 @@ VMfloat angle_pm90ud(VMfloat ang)
 
 void check_cue(void) {
 
+#ifdef CUEING_DOESNT_GET_STUCK_BY_BORDER_ANY_MORE
    int cue_ball = CUE_BALL_IND; // index cue-ball
    int i; //loop
    VMvect dir,cue_start_bande,nx,ny,pos,hitpoint;
@@ -2377,6 +2378,7 @@ void check_cue(void) {
         }
      }
    }
+#endif
 }
 
 /***********************************************************************
