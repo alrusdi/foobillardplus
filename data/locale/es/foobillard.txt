@@ -1,0 +1,477 @@
+Jugador 1
+Ordenador 1
+Jugador 2
+Ordenador 2
+Cualquiera
+Completo
+Mitad
+arg=ai|humano establecer jugador1 ia/humano
+arg=ai|humano establecer jugador2 ia/humano
+arg=ai|humano establecer jugador1 ia/humano
+arg=ai|humano establecer jugador2 ia/humano
+Establecer nombre del jugador 1
+Establecer nombre del jugador 2
+Juego de billar americano de 8 bolas
+Juego de billar americano de 9 bolas
+Juego de billar de carambola
+Juego de billar de snooker
+arg=on|off
+arg=5-100
+Navegador: %s
+Mesa azul con bordes cromados
+Mesa verde con bordes dorados
+Mesa roja con bordes dorados
+Mesa negra con marco blanco
+Mesa beige con metal negro
+Tamaño de la mesa (largo) en pies (predeterminado=7.0)
+Activar destello de lente
+Desactivar destello de lente
+Usar luz posicional
+Usar luz direccional
+Errar es humano (error del jugador1 0..1)
+Errar es humano (error del jugador2 0..1)
+Establecer detalle de la bola b[ajo] m[edio] a[lto] o m[uyalto]
+Comenzar en modo estéreo (rojo-verde(cian))
+arg=izquierda|derecha|centro para posición del ojo al apuntar
+arg=Dirección IP para conexión TCP/IP
+arg=nº de puerto para conexión TCP/IP
+geometría de la ventana <ancho>x<alto>
+Jugar en modo de pantalla completa
+arg=on|off movimiento libre en modo de vista externa
+arg=on|off reflejos del mapa de cubo renderizados
+arg=<tamaño de textura para cuberef> (debe ser potencia de 2)
+arg=on|off reflejos bumpmap de los bordes
+arg=on|off bumpmap de las cubiertas de madera
+arg=on|off trazar líneas de las bolas
+arg=partido|entrenamiento|torneo
+arg=on|off Bolas de cristal activadas o desactivadas
+arg=on|off activar/desactivar avatar
+arg=1.0..10.0 Ratio de movimiento rápido de la IA para torneo
+arg= nombre del navegador en la ruta (predeterminado: firefox)
+Esta ayuda
+Uso: %s [--opción [<arg>]]\n
+  Opciones:\n
+El color <0xrrggbb> significa un byte para cada rojo, verde, azul\n
+No se puede escribir en %s - comprueba los permisos\n
+Ordenador
+Humano
+IA para %d
+Jugador humano %d
+Torneo Ejecución %d/4
+<Disparar> para continuar
+<no disponible>
+Más >
+< Atrás
+encendido
+apagado
+Esferamapa
+Renderizado
+Bolas de cristal Activar/Desactivar
+bajo
+medio
+alto
+muy alto
+medio
+izquierda
+derecha
+rg on
+rg off
+activar
+ojo de apuntar
+encendido
+apagado
+Pantalla completa
+ventana
+7 pies
+8 pies
+9 pies
+12 pies
+oro-verde
+oro-rojo
+cromo-azul
+negro-blanco
+negro-beige
+8 bola
+9 bola
+Carambola
+Snooker
+Tamaño de la mesa
+Línea de ayuda
+Tipo de juego
+Resolución
+Modo de vista
+Estéreo rojo/verde
+Destello de lente
+Detalle de la bola
+Reflejos
+Reflejos Bump
+Marco de madera accidentado
+Tema de la mesa
+Trazas de bola
+SÍ  fuera de aquí
+NO  continuar
+Excelente
+Bien
+Medio
+Malo
+Peor
+Tipo de J2
+Habilidad de J2
+Partido individual + Opciones de jugador
+Torneo
+Entrenamiento
+Nombre de J1: %s
+Nombre de J2: %s
+Puerto: %d
+Comenzar Juego
+IP: %s
+Como Anfitrión
+Unirse
+Jugador1
+Jugador2
+Comenzar Torneo
+Comenzar Entrenamiento
+Modo
+Reiniciar Juego
+Juego en red
+Pantalla
+Sonido
+Juego
+Reanudar
+Menú del Juego
+Gráfico
+Ayuda
+Salir
+gana
+Hola
+Tipo de J1
+Habilidad de J1
+Ayuda de FooBillard++
+ 
+ (ESC) ... Menú emergente
+ (F1)  ... Alternar esta pantalla de ayuda
+ (F2)  ... Alternar vista de pájaro
+ (F3)  ... Alternar vista de taco/externa
+ (F4)  ... Alternar modo de movimiento libre en vista ext
+ (F5)  ... guardar configuración
+ (F6)  ... Alternar IA/Humano del jugador actual
+ (F7)  ... Alternar Trazas de bola
+ (F8)  ... Alternar la línea de ayuda de disparo
+ (F9)  ... Sugerir tiro de la IA
+ (F10) ... Comenzar un nuevo juego
+ (M)+(◀ ▶ ▲▼) o (M)+(Movimiento del ratón) ... Colocar bola blanca
+ (E)+(◀ ▶ ▲▼) o (E)+(Movimiento del ratón) ... Ajuste de efecto
+ (F)+(▲▼) bzw. (F)+(Movimiento del ratón ▲▼)... Frente de vista (FOV)
+ (S)+(Movimiento del ratón ▲▼)  ... Disparo directo con el ratón
+ (B)+(Movimiento del ratón ▲▼) o (B)+(◀ ▶ ▲▼) ... Taco arriba/abajo
+ (U) ... Deshacer último movimiento (modo de entrenamiento)
+ (TAB) ... Cambiar bola blanca (modo de entrenamiento)
+ (◀ ▶ ▲▼) o (Movimiento del ratón ... Rotar
+ (◀)(▶) ... Ajuste de fuerza
+ (amarillo/blanco ▲)(amarillo/blanco ▼) ... Zoom +/-
+ (Botón rojo) o (botón amarillo) ... Disparar
+ © 2001 F. Berger, FB++ 2011 H. Schaekel. licencia GPL
+ 
+Gana Torneo
+El objetivo del juego son %i puntos
+siguiente:%d
+rojo
+col
+amarillo
+verde
+marrón
+azul
+rosa
+negro
+Bola extranjera aludida primero.
+Jugó primero a las 8 bola.
+Primera bola jugada en la penalización.
+Media bola embolsada - bien.
+Bola completa embolsada - bien.
+Ninguna bola golpeada.
+Bola de juego perdida.
+Jugador %s cancha.
+Jugador %d cancha.
+El jugador permanece en curso.
+Se juega la bola incorrecta.
+El jugador permanece en curso.
+La bola blanca se pierde.
+La bola amarilla se pierde.
+Bola roja perdida.
+Buen golpe - haz el siguiente.
+Bola de juego perdida.
+Se requería bola roja.
+Bola roja - bien.
+Se requería bola de color.
+Bola de color - bien.
+Se requería %s.
+%s embocada - bien hecho.
+Representación
+Resolución
+Posicional
+Directo
+Juego de 1-2 Jugadores
+Puntos: %i
+Texto de estado
+Avatar
+Tiros de Salto
+Filtro Anisotrópico
+Antialiasing
+Luces
+Reiniciar juego
+Jugador
+Opciones de Vista
+Sonido
+Manual
+SinNombre
+Teclas Alternar S B E M F
+Vista de pájaro en IA/Jugador en Red
+Botones de control (HUD)
+Lapso de tiempo del Torneo
+Normal
+Lento
+Anisotrop * %01.0f
+Disparo con el Ratón
+nuevo
+clásico
+Vista libre automática
+Alternar Modo Tron
+Direcciones IP Servidor
+arg=1-5 Velocidad de Red lenta a alta
+Velocidad de Red
+Lento
+Normal
+Medio
+Alto
+ESC - Cancelar
+Error de red: error de paquete incorrecto recibido
+Error de red: tamaño de paquete incorrecto enviado
+Error de red: no hay oyente disponible
+Error de red: Primer paquete falló al cliente
+Error de red: el primer paquete de respuesta del cliente es incorrecto
+Error de red: cliente incorrecto
+Error de red: transmisión de velocidad de conexión
+Cliente Conectado
+Error de red: Tamaño de paquete de recepción incorrecto
+Error de red: el primer paquete de respuesta del servidor es incorrecto
+Error de red: Primer paquete al servidor falló
+Error de red: obtener configuraciones incorrectas
+Error de temporizador: No más esperando posible conexión
+Error de red: falló conexión de socket del servidor
+Conexión del Servidor establecida
+No se encontró compañero de Billar
+El modo de red termina
+Solo el Servidor puede finalizar un juego en red
+Servidor / cliente son matemáticamente incompatibles
+Modo de Compatibilidad de Red
+Salir al menú anterior
+Modos de video compatibles
+Página anterior
+Página siguiente
+Disparo moviendo el ratón en dirección del taco
+Disparo moviendo el ratón arriba o abajo
+Haga clic para seguir en tiempo real
+Haga clic para seguir en doble velocidad
+Haga clic para seguir en velocidad 10 veces mayor
+Haga clic para seguir en velocidad 15 veces mayor
+Haga clic para seguir en velocidad 30 veces mayor
+Bumpmapping en el borde de madera activado
+Bumpmapping en el borde de madera desactivado
+Bumpmapping en las esquinas de la mesa activado
+Bumpmapping en las esquinas de la mesa desactivado
+Baja representación de reflejos en las bolas
+Reflexiones medias en las bolas
+Altas reflexiones en las bolas
+Muy altas reflexiones en las bolas
+Reflexión esférica simple en las bolas
+Reflexiones intensivas renderizadas en las bolas
+Bolas de cristal activadas o desactivadas (esféricas o renderizadas)
+Renderizar y tipos de bolas de cristal activadas o desactivadas
+Reflexión y calidad de la presentación de la bola
+Bumpmapping de las esquinas de la mesa
+Bumpmapping del borde de madera
+Método de luz posicional
+Luz directa
+Cambiar a pantalla completa
+Establecer en modo ventana
+Anti-aliasing activado (se requiere reinicio)
+Anti-aliasing desactivado (se requiere reinicio)
+Ángulo al centro establecido
+Ángulo al ojo izquierdo establecido
+Ángulo al ojo derecho establecido
+Modo estéreo (3D) activado. Se requieren gafas rojas/verdes
+Modo estéreo desactivado (3D)
+Menú estéreo 3D. Se requieren gafas 3D Rojas/Verdes
+Vista de ojo en Modo 3D
+Simulación de un destello de lente activado
+Simulación de un destello de lente desactivado
+Muy baja calidad visual de las bolas
+Calidad visual media de las bolas
+Alta calidad de las bolas
+Muy alta calidad de imagen de las bolas
+Decoraciones de mesa en oro y verde
+Decoración de mesa en rojo y oro
+Decoración de mesa en azul y cromo
+Decoración de mesa en negro y plata
+Representación de la mesa modelada a partir de la película Tron (On/Off)
+Mostrar interruptor de control en la pantalla
+Ocultar interruptor de control en la pantalla
+Las bolas pueden caerse de la mesa de billar
+Las bolas no pueden caerse de la mesa de billar
+Las teclas especificadas tienen una función de encendido/apagado (Recomendado)
+La tecla especificada debe mantenerse presionada para su función
+Avatar del jugador activado
+Avatar del jugador desactivado
+Mostrar esta línea de estado
+Ocultar esta línea de estado
+Mostrar rastros de Bola en movimiento
+Ocultar rastros de Bola
+Después de un disparo, volver al modo de configuración (Recomendado)
+Después de un disparo, permanecer con la última configuración actual
+Jugador de Ordenador/Red siempre en vista de pájaro
+Jugador de Ordenador/Red siempre en la vista de mesa normal
+Mostrar la línea de ayuda en la bola blanca
+Ocultar la línea de ayuda en la bola blanca
+La mesa de billar más pequeña con 7 pies
+Mesa de billar de 8 pies establecida
+Medio con mesa de billar de 9 pies
+Mesa de billar más grande en representación de 12 pies
+Cambio lento al modo de compatibilidad de red
+Cambios al modo de red rápido (Recomendado)
+Paquetes de red a un tamaño seguro (Estándar)
+Paquetes de red a tamaño regular (Recomendado)
+Paquetes de red en un tamaño mediano (buen cable necesario)
+Paquetes de red grandes (se requiere muy buena línea)
+Introducir el nombre del jugador para el jugador 1
+Introducir el nombre del jugador para el jugador 2
+Puerto (ambos juegos de ordenador deben tener los mismos valores)
+Servidor de juegos en red como inicio
+Dirección IP versión 4 del compañero (no la tuya propia)
+Participar en juego de red existente
+Un juego de red
+Unirse a un juego de red existente
+Tamaño del paquete de red, velocidad o ajustar
+Modo de compatibilidad de red activado o desactivado
+Un juego local normal para 1-2 jugadores comienza
+Un torneo local de un jugador comienza
+Otras configuraciones para jugar en red y comenzar
+Comenzar el modo de entrenamiento
+Número de puntos a alcanzar en el juego (1-100)
+Opciones para un juego de billar americano de 8 bolas y comenzar
+Opciones para un juego de billar americano de 9 bolas y comenzar
+Opciones para un billar de carambola y comenzar
+Opciones para un juego de snooker y comenzar
+Seleccionar el tipo de juego: 8Bolas, 9Bolas, Snooker o Carom
+Elegir el tamaño de la mesa
+Cambiar el interruptor de control de la pantalla
+Cambiar el comportamiento de la física de la bola
+Tipos de conjunto de disparo con el ratón
+Modo de vista después de un disparo
+Comportamiento de la tecla para el conjunto de teclas especificado
+Modo de vista para jugadores de ordenador y red
+Velocidad de un disparo del ordenador en el torneo
+Configuraciones para el modo 3D (Se necesitan gafas Rojas/Verdes)
+Configuraciones para el efecto de destello de lente
+Configuraciones para el detalle de la presentación de la bola
+Tema y color de la mesa
+Configuraciones para la línea de ayuda de la bola blanca
+Configuraciones para la visualización de marcas de bola
+Configuraciones para este texto de estado
+Configuraciones para una representación simple de un jugador
+Selección del navegador para el manual
+Filtrado anisotrópico en las texturas
+Opciones para antialiasing
+Selección del modo de video
+Seleccionar representación del juego en la pantalla
+Opciones de Reflejo
+Fuente de luz o tipo de luz entrante establecida
+Activar la salida de sonido
+Sonido apagado
+Un excelente jugador de ordenador
+Un buen jugador de ordenador
+Jugador Medio
+Un jugador bastante pobre
+Un jugador muy vil, extremadamente pobre
+Jugador es controlado por el ordenador
+El jugador eres tú ......
+Jugador de ordenador o humano
+El nivel de habilidad de un jugador
+Configuraciones para el Jugador 1
+Configuraciones para el jugador 2
+Esto dejará el programa - qué lástima ..
+Muchas gracias, quieres jugar más
+Comienza el juego en curso desde cero
+Todas las opciones para la configuración del jugador
+Tipo de juego, tamaño de la mesa, tacto, comportamiento del juego, lapso de tiempo ..
+3D, temas de mesa, navegador, configuraciones de texto, detalles ....
+Opciones para el aspecto y la sensación de los gráficos
+Salida de sonido activada o desactivada
+Mostrar una breve ayuda
+Lanzar el manual en el navegador
+Dejar de jugar bajo demanda
+Jugador cambiado de humano -> ordenador
+Jugador cambiado de ordenador -> humano
+La función no está permitida actualmente
+Las marcas de bola ahora están activas
+Las marcas de bola ya no están activas
+Propuesta de disparo del ordenador confirmada por el disparo
+Texturas de la habitación:
+activar o desactivar las texturas de la habitación
+Texturas extra:
+activar o desactivar las texturas extra
+Volumen 0-128
+Música
+Sonido activado
+Sonido desactivado
+Música activada
+Música desactivada
+Volumen de la música %i
+Volumen del sonido %i
+Captura de pantalla creada
+Saltar pista de música
+No hago nada ;-)
+ocho bolas
+nueve bolas
+bola de carambola
+bola de snooker
+Historial del Juego
+Fecha
+Ganador
+Golpes
+Rondas
+Mostrar historial del juego en navegador externo
+Mostrar historial del juego del torneo en navegador externo
+Historial del Juego
+Historial del Torneo
+Número de Juego
+Fecha del Torneo
+Ronda
+Predeterminado
+Representación de bola predeterminada
+Sincronización Vertical activada / desactivada (debe reiniciar el programa)
+Sincronización de actualización vertical
+Activar la sincronización vertical
+Sincronización vertical desactivada
+Máx. FSAA:
+Valor más pequeño = programa rápido. Valor mayor = buenos gráficos. El valor predeterminado es 2 veces
+1 vez
+2 veces
+4 veces
+8 veces
+valor fsaa 1,2,4,8
+Extratexture: 0 = apagado, 1 = predeterminado, 2 = alto
+Apagado
+Predeterminado
+Alto
+Movimiento del ratón nuevo estilo de movimiento en la horizontal
+Movimiento del ratón antiguo estilo de movimiento en la horizontal
+Movimiento del ratón
+Actitud hacia el comportamiento del movimiento del ratón en la dirección horizontal
+Cambiar idioma
+Cambiar el idioma. ¡Se requiere reiniciar!
+Alemán
+Inglés
+Ruso
+Juego en pausa
+Pausar próximo movimiento activado
+Pausar próximo movimiento desactivado

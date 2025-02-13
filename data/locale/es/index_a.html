@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foobillard ++ Manual</title>
+</head>
+<body>
+
+<h1>Foobillard ++ Manual</h1>
+
+<h2>5.4 Snooker (variante más simple)</h2>
+
+<p>Gracias por elegir foobillard++. Foobillard++ es un juego de billar en OpenGL, que se basa en el foobillard V.3.0a programado originalmente por Florian Berger. Foobillard se caracteriza en particular por una excelente física de bolas virtualmente sin precedentes. A lo largo de los años, muchos cambios y mejoras han sido realizados por programadores de todo el mundo. El mantenimiento del programa original fue desafortunadamente establecido para que permanezca en la última versión no realmente terminada en 2007. Con foobillard++ el desarrollo y la expansión adicional es realizado por Holger Schäkel. Se implementa un control optimizado del movimiento táctil y el ratón, el teclado. Se hizo mucho hincapié en que el programa se hiciera operable con solo el mouse-popinter. El sistema completo ahora es más realista (movimiento de mesa optimizado), todos los juegos ahora están listos para el torneo, un control más orientado a la pantalla en la pantalla, tiros realistas sobre otras bolas, nuevo modo de corte, más sonido, nuevas opciones, optimización gráfica, más información en el juego y muchas correcciones de errores. Se incluye un soporte Bluetooth y una red IPv6 para el modo multijugador en el futuro. Del mismo modo, se está trabajando en algunas nuevas reglas dentro de los modos de tratamiento individuales.</p>
+
+<p>El juego actualmente es compatible con versiones simples de 8 bolas, 9 bolas, Snooker y Carambola.</p>
+
+<p>Foobillard comenzó como un proyecto de código abierto bajo la GPL. Así es con foobillard++. Es un programa gratuito, sin tarifas, sin publicidad oculta. Pero tampoco hay garantía de que el programa satisfaga tus necesidades.</p>
+
+<p>Después de iniciar el programa puedes ver el siguiente diseño de pantalla. La secuencia de introducción puede ser interrumpida por una pulsación de tecla o un clic del ratón. Las personas que hablan en el fondo necesitan un poco de tiempo para sentarse virtualmente. Inmediatamente después del inicio ya estás en un juego. La naturaleza del juego y quién realiza el movimiento de apertura en el juego depende de si, en qué modo de juego terminas todo el programa. Si el último juego fue una carambola en el modo torneo, el programa comienza la próxima vez de nuevo con carambola. El primer inicio del programa inició un juego en el modo de jugador de 8 bolas. El primer jugador eres tú y el jugador 2 es el Ordenador. El nombre del jugador humano es Jugador 1. El segundo jugador se llama Ordenador 1. El nivel de habilidad del ordenador por defecto es Medio. Todos estos ajustes se pueden cambiar en los menús y puedes guardarlos.</p>
+
+<p>Imagen 1 (Inicio del programa)</p>
+
+<p>El campo de juego tiene pequeños iconos superpuestos a la izquierda, derecha y arriba. Al hacer clic con el botón izquierdo del ratón en uno de los símbolos los menús de desplazamiento se ocultan o se muestran. Para simplificar, los menús de desplazamiento izquierdo y derecho recibieron el nombre típico WeTab "barra de pulgar".</p>
+
+<p>Aquí, como ejemplo, se muestran los botones accesibles para el menú de desplazamiento superior salida de música (izquierda) y salida de sonido (derecha).</p>
+
+<p>Las pulsaciones de teclado se llaman botones de acción. Los botones de acción se utilizan aquí para introducir modos de control especiales (S, B, E, M, F3, F6, F9), ESC (menú), pantalla de ayuda (F1), Reiniciar (F10) y visualización (F2, F4, F8).</p>
+
+<p>En el cuadro de juego, dependiendo del modo (teclas de acción), puedes mover la mesa en todas las direcciones rápida y cómodamente manteniendo presionada la tecla izquierda del ratón y el movimiento del ratón. La fuerza se establece fácilmente haciendo clic con el ratón en los iconos  y . Un disparo se realiza haciendo clic con el ratón en el icono . Por medio de los símbolos y  la imagen completa dentro de los límites de las opciones de visualización se acerca o se aleja. El zoom tiene mucho sentido en algunas secuencias de disparo, incluso si este tipo de juego no es necesariamente realista. Una palmada en la vista de la cola se realizará incluyendo la cola animada. Sin la vista de la cola se realiza la ejecución inmediata de un disparo.</p>
+
+<p>Durante el movimiento se debe tener en cuenta que un movimiento hacia arriba y hacia abajo de la mesa siempre tiene un efecto en el nivel de impacto de la cola. Usando el icono del botón B todavía se puede ajustar de acuerdo con la cantidad antes del impacto en el campo sin cambiarlo. El llamativo efecto de la altitud en el control de la bola. Cuanto más alto sea el acercamiento, más probable es que una bola vuele en el modo predeterminado de "movimiento realista de la bola" en otro momento, o incluso desde la mesa de billar. Este comportamiento se puede cambiar en las opciones al antiguo modo clásico. Esto "pega" las bolas en el campo de juego sin "volar". Este comportamiento es el comportamiento normal del foobillard 3.0a.</p>
+
+<p>En la parte superior izquierda está la línea de estado que muestra alguna información útil en el juego. En algunos casos no está claro por qué, por ejemplo, es reemplazado abruptamente por el siguiente jugador, aunque tal vez la bola correcta esté en el agujero. La razón de esto se puede ver en la barra de estado. Por ejemplo, primero en el 8 bolas tiene la bola de un oponente que se juega o no se juega la primera bola en el área de penalización. La visualización de la línea de estado puede ser activada o desactivada en las opciones.</p>
+
+<p>Qué jugador está en el curso se puede ver a la izquierda en el campo de juego. Dependiendo de la categoría seleccionada para jugar aquí el color puede ser reconocido:</p>
+
+<p>*8 Bolas*</p>
+
+<p>= desconocido</p>
+
+<p>= medias bolas</p>
+
+<p>= bolas completas</p>
+
+<p>*9 Bolas*</p>
+
+<p>Qué número de bola y color se va a meter a continuación.</p>
+
+<p>*Carom*</p>
+
+<p>Puntos anotados.</p>
+
+<p>*Snooker*</p>
+
+<p>Puntuaciones y la información de qué bola es la siguiente.</p>
+
+<p>*Ratón*</p>
+
+<p>Con el movimiento del ratón, muchas secuencias se ejecutan inmediatamente. Usa la rueda del ratón (si está disponible), la fuerza de disparo se incrementa o disminuye directamente. Manteniendo presionado el botón derecho del ratón con el movimiento del ratón, la vista se acerca o se aleja (como el botón 1 y 2 o los símbolos y ). Y al principio, mantén presionado el botón izquierdo del ratón y luego haz clic con el botón derecho del ratón con el movimiento del ratón, el modo de deslizamiento de la bola de señal está activo (ver el botón de acción M), siempre que las reglas lo permitan actualmente. Al principio, manteniendo presionado el botón derecho del ratón y luego presionando el botón izquierdo del ratón con el movimiento del ratón se activa el modo de recorte (ver el botón de acción E). Presionado el botón izquierdo del ratón y el movimiento del ratón rota la mesa.</p>
+
+<table>
+    <tr>
+        <td>Con las teclas de cursor puedes mover la mesa como el movimiento del ratón.</td>
+    </tr>
+    <tr>
+        <td>La tecla 0 genera una captura de pantalla del juego en la ventana actual o en modo de pantalla completa. El mismo efecto tiene el botón de captura de pantalla en la parte superior de la pantalla. Para Linux y derivados la captura de pantalla está en el directorio de inicio del usuario y en Windows en el escritorio, cada uno en el directorio generado automáticamente foobillardplus-screenshot con un nombre aleatorio generado automáticamente.</td>
+    </tr>
+    <tr>
+        <td>Este botón de símbolo hace servicios equivalentes al símbolo en el campo. Esto es para acercar el área de la imagen.</td>
+    </tr>
+    <tr>
+        <td>Este botón de símbolo hace servicios equivalentes al símbolo en el campo. Por la presente, la pantalla real se aleja.</td>
+    </tr>
+    <tr>
+        <td>La tecla 3 activa o desactiva el sonido. Un ajuste también es posible usando el menú de desplazamiento desde la parte superior de la pantalla.</td>
+    </tr>
+    <tr>
+        <td>La tecla 4 alterna la salida de música. Un ajuste también es posible usando el menú de desplazamiento desde la parte superior de la pantalla.</td>
+    </tr>
+    <tr>
+        <td>5 disminuye el volumen del sonido. Un ajuste también es posible usando el menú de desplazamiento desde la parte superior de la pantalla.</td>
+    </tr>
+    <tr>
+        <td>6 aumenta el volumen del sonido. Un ajuste también es posible usando el menú de desplazamiento desde la parte superior de la pantalla.</td>
+    </tr>
+    <tr>
+        <td>La tecla 7 disminuye el volumen de la música. Un ajuste también es posible usando el menú de desplazamiento desde la parte superior de la pantalla.</td>
+    </tr>
+    <tr>
+        <td>8 aumenta el volumen de la música. Un ajuste también es posible usando el menú de desplazamiento desde la parte superior de la pantalla.</td>
+    </tr>
+    <tr>
+        <td>La tecla 9 salta a la siguiente canción, si se está reproduciendo una canción. Un ajuste también es posible usando el menú de desplazamiento desde la parte superior de la pantalla.</td>
+    </tr>
+    <tr>
+        <td>Se ejecuta un disparo. Este botón tiene la misma explicación, que el símbolo en el campo. Entrar con presión simultánea en ALT cambia entre el modo de pantalla completa y ventana.</td>
+    </tr>
+    <tr>
+        <td>Ajuste de la fuerza de disparo en pasos negativos. Lo mismo hace el símbolo en el campo.</td>
+    </tr>
+    <tr>
+        <td>La fuerza de disparo se incrementa. Como has adivinado, esto es equivalente al símbolo en el campo.</td>
+    </tr>
+    <tr>
+        <td>Alterna el menú de desplazamiento izquierdo.</td>
+    </tr>
+    <tr>
+        <td>Alterna el menú de desplazamiento derecho.</td>
+    </tr>
+    <tr>
+        <td>Alterna el menú de desplazamiento superior.</td>
+    </tr>
+</table>
+
+<p>Imagen 2 (Menú del juego)</p>
+
+<p>Después de seleccionar ESC, se muestra el menú principal. Algunos elementos tienen un impacto inmediato y salen del menú. Algunos conducen a submenús. En algunas opciones, los datos se pueden introducir directamente en el teclado de tu ordenador. Puedes ver esto, porque la acción habilitada está coloreada en rojo. Si no se debe realizar ninguna entrada, puedes cancelar la operación usando la tecla ESC de nuevo.</p>
+
+<p>Cuando las entradas son posibles, solo los caracteres que se ajustan a la función esperada están permitidos. Qué entradas están permitidas se anunciará más adelante en las opciones.</p>
+
+<p>Cada campo de entrada tiene una longitud máxima y una mínima. Si se excede la longitud máxima, no es posible realizar más entradas. Si se alcanza la longitud mínima de entrada, la entrada no se puede confirmar.</p>
+
+<p>Si la entrada al formato esperado no es (números, letras, etc.) correcta, puedes escuchar una explosión de sonido.</p>
+
+<p><b>Se pueden realizar los siguientes ajustes:</b>... |Reanudar|Esto detiene el menú en la configuración seleccionada actualmente y tiene el mismo efecto que la tecla ESC.|</p>
+<table>
+    <tr>
+        <td>Reiniciar juego</td>
+        <td>El mismo efecto que la tecla F10. El juego comienza de nuevo. Más información ver</td>
+    </tr>
+    <tr>
+        <td>Jugador</td>
+        <td>Puedes hacer ajustes a los jugadores 1 y 2. Es decir, nombrar, tipo (humano u Ordenador) y la habilidad del jugador. El nivel de habilidad del jugador humano tiene efectos en la calidad del cálculo de una secuencia de disparo del ordenador para ti (ver tecla F9).</td>
+    </tr>
+    <tr>
+        <td>Menú del juego</td>
+        <td>Abre otro submenú, y todas las opciones relevantes para el juego se establecen aquí: Cada categoría tiene opciones de inicio de 1-2 jugadores, torneo y sesiones de práctica. La naturaleza de los juegos de 1-2 resulta de la configuración de la opción de menú principal jugadores. Por lo tanto, se determina el orden. El resultado es un modo de espectador puro, cuando ambos jugadores están configurados para el ordenador. En el menú de carambola hay algo especial. Contrariamente a todos los demás juegos puedes especificar el número de puntos cuando se gana un juego. El valor predeterminado es 5. Ajustables aquí son valores de 1 - 100. En el modo torneo básicamente 4 carreras están comenzando a pasar por 16 jugadores. La compilación de los jugadores es puramente casual, y todos los jugadores controlados por ordenador tienen diferentes niveles de habilidad. El inicio es una pulsación en la tecla Enter. Después de todos los pases del torneo se determina un ganador. La longitud de la mesa se puede establecer entre los tamaños anteriores en pies. 7 pies es el tamaño mínimo permitido para el estándar del torneo y 12 pies, el estándar del torneo real. Esto puede ser activado y desactivado la visualización de los interruptores de control , , , y  en el campo. Para aquellos que prefieren el control total con el teclado, no se requiere el interruptor de control. Con el vuelo de la bola realista solo se quiere decir que las bolas son móviles de acuerdo con las leyes de la física no solo en el campo de juego (fuera), sino también jugadas en otras esferas, o incluso para salir de la mesa (encendido). Debido a que en F. Berger originalmente creó fórmulas de cálculo muy complejas (resistencia del aire y fricción), no se gestionó recientemente en foobillard 3.0a. Dado que foobillard++ eso se acabó. Para obtener más detalles, consulta el disparo del ratón en las notas del símbolo de la tecla. Con esta opción puedes configurar si se devuelve después de un disparo hacia adelante al siguiente disparo. Si en todos los ajustes, como la vista de la cola, o la vista clara de nuevo se restablecen para que puedas proceder inmediatamente con el ajuste al siguiente disparo. El valor predeterminado es On. Te permite controlar qué vista un posible jugador de red (en preparación) y un ordenador en el jugador predeterminado realiza sus golpes. Al llegar, se cambia automáticamente a una vista de pájaro para que puedas seguir mejor el impacto del jugador. En el estado de apagado es una visualización normal. El valor predeterminado es apagado. La velocidad de los jugadores de ordenador en el modo torneo. En la etapa normal, un control en tiempo real está activo. Con cada paso más alto, la visualización es más rápida.</td>
+    </tr>
+    <tr>
+        <td>Opciones de visualización</td>
+        <td>Se abre otro submenú con las siguientes opciones: Si tienes gafas 3D (rojo/verde o rojo/azul), puedes disfrutar del juego después de la activación en 3D. En otro menú puedes ajustar el objetivo del ojo (izquierda, centro o derecha) se acerca más a tu percepción 3D. Se debe tener en cuenta que un efecto 3D puede causar alucinaciones, dependiendo de la persona o dolor de cabeza. Una vez que no te encuentres bien, apaga el modo estéreo inmediatamente. Una activación es totalmente a tu propio riesgo. Una ilustración simple de una lámpara sobre la mesa con destello de lente, como si estuvieras mirando a través de una cámara. Detalle de la bola - Bajo, Medio, Alto, Muy Alto Tema de la mesa - oro verde, oro, rojo, azul y cromo y negro-y-beige En el modo Tron, la mesa de billar está en un estilo similar a la película Tron. Puedes alternar esta función con esta opción. Con los rastros de la bola, puedes rastrear el movimiento real de todas las bolas. Esto puede ser relevante para futuros disparos. Esto se puede configurar para mostrar el navegador de Internet necesario. El valor predeterminado es firefox. La longitud máxima de entrada está limitada a 15 caracteres y el navegador debe estar en la ruta de búsqueda. Es decir, un inicio del navegador solo es posible con su nombre de programa al que se accede desde cualquier directorio. En los sistemas modernos Linux/Unix/Posix-like ese es el caso. Además, existe la posibilidad de introducir la palabra navegador. El archivo browser.sh reside en el directorio de datos. Esto se ejecuta entonces en la instrucción de llamada. Un archivo de ejemplo está en el directorio de datos. Con MS-Windows el programa es invocado, que está asociado con la extensión xml.</td>
+    </tr>
+    <tr>
+        <td>Gráfico</td>
+        <td>El submenú contiene las siguientes entradas: Con un cambio de configuración en el juego todo el programa se ha detenido y reiniciado por completo. Cuando el antialiasing en Linux es para notar que cualquier anti-aliasing existente no se puede mostrar inmediatamente. Tienes que reiniciar el programa. Cuando reinicies el programa es seguido por intentos a un modo de pantalla válido existente (modo anti-aliasing FSAA). En caso de fallo, el programa no se iniciará y los ajustes para anti-aliasing se restablecerán en FSAA y se almacenarán. Por favor, reinicia el programa. La aplicación entonces solo aceptará métodos de suavizado rudimentarios para las líneas. En punto de anti-aliasing se puede seguir ajustando el valor máximo de un suavizado de borde FSAA. Valores más pequeños = programa más rápido y valores más grandes = mejores gráficos. El valor predeterminado aquí es 2 veces y puede moverse en el rango de 1 a 8 veces. En los métodos de renderizado, todavía puedes elegir bolas de cristal. La representación de las bolas como si estuvieran hechas de un material translúcido similar al vidrio.</td>
+    </tr>
+    <tr>
+        <td>Sonido</td>
+        <td>Encendido/Apagado</td>
+    </tr>
+    <tr>
+        <td>Música</td>
+        <td>Encendido/Apagado</td>
+    </tr>
+    <tr>
+        <td>Ayuda</td>
+        <td>La selección alterna una pequeña pantalla de ayuda como F1.</td>
+    </tr>
+    <tr>
+        <td>Manual</td>
+        <td>Una pequeña broma para explicar este menú aquí. Ya lo estás leyendo ...... Es importante asegurarse de que mientras se ve la guía, el juego está en pausa. Un simple cambio de la ventana activa al juego de vuelta no es suficiente para continuar jugando. Las instrucciones deben detenerse por completo. Solo entonces es posible seguir jugando.</td>
+    </tr>
+    <tr>
+        <td>Historial del juego</td>
+        <td>Cuando se activa, un historial del juego guardado previamente tiene lugar en un navegador externo. En Linux, la llamada se realiza en los datos introducidos en las preferencias del navegador. En MS-Windows el programa es iniciado con el que están asociados los archivos xml. Si no hay ninguna acción, comprueba si el navegador admite en absoluto los archivos xml con hojas de estilo xsl, o en MS-Windows es un programa vinculado a la representación de archivos xml. Linux o derivados compatibles Unix-/Posix, el archivo subyacente se encuentra en el directorio de inicio del usuario activo en el subdirectorio foobillardplus-data/html y el archivo historie.xml (datos históricos) y historie.xsl (xsl-Stylesheet para el archivo xml). En MS-Windows los archivos se encuentran en la carpeta foobillardplus-data en el escritorio.</td>
+    </tr>
+    <tr>
+        <td>Historial del torneo</td>
+        <td>Cuando se activa, un historial del juego guardado previamente tiene lugar en un navegador externo. En Linux, la llamada se realiza en los datos introducidos en las preferencias del navegador. En MS-Windows el programa es iniciado con el que están asociados los archivos xml. Si no hay ninguna acción, comprueba si el navegador admite en absoluto los archivos xml con hojas de estilo xsl, o en MS-Windows es un programa vinculado a la representación de archivos xml. Linux o derivados compatibles Unix-/Posix, el archivo subyacente se encuentra en el directorio de inicio del usuario activo en el subdirectorio foobillardplus-data/html y el archivo tournament.xml (datos históricos) y tournament.xsl (xsl-Stylesheet para</td>
+    </tr>
+</table>
+
