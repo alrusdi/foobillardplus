@@ -30,13 +30,13 @@ jobs:
             libglu1-mesa-dev \
             libfreetype6-dev \
             libpng-dev \
-            libsdl1.2-dev \
-            libsdl-net1.2-dev \
-            libsdl-mixer1.2-dev
-      - name : Build
+            libsdl2-dev \
+            libsdl2-net-dev \
+            libsdl2-mixer-dev
+      - name: Build
         run: ./buildme.sh ${{ matrix.confargs }}
-      - name : Install
-        run : |
+      - name: Install
+        run: |
           sudo make install
-      - name : Smoke test
-        run : ldd /usr/games/foobillardplus/bin/foobillardplus 
+      - name: Smoke test
+        run: ldd /usr/games/foobillardplus/bin/foobillardplus
