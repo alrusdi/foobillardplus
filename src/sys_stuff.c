@@ -22,13 +22,15 @@
 **
 */
 
+#define _POSIX_C_SOURCE 200809L
+
 #include "options.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_syswm.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
 #ifdef USE_WIN
   #include <windows.h>
   #include <shellapi.h>
@@ -37,7 +39,7 @@
 #endif
 
 #ifdef NETWORKING
-  #include <SDL/SDL_net.h>
+  #include <SDL2/SDL_net.h>
 #endif
 #include "sound_stuff.h"
 #ifdef __APPLE__
@@ -59,10 +61,12 @@
 static char browser[256];
 static int fullscreen = 0;
 static int keymodif =0;
-static int vidmode_bpp=0;
 static int sdl_on = 0;
 static int check_SDL;           // check for mousebutton for manual from fullscreen
 static int ignore = 0;          // SDL bug set videomode calls reshape event twice SDL 1.2.8 and > ?
+static SDL_Window *main_window = NULL;
+static SDL_GLContext main_glcontext = NULL;
+// Note: vid_surface is no longer needed but keep it for now for compatibility
 SDL_Surface * vid_surface = NULL;
 
 /***************************************************
@@ -118,10 +122,14 @@ int get_dialogprog(void) {
     char file[1024];
     int i;
     struct split sp;
+    char *env_path = getenv("PATH");
 
-    strcpy(path,getenv("PATH"));
+    if(env_path == NULL) {
+        fprintf(stderr, "PATH environment variable not set\n");
+        return(-1);
+    }
+    strcpy(path, env_path);
     fprintf(stderr,"Check for Dialog-Program\n");
-    if(path!=NULL) {
       // extract every path and check for zenity or kdialog
       sp = split(path, ':');
       for (i=0; i<sp.count; i++) {
@@ -145,7 +153,6 @@ int get_dialogprog(void) {
             return(2);
         }
       }
-    }
     return(-1);
 }
 
@@ -155,45 +162,45 @@ int get_dialogprog(void) {
 
 void error_print(char *error_message, char *error_extend) {
 
-char message[2048];
+    char message[2048];
 
-  if(error_extend) {
-    snprintf(message,sizeof(message),error_message,error_extend);
-  } else {
-    snprintf(message,sizeof(message),"%s",error_message);
-  }
-  fprintf(stderr,"%s\n",message); // print error to stderr every time
+    if(error_extend) {
+	snprintf(message,sizeof(message),error_message,error_extend);
+    } else {
+	snprintf(message,sizeof(message),"%s",error_message);
+    }
+    fprintf(stderr,"%s\n",message); // print error to stderr every time
 #ifdef USE_WIN
-  MessageBox(0,message,"Foobillard++ Error",MB_OK);
+    MessageBox(0,message,"Foobillard++ Error",MB_OK);
 #else
 #ifdef __APPLE__
   // needs -framework CoreFoundation
-  SInt32 nRes = 0;
-  CFUserNotificationRef pDlg = NULL;
-  const void* keys[] = { kCFUserNotificationAlertHeaderKey,
-  kCFUserNotificationAlertMessageKey };
-  const void* vals[] = {
-  CFSTR("Foobillard++ Error"),
-  CFStringCreateWithCString(NULL, message, kCFStringEncodingMacRoman)
-  };
-  if(!sys_get_fullscreen()) {
-  // display a dialog window only if fullscreen is not active
-  CFDictionaryRef dict = CFDictionaryCreate(0, keys, vals,
-                  sizeof(keys)/sizeof(*keys),
-                  &kCFTypeDictionaryKeyCallBacks,
-                  &kCFTypeDictionaryValueCallBacks);
-  pDlg = CFUserNotificationCreate(kCFAllocatorDefault, 0,
-                       kCFUserNotificationPlainAlertLevel,
-                       &nRes, dict);
-  }
+    SInt32 nRes = 0;
+    CFUserNotificationRef pDlg = NULL;
+    const void* keys[] = { kCFUserNotificationAlertHeaderKey,
+    kCFUserNotificationAlertMessageKey };
+    const void* vals[] = {
+	CFSTR("Foobillard++ Error"),
+	CFStringCreateWithCString(NULL, message, kCFStringEncodingMacRoman)
+    };
+    if(!sys_get_fullscreen()) {
+	// display a dialog window only if fullscreen is not active
+	CFDictionaryRef dict = CFDictionaryCreate(0, keys, vals,
+		    sizeof(keys)/sizeof(*keys),
+		    &kCFTypeDictionaryKeyCallBacks,
+		    &kCFTypeDictionaryValueCallBacks);
+	pDlg = CFUserNotificationCreate(kCFAllocatorDefault, 0,
+			kCFUserNotificationPlainAlertLevel,
+			&nRes, dict);
+    }
 #else
-  char *dialog_prog[] = {"zenity --error --text=\"%s\"","kdialog --error \"%s\"","xmessage -center %s"};
-  char newmessage[2048];
-  // display a dialog window only if fullscreen is not active
-  if(dialog>=0 && dialog < 2 && !sys_get_fullscreen()) {
-    snprintf(newmessage,sizeof(newmessage),dialog_prog[dialog],message);
-    system(newmessage);
-  }
+    char *dialog_prog[] = {"zenity --error --text=\"%s\"","kdialog --error \"%s\"","xmessage -center %s"};
+    char newmessage[2048];
+    // display a dialog window only if fullscreen is not active
+    if(dialog>=0 && dialog < 2 && !sys_get_fullscreen()) {
+	snprintf(newmessage,sizeof(newmessage),dialog_prog[dialog],message);
+	system(newmessage);
+    }
 #endif
 #endif
 }
@@ -290,22 +297,26 @@ void get_browser(char *strpointer) {
 void sdl_exit()
 {
     if (sdl_on) {
-      /*
-       * Quit SDL so we can release the fullscreen
-       * mode and restore the previous video settings,
-       * etc.
-       */
-       save_config(); //save the config (must!!!)
-  #ifdef USE_SOUND
-       exit_sound();
-  #endif
-  #ifdef NETWORKING
-        SDLNet_Quit();  //in case of open Netgame
-  #endif
+        save_config();
+#ifdef USE_SOUND
+        exit_sound();
+#endif
+#ifdef NETWORKING
+        SDLNet_Quit();
+#endif
+        if(main_glcontext) {
+            SDL_GL_DeleteContext(main_glcontext);
+            main_glcontext = NULL;
+        }
+        if(main_window) {
+            SDL_DestroyWindow(main_window);
+            main_window = NULL;
+        }
         SDL_Quit();
         sdl_on = 0;
     }
-  }
+}
+
 /***********************************************************************
  *                      Exit with SDL-Support                          *
  ***********************************************************************/
@@ -322,182 +333,162 @@ void sys_exit( int code )
 
 void sys_create_display(int width,int height,int _fullscreen)
 {
-	 fullscreen = _fullscreen;
-  /* Information about the current video settings. */
-  const SDL_VideoInfo* info = NULL;
-  int vidmode_flags=0, samplingerror = 0;
+    fullscreen = _fullscreen;
+    int samplingerror = 0;
+    Uint32 window_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
-  /* First, initialize SDL's video subsystem. */
+    /* First, initialize SDL's video subsystem. */
 #ifdef USE_SOUND
-  if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0 ) {
-    error_print("Video or Audio initialization failed: %s",SDL_GetError());
+    if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0 ) {
+        error_print("Video or Audio initialization failed: %s", (char*)SDL_GetError());
 #else
-  if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 ) {
-    error_print("Video initialization failed: %s",SDL_GetError());
+    if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 ) {
+        error_print("Video initialization failed: %s", (char*)SDL_GetError());
 #endif
-    sys_exit(1);
-  }
+        sys_exit(1);
+    }
 
-  sdl_on = 1 ; 
+    sdl_on = 1;
 
-  /* Let's get some video information. */
-  info = SDL_GetVideoInfo( );
-  
-  if( !info ) {
-    /* This should probably never happen. */
-    error_print("Video query failed: %s",SDL_GetError());
-    sys_exit(1);
-  }
-  
-  vidmode_bpp = info->vfmt->BitsPerPixel;
+    /* Set OpenGL attributes before window creation */
+    SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
+    SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
+    SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
+    SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
+    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
-  /*
-   * Now, we want to setup our requested
-   * window attributes for our OpenGL window.
-   * We want *at least* 5 bits of red, green
-   * and blue. We also want at least a 16-bit
-   * depth buffer.
-   *
-   * The last thing we do is request a VMfloat
-   * buffered window. '1' turns on VMfloat
-   * buffering, '0' turns it off.
-   *
-   * Note that we do not use SDL_DOUBLEBUF in
-   * the flags to SDL_SetVideoMode. That does
-   * not affect the GL attribute state, only
-   * the standard 2D blitting setup.
-   */
-
-  SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
-  SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
-  SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
-  SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-
-  if (SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ) <0) {
-  	 fprintf(stderr, "SDL_GL_DOUBLEBUFFER error: %s\n", SDL_GetError());
-  	 options_vsync = 0;
-  } else {
 #ifdef __APPLE__
-  const GLint swapInterval = 1;
-	 CGLSetParameter(CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
-#endif
-//compile without errors, if SDL is < Version 1.2.10 at compile time
-// on windows with patchlevel 15 only, rest of the world with higher 9
-#ifdef USE_WIN
-  #define CHECK_LEVEL 14
-#else
-  #define CHECK_LEVEL 9
-#endif
-#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > CHECK_LEVEL
-// The next works only with fsaa options off!!! and not stable on win Patchlevel < 15
-#ifndef USE_WIN
-  if(!options_fsaa_value) {
-    if(SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 ) < 0 ) {
-       fprintf( stderr, "Unable to guarantee accelerated visual with libSDL < 1.2.10\n");
-	  }
-  }
-#endif
-  if(vsync_supported()) {
-  	 if(options_vsync) {
-      if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1) < 0) { // since SDL v1.2.10
-        fprintf(stderr, "SDL_GL_SWAP_CONTROL error: %s\n", SDL_GetError());
-        options_vsync = 0;
-      }
-  	 }
-  } else {
-    fprintf(stderr,"SDL-System without control of vsync. Scrolling may stutter\n");
-  }
-#endif
-  }
-
-#ifndef WETAB
-  if(options_fsaa_value) {
-    samplingerror = SDL_GL_SetAttribute( SDL_GL_MULTISAMPLEBUFFERS, 1);
-    if(!samplingerror) {
-      samplingerror = SDL_GL_SetAttribute( SDL_GL_MULTISAMPLESAMPLES,options_fsaa_value);
-    }
-  }
-  if (samplingerror == -1) {
-#endif
-    options_fsaa_value = 0;
-    fprintf(stderr,"FSAA Multisample not available\n");
-#ifndef WETAB
-  }
-#endif
-  SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
-  /* key repeat caused problem when toggling fullscreen !!! */
-
-  vidmode_flags = SDL_OPENGL;
-
-  if ( info->hw_available ) {
-    vidmode_flags |= SDL_HWSURFACE;
-    vidmode_flags |= SDL_HWPALETTE; /* Store the palette in hardware */
-  } else {
-    vidmode_flags |= SDL_SWSURFACE;
-  }
-
-  if ( info->blit_hw ) { /* checks if hardware blits can be done */
-    vidmode_flags |= SDL_HWACCEL;
-  }
-#ifndef WETAB
-  if (fullscreen) {
-      vidmode_flags |= SDL_FULLSCREEN;
-  } else {
-#ifndef __APPLE__
-      vidmode_flags |= SDL_RESIZABLE;
-#endif
-  }
-#else
-  vidmode_flags |= SDL_FULLSCREEN;
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 #endif
 
-  //Set the window icon
-  SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"),NULL);
-
-#ifndef WETAB
-  if(options_fsaa_value > options_maxfsaa) {
-  	options_fsaa_value = options_maxfsaa;
-  }
-  while (vid_surface == NULL) {
-#endif
-   if((vid_surface=SDL_SetVideoMode( width, height, vidmode_bpp, vidmode_flags )) == NULL) {
-    if(!options_fsaa_value) {
-       error_print("Video mode set failed. Please restart Foobillard++",NULL);
-       sys_exit(1);
-    }
-#ifndef WETAB
-    fprintf( stderr, "Video mode set failed: %s\nSwitch to other mode\n", SDL_GetError());
-    if(options_fsaa_value) {
-      options_fsaa_value >>= 1;
-      fprintf(stderr,"FSAA %i\n",options_fsaa_value);
-      SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, options_fsaa_value);
+    /* VSync support */
+    if(options_vsync) {
+        SDL_GL_SetSwapInterval(1);
     } else {
-      SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,0);
+        SDL_GL_SetSwapInterval(0);
+    }
+
+#ifndef WETAB
+    /* FSAA/Multisample support */
+    if(options_fsaa_value) {
+        samplingerror = SDL_GL_SetAttribute( SDL_GL_MULTISAMPLEBUFFERS, 1);
+        if(!samplingerror) {
+            samplingerror = SDL_GL_SetAttribute( SDL_GL_MULTISAMPLESAMPLES, options_fsaa_value);
+        }
+    }
+    if (samplingerror == -1) {
+#endif
+        options_fsaa_value = 0;
+        fprintf(stderr,"FSAA Multisample not available\n");
+#ifndef WETAB
     }
 #endif
-   }
+
+    /* Set window flags */
 #ifndef WETAB
-  }
-  // Check new settings for better output the next line is a must for multisample
-  if(!samplingerror && options_fsaa_value){
-     fprintf(stderr,"Attempt to initialize FSAA Multisample (Antialiasing)\n");
-     glEnable(GL_MULTISAMPLE);
-     //glHint(GL_MULTISAMPLE_FILTER_HINT_NV,GL_NICEST); //be careful (Nvidia-specific), set over an option ?
-  }
+    if (fullscreen) {
+        window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+    } else {
+#ifndef __APPLE__
+        window_flags |= SDL_WINDOW_RESIZABLE;
 #endif
-  SDL_WM_SetCaption("Foobillardplus","Foobillardplus");
-#ifdef TOUCH
-  cursor = SDL_CreateCursor(cursorData, cursorMask, 16, 16, 0, 0);
-  SDL_SetCursor (cursor);
-  sys_fullscreen(1);
+    }
+#else
+    window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 #endif
 
-  glPolygonMode(GL_FRONT,GL_FILL);  // fill the front of the polygons
-  glPolygonMode(GL_BACK,GL_LINE);   // only lines for back (better seeing on zooming)
-  glCullFace(GL_BACK);              // Standards for rendering only front of textures
-  glEnable(GL_CULL_FACE);
-  glShadeModel(GL_SMOOTH);
+    /* Enable key repeat */
+    // Note: SDL 2.0 handles this differently, but we'll keep it for now
+
+#ifndef WETAB
+    if(options_fsaa_value > options_maxfsaa) {
+        options_fsaa_value = options_maxfsaa;
+    }
+    
+    /* Try different FSAA values if window creation fails */
+    while (main_window == NULL && options_fsaa_value >= 0) {
+#endif
+        /* Create window */
+        main_window = SDL_CreateWindow(
+            "Foobillardplus",
+            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,
+            width, height,
+            window_flags
+        );
+
+        if(main_window == NULL) {
+            if(!options_fsaa_value) {
+                error_print("Window creation failed. Please restart Foobillard++", NULL);
+                sys_exit(1);
+            }
+#ifndef WETAB
+            fprintf(stderr, "Window creation failed: %s\nSwitch to other mode\n", SDL_GetError());
+            if(options_fsaa_value) {
+                options_fsaa_value >>= 1;
+                fprintf(stderr,"FSAA %i\n", options_fsaa_value);
+                SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, options_fsaa_value);
+            } else {
+                SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
+                break;  // Stop trying, will fail next iteration anyway
+            }
+        } else {
+            break;  // Success!
+#endif
+        }
+#ifndef WETAB
+    }
+#endif
+
+    /* Create OpenGL context */
+    if(main_window) {
+        main_glcontext = SDL_GL_CreateContext(main_window);
+        if(!main_glcontext) {
+            error_print("OpenGL context creation failed: %s", (char*)SDL_GetError());
+            SDL_DestroyWindow(main_window);
+            main_window = NULL;
+            sys_exit(1);
+        }
+    }
+
+    /* Apply VSync setting */
+    if(options_vsync) {
+        SDL_GL_SetSwapInterval(1);
+    }
+
+#ifndef WETAB
+    /* Check and enable FSAA if requested */
+    if(!samplingerror && options_fsaa_value) {
+        fprintf(stderr,"Attempt to initialize FSAA Multisample (Antialiasing)\n");
+        glEnable(GL_MULTISAMPLE);
+    }
+#endif
+
+    /* Set window icon */
+    SDL_Surface *icon = SDL_LoadBMP("icon.bmp");
+    if(icon) {
+        SDL_SetWindowIcon(main_window, icon);
+        SDL_FreeSurface(icon);
+    }
+
+#ifdef TOUCH
+    cursor = SDL_CreateCursor(cursorData, cursorMask, 16, 16, 0, 0);
+    SDL_SetCursor(cursor);
+    sys_fullscreen(1);
+#endif
+
+    /* OpenGL initialization */
+    glPolygonMode(GL_FRONT, GL_FILL);
+    glPolygonMode(GL_BACK, GL_LINE);
+    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glShadeModel(GL_SMOOTH);
+    
+    /* For compatibility - set vid_surface to a dummy value */
+    vid_surface = (SDL_Surface*)1;  // Non-NULL to indicate success
 }
+
 
 /***********************************************************************
  *                          Fullscreen active ?                        *
@@ -515,44 +506,32 @@ int sys_get_fullscreen(void)
 
 void sys_fullscreen( int fullscr )
 {
-
 #ifdef __APPLE__
-	// would need to rebuild context for toggling fullscreen
-	fullscreen = fullscr;
+    // would need to rebuild context for toggling fullscreen
+    fullscreen = fullscr;
 #elif defined(USE_WIN)
-	   // MS-Windows and SDL 1.2 with OpenGL are not really friends
-	   // and at the time I don't want to rebuild the whole OpenGL context
-	   // so only a window resize to fullscreen and back is done
-	   SDL_SysWMinfo info;
-	   SDL_VERSION(&info.version);
-	   SDL_GetWMInfo(&info);
-	   if(fullscr) {
-	      ShowWindow(info.window, SW_MAXIMIZE);
-	   } else {
-       ShowWindow(info.window, SW_RESTORE);
-	   }
-	   fullscreen = fullscr;
-#else
-    SDL_Surface * screen;
-    Uint32 flags;
-
-    screen = SDL_GetVideoSurface();
-    flags = screen->flags; /* Save the current flags in case toggling fails */
-    SDL_EnableKeyRepeat( 0, 0 );
-    if ( fullscr!=0 && (screen->flags & SDL_FULLSCREEN)==0 ){
-    	screen = SDL_SetVideoMode( 0, 0, 0, screen->flags | SDL_FULLSCREEN );
-    } else if( fullscr==0 && (screen->flags & SDL_FULLSCREEN)!=0 ){
-    	screen = SDL_SetVideoMode( 0, 0, 0, screen->flags & ~SDL_FULLSCREEN);
-    }
-    if(screen == NULL) {
-    	screen = SDL_SetVideoMode(0, 0, 0, flags); /* If toggle FullScreen failed, then switch back */
+    // MS-Windows and SDL 1.2 with OpenGL are not really friends
+    // and at the time I don't want to rebuild the whole OpenGL context
+    // so only a window resize to fullscreen and back is done
+    SDL_SysWMinfo info;
+    SDL_VERSION(&info.version);
+    SDL_GetWMInfo(&info);
+    if(fullscr) {
+        ShowWindow(info.window, SW_MAXIMIZE);
     } else {
-    	fullscreen = fullscr;
+        ShowWindow(info.window, SW_RESTORE);
     }
-    SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
-    if(screen == NULL) {
-        error_print("Video-Error on set full-screen/windowed mode. Terminating",NULL);
-    	sys_exit(1); /* If you can't switch back for some reason, then epic fail */
+    fullscreen = fullscr;
+#else
+    /* SDL 2.0 fullscreen toggle */
+    if(main_window) {
+        if(fullscr != 0) {
+            SDL_SetWindowFullscreen(main_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+            fullscreen = 1;
+        } else {
+            SDL_SetWindowFullscreen(main_window, 0);
+            fullscreen = 0;
+        }
     }
 #endif
 }
@@ -576,7 +555,7 @@ void sys_toggle_fullscreen( void )
 
 static void update_key_modifiers(void)
 {
-  SDLMod m ;
+  SDL_Keymod m;
   m=SDL_GetModState();
   keymodif=0 ;
   if (KMOD_CTRL  & m) keymodif |= KEY_MODIFIER_CTRL ;
@@ -745,32 +724,20 @@ static void handle_key_up(SDL_KeyboardEvent* e)
 
 void sys_resize( int width, int height, int callfrom )
 {
-
 #ifdef __APPLE__
-	  // would need to reload whole opengl context just like with fullscreen toggling
+    // would need to reload whole opengl context just like with fullscreen toggling
 #else
-    SDL_Surface * screen;
-    Uint32 flags;
-
     if(width < 958) width = 958;      // don't resize below this
     if(height < 750) height = 750;
+    
     ignore = callfrom;
-    screen = SDL_GetVideoSurface();
-    flags = screen->flags; /* Save the current flags in case toggling fails */
-    SDL_EnableKeyRepeat( 0, 0 );
-    screen = SDL_SetVideoMode( width, height, screen->format->BitsPerPixel, screen->flags);
-    SDL_Delay(300);
-    //fprintf(stderr,"Called x: %i y: %i\n",width,height);
-    SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
-    if(screen == NULL) {
-    	   screen = SDL_SetVideoMode(0, 0, 0, flags); /* If failed, then switch back */
+    
+    if(main_window) {
+        SDL_SetWindowSize(main_window, width, height);
+        SDL_Delay(300);
     }
-    SDL_EnableKeyRepeat( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
-    if(screen == NULL) {
-        error_print("Video-Error on window resize. Terminating!",NULL);
-    	sys_exit(1); /* If you can't switch back for some reason, then epic fail */
-    }
-    ResizeWindow(width,height);
+    
+    ResizeWindow(width, height);
 #endif
 }
 
@@ -802,40 +769,43 @@ void handle_motion_event(SDL_MouseMotionEvent *e)
 
 static void  process_events( void )
 {
-  /* Our SDL event placeholder. */
-  SDL_Event event;
+    SDL_Event event;
 
-    /* Grab all the events off the queue. */
-  while( SDL_PollEvent( &event ) ) 
-   {
-    switch( event.type ) {
-      case SDL_KEYUP:
-        handle_key_up( &event.key );
-	       break;
-      case SDL_KEYDOWN:
-        /* Handle key presses. */
-        handle_key_down( &event.key );
-	       break;
-      case SDL_QUIT:
-	       /* Handle quit requests (like Ctrl-c). */
-	       sys_exit(0);
-	       break;
-      case SDL_MOUSEMOTION:
-        handle_motion_event(&(event.motion)) ;
-	       break ;
-      case SDL_MOUSEBUTTONDOWN:
-      case SDL_MOUSEBUTTONUP:
-	       handle_button_event(&(event.button)) ;
-	       check_SDL = 0;
-        break ;
-      case SDL_VIDEORESIZE:
-        handle_reshape_event(event.resize.w,event.resize.h);
-        break;
-      default:
-        //	fprintf( stderr,"EVENT: %d\n", (int) event.type ) ;
-        break;
+    while( SDL_PollEvent( &event ) ) 
+    {
+        switch( event.type ) {
+            case SDL_KEYUP:
+                handle_key_up( &event.key );
+                break;
+            case SDL_KEYDOWN:
+                handle_key_down( &event.key );
+                break;
+            case SDL_QUIT:
+                sys_exit(0);
+                break;
+            case SDL_MOUSEMOTION:
+                handle_motion_event(&(event.motion)) ;
+                break ;
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP:
+                handle_button_event(&(event.button)) ;
+                check_SDL = 0;
+                break ;
+            case SDL_WINDOWEVENT:  // CHANGED: was SDL_VIDEORESIZE
+                if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
+                    handle_reshape_event(event.window.data1, event.window.data2);
+                }
+                break;
+            // OPTIONAL: Add touch support for Android
+            case SDL_FINGERDOWN:
+            case SDL_FINGERUP:
+            case SDL_FINGERMOTION:
+                // TODO: Convert touch to mouse events for Android
+                break;
+            default:
+                break;
+        }
     }
-   }
 }
 
 /***********************************************************************
@@ -855,21 +825,25 @@ int checkkey(void) {
  *           get all resolution modes for SDL/OpenGL                   *
  ***********************************************************************/
 
-sysResolution *sys_list_modes( void ) {
+sysResolution *sys_list_modes(void) 
+{
     sysResolution * sysmodes;
-    SDL_Rect ** modes;
-    int i, modenr;
+    int display_index = 0;  // Primary display
+    int num_modes = SDL_GetNumDisplayModes(display_index);
+    int i;
 
-    modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-    for(i=0;modes[i];i++);
-    modenr=i;
-    sysmodes = (sysResolution *) malloc((modenr+1)*sizeof(sysResolution));
-    for(i=0;modes[i];i++){
-        sysmodes[i].w = modes[i]->w;
-        sysmodes[i].h = modes[i]->h;
+    sysmodes = (sysResolution *) malloc((num_modes + 1) * sizeof(sysResolution));
+    
+    for(i = 0; i < num_modes; i++) {
+        SDL_DisplayMode mode;
+        if(SDL_GetDisplayMode(display_index, i, &mode) == 0) {
+            sysmodes[i].w = mode.w;
+            sysmodes[i].h = mode.h;
+        }
     }
-    sysmodes[i].w=0;  /* terminator */
-    sysmodes[i].h=0;  /* terminator */
+    
+    sysmodes[i].w = 0;  /* terminator */
+    sysmodes[i].h = 0;  /* terminator */
 
     return( sysmodes );
 }
@@ -888,11 +862,11 @@ void sys_main_loop(void) {
   	 if(options_vsync) {
        process_events();
        DisplayFunc();
-       SDL_GL_SwapBuffers();
+       SDL_GL_SwapWindow(main_window);
     } else {
        process_events();
        DisplayFunc();
-       SDL_GL_SwapBuffers();
+       SDL_GL_SwapWindow(main_window);
        t = SDL_GetTicks();
        sleeptime = 15-(t-old_t); //wish sleeptime is 15 milliseconds
        old_t = t;
@@ -1034,16 +1008,8 @@ int launch_command(const char *command) {
  *      check if vsync is supported with SDL                           *
  ***********************************************************************/
 
-int vsync_supported(void) {
-//compile without errors, if SDL is < Version 10 at compile time
-#if SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL > 9
-	   SDL_version v;
-
-    v = *SDL_Linked_Version();
-    if(v.major == 1 && v.minor == 2 && v.patch > 9) {
-    	 return 1;
-    }
-#endif
-    options_vsync = 0; //if not supported by SDL turn every time off
-    return 0;
+int vsync_supported(void) 
+{
+    // SDL 2.0 always supports vsync control via SDL_GL_SetSwapInterval
+    return 1;
 }

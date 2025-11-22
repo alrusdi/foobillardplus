@@ -31,7 +31,7 @@
 #include "language.h"
 #include "font.h"
 #include "textobj.h"
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include "sound_stuff.h"
 
 // functions inside

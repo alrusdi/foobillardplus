@@ -44,7 +44,7 @@
 #ifdef USE_WIN //HS
 	#include <GL/glext.h>
  #include <fcntl.h>
- #include <SDL/SDL.h>
+ #include <SDL2/SDL.h>
 #endif
 #include <string.h>
 #include <sys/stat.h>

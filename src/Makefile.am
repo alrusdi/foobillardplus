@@ -155,8 +155,8 @@ foobillardplus_SOURCES = \
    getopt_long.c
 endif
 
-SDL_CFLAGS = `sdl-config --cflags`
-SDL_LIBS   = `sdl-config --libs`
+SDL_CFLAGS = `sdl2-config --cflags`
+SDL_LIBS   = `sdl2-config --libs`
 
 FREETYPE_CFLAGS = `pkg-config --cflags freetype2`
 FREETYPE_LIBS   = `pkg-config --libs freetype2`
@@ -175,7 +175,7 @@ USESSE_CFLAGS =
 endif
 
 if USE_NETWORK
-NET_LIB = -lSDL_net
+NET_LIB = -lSDL2_net
 NET_CFLAGS = -DNETWORKING
 else
 NET_LIB =
@@ -202,7 +202,7 @@ NVIDIA_CFLAGS = -DNO_NV_BUMPREF -DNO_NV_FRESNEL
 endif
 
 if USE_SOUND
-SOUND_MIXER = -lSDL_mixer
+SOUND_MIXER = -lSDL2_mixer
 SOUND_CFLAGS = -DUSE_SOUND
 else
 SOUND_MIXER =

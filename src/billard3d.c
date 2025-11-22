@@ -43,9 +43,9 @@
  #include <GL/glext.h>
 #endif
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #ifdef NETWORKING
-  #include <SDL/SDL_net.h>
+  #include <SDL2/SDL_net.h>
 #endif
 
 #ifdef USE_WIN //RB
