@@ -64,12 +64,11 @@ static void find_system_locale()
     } else {
         locale_code_pos = locale_str;
     }
-
     if (locale_code_pos[0] && locale_code_pos[1]) {
         snprintf(charlang, sizeof(charlang), "%c%c",
             tolower(locale_code_pos[0]), tolower(locale_code_pos[1]));
     } else {
-        strncpy(charlang, "en", sizeof(charlang));
+        strncpy(charlang, "en-uk", sizeof(charlang));
     }
 
     if ((arch == ARCH_WIN32 || arch == ARCH_WIN64) && !strcmp(charlang, "ge")) {
@@ -100,7 +99,7 @@ static char *find_localized_file(const char *base_name)
     snprintf(full_path, sizeof(full_path), "%s%s/%s", exe_path, charlang, base_name);
     if (file_exists(full_path)) return full_path;
 
-    snprintf(full_path, sizeof(full_path), "%sen/%s", exe_path, base_name);
+    snprintf(full_path, sizeof(full_path), "%sen-uk/%s", exe_path, base_name);
     if (file_exists(full_path)) return full_path;
 
     error_print("Locale file not found: %s\n",full_path);
